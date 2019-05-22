@@ -1,16 +1,17 @@
 <div>
-    <app-navbar></app-navbar>
+   
 
     <!-- CARD -->
     <div class="card">
       <!-- CONTAINER -->
       <div class="container">
 
-        <div id="content">
-            <img src="/assets/img/logo.png" class="logo">
-        </div>
+          <div id="content">
+              <img src="/assets/img/logo.png" class="logo">
+          </div>
 
         <div class="input-group mb-5">
+
             <div class="row">
                <input #title placeholder="Title" type="text" aria-label="Title" #title class="form-control" style="margin-right: 10px; background-color: rgb(245, 245, 245)"><br>
                <input #desc placeholder="Description" type="text" aria-label="Desc" #title class="form-control" style="margin-right: 10px; background-color: rgb(245, 245, 245)"><br>
@@ -23,11 +24,24 @@
                   <option value="Angular">Angular</option>
                   <option value="SQL">SQL</option>
                   <option value="OOP">OOP</option>
-                </select>
+                </select>    
             </div>
+          </div>
 
-        </div>
-        
+          <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdown_coins" data-toggle="dropdown" aria-haspopup="true"
+                  aria-expanded="false">
+                  Subject
+              </button>
+              <div id="menu" class="dropdown-menu" aria-labelledby="dropdown_coins">
+                  <form class="px-4 py-2">
+                      <input type="search" class="form-control" id="searchCoin" placeholder="BTC" autofocus="autofocus">
+                  </form>
+                  <div id="menuItems"></div>
+                  <div id="empty" class="dropdown-header">No coins found</div>
+              </div>
+          </div>
+
       </div>    
     </div>
 

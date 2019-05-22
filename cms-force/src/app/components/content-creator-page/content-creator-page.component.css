@@ -20,21 +20,26 @@
 
 #content {
     position: relative;
-  }
-
-  #contenet img{ 
-    position: absolute;
-    top: 0px;
+    top: -50px;
     left: 0px;
+    /* margin-bottom: 200px; */
+
   }
 
   .logo {
     height: auto;
     width: 10%;
-    
   }
 
-  .input-group {
-    margin-left: auto;
-    margin-right: auto;
+  .dropdown {
+    margin: 20px;
   }
+  
+  .dropdown-menu {
+    max-height: 20rem;
+    overflow-y: auto;
+  }
+  
+  /* .input-group {
+ 
+  } */
