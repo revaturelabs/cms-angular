@@ -7,7 +7,7 @@ export class EndpointsService {
    public readonly baseURL = "http://localhost:8080";   // CHANGE TO HOST
 
    public readonly CREATE_NEW_CONTENT: string = "/content";
-   public readonly GET_ALL_CONTENTS: string = "/content";
+   public readonly GET_ALL_CONTENT: string = "/content";
    public readonly GET_CONTENT_BY_ID: string = "/content/${id}";
    public readonly UPDATE_CONTENT_BY_ID: string = "/content/${id}";
    public readonly UPDATE_CONTENT_MODULES_BY_ID: string = "/content/${id}/modules";
