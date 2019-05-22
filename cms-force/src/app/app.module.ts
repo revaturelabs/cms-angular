@@ -5,12 +5,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ContentCreatorPageComponent } from './components/content-creator-page/content-creator-page.component';
 import { ContentFinderPageComponent } from './components/content-finder-page/content-finder-page.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ContentCreatorPageComponent,
-    ContentFinderPageComponent
+    ContentFinderPageComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

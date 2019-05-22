@@ -1,0 +1,40 @@
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 90%;
+    height: 15%;
+    margin: 0 auto; /* Added */
+    float: none; /* Added */
+    margin-top: 30px; /* Added */
+ 
+  }
+  
+  .card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  }
+  
+  .container { 
+    padding: 2px 16px;
+    margin-top: 70px;
+  }
+
+#content {
+    position: relative;
+  }
+
+  #contenet img{ 
+    position: absolute;
+    top: 0px;
+    left: 0px;
+  }
+
+  .logo {
+    height: auto;
+    width: 10%;
+    
+  }
+
+  .input-group {
+    margin-left: auto;
+    margin-right: auto;
+  }
