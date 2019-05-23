@@ -15,10 +15,10 @@ export class ModuleFetcherService {
    }
 
    getAllModules(): Observable<Module[]> {
-      return this.http.get<Module[]>(`${this.endpoints.GET_ALL_MODULES}`);
+      return this.http.get<Module[]>(this.endpoints.GET_ALL_MODULES);
    }
 
    getModuleByID(id: number): Observable<Module> {
-      return this.http.get<Module>(`${this.endpoints.GET_MODULE_BY_ID}`);   // id will get interpolated by constant string
+      return this.http.get<Module>(this.endpoints.GET_MODULE_BY_ID.replace('${id}', id.toString()));   // id will get interpolated by constant string
    }
 }
