@@ -12,4 +12,12 @@ export class ContentCreatorPageComponent implements OnInit {
   ngOnInit() {
   }
 
+  tags:Array<any> = ["BTC","XRP","ETH","BCH","ADA","XEM","LTC","BTC","XRP","ETH","BCH","ADA","XEM","LTC","BTC","XRP","ETH","BCH","ADA","XEM","LTC"];
+  selectedTags:Array<any> = [];
+  prerequisites:Array<any> = [];
+  
+  show(){
+    console.log(this.selectedTags);
+  }
+
 }
