@@ -1,5 +1,3 @@
-import { Module } from './Module';
-
 export class Content {
    private id: number = -1;
    private title: string = '[undefined title]';
@@ -7,7 +5,7 @@ export class Content {
    private description: string = '[undefined description]';
    private url: string = '[undefined url]';
 
-   constructor(id: number, title: string, format: string, description: string, url: string, modules: Module[]) {
+   constructor(id: number, title: string, format: string, description: string, url: string) {
       if (null != id) this.id = id;
       if (null != title) this.title = title;
       if (null != format) this.format = format;

@@ -1,5 +1,4 @@
-import { Content } from '@angular/compiler/src/render3/r3_ast';
-
+import { Content } from './Content';
 import { Module } from './Module';
 
 export class ContentModule {
@@ -19,40 +18,40 @@ export class ContentModule {
       if (null != modules) this.modules = modules;
    }
 
-   getId(): number {
+   public getId(): number {
       return this.id;
    }
-   setId(id: number) {
+   public setId(id: number) {
       this.id = id;
    }
-   getFkContent(): number {
+   public getFkContent(): number {
       return this.fkContent;
    }
-   setFkContent(fkContent: number) {
+   public setFkContent(fkContent: number) {
       this.fkContent = fkContent;
    }
-   getFkModule(): number {
+   public getFkModule(): number {
       return this.fkModule;
    }
-   setFkModule(fkModule: number) {
+   public setFkModule(fkModule: number) {
       this.fkModule = fkModule;
    }
-   getAffiliation(): string {
+   public getAffiliation(): string {
       return this.affiliation;
    }
-   setAffiliation(affiliation: string) {
+   public setAffiliation(affiliation: string) {
       this.affiliation = affiliation;
    }
-   getContent(): Content[] {
+   public getContent(): Content[] {
       return this.content;
    }
-   setContent(content: Content[]) {
+   public setContent(content: Content[]) {
       this.content = content;
    }
-   getModules(): Module[] {
+   public getModules(): Module[] {
       return this.modules;
    }
-   setModules(modules: Module[]) {
+   public setModules(modules: Module[]) {
       this.modules = modules;
    }
 }
