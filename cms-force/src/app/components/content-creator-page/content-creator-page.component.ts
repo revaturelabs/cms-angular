@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Content } from '@angular/compiler/src/render3/r3_ast';
 import { Module } from 'src/app/models/Module';
+import { ModuleFetcherService } from 'src/app/services/module-fetcher.service';
 
 @Component({
   selector: 'app-content-creator-page',
@@ -15,6 +16,7 @@ export class ContentCreatorPageComponent implements OnInit {
   format: string;
   description: string;
   url: string;
+  modules: Module[];
 
   ngOnInit() {
   }
@@ -22,7 +24,9 @@ export class ContentCreatorPageComponent implements OnInit {
   submit(){
     let content: Content = new Content(0, this.title, this.format, this.description, this.url, this.modules);
 
-    toModule(this.selectedTags);
+    this.toModule(this.selectedTags);
+
+    
 
     this.cs.createNewContent(content).subscribe(
       (response)=>{
@@ -47,7 +51,10 @@ export class ContentCreatorPageComponent implements OnInit {
   }
 
   toModule(selectedTags){
-    
+    selectedTags.forEach(function (value){
+      let model: Module = new Module(null, value, null);
+      this.modules.push(model);
+    });
   }
 
 }
