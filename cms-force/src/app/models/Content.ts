@@ -1,20 +1,18 @@
 import { Module } from './Module';
 
 export class Content {
-   private id: number;
-   private title: string;
-   private format: string;
-   private description: string;
-   private url: string;
-   private modules: Module[];
+   private id: number = -1;
+   private title: string = '[undefined title]';
+   private format: string = '[undefined format]';
+   private description: string = '[undefined description]';
+   private url: string = '[undefined url]';
 
    constructor(id: number, title: string, format: string, description: string, url: string, modules: Module[]) {
-      this.id = id;
-      this.title = title;
-      this.format = format;
-      this.description = description;
-      this.url = url;
-      this.modules = modules;
+      if (null != id) this.id = id;
+      if (null != title) this.title = title;
+      if (null != format) this.format = format;
+      if (null != description) this.description = description;
+      if (null != url) this.url = url;
    }
 
    public getId(): number {
@@ -37,10 +35,6 @@ export class Content {
       return this.url;
    }
 
-   public getModules(): Module[] {
-      return this.modules;
-   }
-
    public setId(id: number) {
       this.id = id;
    }
@@ -59,9 +53,5 @@ export class Content {
 
    public setUrl(url: string) {
       this.url = url;
-   }
-
-   public setModules(modules: Module[]) {
-      this.modules = modules;
    }
 }
