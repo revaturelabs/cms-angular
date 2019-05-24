@@ -5,7 +5,7 @@ export class ContentWrapper {
    private contentToAdd: Content;
    private modulesToAdd: Module[];
 
-   public ContentWrapper(contentToAdd: Content, modulesToAdd: Module[]) {
+   constructor(contentToAdd: Content, modulesToAdd: Module[]) {
       if (null != contentToAdd) this.contentToAdd = contentToAdd;
       if (null != modulesToAdd) this.modulesToAdd = modulesToAdd;
    }
