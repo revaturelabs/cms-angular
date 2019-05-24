@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Content } from '@angular/compiler/src/render3/r3_ast';
+import { Module } from 'src/app/models/Module';
 
 @Component({
   selector: 'app-content-creator-page',
@@ -7,9 +9,33 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContentCreatorPageComponent implements OnInit {
 
-  constructor() { }
+  constructor(private cs: ContentFetcherService) { }
+
+  title: string;
+  format: string;
+  description: string;
+  url: string;
+  modules: Module[];
 
   ngOnInit() {
+  }
+
+  submit(){
+    let content: Content = new Content(0, this.title, this.format, this.description, this.url, this.modules);
+
+
+    this.cs.createNewContent(content).subscribe(
+      (response)=>{
+        if(response != null){
+          //Success
+        }else{
+          //FAILURE GETTING RESPONSE
+        }
+      },
+      (response)=>{
+        //FAILURE TO SUBSCRIBE
+      }
+    )
   }
 
 //   //Initialize with the list of symbols
