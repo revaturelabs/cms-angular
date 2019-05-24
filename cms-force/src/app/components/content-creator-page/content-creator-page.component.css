@@ -1,11 +1,11 @@
 .card {
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
-    width: 90%;
+    width: 80%;
     height: 15%;
     margin: 0 auto; /* Added */
     float: none; /* Added */
-    margin-top: 30px; /* Added */
+    margin-top: 20px; /* Added */
  
   }
   
@@ -19,11 +19,13 @@
   }
 
 #content {
-    position: relative;
-    top: -50px;
-    left: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  top: -50px;
+    /* left: 0px; */
     /* margin-bottom: 200px; */
-
   }
 
   .logo {
@@ -40,6 +42,22 @@
     overflow-y: auto;
   }
   
-  /* .input-group {
- 
-  } */
+  .title-url {
+    margin-left: auto;
+  }
+
+  .form-control {
+    background-color: rgb(245, 245, 245);
+  }
+
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-radio {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
