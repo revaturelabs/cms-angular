@@ -6,8 +6,8 @@ export class Module {
 
    constructor(id: number, subject: string, created: number) {
       if (id != null) this.id = id;
-      if (id != null) this.subject = subject;
-      if (id != null) this.created = created;
+      if (subject != null) this.subject = subject;
+      if (created != null) this.created = created;
    }
 
    public getId(): number {
