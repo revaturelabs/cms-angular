@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Content } from '@angular/compiler/src/render3/r3_ast';
+import { Content } from 'src/app/models/Content';
 import { Module } from 'src/app/models/Module';
 import { ModuleFetcherService } from 'src/app/services/module-fetcher.service';
+import { ContentWrapper } from 'src/app/models/ContentWrapper';
+import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
 
 @Component({
   selector: 'app-content-creator-page',
@@ -22,13 +24,13 @@ export class ContentCreatorPageComponent implements OnInit {
   }
 
   submit(){
-    let content: Content = new Content(0, this.title, this.format, this.description, this.url, this.modules);
+    let content: Content = new Content(null, this.title, this.format, this.description, this.url);
 
     this.toModule(this.selectedTags);
 
-    
+    let cw:ContentWrapper = new ContentWrapper(content, this.modules);
 
-    this.cs.createNewContent(content).subscribe(
+    this.cs.createNewContent(cw).subscribe(
       (response)=>{
         if(response != null){
           //Success
