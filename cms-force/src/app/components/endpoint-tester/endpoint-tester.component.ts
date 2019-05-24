@@ -16,6 +16,8 @@ export class EndpointTesterComponent implements OnInit {
       this.printEndpoints();
       this.interpolateEndpoints(43);
       this.interpolateEndpoints(2);
+      // this.endpoints.printJSON('https://api.myjson.com/bins/1213hs');
+
    }
 
    printEndpoints() {
