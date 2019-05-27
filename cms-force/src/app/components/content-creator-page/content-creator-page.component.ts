@@ -6,65 +6,65 @@ import { ContentWrapper } from 'src/app/models/ContentWrapper';
 import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
 
 @Component({
-  selector: 'app-content-creator-page',
-  templateUrl: './content-creator-page.component.html',
-  styleUrls: ['./content-creator-page.component.css']
+   selector: 'app-content-creator-page',
+   templateUrl: './content-creator-page.component.html',
+   styleUrls: ['./content-creator-page.component.css']
 })
 export class ContentCreatorPageComponent implements OnInit {
 
-  title: string;
-  url: string;
-  code: string;
-  description: string;
-  // document: string;
-  modules: Module[] = [];
-  readonly tags: string[] = ['Java', 'SQL', 'HTML', 'CSS',
-                  'JavaScript', 'Angular', 'TypeScript',
-                  'Spring', 'Spring Data', 'Spring Boot',
-                  'git', 'Agile', 'Microservices'];
-  selectedTags: string[] = [];
-  prerequisites: string[] = [];
+   title: string;
+   url: string;
+   code: string;
+   description: string;
+   // document: string;
+   modules: Module[] = [];
+   readonly tags: string[] = [
+      'Java', 'SQL', 'HTML', 'CSS',
+      'JavaScript', 'Angular', 'TypeScript',
+      'Spring', 'Spring Data', 'Spring Boot',
+      'git', 'Agile', 'Microservices'];
+   selectedTags: string[] = [];
+   prerequisites: string[] = [];
 
-  constructor(private cs: ContentFetcherService) { }
+   constructor(private cs: ContentFetcherService) { }
 
-  ngOnInit() {
-  }
+   ngOnInit() {
+   }
+   submit(title: string, url: string, code: string, description: string) {
+      let content: Content = new Content(null, title, code, description, url);
+      console.log(content);
+      console.log(this.selectedTags);
+      this.toModule();
 
-  submit(title: string, url: string, code: string, description: string) {
-    let content: Content = new Content(null, title, code, description, url);
-    console.log(content);
-    console.log(this.selectedTags);
-    this.toModule();
+      let cw: ContentWrapper = new ContentWrapper(content, this.modules);
 
-    let cw: ContentWrapper = new ContentWrapper(content, this.modules);
+      console.log(cw);
 
-    console.log(cw);
-
-    this.cs.createNewContent(cw).subscribe(
-      (response) => {
-        if (response != null){
-          //Success
-        }else{
-          //FAILURE GETTING RESPONSE
-        }
-      },
-      (response) => {
-        //FAILURE TO SUBSCRIBE
-      }
-    )
-  }
+      this.cs.createNewContent(cw).subscribe(
+         (response) => {
+            if (response != null) {
+               //Success
+            } else {
+               //FAILURE GETTING RESPONSE
+            }
+         },
+         (response) => {
+            //FAILURE TO SUBSCRIBE
+         }
+      )
+   }
 
 
-  show(){
-    console.log(this.selectedTags);
-  }
+   show() {
+      console.log(this.selectedTags);
+   }
 
-  toModule() {
-    this.selectedTags.forEach(function(value) {
-      let module: Module = new Module(null, value, null);
-      console.log(module);
-      this.modules.push(module);
-    });
-  }
+   toModule() {
+      this.selectedTags.forEach(function (value) {
+         let module: Module = new Module(null, value, null);
+         console.log(module);
+         this.modules.push(module);
+      }, this);
+   }
 
 }
