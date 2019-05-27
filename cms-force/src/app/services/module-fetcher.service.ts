@@ -19,6 +19,6 @@ export class ModuleFetcherService {
    }
 
    getModuleByID(id: number): Observable<Module> {
-      return this.http.get<Module>(this.endpoints.GET_MODULE_BY_ID.replace('${id}', id.toString()));   // id will get interpolated by constant string
+      return this.http.get<Module>(this.endpoints.GET_MODULE_BY_ID.replace('${id}', id.toString()));
    }
 }
