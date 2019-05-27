@@ -20,7 +20,7 @@ export class ContentCreatorPageComponent implements OnInit {
 
    title: string;
    url: string;
-   code: string;
+   format: string;
    description: string;
    // document: string;
    modules: Module[] = [];
@@ -31,8 +31,8 @@ export class ContentCreatorPageComponent implements OnInit {
 
    ngOnInit() {
    }
-   submit(title: string, url: string, code: string, description: string) {
-      let content: Content = new Content(null, title, code, description, url);
+   submit(title: string, url: string, format: string, description: string) {
+      let content: Content = new Content(null, title, format, description, url);
       console.log(content);
       console.log(this.selectedTags);
       this.toModule();
