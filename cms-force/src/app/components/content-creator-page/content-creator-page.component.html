@@ -1,93 +1,83 @@
+<!-- CARD -->
+<div class="card">
+   <!-- CONTAINER -->
+   <div class="container">
+
+      <div class="col">
+         <div id="content">
+            <img src="/assets/img/logo.png" class="logo">
+         </div>
+
+         <!-- TITLE & URL -->
+         <form>
+
+            <div class="form-row mb-5">
+               <div class="col-1"></div>
+               <div class="col">
+                  <input #title type="text" class="form-control" placeholder="Title">
+               </div>
+
+               <div class="col">
+                  <input #url type="text" class="form-control" placeholder="URL">
+               </div>
+               <div class="col-1"></div>
+            </div>
+
+            <!-- RELEVANT TO SUBJECT ROW -->
+            <!-- https://github.com/ng-select/ng-select#getting-started -->
+            <div class="row subject mb-3">
+               <div class="col-1"></div>
+               <div class="col rele">
+                  <!-- <label>Relevant to:</label> -->
+                  <ng-select [items]="tags" [multiple]="true" [closeOnSelect]="true" [hideSelected]="true"
+                     [clearOnBackspace]="true" bindLabel="name" placeholder="Select relevant tags..."
+                     [(ngModel)]="selectedTags" name="tag">
+                  </ng-select>
+               </div>
+               <div class="col-1"></div>
+            </div>
+
+            <!-- DESCRIPTION ROW -->
+            <div class="row desc mb-5">
+               <div class="col-1"></div>
+               <div class="col">
+                  <label for="exampleFormControlTextarea1"></label>
+                  <textarea #desc class="form-control" id="exampleFormControlTextarea1" rows="4"
+                     placeholder="Description"></textarea>
+               </div>
+               <div class="col-1"></div>
+            </div>
+
+            <!-- FORMAT ROW -->
+            <div class="row format mb-3">
+               <!-- RADIO BUTTONS -->
+               <div class="col">
+                  <!-- <label style="text-align: center">Format:</label> -->
+                  <div class="btn-radio">
+                     <div class="form-check form-check-inline">
+                        <input #code class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                           value="option1">
+                        <label class="form-check-label" for="inlineRadio1">Code</label>
+                     </div>
+
+                     <div class="form-check form-check-inline">
+                        <input #document class="form-check-input" type="radio" name="inlineRadioOptions"
+                           id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Document</label>
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+            <!-- BUTTON ROW -->
+            <div class="row btn mb-3">
+               <button type="button" class="btn btn-primary"
+                  (click)="submit(title.value, url.value, document.value, desc.value)">Submit Content</button>
+            </div>
 
 
-    <!-- CARD -->
-    <div class="card">
-      <!-- CONTAINER -->
-      <div class="container">
+         </form>
 
-            <div class="col">
-          <div id="content">
-              <img src="/assets/img/logo.png" class="logo">
-          </div>
+      </div>
 
-          <!-- TITLE & URL -->
-          <form>
-        
-                <div class="form-row mb-5">
-                        <div class="col-1"></div>
-                    <div class="col">
-                        <input #title type="text" class="form-control" placeholder="Title">
-                    </div>
-                    
-                    <div class="col">
-                        <input #url type="text" class="form-control" placeholder="URL">
-                    </div>
-                    <div class="col-1"></div>
-                </div>
-    
-                <!-- RELEVANT TO SUBJECT ROW -->
-                <!-- https://github.com/ng-select/ng-select#getting-started -->
-                <div class="row subject mb-3">
-                        <div class="col-1"></div>
-                    <div class="col rele">
-                      <!-- <label>Relevant to:</label> -->
-                        <ng-select
-                          [items]="tags"
-                          [multiple]="true"
-                          [closeOnSelect]="true"
-                          [hideSelected]="true"
-                          [clearOnBackspace]="true"
-                          bindLabel="name"
-                          placeholder="Select relevant tags..."
-                          [(ngModel)]="selectedTags" name="tag">
-                        </ng-select>                                
-                    </div>
-                <!-- RELEVANT TO SUBJECT ROW -->
-                <!-- https://github.com/ng-select/ng-select#getting-started -->            
-                  <div class="col-1"></div>
-                </div>
-    
-                <!-- DESCRIPTION ROW -->
-                <div class="row desc mb-5">
-                        <div class="col-1"></div>
-                    <div class="col">
-                            <label for="exampleFormControlTextarea1"></label>
-                            <textarea #desc class="form-control" id="exampleFormControlTextarea1" rows="4" placeholder="Description"></textarea>
-                    </div>
-                    <div class="col-1"></div>
-                </div>
-    
-                <!-- FORMAT ROW -->
-                <div class="row format mb-3">
-                    <!-- RADIO BUTTONS -->
-                        <div class="col">
-                            <!-- <label style="text-align: center">Format:</label> -->
-                            <div class="btn-radio">
-                            <div class="form-check form-check-inline">
-                                <input #code class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                                <label class="form-check-label" for="inlineRadio1">Code</label>
-                              </div>
-                             
-                              <div class="form-check form-check-inline">
-                                <input #document class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                                <label class="form-check-label" for="inlineRadio2">Document</label>
-                              </div>
-                        </div>
-                      </div>
-                </div>
-                <!-- BUTTON ROW -->
-                <div class="row btn mb-3">
-                        <button type="button" class="btn btn-primary" (click)="submit(title.value, url.value, desc.value, document.value)">Submit Content</button>
-                </div>
-    
-                
-            </form>
-
-        </div>
-
-      </div>    
-
-
-
-
-
+   </div>

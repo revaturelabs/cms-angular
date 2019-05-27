@@ -12,17 +12,18 @@ import { ContentFetcherService } from 'src/app/services/content-fetcher.service'
 })
 export class ContentCreatorPageComponent implements OnInit {
 
+   readonly tags: string[] = [
+      'Java', 'SQL', 'HTML', 'CSS',
+      'JavaScript', 'Angular', 'TypeScript',
+      'Spring', 'Spring Data', 'Spring Boot',
+      'git', 'Agile', 'Microservices'];
+
    title: string;
    url: string;
    code: string;
    description: string;
    // document: string;
    modules: Module[] = [];
-   readonly tags: string[] = [
-      'Java', 'SQL', 'HTML', 'CSS',
-      'JavaScript', 'Angular', 'TypeScript',
-      'Spring', 'Spring Data', 'Spring Boot',
-      'git', 'Agile', 'Microservices'];
    selectedTags: string[] = [];
    prerequisites: string[] = [];
 

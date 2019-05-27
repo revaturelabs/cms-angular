@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Module } from '../models/Module';
-import { HttpClient, HttpHeaders, HttpResponse, HttpHeaderResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpHeaderResponse } from '@angular/common/http';
 import { EndpointsService } from '../constants/endpoints.service';
 import { ContentWrapper } from '../models/ContentWrapper';
 
@@ -53,18 +53,18 @@ export class ContentFetcherService {
       return this.http.post<ContentWrapper[]>(this.endpoints.FILTER_CONTENT.replace('${id}', id.toString()), body, { headers: this.HEADERS });
    }
 
-   filterContentByTitle(id: number, contentWrapper: ContentWrapper): Observable<ContentWrapper[]> {
-      let body: string = JSON.stringify(contentWrapper);
-      return this.http.post<ContentWrapper[]>(this.endpoints.FILTER_CONTENT_BY_TITLE.replace('${id}', id.toString()), body, { headers: this.HEADERS });
-   }
+   // filterContentByTitle(id: number, contentWrapper: ContentWrapper): Observable<ContentWrapper[]> {
+   //    let body: string = JSON.stringify(contentWrapper);
+   //    return this.http.post<ContentWrapper[]>(this.endpoints.FILTER_CONTENT_BY_TITLE.replace('${id}', id.toString()), body, { headers: this.HEADERS });
+   // }
 
-   filterContentByFormat(id: number, contentWrapper: ContentWrapper): Observable<ContentWrapper[]> {
-      let body: string = JSON.stringify(contentWrapper);
-      return this.http.post<ContentWrapper[]>(this.endpoints.FILTER_CONTENT_BY_FORMAT.replace('${id}', id.toString()), body, { headers: this.HEADERS });
-   }
+   // filterContentByFormat(id: number, contentWrapper: ContentWrapper): Observable<ContentWrapper[]> {
+   //    let body: string = JSON.stringify(contentWrapper);
+   //    return this.http.post<ContentWrapper[]>(this.endpoints.FILTER_CONTENT_BY_FORMAT.replace('${id}', id.toString()), body, { headers: this.HEADERS });
+   // }
 
-   filterContentByModules(id: number, contentWrapper: ContentWrapper): Observable<ContentWrapper[]> {
-      let body: string = JSON.stringify(contentWrapper);
-      return this.http.post<ContentWrapper[]>(this.endpoints.FILTER_CONTENT_BY_SUBJECTS.replace('${id}', id.toString()), body, { headers: this.HEADERS });
-   }
+   // filterContentByModules(id: number, contentWrapper: ContentWrapper): Observable<ContentWrapper[]> {
+   //    let body: string = JSON.stringify(contentWrapper);
+   //    return this.http.post<ContentWrapper[]>(this.endpoints.FILTER_CONTENT_BY_SUBJECTS.replace('${id}', id.toString()), body, { headers: this.HEADERS });
+   // }
 }
