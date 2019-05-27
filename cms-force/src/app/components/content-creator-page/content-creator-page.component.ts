@@ -12,50 +12,58 @@ import { ContentFetcherService } from 'src/app/services/content-fetcher.service'
 })
 export class ContentCreatorPageComponent implements OnInit {
 
-  constructor(private cs: ContentFetcherService) { }
-
   title: string;
-  format: string;
-  description: string;
   url: string;
-  modules: Module[];
+  code: string;
+  description: string;
+  // document: string;
+  modules: Module[] = [];
+  readonly tags: string[] = ['Java', 'SQL', 'HTML', 'CSS',
+                  'JavaScript', 'Angular', 'TypeScript',
+                  'Spring', 'Spring Data', 'Spring Boot',
+                  'git', 'Agile', 'Microservices'];
+  selectedTags: string[] = [];
+  prerequisites: string[] = [];
+
+  constructor(private cs: ContentFetcherService) { }
 
   ngOnInit() {
   }
 
-  submit(){
-    let content: Content = new Content(null, this.title, this.format, this.description, this.url);
+  submit(title: string, url: string, code: string, description: string) {
+    let content: Content = new Content(null, title, code, description, url);
+    console.log(content);
+    console.log(this.selectedTags);
+    this.toModule();
 
-    this.toModule(this.selectedTags);
+    let cw: ContentWrapper = new ContentWrapper(content, this.modules);
 
-    let cw:ContentWrapper = new ContentWrapper(content, this.modules);
+    console.log(cw);
 
     this.cs.createNewContent(cw).subscribe(
-      (response)=>{
-        if(response != null){
+      (response) => {
+        if (response != null){
           //Success
         }else{
           //FAILURE GETTING RESPONSE
         }
       },
-      (response)=>{
+      (response) => {
         //FAILURE TO SUBSCRIBE
       }
     )
   }
 
-  tags:Array<any> = ["Java","SQL","HTML","CSS","JavaScript","Angular","TypeScript","Spring","Spring Data","Spring Boot","git","Agile","Microservices"];
-  selectedTags:Array<any> = [];
-  prerequisites:Array<any> = [];
-  
+
   show(){
     console.log(this.selectedTags);
   }
 
-  toModule(selectedTags){
-    selectedTags.forEach(function (value){
-      let model: Module = new Module(null, value, null);
-      this.modules.push(model);
+  toModule() {
+    this.selectedTags.forEach(function(value) {
+      let module: Module = new Module(null, value, null);
+      console.log(module);
+      this.modules.push(module);
     });
   }
 

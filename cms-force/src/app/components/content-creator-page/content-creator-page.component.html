@@ -43,20 +43,7 @@
                         </ng-select>                                
                     </div>
                 <!-- RELEVANT TO SUBJECT ROW -->
-                <!-- https://github.com/ng-select/ng-select#getting-started -->
-                  <div class="col prere">
-                  <!-- <label>Select Prerequisites:</label> -->
-                    <ng-select
-                      [items]="tags"
-                      [multiple]="true"
-                      [closeOnSelect]="true"
-                      [hideSelected]="true"
-                      [clearOnBackspace]="true"
-                      bindLabel="name"
-                      placeholder="Select prerequisites..."
-                      [(ngModel)]="prerequisites" name="tag">
-                    </ng-select>                 
-                    </div>               
+                <!-- https://github.com/ng-select/ng-select#getting-started -->            
                   <div class="col-1"></div>
                 </div>
     
@@ -90,7 +77,7 @@
                 </div>
                 <!-- BUTTON ROW -->
                 <div class="row btn mb-3">
-                        <button type="button" class="btn btn-primary" (click)="show()">Submit Content</button>
+                        <button type="button" class="btn btn-primary" (click)="submit(title.value, url.value, desc.value, document.value)">Submit Content</button>
                 </div>
     
                 
