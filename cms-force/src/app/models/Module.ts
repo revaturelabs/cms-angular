@@ -1,7 +1,7 @@
 export class Module {
-   private id: number = -1;
-   private subject: string = '[undefined subject]';
-   private created: number = 0;
+   id: number = -1;
+   subject: string = '[undefined subject]';
+   created: number = 0;
 
 
    constructor(id: number, subject: string, created: number) {

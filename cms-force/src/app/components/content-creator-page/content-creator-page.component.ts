@@ -12,6 +12,8 @@ import { Link } from 'src/app/models/Link';
 })
 export class ContentCreatorPageComponent implements OnInit {
 
+   readonly TEST_URL: string = 'https://api.myjson.com/bins/k98e7';
+
    title: string;
    url: string;
    format: string;
@@ -28,7 +30,6 @@ export class ContentCreatorPageComponent implements OnInit {
 
    ngOnInit() {
       this.loadModules();
-      this.populateSubjectNames();
    }
 
    submit() {
@@ -61,24 +62,27 @@ export class ContentCreatorPageComponent implements OnInit {
    /* load Modules once from backend on program start */
    loadModules() {
       this.modules = new Map<string, Module>();
-      this.ms.getAllModules().subscribe(
+      // this.ms.getAllModules().subscribe(
+      this.ms.getAllFakeModules(this.TEST_URL).subscribe(
          (response) => {
-            if (response != null) this.modules.forEach(
-               (module) => {
-                  this.modules.set(module.getSubject(), module);
-               }, this
-            )
+            if (response != null) {
+               response.forEach(
+                  (module) => {
+                     this.modules.set(module.subject, module);
+                  }, this
+               )
+            }
             else console.log("Failed to retrieve any modules.");
          }, (response) => {
             console.log("Failed to send module request.");
-         }
+         }, () => this.populateSubjectNames()
       )
    }
 
    /* fill array of subject names on each instantiation */
    populateSubjectNames() {
       this.subjectNames = [];
-      for (let subject in this.modules) {
+      for (let subject of Array.from(this.modules.keys())) {
          this.subjectNames.push(subject);
       }
    }
