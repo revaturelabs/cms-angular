@@ -42,6 +42,7 @@ export class ContentCreatorPageComponent implements OnInit {
 
       console.log('Sending content:');
       console.log(content);
+      console.log(JSON.stringify(content));
       this.cs.createNewContent(content).subscribe(
          (response) => {
             if (response != null) {
@@ -90,13 +91,13 @@ export class ContentCreatorPageComponent implements OnInit {
    }
 
    /* create a new set of links from selected subject names */
-   getLinksFromSubjects(subjects: string[]): Set<Link> {
-      let links = new Set<Link>();
+   getLinksFromSubjects(subjects: string[]): Link[] {
+      let links = [];
       subjects.forEach(
          (subject) => {
-            links.add(new Link(null, null,
-               this.modules[subject].getId(), null));
-         }
+            links.push(new Link(null, null,
+               this.modules.get(subject).id, null));
+         }, this
       )
       return links;
    }

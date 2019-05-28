@@ -1,13 +1,13 @@
 export class Link {
-   private id: number = 0;
-   private fkContent: number = 0;
-   private fkModule: number = -1;
-   private affiliation: string = "relaventTo";
+   id: number = 0;
+   contentId: number = 0;
+   moduleId: number = -1;
+   affiliation: string = "relaventTo";
 
    constructor(id: number, fkContent: number, fkModule: number, affiliation: string) {
       if (null != id) this.id = id;
-      if (null != fkContent) this.fkContent = fkContent;
-      if (null != fkModule) this.fkModule = fkModule;
+      if (null != fkContent) this.contentId = fkContent;
+      if (null != fkModule) this.moduleId = fkModule;
       if (null != affiliation) this.affiliation = affiliation;
    }
 
@@ -18,16 +18,16 @@ export class Link {
       this.id = id;
    }
    public getFkContent(): number {
-      return this.fkContent;
+      return this.contentId;
    }
    public setFkContent(fkContent: number) {
-      this.fkContent = fkContent;
+      this.contentId = fkContent;
    }
    public getFkModule(): number {
-      return this.fkModule;
+      return this.moduleId;
    }
    public setFkModule(fkModule: number) {
-      this.fkModule = fkModule;
+      this.moduleId = fkModule;
    }
    public getAffiliation(): string {
       return this.affiliation;
