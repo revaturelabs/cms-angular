@@ -35,26 +35,32 @@ export class ContentCreatorPageComponent implements OnInit {
    }
 
    submit() {
-      let content: Content = new Content(
-         null, this.title, this.selFormat,
-         this.description, this.url,
-         this.getLinksFromSubjects(this.selectedSubjects));
 
-      console.log('Sending content:');
-      console.log(content);
-      console.log(JSON.stringify(content));
-      this.cs.createNewContent(content).subscribe(
-         (response) => {
-            if (response != null) {
-               console.log('Successfully sent content.');
-            } else {
-               console.log('Response was null');
+      if(this.title==null||this.selFormat==null||this.description==null||this.url==null||this.selectedSubjects.length==0) {
+         alert('Please fill in all input fields!');
+      }else {
+
+         let content: Content = new Content(
+            null, this.title, this.selFormat,
+            this.description, this.url,
+            this.getLinksFromSubjects(this.selectedSubjects));
+
+         console.log('Sending content:');
+         console.log(content);
+         console.log(JSON.stringify(content));
+         this.cs.createNewContent(content).subscribe(
+            (response) => {
+               if (response != null) {
+                  alert('Successfully sent content.');
+               } else {
+                  console.log('Response was null');
+               }
+            },
+            (response) => {
+               alert("Failed to send content");
             }
-         },
-         (response) => {
-            console.log("Failed to send content");
-         }
-      )
+         )
+      }
    }
 
    /* for debugging */
