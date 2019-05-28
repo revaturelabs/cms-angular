@@ -1,11 +1,14 @@
+import { Link } from './Link';
+
 export class Content {
-   private id: number = -1;
+   private id: number = 0;
    private title: string = '[undefined title]';
    private format: string = '[undefined format]';
    private description: string = '[undefined description]';
    private url: string = '[undefined url]';
+   private links: Set<Link>;
 
-   constructor(id: number, title: string, format: string, description: string, url: string) {
+   constructor(id: number, title: string, format: string, description: string, url: string, links: Set<Link>) {
       if (null != id) this.id = id;
       if (null != title) this.title = title;
       if (null != format) this.format = format;
@@ -33,6 +36,10 @@ export class Content {
       return this.url;
    }
 
+   public getLinks(): Set<Link> {
+      return this.links;
+   }
+
    public setId(id: number) {
       this.id = id;
    }
@@ -52,4 +59,9 @@ export class Content {
    public setUrl(url: string) {
       this.url = url;
    }
+
+   public setLinks(links: Set<Link>) {
+      this.links = links;
+   }
+
 }
