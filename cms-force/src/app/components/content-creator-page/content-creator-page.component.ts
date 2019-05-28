@@ -24,11 +24,11 @@ export class ContentCreatorPageComponent implements OnInit {
 
 
    constructor(private cs: ContentFetcherService, private ms: ModuleFetcherService) {
-      this.populateSubjectNames();
    }
 
    ngOnInit() {
       this.loadModules();
+      this.populateSubjectNames();
    }
 
    submit() {
