@@ -7,6 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContentFinderPageComponent implements OnInit {
 
+  title: string;
+  format: string;
+  modules: string[];
+
+
   constructor() { }
 
   ngOnInit() {
