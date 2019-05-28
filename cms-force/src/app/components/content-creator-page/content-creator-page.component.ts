@@ -12,11 +12,13 @@ import { Link } from 'src/app/models/Link';
 })
 export class ContentCreatorPageComponent implements OnInit {
 
-   readonly TEST_URL: string = 'https://api.myjson.com/bins/k98e7';
+   // readonly TEST_URL: string = 'https://api.myjson.com/bins/k98e7';
 
+   /* Each string automatically generates button */
+   readonly formats: string[] = ["Code", "Document"];
    title: string;
    url: string;
-   format: string;
+   selFormat: string = "Code";
    description: string;
    // document: string;
    modules: Map<string, Module>;
@@ -34,7 +36,7 @@ export class ContentCreatorPageComponent implements OnInit {
 
    submit() {
       let content: Content = new Content(
-         null, this.title, this.format,
+         null, this.title, this.selFormat,
          this.description, this.url,
          this.getLinksFromSubjects(this.selectedSubjects));
 
@@ -62,8 +64,8 @@ export class ContentCreatorPageComponent implements OnInit {
    /* load Modules once from backend on program start */
    loadModules() {
       this.modules = new Map<string, Module>();
-      // this.ms.getAllModules().subscribe(
-      this.ms.getAllFakeModules(this.TEST_URL).subscribe(
+      this.ms.getAllModules().subscribe(
+         // this.ms.getAllFakeModules(this.TEST_URL).subscribe(
          (response) => {
             if (response != null) {
                response.forEach(
