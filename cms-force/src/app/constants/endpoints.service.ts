@@ -43,6 +43,7 @@ export class EndpointsService {
       return endpoints;
    }
 
+   // test method for printing out JSON at any given URL
    public printJSON(uri: string): any {
       let obs = this.http.get<any>(uri);
       obs.subscribe(
