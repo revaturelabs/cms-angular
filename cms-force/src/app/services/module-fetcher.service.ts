@@ -21,4 +21,8 @@ export class ModuleFetcherService {
    getModuleByID(id: number): Observable<Module> {
       return this.http.get<Module>(this.endpoints.GET_MODULE_BY_ID.replace('${id}', id.toString()));
    }
+
+   getAllFakeModules(url: string): Observable<Module[]> {
+      return this.http.get<Module[]>(url);
+   }
 }

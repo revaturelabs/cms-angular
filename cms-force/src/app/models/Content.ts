@@ -1,16 +1,20 @@
-export class Content {
-   private id: number = -1;
-   private title: string = '[undefined title]';
-   private format: string = '[undefined format]';
-   private description: string = '[undefined description]';
-   private url: string = '[undefined url]';
+import { Link } from './Link';
 
-   constructor(id: number, title: string, format: string, description: string, url: string) {
+export class Content {
+   id: number = 0;
+   title: string = '[undefined title]';
+   format: string = '[undefined format]';
+   description: string = '[undefined description]';
+   url: string = '[undefined url]';
+   links: Link[];
+
+   constructor(id: number, title: string, format: string, description: string, url: string, links: Link[]) {
       if (null != id) this.id = id;
       if (null != title) this.title = title;
       if (null != format) this.format = format;
       if (null != description) this.description = description;
       if (null != url) this.url = url;
+      if (null != links) this.links = links;
    }
 
    public getId(): number {
@@ -33,6 +37,10 @@ export class Content {
       return this.url;
    }
 
+   public getLinks(): Link[] {
+      return this.links;
+   }
+
    public setId(id: number) {
       this.id = id;
    }
@@ -52,4 +60,9 @@ export class Content {
    public setUrl(url: string) {
       this.url = url;
    }
+
+   public setLinks(links: Link[]) {
+      this.links = links;
+   }
+
 }

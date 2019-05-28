@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
    providedIn: 'root'
 })
 export class EndpointsService {
-   public readonly baseURL = 'http://localhost:8080';   // CHANGE TO HOST
+   public readonly baseURL = 'http://localhost:8080/CMSforce';   // CHANGE TO HOST
 
    public readonly CREATE_NEW_CONTENT: string = this.baseURL + '/content';
    public readonly GET_ALL_CONTENT: string = this.baseURL + '/content';
@@ -43,6 +43,7 @@ export class EndpointsService {
       return endpoints;
    }
 
+   // test method for printing out JSON at any given URL
    public printJSON(uri: string): any {
       let obs = this.http.get<any>(uri);
       obs.subscribe(
