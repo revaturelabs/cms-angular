@@ -23,16 +23,18 @@ export class EndpointsService {
 
    constructor(private http: HttpClient) { }
 
+   /* for easy access for testing, etc. */
    public getAllEndpoints(): string[] {
       let endpoints: string[] = new Array(
          this.CREATE_NEW_CONTENT,
          this.GET_ALL_CONTENT,
-         this.GET_ALL_MODULES,
          this.GET_CONTENT_BY_ID,
-         this.GET_CONTENT_BY_SUBJECTS,
-         this.GET_MODULE_BY_ID,
          this.UPDATE_CONTENT_BY_ID,
          this.UPDATE_CONTENT_MODULES_BY_ID,
+         this.DELETE_CONTENT_BY_ID,
+         this.GET_ALL_MODULES,
+         this.GET_MODULE_BY_ID,
+         this.GET_CONTENT_BY_SUBJECTS,
          this.FILTER_CONTENT);
       // this.FILTER_CONTENT_BY_TITLE,
       // this.FILTER_CONTENT_BY_FORMAT,
