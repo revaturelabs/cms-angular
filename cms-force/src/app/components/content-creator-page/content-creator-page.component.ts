@@ -27,12 +27,13 @@ export class ContentCreatorPageComponent implements OnInit {
    selectedTags: string[] = [];
    prerequisites: string[] = [];
 
+
    constructor(private cs: ContentFetcherService) { }
 
    ngOnInit() {
    }
-   submit(title: string, url: string, format: string, description: string) {
-      let content: Content = new Content(null, title, format, description, url);
+   submit() {
+      let content: Content = new Content(null, this.title, this.format, this.description, this.url);
       console.log(content);
       console.log(this.selectedTags);
       this.toModule();
