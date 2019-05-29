@@ -12,8 +12,6 @@ import { Link } from 'src/app/models/Link';
 })
 export class ContentCreatorPageComponent implements OnInit {
 
-   // readonly TEST_URL: string = 'https://api.myjson.com/bins/k98e7';
-
    /* Each string automatically generates button */
    readonly formats: string[] = ["Code", "Document"];
    title: string;
