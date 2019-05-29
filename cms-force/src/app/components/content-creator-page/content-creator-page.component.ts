@@ -32,33 +32,41 @@ export class ContentCreatorPageComponent implements OnInit {
       this.loadModules();
    }
 
+   validInput(): boolean {
+      let inputs = [this.title, this.selFormat, this.description, this.url, this.selectedSubjects.length];
+
+      if (inputs.includes(null) || inputs.includes(undefined)) return false;
+      if (this.selectedSubjects.length == 0) return false;
+      return true;
+   }
+
    submit() {
 
-      if(this.title==null||this.selFormat==null||this.description==null||this.url==null||this.selectedSubjects.length==0) {
+      if (!this.validInput()) {
          alert('Please fill in all input fields!');
-      }else {
-
-         let content: Content = new Content(
-            null, this.title, this.selFormat,
-            this.description, this.url,
-            this.getLinksFromSubjects(this.selectedSubjects));
-
-         console.log('Sending content:');
-         console.log(content);
-         console.log(JSON.stringify(content));
-         this.cs.createNewContent(content).subscribe(
-            (response) => {
-               if (response != null) {
-                  alert('Successfully sent content.');
-               } else {
-                  console.log('Response was null');
-               }
-            },
-            (response) => {
-               alert("Failed to send content");
-            }
-         )
+         return;
       }
+
+      let content: Content = new Content(
+         null, this.title, this.selFormat,
+         this.description, this.url,
+         this.getLinksFromSubjects(this.selectedSubjects));
+
+      console.log('Sending content:');
+      console.log(content);
+      console.log(JSON.stringify(content));
+      this.cs.createNewContent(content).subscribe(
+         (response) => {
+            if (response != null) {
+               alert('Successfully sent content.');
+            } else {
+               console.log('Response was null');
+            }
+         },
+         (response) => {
+            alert("Failed to send content");
+         }
+      )
    }
 
    /* for debugging */
@@ -70,7 +78,6 @@ export class ContentCreatorPageComponent implements OnInit {
    loadModules() {
       this.modules = new Map<string, Module>();
       this.ms.getAllModules().subscribe(
-         // this.ms.getAllFakeModules(this.TEST_URL).subscribe(
          (response) => {
             if (response != null) {
                response.forEach(
