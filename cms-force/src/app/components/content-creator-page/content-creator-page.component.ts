@@ -4,6 +4,7 @@ import { Module } from 'src/app/models/Module';
 import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
 import { ModuleFetcherService } from 'src/app/services/module-fetcher.service';
 import { Link } from 'src/app/models/Link';
+import { ModuleStoreService } from 'src/app/services/module-store.service';
 
 @Component({
    selector: 'app-content-creator-page',
@@ -19,17 +20,17 @@ export class ContentCreatorPageComponent implements OnInit {
    selFormat: string = "Code";
    description: string;
    // document: string;
-   modules: Map<string, Module>;
-   subjectNames: string[] = [];  // to display in subject list
    selectedSubjects: string[] = [];  // selected from subject list
    prerequisites: string[] = [];
 
 
-   constructor(private cs: ContentFetcherService, private ms: ModuleFetcherService) {
+   constructor(
+      private cs: ContentFetcherService,
+      private ms: ModuleStoreService) {
    }
 
    ngOnInit() {
-      this.loadModules();
+      this.ms.loadModules();
    }
 
    validInput(): boolean {
@@ -74,32 +75,7 @@ export class ContentCreatorPageComponent implements OnInit {
       console.log(this.selectedSubjects);
    }
 
-   /* load Modules once from backend on program start */
-   loadModules() {
-      this.modules = new Map<string, Module>();
-      this.ms.getAllModules().subscribe(
-         (response) => {
-            if (response != null) {
-               response.forEach(
-                  (module) => {
-                     this.modules.set(module.subject, module);
-                  }, this
-               )
-            }
-            else console.log("Failed to retrieve any modules.");
-         }, (response) => {
-            console.log("Failed to send module request.");
-         }, () => this.populateSubjectNames()
-      )
-   }
 
-   /* fill array of subject names on each instantiation */
-   populateSubjectNames() {
-      this.subjectNames = [];
-      for (let subject of Array.from(this.modules.keys())) {
-         this.subjectNames.push(subject);
-      }
-   }
 
    /* create a new set of links from selected subject names */
    getLinksFromSubjects(subjects: string[]): Link[] {
@@ -107,7 +83,7 @@ export class ContentCreatorPageComponent implements OnInit {
       subjects.forEach(
          (subject) => {
             links.push(new Link(null, null,
-               this.modules.get(subject).id, null));
+               this.ms.modules.get(subject).id, null));
          }, this
       )
       return links;

@@ -3,6 +3,7 @@ import { Content } from '../../models/Content';
 import { Filter } from '../../models/filter';
 import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
 import { Module } from 'src/app/models/Module';
+import { ModuleStoreService } from 'src/app/services/module-store.service';
 
 @Component({
    selector: 'app-content-finder-page',
@@ -18,10 +19,12 @@ export class ContentFinderPageComponent implements OnInit {
    tablebool: boolean = false;
    moduleIDs: number[];
 
-   constructor(private cs: ContentFetcherService) { }
+   constructor(
+      private cs: ContentFetcherService,
+      private ms: ModuleStoreService) { }
 
    ngOnInit() {
-      this.loadModules();
+      this.ms.loadModules();
    }
 
    submit() {
@@ -43,24 +46,6 @@ export class ContentFinderPageComponent implements OnInit {
       )
    }
 
-   /* load Modules once from backend on program start */
-   loadModules() {
-      this.modules = new Map<string, Module>();
-      this.ms.getAllModules().subscribe(
-         (response) => {
-            if (response != null) {
-               response.forEach(
-                  (module) => {
-                     this.modules.set(module.subject, module);
-                  }, this
-               )
-            }
-            else console.log("Failed to retrieve any modules.");
-         }, (response) => {
-            console.log("Failed to send module request.");
-         }, () => this.populateSubjectNames()
-      )
-   }
 
    notEmpty() {
       if (this.contents.length != 0) {
