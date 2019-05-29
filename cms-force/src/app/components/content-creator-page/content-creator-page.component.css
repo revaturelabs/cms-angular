@@ -58,9 +58,15 @@
     justify-content: center;
   }
 
+  input[type="radio"] {
+   margin-right: -15px;
+   /* width: 30px; */
+ }
+
   .btn {
     display: flex;
     align-items: center;
     justify-content: center;
   }
+
 
