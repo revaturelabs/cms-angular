@@ -48,9 +48,9 @@ export class ContentFetcherService {
       return this.http.post<Content[]>(this.endpoints.GET_CONTENT_BY_SUBJECTS.replace('${id}', id.toString()), body, { headers: this.HEADERS });
    }
 
-   filterContent(id: number, content: Content): Observable<Content[]> {
-      let body: string = JSON.stringify(content);
-      return this.http.post<Content[]>(this.endpoints.FILTER_CONTENT.replace('${id}', id.toString()), body, { headers: this.HEADERS });
+   filterContent(filter: Filter): Observable<Content[]> {
+      let body: string = JSON.stringify(filter);
+      return this.http.post<Content[]>(this.endpoints.FILTER_CONTENT, body, { headers: this.HEADERS });
    }
 
    // filterContentByTitle(id: number, content: Content): Observable<Content[]> {
