@@ -1,24 +1,27 @@
 .card {
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    transition: 0.3s;
-    width: 80%;
-    height: 15%;
-    margin: 0 auto; /* Added */
-    float: none; /* Added */
-    margin-top: 20px; /* Added */
- 
-  }
-  
-  .card:hover {
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-  }
-  
-  .container { 
-    padding: 2px 16px;
-    margin-top: 70px;
-  }
+   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+   transition: 0.3s;
+   width: 80%;
+   height: 15%;
+   margin: 0 auto;
+   /* Added */
+   float: none;
+   /* Added */
+   margin-top: 20px;
+   /* Added */
+}
+
+.card:hover {
+   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.container {
+   padding: 2px 16px;
+   margin-top: 70px;
+}
 
 #content {
+<<<<<<< HEAD
   display: flex;
   align-items: center;
   justify-content: center;
@@ -62,3 +65,55 @@
     justify-content: center;
   }
 
+=======
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   position: relative;
+   top: -50px;
+   /* left: 0px; */
+   /* margin-bottom: 200px; */
+}
+
+.logo {
+   height: auto;
+   width: 10%;
+}
+
+.dropdown {
+   margin: 20px;
+}
+
+.dropdown-menu {
+   max-height: 20rem;
+   overflow-y: auto;
+}
+
+.title-url {
+   margin-left: auto;
+}
+
+.form-control {
+   background-color: rgb(245, 245, 245);
+}
+
+.btn {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.btn-radio {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+/* div[class="row"] {
+    outline: 1px dotted rgba(0, 0, 0, 0.25);
+}
+div[class="col-"] {
+    background-color: rgba(255, 0, 0, 0.2);
+    outline: 1px dotted rgba(0, 0, 0, 0.5);
+} */
+>>>>>>> 95aecb4fa9b8516504368342834420468f061c30

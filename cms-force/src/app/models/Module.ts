@@ -1,13 +1,13 @@
 export class Module {
-   private id: number = -1;
-   private subject: string = '[undefined subject]';
-   private created: number = 0;
+   id: number = -1;
+   subject: string = '[undefined subject]';
+   created: number = 0;
 
 
    constructor(id: number, subject: string, created: number) {
       if (id != null) this.id = id;
-      if (id != null) this.subject = subject;
-      if (id != null) this.created = created;
+      if (subject != null) this.subject = subject;
+      if (created != null) this.created = created;
    }
 
    public getId(): number {
