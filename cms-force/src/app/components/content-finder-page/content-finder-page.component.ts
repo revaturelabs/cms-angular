@@ -12,12 +12,13 @@ import { ModuleStoreService } from 'src/app/services/module-store.service';
 })
 export class ContentFinderPageComponent implements OnInit {
 
+   readonly formats: string[] = ["Code", "Document"];
    title: string;
-   format: string;
-   modules: Map<string, Module>;
+   selFormat: string = "Code";
    contents: Content[];
    tablebool: boolean = false;
    moduleIDs: number[];
+   selectedSubjects: string[] = [];  // selected from subject list
 
    constructor(
       private cs: ContentFetcherService,
@@ -28,14 +29,24 @@ export class ContentFinderPageComponent implements OnInit {
    }
 
    submit() {
+      this.getIDsFromSubjects(this.selectedSubjects);
+      console.log("title:");
+      console.log(this.title);
+      console.log("format:");
+      console.log(this.selFormat);
+      console.log("moduleIDs:");
+      console.log(this.moduleIDs);
       let filter: Filter = new Filter(
-         this.title, this.format, this.moduleIDs
+         this.title, this.selFormat, this.moduleIDs
       );
-
+      console.log(filter);
       this.cs.filterContent(filter).subscribe(
          (response) => {
             if (response != null) {
+               console.log(response);
                this.contents = response;
+               this.notEmpty();
+               alert("Query Successfully Submitted");
             } else {
                console.log('Response was null');
             }
@@ -46,11 +57,21 @@ export class ContentFinderPageComponent implements OnInit {
       )
    }
 
-
    notEmpty() {
       if (this.contents.length != 0) {
          this.tablebool = true;
-      }
+      } else this.tablebool = false;
+   }
+
+   getIDsFromSubjects(subjects: string[]) {
+      this.moduleIDs = [];
+      console.log("ms.modules:");
+      console.log(this.ms.modules);
+      subjects.forEach(
+         (subject)=>{
+            this.moduleIDs.push(this.ms.modules.get(subject).id);
+         }, this
+      )
    }
 
 }
