@@ -4,6 +4,7 @@ import { Module } from '../models/Module';
 import { HttpClient, HttpHeaders, HttpHeaderResponse } from '@angular/common/http';
 import { EndpointsService } from '../constants/endpoints.service';
 import { Content } from '../models/Content';
+import { Filter } from '../models/filter';
 
 @Injectable({
    providedIn: 'root'
