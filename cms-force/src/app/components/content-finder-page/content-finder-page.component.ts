@@ -5,6 +5,7 @@ import { ContentFetcherService } from 'src/app/services/content-fetcher.service'
 import { Module } from 'src/app/models/Module';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { resetCompiledComponents } from '@angular/core/src/render3/jit/module';
+import { ContentWrapper } from 'src/app/models/ContentWrapper';
 
 @Component({
    selector: 'app-content-finder-page',
@@ -20,6 +21,9 @@ export class ContentFinderPageComponent implements OnInit {
    tablebool: boolean = false;
    moduleIDs: number[];
    selectedSubjects: string[] = [];  // selected from subject list
+   modules: Module[];
+   moduleSubjects: string[];
+   contentWrapper: ContentWrapper;
 
    constructor(
       private cs: ContentFetcherService,
@@ -28,6 +32,8 @@ export class ContentFinderPageComponent implements OnInit {
    ngOnInit() {
       this.ms.loadModules();
    }
+
+
 
    /**
     * Submit function that takes in all input and puts it into a filter object
