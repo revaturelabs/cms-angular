@@ -90,7 +90,14 @@
               <td>{{content.format}}</td>
               <td>{{content.description}}</td>
               <td>{{content.url}}</td>
-              <td>{{content.links}}</td>
+              <td>
+                <!-- <div *ngFor="let link of content.links"> THIS IS FOR ARRAY
+                  {{ms.subjectIdMap.get(link.id)}},-->
+                  <!-- <div *ngFor="let id of content.links.getKeys()"> THIS IS FOR SET
+                    {{ms.subjectIdMap.get(id)}}; -->
+                  </div>
+                </div>
+              </td>
             </tr>
           </tbody>
         </table>

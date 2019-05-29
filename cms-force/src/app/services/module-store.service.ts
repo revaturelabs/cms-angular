@@ -8,7 +8,9 @@ import { ModuleFetcherService } from './module-fetcher.service';
 export class ModuleStoreService {
 
    modules: Map<string, Module>;
+   subjectIdMap: Map<number, string>;
    subjectNames: string[] = [];
+   
 
    constructor(private ms: ModuleFetcherService) { }
 
@@ -16,27 +18,22 @@ export class ModuleStoreService {
    /* load Modules once from backend on program start */
    loadModules() {
       this.modules = new Map<string, Module>();
+      this.subjectIdMap = new Map<number, string>();
       this.ms.getAllModules().subscribe(
          (response) => {
             if (response != null) {
                response.forEach(
                   (module) => {
                      this.modules.set(module.subject, module);
+                     this.subjectIdMap.set(module.id, module.subject);
+                     this.subjectNames.push(module.subject);
                   }, this
                )
             }
             else console.log("Failed to retrieve any modules.");
          }, (response) => {
             console.log("Failed to send module request.");
-         }, () => this.populateSubjectNames()
+         }
       )
-   }
-
-   /* fill array of subject names on each instantiation */
-   populateSubjectNames() {
-      this.subjectNames = [];
-      for (let subject of Array.from(this.modules.keys())) {
-         this.subjectNames.push(subject);
-      }
    }
 }
