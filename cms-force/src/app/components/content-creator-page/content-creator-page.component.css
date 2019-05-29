@@ -21,7 +21,6 @@
 }
 
 #content {
-<<<<<<< HEAD
   display: flex;
   align-items: center;
   justify-content: center;
@@ -65,55 +64,3 @@
     justify-content: center;
   }
 
-=======
-   display: flex;
-   align-items: center;
-   justify-content: center;
-   position: relative;
-   top: -50px;
-   /* left: 0px; */
-   /* margin-bottom: 200px; */
-}
-
-.logo {
-   height: auto;
-   width: 10%;
-}
-
-.dropdown {
-   margin: 20px;
-}
-
-.dropdown-menu {
-   max-height: 20rem;
-   overflow-y: auto;
-}
-
-.title-url {
-   margin-left: auto;
-}
-
-.form-control {
-   background-color: rgb(245, 245, 245);
-}
-
-.btn {
-   display: flex;
-   align-items: center;
-   justify-content: center;
-}
-
-.btn-radio {
-   display: flex;
-   align-items: center;
-   justify-content: center;
-}
-
-/* div[class="row"] {
-    outline: 1px dotted rgba(0, 0, 0, 0.25);
-}
-div[class="col-"] {
-    background-color: rgba(255, 0, 0, 0.2);
-    outline: 1px dotted rgba(0, 0, 0, 0.5);
-} */
->>>>>>> 95aecb4fa9b8516504368342834420468f061c30
