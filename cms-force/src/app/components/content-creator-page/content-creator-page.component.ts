@@ -23,7 +23,6 @@ export class ContentCreatorPageComponent implements OnInit {
    selectedSubjects: string[] = [];  // selected from subject list
    prerequisites: string[] = [];
 
-
    constructor(
       private cs: ContentFetcherService,
       private ms: ModuleStoreService) {
@@ -33,6 +32,9 @@ export class ContentCreatorPageComponent implements OnInit {
       this.ms.loadModules();
    }
 
+   /**
+    * Check if the input fields are all valid - all filled in
+    */
    validInput(): boolean {
       let inputs = [this.title, this.selFormat, this.description, this.url, this.selectedSubjects.length];
 
@@ -41,6 +43,10 @@ export class ContentCreatorPageComponent implements OnInit {
       return true;
    }
 
+   /**
+    * Submit the content object which has the input fields and the list of tags as link array
+    * where the link has it's subject id populated and the rest set to default value
+    */
    submit() {
 
       if (!this.validInput()) {

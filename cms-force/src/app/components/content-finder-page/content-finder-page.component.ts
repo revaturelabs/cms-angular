@@ -29,6 +29,11 @@ export class ContentFinderPageComponent implements OnInit {
       this.ms.loadModules();
    }
 
+   /**
+    * Submit function that takes in all input and puts it into a filter object
+    * to subscribe method. If the request was successful then it will get the
+    * response as the array of content and populate the table and print it.
+    */
    submit() {
       if(this.selFormat==="All"){
          this.selFormat="";
@@ -56,18 +61,29 @@ export class ContentFinderPageComponent implements OnInit {
       )
    }
 
+   /**
+    * Resets the input fields
+    */
    reset(){
       this.title = "";
       this.selFormat = "Code";
       this.selectedSubjects = [];
    }
 
+   /**
+    * Function to see if the table is populated with content
+    */
    notEmpty() {
       if (this.contents.length != 0) {
          this.tablebool = true;
       } else this.tablebool = false;
    }
 
+   /**
+    * Gets the string array of selected subjects and populates 
+    * the number array of subject id (or model or tag or whatever the team never really settled on the name like it was tag at first then prerequisite then modules then affiliation then subjects like come on)
+    * @param subjects 
+    */
    getIDsFromSubjects(subjects: string[]) {
       this.moduleIDs = [];
       console.log("ms.modules:");
