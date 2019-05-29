@@ -4,6 +4,7 @@ import { Filter } from '../../models/filter';
 import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
 import { Module } from 'src/app/models/Module';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
+import { resetCompiledComponents } from '@angular/core/src/render3/jit/module';
 
 @Component({
    selector: 'app-content-finder-page',
@@ -12,8 +13,8 @@ import { ModuleStoreService } from 'src/app/services/module-store.service';
 })
 export class ContentFinderPageComponent implements OnInit {
 
-   readonly formats: string[] = ["Code", "Document"];
-   title: string;
+   readonly formats: string[] = ["Code", "Document", "All"];
+   title: string = "";
    selFormat: string = "Code";
    contents: Content[];
    tablebool: boolean = false;
@@ -29,13 +30,10 @@ export class ContentFinderPageComponent implements OnInit {
    }
 
    submit() {
+      if(this.selFormat==="All"){
+         this.selFormat="";
+      }
       this.getIDsFromSubjects(this.selectedSubjects);
-      console.log("title:");
-      console.log(this.title);
-      console.log("format:");
-      console.log(this.selFormat);
-      console.log("moduleIDs:");
-      console.log(this.moduleIDs);
       let filter: Filter = new Filter(
          this.title, this.selFormat, this.moduleIDs
       );
@@ -47,6 +45,7 @@ export class ContentFinderPageComponent implements OnInit {
                this.contents = response;
                this.notEmpty();
                alert("Query Successfully Submitted");
+               this.reset();
             } else {
                console.log('Response was null');
             }
@@ -55,6 +54,12 @@ export class ContentFinderPageComponent implements OnInit {
             alert("Failed to send filter")
          }
       )
+   }
+
+   reset(){
+      this.title = "";
+      this.selFormat = "Code";
+      this.selectedSubjects = [];
    }
 
    notEmpty() {

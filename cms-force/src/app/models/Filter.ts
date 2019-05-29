@@ -1,6 +1,6 @@
 export class Filter {
-    title: string;
-    format: string;
+    title: string = "";
+    format: string = "";
     modules: number[] = [];
 
     constructor(title: string, format: string, modules: number[]){
