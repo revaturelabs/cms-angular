@@ -1,4 +1,4 @@
-import { browser, by, element, ElementFinder } from 'protractor';
+import { browser, by, element, ElementFinder, protractor } from 'protractor';
 
 export class AppPage {
     private title                : ElementFinder;
@@ -105,8 +105,12 @@ export class AppPage {
      * Sends the given input string to the url element in the DOM
      * @param input
      */
-    clickSelectedSubjects() {
-        this.selectedSubjects.sendKeys("elmo");
+    enterSelectedSubjects(inputs: string[]) {
+        this.selectedSubjects.click();
+        inputs.forEach( (input) => {
+            browser.actions().sendKeys(input).perform();
+            browser.actions().sendKeys(protractor.Key.ENTER).perform();
+        });
     }
 
     /**
@@ -151,7 +155,7 @@ export class AppPage {
 
     private getSubmitButton(){
       // return element(by.xpath('/html/body/app-component/div/app-create-user/form/button'));
-      return element(by.css('[type="button"]'));
+      return element(by.id("submitbutton"));
     }
 
     clickSubmitButton(){

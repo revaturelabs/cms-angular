@@ -5,14 +5,14 @@ describe('workspace-project App', () => {
   let createContent         : AppPage;
   let title                 : string;
   let url                   : string;
-  let selectedSubjects      : string;
+  let selectedSubjects      : string[];
   let description           : string;
 
   beforeAll(() => {
     createContent = new AppPage();
     title = Math.random().toString(36).substring(7);
-    url = 'www.testy.test';
-    selectedSubjects = "elmo";
+    url = 'www.test.com';
+    selectedSubjects = ["Java", "CSS"];
     description = "Test description."
     createContent.navigateTo();
   });
@@ -31,10 +31,11 @@ describe('workspace-project App', () => {
     expect(createContent.getUrlValue()).toEqual(url);
   });
 
-  // it('should accept selected subjects input', () => {
-  //   createContent.clickSelectedSubjects();
-  //   browser.sleep(5000);
-  // });
+  // only enters values
+  it('should accept selected subjects input', () => {
+    createContent.enterSelectedSubjects(selectedSubjects);
+    // browser.sleep(5000); // to manually check, uncomment.
+  });
 
   it('should accept description input', () => {
     createContent.inputDescription(description);
@@ -42,7 +43,6 @@ describe('workspace-project App', () => {
   });
 
   it('should select Document radio button', () => {
-    browser.sleep(2000);
     createContent.clickDocumentRadio();
     expect(createContent.getCheckedRadioValue()).toEqual('Document');
   });
@@ -52,6 +52,9 @@ describe('workspace-project App', () => {
     expect(createContent.getCheckedRadioValue()).toEqual('Code');
   });
 
+  it('should click submit button', () => {
+    createContent.clickSubmitButton();
+  });
   
 
   
