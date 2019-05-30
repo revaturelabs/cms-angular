@@ -2,10 +2,10 @@ import { Link } from './Link';
 
 export class Content {
    id: number = 0;
-   title: string = '[undefined title]';
-   format: string = '[undefined format]';
-   description: string = '[undefined description]';
-   url: string = '[undefined url]';
+   title: string = '[no title]';
+   format: string = '[no format]';
+   description: string = '-';
+   url: string = '[no url]';
    links: Link[];
 
    constructor(id: number, title: string, format: string, description: string, url: string, links: Link[]) {

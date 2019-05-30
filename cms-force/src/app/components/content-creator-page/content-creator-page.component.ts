@@ -11,7 +11,7 @@ import { ModuleStoreService } from 'src/app/services/module-store.service';
 })
 export class ContentCreatorPageComponent implements OnInit {
 
-   /* Each string automatically generates button */
+   /* Each format string automatically generates button */
    readonly formats: string[] = ["Code", "Document"];
    title: string;
    url: string;
@@ -19,7 +19,7 @@ export class ContentCreatorPageComponent implements OnInit {
    description: string;
    // document: string;
    selectedSubjects: string[] = [];  // selected from subject list
-   prerequisites: string[] = [];
+   // prerequisites: string[] = [];
 
    constructor(
       private cs: ContentFetcherService,
@@ -34,7 +34,7 @@ export class ContentCreatorPageComponent implements OnInit {
     * Check if the input fields are all valid - all filled in
     */
    validInput(): boolean {
-      let inputs = [this.title, this.selFormat, this.description, this.url, this.selectedSubjects.length];
+      let inputs = [this.title, this.selFormat, this.url, this.selectedSubjects.length];
 
       if (inputs.includes(null) || inputs.includes(undefined)) return false;
       if (this.selectedSubjects.length == 0) return false;
@@ -50,6 +50,9 @@ export class ContentCreatorPageComponent implements OnInit {
       if (!this.validInput()) {
          alert('Please fill in all input fields!');
          return;
+      } else if (!this.validURL(this.url)) {
+         alert('Invalid URL. e.g. "http://example.com", "ftp://www.example.com", "http://192.168.0.0"');
+         return;
       }
 
       let content: Content = new Content(
@@ -64,6 +67,7 @@ export class ContentCreatorPageComponent implements OnInit {
          (response) => {
             if (response != null) {
                alert('Successfully sent content.');
+               this.resetVariables();
             } else {
                console.log('Response was null');
             }
@@ -72,6 +76,14 @@ export class ContentCreatorPageComponent implements OnInit {
             alert("Failed to send content");
          }
       )
+   }
+
+   resetVariables() {
+      this.title = null;
+      this.url = null;
+      this.selFormat = "Code";
+      this.description = null;
+      this.selectedSubjects = [];
    }
 
    /* for debugging */
@@ -97,5 +109,11 @@ export class ContentCreatorPageComponent implements OnInit {
       console.log(this.ms.modules);
       console.log(this.ms.subjectIdMap);
       console.log(this.ms.subjectNames);
+   }
+
+   validURL(url: string): boolean {
+      let regexp: RegExp = /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/;
+
+      return regexp.test(url);
    }
 }
