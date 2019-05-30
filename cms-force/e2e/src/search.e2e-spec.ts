@@ -1,20 +1,16 @@
-import { AppPage } from './app.po';
+import { SearchPage } from './search.po';
 import { browser, logging } from 'protractor';
 
 describe('workspace-project App', () => {
-  let createContent         : AppPage;
+  let findContent           : SearchPage;
   let title                 : string;
-  let url                   : string;
   let selectedSubjects      : string[];
-  let description           : string;
 
   beforeAll(() => {
-    createContent = new AppPage();
+    findContent = new SearchPage();
     title = Math.random().toString(36).substring(7);
-    url = 'www.test.com';
     selectedSubjects = ["Java", "CSS"];
-    description = "Test description."
-    createContent.navigateTo();
+    findContent.navigateTo();
   });
 
   beforeEach(() => {
@@ -22,40 +18,38 @@ describe('workspace-project App', () => {
   });
 
   it('should accept title input', () => {
-    createContent.inputTitle(title);
-    expect(createContent.getTitleValue()).toEqual(title);
-  });
-
-  it('should accept url input', () => {
-    createContent.inputUrl(url);
-    expect(createContent.getUrlValue()).toEqual(url);
+    findContent.inputTitle(title);
+    expect(findContent.getTitleValue()).toEqual(title);
   });
 
   // only enters values
   it('should accept selected subjects input', () => {
-    createContent.enterSelectedSubjects(selectedSubjects);
+    findContent.enterSelectedSubjects(selectedSubjects);
     // browser.sleep(5000); // to manually check, uncomment.
   });
 
-  it('should accept description input', () => {
-    createContent.inputDescription(description);
-    expect(createContent.getDescriptionValue()).toEqual(description);
-  });
-
   it('should select Document radio button', () => {
-    createContent.clickDocumentRadio();
-    expect(createContent.getCheckedRadioValue()).toEqual('Document');
+    findContent.clickDocumentRadio();
+    expect(findContent.getCheckedRadioValue()).toEqual('Document');
   });
 
   it('should select Code radio button', () => {
-    createContent.clickCodeRadio();
-    expect(createContent.getCheckedRadioValue()).toEqual('Code');
+    findContent.clickCodeRadio();
+    expect(findContent.getCheckedRadioValue()).toEqual('Code');
   });
 
+  it('should select All radio button', () => {
+    findContent.clickAllRadio();
+    expect(findContent.getCheckedRadioValue()).toEqual('All');
+  }); 
+
   it('should click submit button', () => {
-    createContent.clickSubmitButton();
+    findContent.clickSearchButton();
   });
   
+
+  
+
   afterEach(async () => {
     // Assert that there are no errors emitted from the browser
     const logs = await browser.manage().logs().get(logging.Type.BROWSER);
