@@ -46,10 +46,16 @@
             <div class="col-1"></div>
             <div class="col">
                <!-- <label>Relevant to:</label> -->
-               <ng-select [items]="ms.subjectNames" multiple="true"
-                  closeOnSelect="true" hideSelected="true"
-                  clearOnBackspace="true" bindLabel="name"
-                  placeholder="Select relevant subjects..."
+               <ng-select [items]="ms.subjectNames"
+                  multiple="true"
+                  closeOnSelect="true"
+                  hideSelected="true"
+                  clearOnBackspace="true"
+                  bindLabel="name"
+                  spellcheck="false"
+                  notFoundText="(no such subject found)"
+                  [loading]="ms.isLoading"
+                  [placeholder]="ms.loadingText"
                   [(ngModel)]="selectedSubjects"
                   name="selectedSubjects">
                </ng-select>
@@ -85,7 +91,7 @@
                      <th scope="col">Format</th>
                      <th scope="col">Description</th>
                      <th scope="col">URL</th>
-                     <th scope="col">Links</th>
+                     <th scope="col">Subjects</th>
                   </tr>
                </thead>
                <tbody>
@@ -97,7 +103,7 @@
                      <td><a href="{{content.url}}">{{content.url}}</a></td>
                      <td>
                         <div *ngFor="let link of content.links">
-                           {{ms.subjectIdMap.get(link.moduleId)}}
+                           {{ms.subjectIdToNameMap.get(link.moduleId)}}
                         </div>
                      </td>
                   </tr>

@@ -107,7 +107,7 @@ export class ContentCreatorPageComponent implements OnInit {
 
    printArrays() {
       console.log(this.ms.modules);
-      console.log(this.ms.subjectIdMap);
+      console.log(this.ms.subjectIdToNameMap);
       console.log(this.ms.subjectNames);
    }
 

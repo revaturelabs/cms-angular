@@ -7,10 +7,14 @@ import { ModuleFetcherService } from './module-fetcher.service';
 })
 export class ModuleStoreService {
 
-   /* THESE MUST NOT BE INITIALIZED HERE, LEST WE
-    PREMATURELY TRIGGER PROPERTY BINDINGS */
    modules: Map<string, Module>;
-   subjectIdMap: Map<number, string>;
+   subjectIdToNameMap: Map<number, string>;
+
+   /* subject id => index of subject's name in
+    * alphabetically-sorted array */
+   subjectIdToSortedIndex: Map<number, number>;
+
+   /* all subject names in alphabetical order */
    subjectNames: string[];
    response: Module[];
    isLoading: boolean = true;
@@ -32,20 +36,32 @@ export class ModuleStoreService {
             else console.log("Failed to retrieve any modules.");
          }, (response) => {
             console.log("Failed to send module request.");
-         }, () => this.populateArray(this.response)
+         }, () => this.populateCollections(this.response)
       )
    }
 
-   populateArray(modules: Module[]) {
+   /* fills collections defined using all available module info for quick,
+    * easy access to subject names, id, and alphabetical ordering */
+   populateCollections(modules: Module[]) {
+      let i = 0;
+
       console.log("populating");
       if (modules.length > 0) {
          this.modules = new Map<string, Module>();
-         this.subjectIdMap = new Map<number, string>();
+         this.subjectIdToNameMap = new Map<number, string>();
+         this.subjectIdToSortedIndex = new Map<number, number>();
          this.subjectNames = [];
-         modules.forEach(
+
+         /* sort modules by subject name alphabetically */
+         modules.sort(
+            (a, b) => {
+               return a.subject.toLowerCase() < b.subject.toLowerCase() ? -1 : 1;  // compare subject names alphabetically
+            }
+         ).forEach(  // then process each in order
             (module) => {
                this.modules.set(module.subject, module);
-               this.subjectIdMap.set(module.id, module.subject);
+               this.subjectIdToNameMap.set(module.id, module.subject);
+               this.subjectIdToSortedIndex.set(module.id, i++);
                this.subjectNames.push(module.subject);
             }, this
          )
