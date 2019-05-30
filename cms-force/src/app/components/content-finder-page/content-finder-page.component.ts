@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Content } from '../../models/Content';
 import { Filter } from '../../models/filter';
 import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
-import { Module } from 'src/app/models/Module';
+// import { Module } from 'src/app/models/Module';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
-import { resetCompiledComponents } from '@angular/core/src/render3/jit/module';
-import { ContentWrapper } from 'src/app/models/ContentWrapper';
+// import { resetCompiledComponents } from '@angular/core/src/render3/jit/module';
+// import { ContentWrapper } from 'src/app/models/ContentWrapper';
 
 @Component({
    selector: 'app-content-finder-page',
@@ -21,9 +21,7 @@ export class ContentFinderPageComponent implements OnInit {
    tablebool: boolean = false;
    moduleIDs: number[];
    selectedSubjects: string[] = [];  // selected from subject list
-   modules: Module[];
-   moduleSubjects: string[];
-   contentWrapper: ContentWrapper;
+   // contentWrapper: ContentWrapper;
 
    constructor(
       private cs: ContentFetcherService,
@@ -33,16 +31,14 @@ export class ContentFinderPageComponent implements OnInit {
       this.ms.loadModules();
    }
 
-
-
    /**
     * Submit function that takes in all input and puts it into a filter object
     * to subscribe method. If the request was successful then it will get the
     * response as the array of content and populate the table and print it.
     */
    submit() {
-      if(this.selFormat==="All"){
-         this.selFormat="";
+      if (this.selFormat === "All") {
+         this.selFormat = "";
       }
       this.getIDsFromSubjects(this.selectedSubjects);
       let filter: Filter = new Filter(
@@ -54,9 +50,10 @@ export class ContentFinderPageComponent implements OnInit {
             if (response != null) {
                console.log(response);
                this.contents = response;
-               this.notEmpty();
-               alert("Query Successfully Submitted");
-               this.reset();
+               if (this.notEmpty())
+                  this.reset();
+               else
+                  alert("No Results Found");
             } else {
                console.log('Response was null');
             }
@@ -70,7 +67,7 @@ export class ContentFinderPageComponent implements OnInit {
    /**
     * Resets the input fields
     */
-   reset(){
+   reset() {
       this.title = "";
       this.selFormat = "Code";
       this.selectedSubjects = [];
@@ -79,23 +76,25 @@ export class ContentFinderPageComponent implements OnInit {
    /**
     * Function to see if the table is populated with content
     */
-   notEmpty() {
+   notEmpty(): boolean {
       if (this.contents.length != 0) {
          this.tablebool = true;
-      } else this.tablebool = false;
+         return true;
+      } else {
+         this.tablebool = false;
+         return false;
+      }
    }
 
    /**
-    * Gets the string array of selected subjects and populates 
+    * Gets the string array of selected subjects and populates
     * the number array of subject id (or model or tag or whatever the team never really settled on the name like it was tag at first then prerequisite then modules then affiliation then subjects like come on)
-    * @param subjects 
+    * @param subjects
     */
    getIDsFromSubjects(subjects: string[]) {
       this.moduleIDs = [];
-      console.log("ms.modules:");
-      console.log(this.ms.modules);
       subjects.forEach(
-         (subject)=>{
+         (subject) => {
             this.moduleIDs.push(this.ms.modules.get(subject).id);
          }, this
       )

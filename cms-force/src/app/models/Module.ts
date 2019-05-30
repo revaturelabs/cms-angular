@@ -1,13 +1,16 @@
+import { Link } from './Link';
+
 export class Module {
    id: number = -1;
    subject: string = '[undefined subject]';
    created: number = 0;
+   links: Link[];
 
-
-   constructor(id: number, subject: string, created: number) {
+   constructor(id: number, subject: string, created: number, links: Link[]) {
       if (id != null) this.id = id;
       if (subject != null) this.subject = subject;
       if (created != null) this.created = created;
+      if (links != null) this.links = links;
    }
 
    public getId(): number {
@@ -22,6 +25,10 @@ export class Module {
       return this.created;
    }
 
+   public getLinks(): Link[] {
+      return this.links;
+   }
+
    public setId(id: number) {
       this.id = id;
    }
@@ -32,5 +39,9 @@ export class Module {
 
    public setCreated(created: number) {
       this.created = created;
+   }
+
+   public setLinks(links: Link[]) {
+      this.links = links;
    }
 }
