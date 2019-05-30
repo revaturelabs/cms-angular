@@ -34,9 +34,9 @@ export class ContentCreatorPageComponent implements OnInit {
     * Check if the input fields are all valid - all filled in
     */
    validInput(): boolean {
-      let inputs = [this.title, this.selFormat, this.url, this.selectedSubjects.length];
+      let cantBeNull = [this.title, this.selFormat, this.url, this.selectedSubjects.length];
 
-      if (inputs.includes(null) || inputs.includes(undefined)) return false;
+      if (cantBeNull.includes(null) || cantBeNull.includes(undefined)) return false;
       if (this.selectedSubjects.length == 0) return false;
       return true;
    }
