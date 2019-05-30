@@ -14,6 +14,7 @@
 
             <div class="form-row mb-5">
                <div class="col-1"></div>
+
                <div class="col">
                   <input [(ngModel)]="title"
                      required
@@ -45,8 +46,11 @@
                      closeOnSelect="true"
                      hideSelected="true"
                      clearOnBackspace="true"
+                     spellcheck="false"
+                     notFoundText="(no such subject found)"
+                     [loading]="ms.isLoading"
+                     [placeholder]="ms.loadingText"
                      bindLabel="name"
-                     placeholder="Select relevant subjects..."
                      [(ngModel)]="selectedSubjects"
                      name="subject">
                   </ng-select>
@@ -94,7 +98,6 @@
                   class="btn btn-primary"
                   (click)="submit()">Submit Content</button>
             </div>
-
 
          </form>
 
