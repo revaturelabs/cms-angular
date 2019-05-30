@@ -37,7 +37,7 @@ export class AppPage {
 
     /**
      * Sends the given input string to the title element in the DOM
-     * @param input
+     * @param input: string
      */
     inputTitle(input: string) {
         this.title.sendKeys(input);
@@ -81,7 +81,7 @@ export class AppPage {
 
     /**
      * Sends the given input string to the description element in the DOM
-     * @param input
+     * @param input: string
      */
     inputDescription(input: string) {
         this.description.sendKeys(input);
@@ -95,15 +95,15 @@ export class AppPage {
     }
 
     /**
-     * Returns the url element in the DOM
+     * Returns the "select relevant subjects..." element in the DOM
      */
     private getSelectedSubjectsSelect() {
       return element(by.css('[name="subject"]'));
     }
 
     /**
-     * Sends the given input string to the url element in the DOM
-     * @param input
+     * Enters the given input string[] into the selectedSubjects element in the DOM
+     * @param input: string[]
      */
     enterSelectedSubjects(inputs: string[]) {
         this.selectedSubjects.click();
@@ -114,14 +114,14 @@ export class AppPage {
     }
 
     /**
-     * Returns the format radio button element in the DOM
+     * Returns the code radio button element in the DOM
      */
     private getCodeRadio(){
         return element(by.css('[id="Code"]'));
     }
 
     /**
-     * Clicks the admin radio button element in the DOM
+     * Clicks the code radio button element in the DOM
      */
     clickCodeRadio(){
         browser.actions().mouseMove(this.codeRadio).click().perform();
@@ -142,7 +142,7 @@ export class AppPage {
     }
 
     /**
-     * Returns the checked radio element if one a radio element is checked
+     * Returns the checked radio element if a radio element is checked
      */
     getCheckedRadioValue(){
         if(element(by.css('[type="checked"]'))){
