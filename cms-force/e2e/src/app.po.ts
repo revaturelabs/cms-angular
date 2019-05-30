@@ -11,7 +11,7 @@ export class AppPage {
     constructor() {
          this.title = this.getTitleInput();
          this.url = this.getUrlInput();
-         this.selectedSubjects = this.getSelectedSubjectsInput();
+         this.selectedSubjects = this.getSelectedSubjectsSelect();
          this.description = this.getDescriptionInput();
          this.codeRadio = this.getCodeRadio();
          this.documentRadio = this.getDocumentRadio();
@@ -97,7 +97,7 @@ export class AppPage {
     /**
      * Returns the url element in the DOM
      */
-    private getSelectedSubjectsInput() {
+    private getSelectedSubjectsSelect() {
       return element(by.css('[name="subject"]'));
     }
 
@@ -105,43 +105,36 @@ export class AppPage {
      * Sends the given input string to the url element in the DOM
      * @param input
      */
-    inputSelectedSubjects(input: string) {
-        this.selectedSubjects.sendKeys(input);
-    }
-
-    /**
-     * Returns the current value of the url element in the DOM
-     */
-    getSelectedSubjectsValue() { 
-        return this.selectedSubjects.getAttribute('value');
+    clickSelectedSubjects() {
+        this.selectedSubjects.sendKeys("elmo");
     }
 
     /**
      * Returns the format radio button element in the DOM
      */
     private getCodeRadio(){
-        return element(by.css('[id="radio-2"]'));
+        return element(by.css('[id="Code"]'));
     }
 
     /**
      * Clicks the admin radio button element in the DOM
      */
     clickCodeRadio(){
-        this.codeRadio.click();
+        browser.actions().mouseMove(this.codeRadio).click().perform();
     }
 
     /**
      * Returns the document radio button element in the DOM
      */
-    private getDocumentRadio(){
-      return element(by.css('[id="radio-2"]'));
+    private getDocumentRadio() {
+      return element(by.id("Document"));
     }
 
     /**
      * Clicks the document radio button element in the DOM
      */
-    clickDocumentRadio(){
-        this.documentRadio.click();
+    clickDocumentRadio() {
+        browser.actions().mouseMove(this.documentRadio).click().perform();
     }
 
     /**
@@ -149,7 +142,7 @@ export class AppPage {
      */
     getCheckedRadioValue(){
         if(element(by.css('[type="checked"]'))){
-            return element(by.css(':checked')).getAttribute('value');
+            return element(by.css(':checked')).getAttribute('id');
         }
         else {
             return '';
