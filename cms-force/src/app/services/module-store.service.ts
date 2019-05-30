@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Module } from '../models/Module';
 import { ModuleFetcherService } from './module-fetcher.service';
-import { INTERNAL_BROWSER_DYNAMIC_PLATFORM_PROVIDERS } from '@angular/platform-browser-dynamic/src/platform_providers';
-import { INT_TYPE } from '@angular/compiler/src/output/output_ast';
 
 @Injectable({
    providedIn: 'root'
