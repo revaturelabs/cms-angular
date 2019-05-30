@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
-import { MatRadioModule } from '@angular/material/radio';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -25,8 +24,7 @@ import { EndpointTesterComponent } from './components/endpoint-tester/endpoint-t
       AppRoutingModule,
       HttpClientModule,
       NgSelectModule,
-      FormsModule,
-      MatRadioModule
+      FormsModule
    ],
    providers: [],
    bootstrap: [AppComponent]

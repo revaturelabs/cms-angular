@@ -21,52 +21,50 @@
 }
 
 #content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  top: -50px;
-    /* left: 0px; */
-    /* margin-bottom: 200px; */
-  }
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   position: relative;
+   top: -50px;
+   /* left: 0px; */
+   /* margin-bottom: 200px; */
+}
 
-  .logo {
-    height: auto;
-    width: 10%;
-  }
+.logo {
+   height: auto;
+   width: 10%;
+}
 
-  .dropdown {
-    margin: 20px;
-  }
-  
-  .dropdown-menu {
-    max-height: 20rem;
-    overflow-y: auto;
-  }
-  
-  .title-url {
-    margin-left: auto;
-  }
+.dropdown {
+   margin: 20px;
+}
 
-  .form-control {
-    background-color: rgb(245, 245, 245);
-  }
-  
-  .btn-radio {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+.dropdown-menu {
+   max-height: 20rem;
+   overflow-y: auto;
+}
 
-  input[type="radio"] {
+.title-url {
+   margin-left: auto;
+}
+
+.form-control {
+   background-color: rgb(245, 245, 245);
+}
+
+.btn-radio {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+input[type="radio"] {
    margin-right: -15px;
    /* width: 30px; */
- }
+}
 
-  .btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-
+.btn {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}

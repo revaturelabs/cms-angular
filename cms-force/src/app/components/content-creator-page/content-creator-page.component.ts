@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Content } from 'src/app/models/Content';
-import { Module } from 'src/app/models/Module';
 import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
-import { ModuleFetcherService } from 'src/app/services/module-fetcher.service';
 import { Link } from 'src/app/models/Link';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
 
@@ -95,4 +93,9 @@ export class ContentCreatorPageComponent implements OnInit {
       return links;
    }
 
+   printArrays() {
+      console.log(this.ms.modules);
+      console.log(this.ms.subjectIdMap);
+      console.log(this.ms.subjectNames);
+   }
 }

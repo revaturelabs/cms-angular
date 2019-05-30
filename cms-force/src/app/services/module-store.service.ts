@@ -7,28 +7,36 @@ import { ModuleFetcherService } from './module-fetcher.service';
 })
 export class ModuleStoreService {
 
+   /* THESE MUST NOT BE INITIALIZED HERE, LEST WE
+    PREMATURELY TRIGGER PROPERTY BINDINGS */
    modules: Map<string, Module>;
    subjectIdMap: Map<number, string>;
-   subjectNames: string[] = [];
-   
+   subjectNames: string[];
+
 
    constructor(private ms: ModuleFetcherService) { }
 
 
    /* load Modules once from backend on program start */
    loadModules() {
-      this.modules = new Map<string, Module>();
-      this.subjectIdMap = new Map<number, string>();
+      let modules: Map<string, Module> = new Map<string, Module>();
+      let subjectIdMap: Map<number, string> = new Map<number, string>();
+      let subjectNames: string[] = [];
       this.ms.getAllModules().subscribe(
          (response) => {
             if (response != null) {
                response.forEach(
                   (module) => {
-                     this.modules.set(module.subject, module);
-                     this.subjectIdMap.set(module.id, module.subject);
-                     this.subjectNames.push(module.subject);
+                     modules.set(module.subject, module);
+                     subjectIdMap.set(module.id, module.subject);
+                     subjectNames.push(module.subject);
                   }, this
                )
+               /* sets arrays after, triggering property-bindings after
+                * arrays have been fully set */
+               this.modules = modules;
+               this.subjectIdMap = subjectIdMap;
+               this.subjectNames = subjectNames;
             }
             else console.log("Failed to retrieve any modules.");
          }, (response) => {
