@@ -12,6 +12,9 @@ export class ModuleStoreService {
    modules: Map<string, Module>;
    subjectIdMap: Map<number, string>;
    subjectNames: string[];
+   response: Module[];
+   isLoading: boolean = true;
+   loadingText: string = "Loading Subjects...";
 
 
    constructor(private ms: ModuleFetcherService) { }
@@ -19,29 +22,35 @@ export class ModuleStoreService {
 
    /* load Modules once from backend on program start */
    loadModules() {
-      let modules: Map<string, Module> = new Map<string, Module>();
-      let subjectIdMap: Map<number, string> = new Map<number, string>();
-      let subjectNames: string[] = [];
+      this.isLoading = true;
+      this.loadingText = "Loading Subjects...";
       this.ms.getAllModules().subscribe(
          (response) => {
             if (response != null) {
-               response.forEach(
-                  (module) => {
-                     modules.set(module.subject, module);
-                     subjectIdMap.set(module.id, module.subject);
-                     subjectNames.push(module.subject);
-                  }, this
-               )
-               /* sets arrays after, triggering property-bindings after
-                * arrays have been fully set */
-               this.modules = modules;
-               this.subjectIdMap = subjectIdMap;
-               this.subjectNames = subjectNames;
+               this.response = response;
             }
             else console.log("Failed to retrieve any modules.");
          }, (response) => {
             console.log("Failed to send module request.");
-         }
+         }, () => this.populateArray(this.response)
       )
+   }
+
+   populateArray(modules: Module[]) {
+      console.log("populating");
+      if (modules.length > 0) {
+         this.modules = new Map<string, Module>();
+         this.subjectIdMap = new Map<number, string>();
+         this.subjectNames = [];
+         modules.forEach(
+            (module) => {
+               this.modules.set(module.subject, module);
+               this.subjectIdMap.set(module.id, module.subject);
+               this.subjectNames.push(module.subject);
+            }, this
+         )
+      }
+      this.isLoading = false;
+      this.loadingText = "Select relevant subjects";
    }
 }
