@@ -97,7 +97,9 @@
                      <td>{{content.url}}</td>
                      <td>
                         <div *ngFor="let link of content.links">
-                           {{ms.subjectIdMap.get(link.moduleId)}}
+                           <!--  -->
+                           <!-- <span style="background-color: orangered; border: 1px solid black" class="tag-bubble">{{ms.subjectIdMap.get(link.moduleId)}}</span> -->
+                           <span [style.background-color]=ms.modules.get(ms.subjectIdMap.get(link.moduleId)).color class="tag-bubble">{{ms.subjectIdMap.get(link.moduleId)}}</span>
                            <!-- <div *ngFor="let id of content.links.getKeys()"> THIS IS FOR SET
                            {{ms.subjectIdMap.get(id)}}; -->
                         </div>

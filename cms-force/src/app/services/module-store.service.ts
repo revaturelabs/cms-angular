@@ -28,6 +28,7 @@ export class ModuleStoreService {
                response.forEach(
                   (module) => {
                      modules.set(module.subject, module);
+                     module.color = this.getRandomColor();
                      subjectIdMap.set(module.id, module.subject);
                      subjectNames.push(module.subject);
                   }, this
@@ -43,5 +44,10 @@ export class ModuleStoreService {
             console.log("Failed to send module request.");
          }
       )
+   }
+   
+   private getRandomColor(): string {
+     let randomInRange = (min, max) => { return Math.floor((Math.random() * (max-min) + min)).toString(16) };
+     return '#' + randomInRange(232,256) + randomInRange(128,256) + randomInRange(128,256);
    }
 }

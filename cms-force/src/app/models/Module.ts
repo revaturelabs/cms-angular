@@ -5,6 +5,7 @@ export class Module {
    subject: string = '[undefined subject]';
    created: number = 0;
    links: Link[];
+   color: string = '#d5d5d5';
 
    constructor(id: number, subject: string, created: number, links: Link[]) {
       if (id != null) this.id = id;
@@ -28,6 +29,10 @@ export class Module {
    public getLinks(): Link[] {
       return this.links;
    }
+   
+   public getColor(): string {
+      return this.color;
+   }
 
    public setId(id: number) {
       this.id = id;
@@ -43,5 +48,9 @@ export class Module {
 
    public setLinks(links: Link[]) {
       this.links = links;
+   }
+   
+   public setColor(color: string) {
+      this.color = color;
    }
 }
