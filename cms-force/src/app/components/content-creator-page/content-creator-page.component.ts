@@ -11,7 +11,7 @@ import { ModuleStoreService } from 'src/app/services/module-store.service';
 })
 export class ContentCreatorPageComponent implements OnInit {
 
-   /* Each string automatically generates button */
+   /* Each format string automatically generates button */
    readonly formats: string[] = ["Code", "Document"];
    title: string;
    url: string;
