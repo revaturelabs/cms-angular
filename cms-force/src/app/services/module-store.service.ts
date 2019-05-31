@@ -59,6 +59,7 @@ export class ModuleStoreService {
             }
          ).forEach(  // then process each in order
             (module) => {
+               module.color = this.getRandomColor();
                this.modules.set(module.subject, module);
                this.subjectIdToNameMap.set(module.id, module.subject);
                this.subjectIdToSortedIndex.set(module.id, i++);
@@ -68,5 +69,10 @@ export class ModuleStoreService {
       }
       this.isLoading = false;
       this.loadingText = "Select relevant subjects";
+   }
+
+   private getRandomColor(): string {
+     let randomInRange = (min, max) => { return Math.floor((Math.random() * (max-min) + min)).toString(16) };
+     return '#' + randomInRange(232,256) + randomInRange(128,256) + randomInRange(128,256);
    }
 }

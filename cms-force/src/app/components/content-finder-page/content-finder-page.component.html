@@ -83,7 +83,7 @@
       <!-- TABLE FORM - OPENING DIV -->
       <form>
          <div class="form-row mb-5">
-            <table class="table">
+            <table class="table table-striped">
                <thead>
                   <tr>
                      <th scope="col">Content ID</th>
@@ -102,9 +102,12 @@
                      <td>{{content.description}}</td>
                      <td><a href="{{content.url}}">{{content.url}}</a></td>
                      <td>
-                        <div *ngFor="let link of content.links">
+                        <span
+                           *ngFor="let link of content.links"
+                           [style.background-color]=ms.modules.get(ms.subjectIdMap.get(link.moduleId)).color
+                           class="tag-bubble">
                            {{ms.subjectIdToNameMap.get(link.moduleId)}}
-                        </div>
+                        </span>
                      </td>
                   </tr>
                </tbody>

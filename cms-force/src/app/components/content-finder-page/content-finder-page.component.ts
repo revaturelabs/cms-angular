@@ -45,11 +45,10 @@ export class ContentFinderPageComponent implements OnInit {
       let filter: Filter = new Filter(
          this.title, this.selFormat, this.moduleIDs
       );
-      console.log(filter);
       this.cs.filterContent(filter).subscribe(
          (response) => {
             if (response != null) {
-               console.log(response);
+               // console.log(response);
                this.parseContentResponse(response);
                if (this.notEmpty())
                   this.reset();
