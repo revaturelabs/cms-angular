@@ -47,9 +47,6 @@ describe('workspace-project App', () => {
     findContent.clickSearchButton();
   });
   
-
-  
-
   afterEach(async () => {
     // Assert that there are no errors emitted from the browser
     const logs = await browser.manage().logs().get(logging.Type.BROWSER);
