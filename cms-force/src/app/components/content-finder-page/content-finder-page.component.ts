@@ -63,6 +63,10 @@ export class ContentFinderPageComponent implements OnInit {
       )
    }
 
+   /**
+    * Sorts the content's order and then the content's link's order
+    * @param response 
+    */
    parseContentResponse(response: Content[]) {
       /* sort contents by their id */
       this.contents = response.sort(

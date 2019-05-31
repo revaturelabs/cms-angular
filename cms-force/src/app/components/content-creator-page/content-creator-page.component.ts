@@ -26,6 +26,7 @@ export class ContentCreatorPageComponent implements OnInit {
       private ms: ModuleStoreService) {
    }
 
+   /* On page initialization load the modules to list on the dropdown menu */
    ngOnInit() {
       this.ms.loadModules();
    }
@@ -78,6 +79,9 @@ export class ContentCreatorPageComponent implements OnInit {
       )
    }
 
+   /**
+    * Clears the input fields after successful content submit
+    */
    resetVariables() {
       this.title = null;
       this.url = null;
@@ -105,12 +109,17 @@ export class ContentCreatorPageComponent implements OnInit {
       return links;
    }
 
+   /* For debugging */
    printArrays() {
       console.log(this.ms.subjectNameToModule);
       console.log(this.ms.subjectIdToName);
       console.log(this.ms.subjectNames);
    }
 
+   /**
+    * Takes in the url to check if it has the application protocol like http.
+    * @param url
+    */
    validURL(url: string): boolean {
       let regexp: RegExp = /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/;
 
