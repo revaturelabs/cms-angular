@@ -44,6 +44,7 @@ export class ModuleStoreService {
          this.subjectNames = [];
          modules.forEach(
             (module) => {
+               module.color = this.getRandomColor();
                this.modules.set(module.subject, module);
                this.subjectIdMap.set(module.id, module.subject);
                this.subjectNames.push(module.subject);
@@ -52,5 +53,10 @@ export class ModuleStoreService {
       }
       this.isLoading = false;
       this.loadingText = "Select relevant subjects";
+   }
+
+   private getRandomColor(): string {
+     let randomInRange = (min, max) => { return Math.floor((Math.random() * (max-min) + min)).toString(16) };
+     return '#' + randomInRange(232,256) + randomInRange(128,256) + randomInRange(128,256);
    }
 }
