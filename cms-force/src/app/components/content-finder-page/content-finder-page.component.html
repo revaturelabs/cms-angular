@@ -73,17 +73,18 @@
    </div>
 </div>
 
-<!-- OPEN ANOTHER CARD / CONTAINER WHEN TABLE IS POPULATED -->
-<div class="card" *ngIf="this.tablebool">
-   <div class="container">
-      <div class="col">
 
-      </div>
+
+<!-- OPEN ANOTHER CARD / CONTAINER WHEN TABLE IS POPULATED -->
+<div class="card " *ngIf="this.tablebool">
+   <div class="container">
 
       <!-- TABLE FORM - OPENING DIV -->
       <form>
+           
          <div class="form-row mb-5">
-            <table class="table table-striped">
+               <div class="table-responsive">
+                  <table class="table table-striped">
                <thead>
                   <tr>
                      <th scope="col">Content ID</th>
@@ -94,6 +95,7 @@
                      <th scope="col">Subjects</th>
                   </tr>
                </thead>
+
                <tbody>
                   <tr *ngFor="let content of contents">
                      <td>{{content.id}}</td>
@@ -112,6 +114,7 @@
                   </tr>
                </tbody>
             </table>
+            </div>
          </div>
       </form>
    </div>
