@@ -99,15 +99,15 @@ export class ContentCreatorPageComponent implements OnInit {
       subjects.forEach(
          (subject) => {
             links.push(new Link(null, null,
-               this.ms.modules.get(subject).id, null));
+               this.ms.subjectNameToModule.get(subject).id, null));
          }, this
       )
       return links;
    }
 
    printArrays() {
-      console.log(this.ms.modules);
-      console.log(this.ms.subjectIdMap);
+      console.log(this.ms.subjectNameToModule);
+      console.log(this.ms.subjectIdToName);
       console.log(this.ms.subjectNames);
    }
 

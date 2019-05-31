@@ -46,10 +46,16 @@
             <div class="col-1"></div>
             <div class="col">
                <!-- <label>Relevant to:</label> -->
-               <ng-select [items]="ms.subjectNames" multiple="true"
-                  closeOnSelect="true" hideSelected="true"
-                  clearOnBackspace="true" bindLabel="name"
-                  placeholder="Select relevant subjects..."
+               <ng-select [items]="ms.subjectNames"
+                  multiple="true"
+                  closeOnSelect="true"
+                  hideSelected="true"
+                  clearOnBackspace="true"
+                  bindLabel="name"
+                  spellcheck="false"
+                  notFoundText="(no such subject found)"
+                  [loading]="ms.isLoading"
+                  [placeholder]="ms.loadingText"
                   [(ngModel)]="selectedSubjects"
                   name="selectedSubjects">
                </ng-select>
@@ -85,7 +91,7 @@
                      <th scope="col">Format</th>
                      <th scope="col">Description</th>
                      <th scope="col">URL</th>
-                     <th scope="col">Links</th>
+                     <th scope="col">Subjects</th>
                   </tr>
                </thead>
                <tbody>
@@ -96,7 +102,12 @@
                      <td>{{content.description}}</td>
                      <td><a href="{{content.url}}">{{content.url}}</a></td>
                      <td>
-                        <span *ngFor="let link of content.links" [style.background-color]=ms.modules.get(ms.subjectIdMap.get(link.moduleId)).color class="tag-bubble">{{ms.subjectIdMap.get(link.moduleId)}}</span>
+                        <span
+                           *ngFor="let link of content.links"
+                           [style.background-color]=ms.subjectIdToModule.get(link.moduleId).color
+                           class="tag-bubble">
+                           {{ms.subjectIdToName.get(link.moduleId)}}
+                        </span>
                      </td>
                   </tr>
                </tbody>

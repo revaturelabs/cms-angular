@@ -47,7 +47,8 @@ export class ContentFinderPageComponent implements OnInit {
       this.cs.filterContent(filter).subscribe(
          (response) => {
             if (response != null) {
-               this.contents = response;
+               // console.log(response);
+               this.parseContentResponse(response);
                if (this.notEmpty())
                   this.reset();
                else
@@ -59,6 +60,26 @@ export class ContentFinderPageComponent implements OnInit {
          (response) => {
             alert("Failed to send filter")
          }
+      )
+   }
+
+   parseContentResponse(response: Content[]) {
+      /* sort contents by their id */
+      this.contents = response.sort(
+         (a, b) => { return a.id - b.id });
+
+      /* sort each content's list of links by
+       * subject/module name via lookup Map */
+      this.contents.forEach(
+         (content) => {
+            content.links = content.links.sort(
+               (a, b) => {
+                  let sortedIndexA: number = this.ms.subjectIdToSortedIndex.get(a.moduleId);
+                  let sortedIndexB: number = this.ms.subjectIdToSortedIndex.get(b.moduleId);
+                  return sortedIndexA - sortedIndexB;
+               }
+            );
+         }, this
       )
    }
 
@@ -93,7 +114,7 @@ export class ContentFinderPageComponent implements OnInit {
       this.moduleIDs = [];
       subjects.forEach(
          (subject) => {
-            this.moduleIDs.push(this.ms.modules.get(subject).id);
+            this.moduleIDs.push(this.ms.subjectNameToModule.get(subject).id);
          }, this
       )
    }
