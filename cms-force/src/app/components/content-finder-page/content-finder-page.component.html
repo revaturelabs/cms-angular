@@ -104,9 +104,9 @@
                      <td>
                         <span
                            *ngFor="let link of content.links"
-                           [style.background-color]=ms.modules.get(ms.subjectIdMap.get(link.moduleId)).color
+                           [style.background-color]=ms.subjectIdToModule.get(link.moduleId).color
                            class="tag-bubble">
-                           {{ms.subjectIdToNameMap.get(link.moduleId)}}
+                           {{ms.subjectIdToName.get(link.moduleId)}}
                         </span>
                      </td>
                   </tr>

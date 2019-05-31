@@ -4,7 +4,6 @@ import { Filter } from '../../models/filter';
 import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
 // import { Module } from 'src/app/models/Module';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
-import { Link } from 'src/app/models/Link';
 // import { resetCompiledComponents } from '@angular/core/src/render3/jit/module';
 // import { ContentWrapper } from 'src/app/models/ContentWrapper';
 
@@ -115,7 +114,7 @@ export class ContentFinderPageComponent implements OnInit {
       this.moduleIDs = [];
       subjects.forEach(
          (subject) => {
-            this.moduleIDs.push(this.ms.modules.get(subject).id);
+            this.moduleIDs.push(this.ms.subjectNameToModule.get(subject).id);
          }, this
       )
    }

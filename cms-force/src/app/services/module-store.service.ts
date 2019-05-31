@@ -7,15 +7,20 @@ import { ModuleFetcherService } from './module-fetcher.service';
 })
 export class ModuleStoreService {
 
-   modules: Map<string, Module>;
-   subjectIdToNameMap: Map<number, string>;
+   /* Various maps for easy retrieving of module/subject info */
+   subjectNameToModule: Map<string, Module>;
+   subjectIdToModule: Map<number, Module>;
+   subjectIdToName: Map<number, string>;
 
    /* subject id => index of subject's name in
-    * alphabetically-sorted array */
+    * alphabetically-sorted name array.
+    * used for module Name string comparison using
+    * only module ID */
    subjectIdToSortedIndex: Map<number, number>;
 
    /* all subject names in alphabetical order */
    subjectNames: string[];
+
    response: Module[];
    isLoading: boolean = true;
    loadingText: string = "Loading Subjects...";
@@ -47,8 +52,9 @@ export class ModuleStoreService {
 
       console.log("populating");
       if (modules.length > 0) {
-         this.modules = new Map<string, Module>();
-         this.subjectIdToNameMap = new Map<number, string>();
+         this.subjectNameToModule = new Map<string, Module>();
+         this.subjectIdToModule = new Map<number, Module>();
+         this.subjectIdToName = new Map<number, string>();
          this.subjectIdToSortedIndex = new Map<number, number>();
          this.subjectNames = [];
 
@@ -57,11 +63,13 @@ export class ModuleStoreService {
             (a, b) => {
                return a.subject.toLowerCase() < b.subject.toLowerCase() ? -1 : 1;  // compare subject names alphabetically
             }
-         ).forEach(  // then process each in order
+         ).forEach(
+            /* then for each in order, populate maps/array */
             (module) => {
                module.color = this.getRandomColor();
-               this.modules.set(module.subject, module);
-               this.subjectIdToNameMap.set(module.id, module.subject);
+               this.subjectNameToModule.set(module.subject, module);
+               this.subjectIdToModule.set(module.id, module);
+               this.subjectIdToName.set(module.id, module.subject);
                this.subjectIdToSortedIndex.set(module.id, i++);
                this.subjectNames.push(module.subject);
             }, this
@@ -72,7 +80,7 @@ export class ModuleStoreService {
    }
 
    private getRandomColor(): string {
-     let randomInRange = (min, max) => { return Math.floor((Math.random() * (max-min) + min)).toString(16) };
-     return '#' + randomInRange(232,256) + randomInRange(128,256) + randomInRange(128,256);
+      let randomInRange = (min, max) => { return Math.floor((Math.random() * (max - min) + min)).toString(16) };
+      return '#' + randomInRange(232, 256) + randomInRange(128, 256) + randomInRange(128, 256);
    }
 }
