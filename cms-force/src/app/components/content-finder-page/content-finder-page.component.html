@@ -96,9 +96,7 @@
                      <td>{{content.description}}</td>
                      <td><a href="{{content.url}}">{{content.url}}</a></td>
                      <td>
-                        <div *ngFor="let link of content.links">
-                           <span [style.background-color]=ms.modules.get(ms.subjectIdMap.get(link.moduleId)).color class="tag-bubble">{{ms.subjectIdMap.get(link.moduleId)}}</span>
-                        </div>
+                        <span *ngFor="let link of content.links" [style.background-color]=ms.modules.get(ms.subjectIdMap.get(link.moduleId)).color class="tag-bubble">{{ms.subjectIdMap.get(link.moduleId)}}</span>
                      </td>
                   </tr>
                </tbody>
