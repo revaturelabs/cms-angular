@@ -10,6 +10,8 @@ import { ContentCreatorPageComponent } from './components/content-creator-page/c
 import { ContentFinderPageComponent } from './components/content-finder-page/content-finder-page.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { EndpointTesterComponent } from './components/endpoint-tester/endpoint-tester.component';
+import { ContentModuleComponent } from './components/content-module/content-module.component';
+import { ContentModulePageComponent } from './components/content-module-page/content-module-page.component';
 
 @NgModule({
    declarations: [
@@ -17,7 +19,9 @@ import { EndpointTesterComponent } from './components/endpoint-tester/endpoint-t
       ContentCreatorPageComponent,
       ContentFinderPageComponent,
       NavbarComponent,
-      EndpointTesterComponent
+      EndpointTesterComponent,
+      ContentModuleComponent,
+      ContentModulePageComponent
    ],
    imports: [
       BrowserModule,
