@@ -98,7 +98,7 @@ export class AppPage {
      * Returns the "select relevant subjects..." element in the DOM
      */
     private getSelectedSubjectsSelect() {
-      return element(by.css('[name="subject"]'));
+      return element(by.css('[name="selectedSubjects"]'));
     }
 
     /**
