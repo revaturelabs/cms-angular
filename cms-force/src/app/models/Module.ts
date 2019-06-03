@@ -4,7 +4,7 @@ export class Module {
    id: number = -1;
    subject: string = '[undefined subject]';
    created: number = 0;
-   links: Link[];
+   links: Link[] = [];
    color: string;
 
    constructor(id: number, subject: string, created: number, links: Link[]) {

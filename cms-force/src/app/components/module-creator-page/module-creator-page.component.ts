@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Module } from 'module';
+import { Module } from 'src/app/models/module';
+import { ModuleFetcherService } from 'src/app/services/module-fetcher.service';
 
 @Component({
   selector: 'app-module-creator-page',
@@ -8,9 +9,11 @@ import { Module } from 'module';
 })
 export class ModuleCreatorPageComponent implements OnInit {
 
-  subject: String;
+  subject: string = "";
 
-  constructor() { }
+  constructor(
+    private mf: ModuleFetcherService
+  ) { }
 
   ngOnInit() {
   }
@@ -27,7 +30,22 @@ export class ModuleCreatorPageComponent implements OnInit {
     }//If input field is null alert the user
 
     let module: Module = new Module(
-      1, this.subject, 1, []
+      null, this.subject, null, null
+      )
+
+      this.mf.createNewModule(module).subscribe(
+        (response) => {
+          if (response != null){
+            alert('Successfully sent module.');
+            this.subject = "";
+          }else{
+            alert('There was a problem creating a module');
+            this.subject = "";
+          }
+        },
+        (response)=>{
+          alert("Failed to send content");
+        }
       )
 
   }
