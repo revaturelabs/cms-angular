@@ -1,0 +1,8 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* This imports the css for the search and multiselect tags input field */
+@import "~@ng-select/ng-select/themes/default.theme.css";
+/* @import "~@ng-select/ng-select/themes/material.theme.css"; */
+body {
+    background-color: rgb(	255, 136, 0)
+}
