@@ -8,10 +8,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ContentCreatorPageComponent } from './components/content-creator-page/content-creator-page.component';
 import { ContentFinderPageComponent } from './components/content-finder-page/content-finder-page.component';
-import { ContentModulePageComponent } from './components/content-module-page/content-module-page.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { EndpointTesterComponent } from './components/endpoint-tester/endpoint-tester.component';
-import { ModuleCreaterPageComponent } from './module-creater-page/module-creater-page.component';
 import { ModuleCreatorPageComponent } from './components/module-creator-page/module-creator-page.component';
 
 
@@ -20,10 +18,8 @@ import { ModuleCreatorPageComponent } from './components/module-creator-page/mod
       AppComponent,
       ContentCreatorPageComponent,
       ContentFinderPageComponent,
-      ContentModulePageComponent,
       NavbarComponent,
       EndpointTesterComponent,
-      ModuleCreaterPageComponent,
       ModuleCreatorPageComponent
    ],
    imports: [
