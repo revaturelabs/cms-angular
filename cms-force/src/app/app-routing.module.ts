@@ -7,10 +7,10 @@ import { from } from 'rxjs';
 import { ModuleCreatorPageComponent } from './components/module-creator-page/module-creator-page.component';
 
 const routes: Routes = [
-   { path: '', redirectTo: '/creator', pathMatch: 'full' },   // home page
-   { path: 'creator', component: ContentCreatorPageComponent, pathMatch: 'full' },
+   { path: '', redirectTo: '/content-creator', pathMatch: 'full' },   // home page
+   { path: 'content-creator', component: ContentCreatorPageComponent, pathMatch: 'full' },
    { path: 'finder', component: ContentFinderPageComponent, pathMatch: 'full' },
-   { path: 'module', component: ModuleCreatorPageComponent, pathMatch: 'full' },
+   { path: 'module-creator', component: ModuleCreatorPageComponent, pathMatch: 'full' },
    { path: 'endpoint_tester', component: EndpointTesterComponent, pathMatch: 'full' },
    { path: '**', redirectTo: '/creator', pathMatch: 'full' }    // when invalid url entered
 ];
