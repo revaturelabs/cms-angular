@@ -1,109 +1,48 @@
 <!-- CARD -->
 <div class="card">
-  <!-- CONTAINER -->
-  <div class="container">
+   <!-- CONTAINER -->
+   <div class="container">
 
-     <div class="col">
-        <div id="content">
-           <img src="/assets/img/logo.png"
-              class="logo">
-        </div>
+      <div class="col">
+         <div id="content">
+            <img src="/assets/img/logo.png"
+               class="logo">
+         </div>
 
-        <!-- TITLE & URL -->
-        <form>
+         <!-- TITLE & URL -->
+         <form>
 
-           <div class="form-row mb-5">
-              <div class="col-1"></div>
+            <div class="form-row mb-5">
+               <div class="col-1"></div>
 
-              <div class="col">
-                 <input [(ngModel)]="title"
-                    required
-                    name="title"
-                    type="text"
-                    class="form-control"
-                    placeholder="Title">
-              </div>
+               <div class="col">
+                  <input [(ngModel)]="id"
+                     required
+                     name="id"
+                     type="number"
+                     class="form-control"
+                     placeholder="Subject">
+               </div>
 
-              <div class="col">
-                 <input [(ngModel)]="url"
-                    required
-                    name="url"
-                    type="text"
-                    class="form-control"
-                    placeholder="URL">
-              </div>
-              <div class="col-1"></div>
-           </div>
+      
+               <div class="col-1"></div>
+            </div>
 
-           <!-- RELEVANT TO SUBJECT ROW -->
-           <!-- https://github.com/ng-select/ng-select#getting-started -->
-           <div class="row subject mb-3">
-              <div class="col-1"></div>
-              <div class="col rele">
-                 <!-- <label>Relevant to:</label> -->
-                 <ng-select [items]="ms.subjectNames"
-                    multiple="true"
-                    closeOnSelect="true"
-                    hideSelected="true"
-                    clearOnBackspace="true"
-                    bindLabel="name"
-                    spellcheck="false"
-                    notFoundText="(no such subject found)"
-                    [loading]="ms.isLoading"
-                    [placeholder]="ms.loadingText"
-                    [(ngModel)]="selectedSubjects"
-                    name="selectedSubjects">
-                 </ng-select>
-              </div>
-              <div class="col-1"></div>
-           </div>
+       
 
-           <!-- DESCRIPTION ROW -->
-           <div class="row desc mb-5">
-              <div class="col-1"></div>
-              <div class="col">
-                 <label for="exampleFormControlTextarea1"></label>
-                 <textarea [(ngModel)]="description"
-                    name="description"
-                    class="form-control"
-                    id="exampleFormControlTextarea1"
-                    rows="4"
-                    placeholder="Description"></textarea>
-              </div>
-              <div class="col-1"></div>
-           </div>
+         
+            <!-- BUTTON ROW -->
+            <div class="row btn mb-3">
+               <button type="button"
+                  class="btn btn-primary"
+                  id="submitbutton"
+                  (click)="submit()">Submit Module</button>
+            </div>
 
-           <!-- FORMAT ROW -->
-           <div class="row format mb-3">
-              <!-- RADIO BUTTONS -->
-              <div class="col">
-                 <!-- <label style="text-align: center">Format:</label> -->
-                 <div class="btn-radio">
-                    <div class="form-check form-check-inline"
-                       *ngFor="let format of formats">
+         </form>
 
-                       <input [(ngModel)]="selFormat"
-                          class="form-check-input"
-                          type="radio" name="formatOptions"
-                          id="{{format}}" value="{{format}}">
-                       <label class="form-check-label"
-                          for="{{format}}">{{format}}</label>
-                    </div>
-                 </div>
-              </div>
-           </div>
-           <!-- BUTTON ROW -->
-           <div class="row btn mb-3">
-              <button type="button"
-                 class="btn btn-primary"
-                 id="submitbutton"
-                 (click)="submit()">Submit Content</button>
-           </div>
+      </div>
 
-        </form>
-
-     </div>
-
-  </div>
+   </div>
 
 </div>
