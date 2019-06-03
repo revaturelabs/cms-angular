@@ -6,7 +6,7 @@ export class Content {
    format: string = '[no format]';
    description: string = '-';
    url: string = '[no url]';
-   links: Link[];
+   links: Link[] =[];
 
    constructor(id: number, title: string, format: string, description: string, url: string, links: Link[]) {
       if (null != id) this.id = id;

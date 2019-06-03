@@ -3,11 +3,14 @@ import { Routes, RouterModule, ExtraOptions, RunGuardsAndResolvers } from '@angu
 import { ContentCreatorPageComponent } from './components/content-creator-page/content-creator-page.component';
 import { ContentFinderPageComponent } from './components/content-finder-page/content-finder-page.component';
 import { EndpointTesterComponent } from './components/endpoint-tester/endpoint-tester.component';
+import { from } from 'rxjs';
+import { ModuleCreatorPageComponent } from './components/module-creator-page/module-creator-page.component';
 
 const routes: Routes = [
-   { path: '', redirectTo: '/creator', pathMatch: 'full' },   // home page
-   { path: 'creator', component: ContentCreatorPageComponent, pathMatch: 'full' },
+   { path: '', redirectTo: '/content-creator', pathMatch: 'full' },   // home page
+   { path: 'content-creator', component: ContentCreatorPageComponent, pathMatch: 'full' },
    { path: 'finder', component: ContentFinderPageComponent, pathMatch: 'full' },
+   { path: 'module-creator', component: ModuleCreatorPageComponent, pathMatch: 'full' },
    { path: 'endpoint_tester', component: EndpointTesterComponent, pathMatch: 'full' },
    { path: '**', redirectTo: '/creator', pathMatch: 'full' }    // when invalid url entered
 ];
