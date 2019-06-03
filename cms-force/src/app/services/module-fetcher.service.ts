@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Module } from '../models/Module';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaderResponse } from '@angular/common/http';
 import { EndpointsService } from '../constants/endpoints.service';
 
 @Injectable({
@@ -24,5 +24,9 @@ export class ModuleFetcherService {
 
    getAllFakeModules(url: string): Observable<Module[]> {
       return this.http.get<Module[]>(url);
+   }
+
+   createNewModule(module: Module[]): Observable<HttpHeaderResponse> {
+      return this.http.post<HttpHeaderResponse>(this.endpoints.CREATE_NEW_MODULE);
    }
 }

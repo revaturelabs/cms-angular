@@ -13,6 +13,7 @@ export class EndpointsService {
    public readonly UPDATE_CONTENT_BY_ID: string = this.baseURL + '/content/${id}';
    public readonly UPDATE_CONTENT_MODULES_BY_ID: string = this.baseURL + '/content/${id}/modules';
    public readonly DELETE_CONTENT_BY_ID: string = this.baseURL + '/content/${id}';
+   public readonly CREATE_NEW_MODULE: string = this.baseURL + '/module';
    public readonly GET_ALL_MODULES: string = this.baseURL + '/module';
    public readonly GET_MODULE_BY_ID: string = this.baseURL + '/module/${id}';
    public readonly GET_CONTENT_BY_SUBJECTS: string = this.baseURL + '/module/${id}/content';
@@ -32,6 +33,7 @@ export class EndpointsService {
          this.UPDATE_CONTENT_BY_ID,
          this.UPDATE_CONTENT_MODULES_BY_ID,
          this.DELETE_CONTENT_BY_ID,
+         this.CREATE_NEW_MODULE,
          this.GET_ALL_MODULES,
          this.GET_MODULE_BY_ID,
          this.GET_CONTENT_BY_SUBJECTS,
@@ -43,7 +45,7 @@ export class EndpointsService {
       return endpoints;
    }
 
-   // test method for printing out JSON at any given URL
+   /* test method for printing out JSON at any given URL */
    public printJSON(uri: string): any {
       let obs = this.http.get<any>(uri);
       obs.subscribe(
