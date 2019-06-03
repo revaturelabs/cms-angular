@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Module } from '../models/Module';
-import { HttpClient, HttpHeaderResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaderResponse, HttpHeaders } from '@angular/common/http';
 import { EndpointsService } from '../constants/endpoints.service';
 
 @Injectable({
    providedIn: 'root'
 })
 export class ModuleFetcherService {
+   private readonly HEADERS = new HttpHeaders({ 'Content-Type': 'application/json' });
+
 
    constructor(
       private http: HttpClient,
@@ -26,7 +28,8 @@ export class ModuleFetcherService {
       return this.http.get<Module[]>(url);
    }
 
-   createNewModule(module: Module[]): Observable<HttpHeaderResponse> {
-      return this.http.post<HttpHeaderResponse>(this.endpoints.CREATE_NEW_MODULE);
+   createNewModule(module: Module): Observable<HttpHeaderResponse> {
+      let body: string = JSON.stringify(module);
+      return this.http.post<HttpHeaderResponse>(this.endpoints.CREATE_NEW_MODULE, body, { headers: this.HEADERS });
    }
 }
