@@ -11,7 +11,7 @@ describe('workspace-project App', () => {
   beforeAll(() => {
     createContent = new AppPage();
     title = Math.random().toString(36).substring(7);
-    url = 'www.test.com';
+    url = 'http://www.test.com';
     selectedSubjects = ["Java", "CSS"];
     description = "Test description."
     createContent.navigateTo();
@@ -53,6 +53,7 @@ describe('workspace-project App', () => {
   });
 
   it('should click submit button', () => {
+    browser.sleep(2000);
     createContent.clickSubmitButton();
   });
   

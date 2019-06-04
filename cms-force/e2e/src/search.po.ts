@@ -116,7 +116,7 @@ export class SearchPage {
     }
 
     private getFindContentButton(){
-      return element(by.id("find-content"));
+      return element(by.id("submitbutton"));
     }
 
     clickSearchButton(){
