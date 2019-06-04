@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Module } from 'src/app/models/module';
+import { Module } from 'src/app/models/Module';
 import { ModuleFetcherService } from 'src/app/services/module-fetcher.service';
 
 @Component({
