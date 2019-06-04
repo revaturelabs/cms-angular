@@ -3,51 +3,58 @@ import { Module } from 'src/app/models/Module';
 import { ModuleFetcherService } from 'src/app/services/module-fetcher.service';
 
 @Component({
-  selector: 'app-module-creator-page',
-  templateUrl: './module-creator-page.component.html',
-  styleUrls: ['./module-creator-page.component.css']
+   selector: 'app-module-creator-page',
+   templateUrl: './module-creator-page.component.html',
+   styleUrls: ['./module-creator-page.component.css']
 })
 export class ModuleCreatorPageComponent implements OnInit {
 
-  subject: string = "";
+   subject: string = "";
 
-  constructor(
-    private mf: ModuleFetcherService
-  ) { }
+   constructor(
+      private mf: ModuleFetcherService
+   ) { }
 
-  ngOnInit() {
-  }
+   ngOnInit() {
+   }
 
-  /**
-   * Makes the observable call by creating a module object with the inputted subject field
-   * with HTTP GET from the services
-   */
-  submit(){
+   /**
+    * Makes the observable call by creating a module object with the inputted subject field
+    * with HTTP GET from the services
+    */
+   submit() {
 
-    if(this.subject==null){
-      alert('Please fill in the input field!');
-      return;
-    }//If input field is null alert the user
+      /* If input field is null alert the user */
+      if (['', null, undefined].includes(this.subject)) {
+         alert('Please fill in the input field!');
+         this.resetVariables();
+         return;
+      }
 
-    let module: Module = new Module(
-      null, this.subject, null, null
+      let module: Module = new Module(
+         null, this.subject, null, null
       )
 
       this.mf.createNewModule(module).subscribe(
-        (response) => {
-          if (response != null){
-            alert('Successfully sent module.');
-            this.subject = "";
-          }else{
-            alert('There was a problem creating a module');
-            this.subject = "";
-          }
-        },
-        (response)=>{
-          alert("Failed to send content");
-        }
+         /* On Success */
+         (response) => {
+            if (response != null)
+               alert('Successfully sent module.');
+            else
+               alert('There was a problem creating a subject');
+         },
+
+         /* On Failure */
+         (response) => {
+            alert("Failed to create subject. Subject may already exist.");
+         },
+
+         /* After success */
+         () => this.resetVariables()
       )
+   }
 
-  }
-
+   private resetVariables() {
+      this.subject = "";
+   }
 }
