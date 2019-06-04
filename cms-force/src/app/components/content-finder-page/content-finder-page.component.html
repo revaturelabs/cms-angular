@@ -103,7 +103,7 @@
                      <td>{{content.format}}</td>
                      <td>{{content.description}}</td>
                      <td><a href="{{content.url}}">{{content.url}}</a></td><!--Actually clicks to a link-->
-                     <td>
+                     <td class="tag-bubble-cell">
                         <span
                            *ngFor="let link of content.links"
                            [style.background-color]=ms.subjectIdToModule.get(link.moduleId).color

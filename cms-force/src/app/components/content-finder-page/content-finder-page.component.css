@@ -50,6 +50,9 @@
     justify-content: center;
   }
 
+  td.tag-bubble-cell {
+    line-height: 2;
+  }
 
   .tag-bubble {
     padding: 2px;
