@@ -1,0 +1,16 @@
+<div class="card ">
+  <div class="container">
+    <div class="col">
+      <div id="content">
+        <img src="/assets/img/logo.png" class="logo">
+      </div>
+    </div>
+
+    <!-- TABLE FORM - OPENING DIV -->
+    <form>
+      <div *ngFor="module in modules" name="modules" (click)="listContent(module)" id="{{module.id}}">
+        <span >{{module.subject}}</span><br>
+      </div>
+    </form>
+  </div>
+</div>
