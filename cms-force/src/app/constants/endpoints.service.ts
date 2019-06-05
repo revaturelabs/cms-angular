@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
    providedIn: 'root'
 })
 export class EndpointsService {
-   public readonly baseURL = 'http://localhost:8080/CMSforce';   // CHANGE TO HOST
+   public readonly baseURL = environment.baseURL;   // CHANGE TO HOST
 
    public readonly CREATE_NEW_CONTENT: string = this.baseURL + '/content';
    public readonly GET_ALL_CONTENT: string = this.baseURL + '/content';
