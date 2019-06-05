@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
    providedIn: 'root'
 })
 export class EndpointsService {
-   public readonly baseURL = 'http://localhost:8080/CMSforce';   // CHANGE TO HOST
+   public readonly baseURL = 'http://ec2-13-59-225-104.us-east-2.compute.amazonaws.com:9001/CMSforce';   // CHANGE TO HOST
 
    public readonly CREATE_NEW_CONTENT: string = this.baseURL + '/content';
    public readonly GET_ALL_CONTENT: string = this.baseURL + '/content';
