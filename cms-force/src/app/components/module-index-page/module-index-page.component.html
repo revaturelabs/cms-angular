@@ -6,10 +6,40 @@
       </div>
     </div>
     <!-- TABLE FORM - OPENING DIV -->
-    <form><!--
-      <div *ngFor="let module of modules" name="modules" (click)="listContent(module)" id="{{module.id}}">
+    <form *ngIf="!ms.isLoading">
+      <div *ngFor="let module of ms.response" name="modules"
+       (click)="listContent(module)" id="{{module.id}}"
+        class="tag-bubble">
         <span>{{module.subject}}</span><br>
-      </div>-->
+        <div *ngIf="ms.modulebool.get(module)">
+          <form>
+            <div class="form-row mb-5">
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">Content ID</th>
+                      <th scope="col">Title</th>
+                      <th scope="col">Format</th>
+                      <th scope="col">Description</th>
+                      <th scope="col">URL</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let content of moduleContents.get(module)">
+                      <td>{{content.id}}</td>
+                      <td>{{content.title}}</td>
+                      <td>{{content.format}}</td>
+                      <td>{{content.description}}</td>
+                      <td><a href="{{content.url}}">{{content.url}}</a></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
     </form>
   </div>
 </div>

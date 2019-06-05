@@ -11,6 +11,7 @@ export class ModuleStoreService {
    subjectNameToModule: Map<string, Module>;
    subjectIdToModule: Map<number, Module>;
    subjectIdToName: Map<number, string>;
+   modulebool: Map<Module, boolean>;
 
    /* subject id => index of subject's name in
     * alphabetically-sorted name array.
@@ -56,6 +57,7 @@ export class ModuleStoreService {
          this.subjectIdToModule = new Map<number, Module>();
          this.subjectIdToName = new Map<number, string>();
          this.subjectIdToSortedIndex = new Map<number, number>();
+         this.modulebool = new Map<Module, boolean>();
          this.subjectNames = [];
 
          /* sort modules by subject name alphabetically */
@@ -72,6 +74,7 @@ export class ModuleStoreService {
                this.subjectIdToName.set(module.id, module.subject);
                this.subjectIdToSortedIndex.set(module.id, i++);
                this.subjectNames.push(module.subject);
+               this.modulebool.set(module, false);
             }, this
          )
       }
