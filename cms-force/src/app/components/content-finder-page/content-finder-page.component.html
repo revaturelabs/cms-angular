@@ -107,6 +107,7 @@
                         <span
                            *ngFor="let link of content.links"
                            [style.background-color]=ms.subjectIdToModule.get(link.moduleId).color
+                           [style.font-weight]="(searchedSubjects.includes(ms.subjectIdToName.get(link.moduleId))) ? 'bold' : 'normal'"
                            class="tag-bubble">
                            {{ms.subjectIdToName.get(link.moduleId)}}
                            <!--Gets the subject's name from array of links in content-->

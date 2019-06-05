@@ -22,6 +22,7 @@ export class ContentFinderPageComponent implements OnInit {
    moduleIDs: number[];
    selectedSubjects: string[] = [];  // selected from subject list
    // contentWrapper: ContentWrapper;
+   searchedSubjects: string[] = [];
 
    constructor(
       private cs: ContentFetcherService,
@@ -44,6 +45,7 @@ export class ContentFinderPageComponent implements OnInit {
       let filter: Filter = new Filter(
          this.title, this.selFormat, this.moduleIDs
       );
+      this.searchedSubjects = this.selectedSubjects;
       this.cs.filterContent(filter).subscribe(
          (response) => {
             if (response != null) {
