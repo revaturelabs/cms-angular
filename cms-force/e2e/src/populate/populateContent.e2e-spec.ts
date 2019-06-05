@@ -58,7 +58,7 @@ describe('workspace-project App', () => {
          expect(createContent.getUrlValue()).toEqual(url[i]);
 
          createContent.enterSelectedSubjects(selectedSubjects[i]);
-         browser.sleep(1000); // to manually check, uncomment.
+         // browser.sleep(1000); // to manually check, uncomment.
 
          createContent.inputDescription(description[i]);
          expect(createContent.getDescriptionValue()).toEqual(description[i]);
@@ -69,11 +69,11 @@ describe('workspace-project App', () => {
             createContent.clickCodeRadio();
          expect(createContent.getCheckedRadioValue()).toEqual(formats[i]);
 
-         browser.sleep(2000);
          createContent.clickSubmitButton();
 
-         browser.sleep(5000);
-         createContent.pressEnter();
+         browser.sleep(2000);
+         createContent.acceptAlert();
+         browser.sleep(500);
       }
    });
 

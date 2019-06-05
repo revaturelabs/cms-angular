@@ -167,6 +167,12 @@ export class PopulateContentPage {
       browser.actions().sendKeys(protractor.Key.ENTER).perform();
    }
 
+   acceptAlert() {
+      let EC = protractor.ExpectedConditions;
+      browser.wait(EC.alertIsPresent(), 5000, "Alert is not getting present :(");
+      browser.switchTo().alert().accept();
+   }
+
    // getAlert(){
    //   return element(by.css('body > app-component > div > app-create-user > form > fieldset:nth-child(2) > div'));
    // }
