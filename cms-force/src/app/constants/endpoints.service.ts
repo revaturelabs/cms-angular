@@ -16,11 +16,7 @@ export class EndpointsService {
    public readonly CREATE_NEW_MODULE: string = this.baseURL + '/module';
    public readonly GET_ALL_MODULES: string = this.baseURL + '/module';
    public readonly GET_MODULE_BY_ID: string = this.baseURL + '/module/${id}';
-   public readonly GET_CONTENT_BY_SUBJECTS: string = this.baseURL + '/module/${id}/content';
    public readonly FILTER_CONTENT: string = this.baseURL + '/search';
-   // public readonly FILTER_CONTENT_BY_TITLE: string = this.baseURL + '/search/title';
-   // public readonly FILTER_CONTENT_BY_FORMAT: string = this.baseURL + '/search/format';
-   // public readonly FILTER_CONTENT_BY_SUBJECTS: string = this.baseURL + '/search/subjects';
 
    constructor(private http: HttpClient) { }
 
@@ -36,11 +32,7 @@ export class EndpointsService {
          this.CREATE_NEW_MODULE,
          this.GET_ALL_MODULES,
          this.GET_MODULE_BY_ID,
-         this.GET_CONTENT_BY_SUBJECTS,
          this.FILTER_CONTENT);
-      // this.FILTER_CONTENT_BY_TITLE,
-      // this.FILTER_CONTENT_BY_FORMAT,
-      // this.FILTER_CONTENT_BY_SUBJECTS);
 
       return endpoints;
    }
