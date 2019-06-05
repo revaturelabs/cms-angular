@@ -40,61 +40,48 @@ describe('workspace-project App', () => {
    ];
    let i: number;
 
-   for (i = 0; i < title.length; i++) {
-      beforeAll(() => {
-         createContent = new PopulateContentPage();
-         createContent.navigateTo();
-      });
+   beforeAll(() => {
+      createContent = new PopulateContentPage();
+      createContent.navigateTo();
+   });
 
-      beforeEach(() => {
-         browser.manage().timeouts().implicitlyWait(5000);
-      });
+   beforeEach(() => {
+      browser.manage().timeouts().implicitlyWait(5000);
+   });
 
-      it('should accept title input', () => {
+   it('should populate with test data', () => {
+      for (i = 0; i < title.length; i++) {
          createContent.inputTitle(title[i]);
          expect(createContent.getTitleValue()).toEqual(title[i]);
-      });
 
-      it('should accept url input', () => {
          createContent.inputUrl(url[i]);
          expect(createContent.getUrlValue()).toEqual(url[i]);
-      });
 
-      // only enters values
-      it('should accept selected subjects input', () => {
          createContent.enterSelectedSubjects(selectedSubjects[i]);
-         // browser.sleep(5000); // to manually check, uncomment.
-      });
+         browser.sleep(1000); // to manually check, uncomment.
 
-      it('should accept description input', () => {
          createContent.inputDescription(description[i]);
          expect(createContent.getDescriptionValue()).toEqual(description[i]);
-      });
 
-      it('should select format radio button', () => {
          if (formats[i] === "Document")
             createContent.clickDocumentRadio();
          else if (formats[i] === "Code")
             createContent.clickCodeRadio();
          expect(createContent.getCheckedRadioValue()).toEqual(formats[i]);
-      });
 
-      it('should click submit button', () => {
          browser.sleep(2000);
          createContent.clickSubmitButton();
-      });
 
-      it('should press enter', () => {
          browser.sleep(5000);
          createContent.pressEnter();
-      });
+      }
+   });
 
-      afterEach(async () => {
-         // Assert that there are no errors emitted from the browser
-         const logs = await browser.manage().logs().get(logging.Type.BROWSER);
-         expect(logs).not.toContain(jasmine.objectContaining({
-            level: logging.Level.SEVERE,
-         } as logging.Entry));
-      });
-   }
+   afterEach(async () => {
+      // Assert that there are no errors emitted from the browser
+      const logs = await browser.manage().logs().get(logging.Type.BROWSER);
+      expect(logs).not.toContain(jasmine.objectContaining({
+         level: logging.Level.SEVERE,
+      } as logging.Entry));
+   });
 });
