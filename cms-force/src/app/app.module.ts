@@ -11,6 +11,7 @@ import { ContentFinderPageComponent } from './components/content-finder-page/con
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { EndpointTesterComponent } from './components/endpoint-tester/endpoint-tester.component';
 import { ModuleCreatorPageComponent } from './components/module-creator-page/module-creator-page.component';
+import { ModuleIndexPageComponent } from './components/module-index-page/module-index-page.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { ModuleCreatorPageComponent } from './components/module-creator-page/mod
       ContentFinderPageComponent,
       NavbarComponent,
       EndpointTesterComponent,
-      ModuleCreatorPageComponent
+      ModuleCreatorPageComponent,
+      ModuleIndexPageComponent
    ],
    imports: [
       BrowserModule,
