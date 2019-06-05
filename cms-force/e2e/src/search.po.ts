@@ -16,7 +16,7 @@ export class SearchPage {
     }
 
     navigateTo() {
-      return browser.get(browser.baseUrl+"/finder") as Promise<any>;
+      return browser.get(browser.baseUrl+"finder") as Promise<any>;
     }
 
     /**
