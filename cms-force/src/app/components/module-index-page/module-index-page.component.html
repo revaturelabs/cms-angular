@@ -6,11 +6,11 @@
       </div>
     </div>
     <!-- TABLE FORM - OPENING DIV -->
-    <form *ngIf="!ms.isLoading">
+    <form *ngIf="!ms.isLoading" style="margin-bottom: 20px">
       <div *ngFor="let module of ms.response" name="modules"
        (click)="listContent(module)" id="{{module.id}}"
         class="tag-bubble">
-        <span>{{module.subject}}</span><br>
+        <span><b>{{module.subject}}</b></span><br>
         <div *ngIf="ms.modulebool.get(module)">
           <form>
             <div class="form-row mb-5">
