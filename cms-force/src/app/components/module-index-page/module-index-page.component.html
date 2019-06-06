@@ -1,10 +1,10 @@
 <div class="card ">
-   <div class="container">
-      <div class="col">
-         <div id="content">
-            <img src="/assets/img/logo.png" class="logo">
-         </div>
+  <div class="container">
+    <div class="col">
+      <div id="content">
+        <img src="/assets/img/logo.png" class="logo">
       </div>
+    </div>
     <!-- TABLE FORM - OPENING DIV -->
     <form *ngIf="!ms.isLoading">
       <div *ngFor="let module of ms.response" name="modules" (click)="listContent(module)" id="{{module.id}}"
@@ -34,11 +34,11 @@
                     </tr>
                   </tbody>
                 </table>
+              </div>
             </div>
-         </div>
-      </form>
-   </div>
-</div>
-</form>
-</div>
+          </form>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>
