@@ -26,7 +26,7 @@ export class ContentFinderPageComponent implements OnInit {
 
    constructor(
       private cs: ContentFetcherService,
-      private ms: ModuleStoreService) { }
+      public ms: ModuleStoreService) { }
 
    ngOnInit() {
       this.ms.loadModules();
