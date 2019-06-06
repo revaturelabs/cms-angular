@@ -1,8 +1,9 @@
 <div class="card ">
-  <div class="container">
-    <div class="col">
-      <div id="content">
-        <img src="/assets/img/logo.png" class="logo">
+   <div class="container">
+      <div class="col">
+         <div id="content">
+            <img src="/assets/img/logo.png" class="logo">
+         </div>
       </div>
     </div>
     <!-- TABLE FORM - OPENING DIV -->
@@ -11,7 +12,7 @@
         class="tag-bubble" 
         [style.background-color]=module.color>
         <span>{{module.subject}}</span><br>
-        <div *ngIf="ms.modulebool.get(module)">
+        <div *ngIf="contentVisible.get(module)">
           <form>
             <div class="form-row mb-5">
               <div class="table-responsive">
@@ -37,9 +38,7 @@
                 </table>
               </div>
             </div>
-          </form>
-        </div>
-      </div>
-    </form>
-  </div>
+         </div>
+      </form>
+   </div>
 </div>
