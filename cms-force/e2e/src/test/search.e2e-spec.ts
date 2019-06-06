@@ -8,7 +8,7 @@ describe('workspace-project App', () => {
 
   beforeAll(() => {
     findContent = new SearchPage();
-    title = Math.random().toString(36).substring(7);
+    title = "CMS";
     selectedSubjects = ["Java", "CSS"];
     findContent.navigateTo();
   });
@@ -44,6 +44,7 @@ describe('workspace-project App', () => {
   }); 
 
   it('should click submit button', () => {
+    browser.sleep(1000);
     findContent.clickSearchButton();
   });
   

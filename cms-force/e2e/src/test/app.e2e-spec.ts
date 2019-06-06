@@ -53,7 +53,7 @@ describe('workspace-project App', () => {
   });
 
   it('should click submit button', () => {
-    browser.sleep(2000);
+    browser.sleep(1000);
     createContent.clickSubmitButton();
   });
   
