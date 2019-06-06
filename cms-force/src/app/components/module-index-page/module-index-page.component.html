@@ -9,13 +9,14 @@
       <form *ngIf="!ms.isLoading">
          <div *ngFor="let module of ms.response" name="modules"
             (click)="listContent(module)" id="{{module.id}}"
-            class="tag-bubble">
+            class="tag-bubble" [style.background-color]=module.color>
             <span>{{module.subject}}</span><br>
             <div *ngIf="contentVisible.get(module)">
                <form>
                   <div class="form-row mb-5">
                      <div class="table-responsive">
-                        <table class="table table-striped">
+                        <table style="width:99%" class="table table-striped"
+                           align="center">
                            <thead>
                               <tr>
                                  <th scope="col">Content ID</th>
