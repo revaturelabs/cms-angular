@@ -2,58 +2,83 @@ import { Component, OnInit } from '@angular/core';
 import { Module } from 'src/app/models/Module';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
-import { MockNgModuleResolver } from '@angular/compiler/testing';
 import { Content } from 'src/app/models/Content';
 import { Filter } from 'src/app/models/Filter';
 
 @Component({
-  selector: 'app-module-index-page',
-  templateUrl: './module-index-page.component.html',
-  styleUrls: ['./module-index-page.component.css']
+   selector: 'app-module-index-page',
+   templateUrl: './module-index-page.component.html',
+   styleUrls: ['./module-index-page.component.css']
 })
 export class ModuleIndexPageComponent implements OnInit {
 
-  tablebool: boolean = false;
-  contents: Content[] = [];
-  moduleContents: Map<Module, Content[]> = new Map<Module, Content[]>();
+   /* Visibility status of each Module */
+   contentVisible: Map<Module, Boolean> = new Map<Module, Boolean>();
 
-  constructor(
-    private cs: ContentFetcherService,
-    private ms: ModuleStoreService
-  ) { }
+   /* Map of Modules to their list of related Content.
+      Loaded when user clicks on Module (lazy load) */
+   moduleContents: Map<Module, Content[]> = new Map<Module, Content[]>();
 
-  ngOnInit() {
-    this.ms.loadModules();
-  }
+   constructor(
+      private cs: ContentFetcherService,
+      private ms: ModuleStoreService
+   ) { }
 
-  listContent(module: Module) {
-    this.ms.modulebool.set(module, !this.ms.modulebool.get(module));
-    console.log(this.ms.modulebool.get(module));
-    let filter: Filter = new Filter(
-      null, null, [module.id]
-    );
-    this.cs.filterContent(filter).subscribe(
-      (response) => {
-        if (response != null) {
-          this.parseContentResponse(response, module);
-        }else {
-          console.log('Response was null');
-        }
-      },
-      (response)=>{
-        console.log("Failed to request contents");
+   ngOnInit() {
+      this.ms.loadModules();
+   }
+
+   listContent(module: Module) {
+
+
+      console.log(this.contentVisible.get(module));
+
+      /* Check if Content list already loaded for Module */
+      if (null == this.moduleContents.get(module)) {
+
+         /* initialize the module's visibility */
+         this.contentVisible.set(module, false);
+
+         /* Retrieve Module's list of Content */
+         let filter: Filter = new Filter(
+            null, null, [module.id]
+         );
+         this.cs.filterContent(filter).subscribe(
+            (response) => {
+               if (response != null) {
+                  this.parseContentResponse(response, module);
+               } else {
+                  console.log('Response was null');
+               }
+            },
+            (response) => {
+               console.log("Failed to request contents");
+            },
+            /* display module's contents when done loading */
+            () => { this.contentVisible.set(module, true); }
+         )
       }
-    )
-  }
 
-  /**
- * Sorts the content's order and then the content's link's order
- * @param response 
- */
-  parseContentResponse(response: Content[], module: Module) {
-    /* sort contents by their id */
-    this.moduleContents.set(module, response.sort(
-      (a, b) => { return a.id - b.id }));
-  }
+      else {
+         /* Toggle visibility of Module's list of Content
+         * using ModuleStoreServices's map of Module->Boolean */
+         this.contentVisible.set(module, !this.contentVisible.get(module));
+      }
+   }
+
+   /**
+     * Sort the content list order by title,
+     * insert into Module->List<Content> Map
+     * @param response
+     */
+   parseContentResponse(response: Content[], module: Module) {
+
+      /* sort contents by their title */
+      let sortedResponse = response.sort(
+         (a, b) => { return a.title < b.title ? -1 : 1 }
+      )
+
+      this.moduleContents.set(module, sortedResponse);
+   }
 
 }
