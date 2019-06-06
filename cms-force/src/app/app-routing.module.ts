@@ -14,7 +14,7 @@ const routes: Routes = [
    { path: 'module-creator', component: ModuleCreatorPageComponent, pathMatch: 'full' },
    { path: 'endpoint_tester', component: EndpointTesterComponent, pathMatch: 'full' },
    { path: 'module-index', component: ModuleIndexPageComponent, pathMatch: 'full' },
-   { path: '**', redirectTo: '/creator', pathMatch: 'full' }   // when invalid url entered
+   { path: '**', redirectTo: '/content-creator', pathMatch: 'full' }   // when invalid url entered
 ];
 
 const extraOptions: ExtraOptions = {
