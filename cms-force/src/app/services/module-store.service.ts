@@ -5,22 +5,26 @@ import { ModuleFetcherService } from './module-fetcher.service';
 @Injectable({
    providedIn: 'root'
 })
+
+/* ModuleStoreService provides a method to load all Modules and houses
+ * collections of Module-related data for direct access.
+ */
 export class ModuleStoreService {
 
    /* Various maps for easy retrieving of module/subject info */
    subjectNameToModule: Map<string, Module>;
    subjectIdToModule: Map<number, Module>;
    subjectIdToName: Map<number, string>;
-   modulebool: Map<Module, boolean>;
-
-   /* subject id => index of subject's name in
-    * alphabetically-sorted name array.
-    * used for module Name string comparison using
-    * only module ID */
-   subjectIdToSortedIndex: Map<number, number>;
 
    /* all subject names in alphabetical order */
    subjectNames: string[];
+
+   /* subject id => index of subject's name in
+    * alphabetical order name array.
+    * Can be used for module Name string comparison using
+    * only module ID */
+   subjectIdToSortedIndex: Map<number, number>;
+
 
    response: Module[];
    isLoading: boolean = true;
@@ -57,7 +61,6 @@ export class ModuleStoreService {
          this.subjectIdToModule = new Map<number, Module>();
          this.subjectIdToName = new Map<number, string>();
          this.subjectIdToSortedIndex = new Map<number, number>();
-         this.modulebool = new Map<Module, boolean>();
          this.subjectNames = [];
 
          /* sort modules by subject name alphabetically */
@@ -74,7 +77,6 @@ export class ModuleStoreService {
                this.subjectIdToName.set(module.id, module.subject);
                this.subjectIdToSortedIndex.set(module.id, i++);
                this.subjectNames.push(module.subject);
-               this.modulebool.set(module, false);
             }, this
          )
       }
