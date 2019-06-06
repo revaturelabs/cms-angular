@@ -5,6 +5,7 @@ import { ContentFinderPageComponent } from './components/content-finder-page/con
 import { EndpointTesterComponent } from './components/endpoint-tester/endpoint-tester.component';
 import { from } from 'rxjs';
 import { ModuleCreatorPageComponent } from './components/module-creator-page/module-creator-page.component';
+import { ModuleIndexPageComponent } from './components/module-index-page/module-index-page.component';
 
 const routes: Routes = [
    { path: '', redirectTo: '/content-creator', pathMatch: 'full' },   // home page
@@ -12,7 +13,8 @@ const routes: Routes = [
    { path: 'finder', component: ContentFinderPageComponent, pathMatch: 'full' },
    { path: 'module-creator', component: ModuleCreatorPageComponent, pathMatch: 'full' },
    { path: 'endpoint_tester', component: EndpointTesterComponent, pathMatch: 'full' },
-   { path: '**', redirectTo: '/creator', pathMatch: 'full' }    // when invalid url entered
+   { path: 'module-index', component: ModuleIndexPageComponent, pathMatch: 'full' },
+   { path: '**', redirectTo: '/creator', pathMatch: 'full' }   // when invalid url entered
 ];
 
 const extraOptions: ExtraOptions = {
