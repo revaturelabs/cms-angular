@@ -16,7 +16,6 @@ export class ModuleIndexPageComponent implements OnInit {
   tablebool: boolean = false;
   contents: Content[] = [];
   moduleContents: Map<Module, Content[]> = new Map<Module, Content[]>();
-  colorbool: boolean = true;
 
   constructor(
     private cs: ContentFetcherService,
@@ -55,17 +54,6 @@ export class ModuleIndexPageComponent implements OnInit {
     /* sort contents by their id */
     this.moduleContents.set(module, response.sort(
       (a, b) => { return a.id - b.id }));
-  }
-
-  swapColor(): string {
-    if (this.colorbool){
-      this.colorbool = false;
-      return 'gray'
-    }
-    else{
-      this.colorbool = true;
-      return '#cccccc'
-    }
   }
 
 }
