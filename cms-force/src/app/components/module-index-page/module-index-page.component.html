@@ -8,8 +8,7 @@
     <!-- TABLE FORM - OPENING DIV -->
     <form *ngIf="!ms.isLoading">
       <div *ngFor="let module of ms.response" name="modules" (click)="listContent(module)" id="{{module.id}}"
-        class="tag-bubble" 
-        [style.background-color]=module.color>
+        class="tag-bubble" [style.background-color]=module.color>
         <span>{{module.subject}}</span><br>
         <div *ngIf="ms.modulebool.get(module)">
           <form>
