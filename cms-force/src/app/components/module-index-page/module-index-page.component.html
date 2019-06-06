@@ -9,7 +9,7 @@
     <form *ngIf="!ms.isLoading" style="margin-bottom: 20px">
       <div *ngFor="let module of ms.response" name="modules"
        (click)="listContent(module)" id="{{module.id}}"
-        class="tag-bubble">
+        class="tag-bubble" style="margin-bottom:5px;">
         <span><b>{{module.subject}}</b></span><br>
         <div *ngIf="ms.modulebool.get(module)">
           <form>
