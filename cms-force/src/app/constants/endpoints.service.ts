@@ -6,11 +6,7 @@ import { environment } from '../../environments/environment';
    providedIn: 'root'
 })
 export class EndpointsService {
-<<<<<<< HEAD
    public readonly baseURL = 'http://ec2-13-59-225-104.us-east-2.compute.amazonaws.com:9001/CMSforce';   // CHANGE TO HOST
-=======
-   public readonly baseURL = "http://ec2-13-59-225-104.us-east-2.compute.amazonaws.com:9001/CMSforce";   // CHANGE TO HOST
->>>>>>> 719027b20a08c2757d7ff8fc11d50e3099e04a78
 
    public readonly CREATE_NEW_CONTENT: string = this.baseURL + '/content';
    public readonly GET_ALL_CONTENT: string = this.baseURL + '/content';
