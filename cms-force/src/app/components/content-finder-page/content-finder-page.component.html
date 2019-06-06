@@ -25,7 +25,7 @@
                   <div class="form-check form-check-inline" *ngFor="let format of formats">
                      <input [(ngModel)]="selFormat" class="form-check-input" type="radio" name="formatOptions"
                         id="{{format}}" value="{{format}}">
-                     <label class="form-check-label" for="{{format}}">{{format}}</label>
+                     <label class="form-check-label" for="{{format}}" id="{{format}}Label">{{format}}</label>
                   </div>
                </div>
             </div>
