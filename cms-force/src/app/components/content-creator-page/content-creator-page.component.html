@@ -16,7 +16,7 @@
                <div class="col-1"></div>
 
                <div class="col">
-                  <input [(ngModel)]="title"
+                  <input id="titleTextBox"[(ngModel)]="title"
                      required
                      name="title"
                      type="text"
@@ -25,7 +25,7 @@
                </div>
 
                <div class="col">
-                  <input [(ngModel)]="url"
+                  <input id="urlTextBox" [(ngModel)]="url"
                      required
                      name="url"
                      type="text"
@@ -41,7 +41,7 @@
                <div class="col-1"></div>
                <div class="col rele">
                   <!-- <label>Relevant to:</label> -->
-                  <ng-select [items]="ms.subjectNames"
+                  <ng-select id="subjectDropDown" [items]="ms.subjectNames"
                      multiple="true"
                      closeOnSelect="true"
                      hideSelected="true"
@@ -63,7 +63,7 @@
                <div class="col-1"></div>
                <div class="col">
                   <label for="exampleFormControlTextarea1"></label>
-                  <textarea [(ngModel)]="description"
+                  <textarea id="descriptionTextBox" [(ngModel)]="description"
                      name="description"
                      class="form-control"
                      id="exampleFormControlTextarea1"
@@ -82,12 +82,12 @@
                      <div class="form-check form-check-inline"
                         *ngFor="let format of formats">
 
-                        <input [(ngModel)]="selFormat"
+                        <input  [(ngModel)]="selFormat"
                            class="form-check-input"
                            type="radio" name="formatOptions"
                            id="{{format}}" value="{{format}}">
                         <label class="form-check-label"
-                           for="{{format}}">{{format}}</label>
+                           for="{{format}}" id= "{{format}}RadioButton">{{format}}</label>
                      </div>
                   </div>
                </div>
@@ -96,7 +96,7 @@
             <div class="row btn mb-3">
                <button type="button"
                   class="btn btn-primary"
-                  id="submitbutton"
+                  id="submitButton"
                   (click)="submit()">Submit Content</button>
             </div>
 
