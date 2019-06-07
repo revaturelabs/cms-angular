@@ -1,4 +1,4 @@
-<div class="card ">
+<div class="card " style="margin-bottom: 10px">
    <div class="container">
       <div class="col">
          <div id="content">
@@ -6,10 +6,10 @@
          </div>
       </div>
       <!-- TABLE FORM - OPENING DIV -->
-      <form *ngIf="!ms.isLoading">
+      <form *ngIf="!ms.isLoading" style="margin-bottom: 20px">
          <div *ngFor="let module of ms.response" name="modules"
             (click)="listContent(module)" id="{{module.id}}"
-            class="tag-bubble" [style.background-color]=module.color>
+            class="tag-bubble" style="margin-bottom: 5px" [style.background-color]=module.color>
             <span>{{module.subject}}</span><br>
             <div *ngIf="contentVisible.get(module)">
                <form>

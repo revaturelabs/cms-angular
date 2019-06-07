@@ -21,7 +21,7 @@ export class ModuleIndexPageComponent implements OnInit {
 
    constructor(
       private cs: ContentFetcherService,
-      private ms: ModuleStoreService
+      public ms: ModuleStoreService
    ) { }
 
    ngOnInit() {
