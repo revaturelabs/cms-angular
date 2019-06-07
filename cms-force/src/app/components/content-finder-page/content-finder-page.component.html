@@ -41,7 +41,7 @@
             <div class="col-1"></div>
             <div class="col">
                <!-- <label>Relevant to:</label> -->
-               <ng-select [items]="ms.subjectNames" multiple="true" closeOnSelect="true" hideSelected="true"
+               <ng-select id="subjectDropDown" [items]="ms.subjectNames" multiple="true" closeOnSelect="true" hideSelected="true"
                   clearOnBackspace="true" bindLabel="name" spellcheck="false" notFoundText="(no such subject found)"
                   [loading]="ms.isLoading" [placeholder]="ms.loadingText" [(ngModel)]="selectedSubjects"
                   name="selectedSubjects">
@@ -70,7 +70,7 @@
 
          <div class="form-row mb-5">
             <div class="table-responsive">
-               <table class="table table-striped">
+               <table id="ResultsTable" class="table table-striped">
                   <thead>
                      <tr>
                         <th scope="col">Content ID</th>
