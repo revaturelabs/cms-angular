@@ -49,14 +49,13 @@ export class ContentFinderPageComponent implements OnInit {
       this.cs.filterContent(filter).subscribe(
          (response) => {
             if (response != null) {
-               // console.log(response);
                this.parseContentResponse(response);
                if (this.notEmpty())
                   this.reset();
                else
                   alert("No Results Found");
             } else {
-               console.log('Response was null');
+               alert('Response was null');
             }
          },
          (response) => {

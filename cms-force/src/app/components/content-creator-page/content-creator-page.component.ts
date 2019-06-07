@@ -61,16 +61,13 @@ export class ContentCreatorPageComponent implements OnInit {
          this.description, this.url,
          this.getLinksFromSubjects(this.selectedSubjects));
 
-      console.log('Sending content:');
-      console.log(content);
-      console.log(JSON.stringify(content));
       this.cs.createNewContent(content).subscribe(
          (response) => {
             if (response != null) {
                alert('Successfully sent content.');
                this.resetVariables();
             } else {
-               console.log('Response was null');
+               alert('Response was null');
             }
          },
          (response) => {
@@ -90,13 +87,6 @@ export class ContentCreatorPageComponent implements OnInit {
       this.selectedSubjects = [];
    }
 
-   /* for debugging */
-   showSelectedSubjects() {
-      console.log(this.selectedSubjects);
-   }
-
-
-
    /* create a new set of links from selected subject names */
    getLinksFromSubjects(subjects: string[]): Link[] {
       let links = [];
@@ -107,13 +97,6 @@ export class ContentCreatorPageComponent implements OnInit {
          }, this
       )
       return links;
-   }
-
-   /* For debugging */
-   printArrays() {
-      console.log(this.ms.subjectNameToModule);
-      console.log(this.ms.subjectIdToName);
-      console.log(this.ms.subjectNames);
    }
 
    /**

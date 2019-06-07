@@ -30,9 +30,6 @@ export class ModuleIndexPageComponent implements OnInit {
 
    listContent(module: Module) {
 
-
-      console.log(this.contentVisible.get(module));
-
       /* Check if Content list already loaded for Module */
       if (null == this.moduleContents.get(module)) {
 
@@ -48,11 +45,11 @@ export class ModuleIndexPageComponent implements OnInit {
                if (response != null) {
                   this.parseContentResponse(response, module);
                } else {
-                  console.log('Response was null');
+                  alert('Response was null');
                }
             },
             (response) => {
-               console.log("Failed to request contents");
+               alert("Failed to request contents");
             },
             /* display module's contents when done loading */
             () => { this.contentVisible.set(module, true); }
