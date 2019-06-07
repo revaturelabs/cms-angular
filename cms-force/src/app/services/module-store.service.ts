@@ -43,9 +43,9 @@ export class ModuleStoreService {
             if (response != null) {
                this.response = response;
             }
-            else console.log("Failed to retrieve any modules.");
+            else alert("Failed to retrieve any modules.");
          }, (response) => {
-            console.log("Failed to send module request.");
+            alert("Failed to send module request.");
          }, () => this.populateCollections(this.response)
       )
    }
@@ -55,7 +55,6 @@ export class ModuleStoreService {
    populateCollections(modules: Module[]) {
       let i = 0;
 
-      console.log("populating");
       if (modules.length > 0) {
          this.subjectNameToModule = new Map<string, Module>();
          this.subjectIdToModule = new Map<number, Module>();
@@ -84,6 +83,7 @@ export class ModuleStoreService {
       this.loadingText = "Select relevant subjects";
    }
 
+   /* Generate random color for Subject tags in Module-Index page */
    private getRandomColor(): string {
       let randomInRange = (min, max) => { return Math.floor((Math.random() * (max - min) + min)).toString(16) };
       return '#' + randomInRange(232, 256) + randomInRange(128, 256) + randomInRange(128, 256);

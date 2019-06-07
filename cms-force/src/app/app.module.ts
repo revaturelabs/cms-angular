@@ -9,7 +9,6 @@ import { AppComponent } from './app.component';
 import { ContentCreatorPageComponent } from './components/content-creator-page/content-creator-page.component';
 import { ContentFinderPageComponent } from './components/content-finder-page/content-finder-page.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { EndpointTesterComponent } from './components/endpoint-tester/endpoint-tester.component';
 import { ModuleCreatorPageComponent } from './components/module-creator-page/module-creator-page.component';
 import { ModuleIndexPageComponent } from './components/module-index-page/module-index-page.component';
 
@@ -20,7 +19,6 @@ import { ModuleIndexPageComponent } from './components/module-index-page/module-
       ContentCreatorPageComponent,
       ContentFinderPageComponent,
       NavbarComponent,
-      EndpointTesterComponent,
       ModuleCreatorPageComponent,
       ModuleIndexPageComponent
    ],
