@@ -1,1 +1,1 @@
-ng serve --configuration=production
+ng serve

@@ -2,10 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Content } from '../../models/Content';
 import { Filter } from '../../models/Filter';
 import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
-// import { Module } from 'src/app/models/Module';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
-// import { resetCompiledComponents } from '@angular/core/src/render3/jit/module';
-// import { ContentWrapper } from 'src/app/models/ContentWrapper';
 
 @Component({
    selector: 'app-content-finder-page',
@@ -66,7 +63,7 @@ export class ContentFinderPageComponent implements OnInit {
 
    /**
     * Sorts the content's order and then the content's link's order
-    * @param response 
+    * @param response
     */
    parseContentResponse(response: Content[]) {
       /* sort contents by their id */
