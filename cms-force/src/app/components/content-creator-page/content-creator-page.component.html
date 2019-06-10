@@ -6,7 +6,7 @@
       <div class="col">
          <div id="content">
             <img src="/assets/img/logo.png"
-               class="logo">
+               alt="revature" class="logo">
          </div>
 
          <!-- TITLE & URL -->
@@ -40,7 +40,6 @@
             <div class="row subject mb-3">
                <div class="col-1"></div>
                <div class="col rele">
-                  <!-- <label>Relevant to:</label> -->
                   <ng-select id="subjectDropDown" [items]="ms.subjectNames"
                      multiple="true"
                      closeOnSelect="true"
@@ -77,7 +76,6 @@
             <div class="row format mb-3">
                <!-- RADIO BUTTONS -->
                <div class="col">
-                  <!-- <label style="text-align: center">Format:</label> -->
                   <div class="btn-radio">
                      <div class="form-check form-check-inline"
                         *ngFor="let format of formats">

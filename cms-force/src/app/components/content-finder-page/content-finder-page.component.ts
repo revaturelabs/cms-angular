@@ -2,10 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Content } from '../../models/Content';
 import { Filter } from '../../models/Filter';
 import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
-// import { Module } from 'src/app/models/Module';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
-// import { resetCompiledComponents } from '@angular/core/src/render3/jit/module';
-// import { ContentWrapper } from 'src/app/models/ContentWrapper';
 
 @Component({
    selector: 'app-content-finder-page',
@@ -16,7 +13,7 @@ export class ContentFinderPageComponent implements OnInit {
 
    readonly formats: string[] = ["Code", "Document", "All"];
    title: string = "";
-   selFormat: string = "Code";
+   selFormat: string = "All";
    contents: Content[];
    tablebool: boolean = false;
    moduleIDs: number[];
@@ -38,20 +35,20 @@ export class ContentFinderPageComponent implements OnInit {
     * response as the array of content and populate the table and print it.
     */
    submit() {
-      if (this.selFormat === "All") {
-         this.selFormat = "";
+      let format: string = this.selFormat;
+      if (format === "All") {
+         format = "";
       }
       this.getIDsFromSubjects(this.selectedSubjects);
       let filter: Filter = new Filter(
-         this.title, this.selFormat, this.moduleIDs
+         this.title, format, this.moduleIDs
       );
       this.searchedSubjects = this.selectedSubjects;
       this.cs.filterContent(filter).subscribe(
          (response) => {
             if (response != null) {
                this.parseContentResponse(response);
-               if (this.notEmpty())
-                  this.reset();
+               if (this.notEmpty()) { }
                else
                   alert("No Results Found");
             } else {
@@ -66,7 +63,7 @@ export class ContentFinderPageComponent implements OnInit {
 
    /**
     * Sorts the content's order and then the content's link's order
-    * @param response 
+    * @param response
     */
    parseContentResponse(response: Content[]) {
       /* sort contents by their id */

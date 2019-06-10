@@ -13,7 +13,7 @@ import { Filter } from 'src/app/models/Filter';
 export class ModuleIndexPageComponent implements OnInit {
 
    /* Visibility status of each Module */
-   contentVisible: Map<Module, Boolean> = new Map<Module, Boolean>();
+   contentVisible: Map<Module, boolean> = new Map<Module, boolean>();
 
    /* Map of Modules to their list of related Content.
       Loaded when user clicks on Module (lazy load) */

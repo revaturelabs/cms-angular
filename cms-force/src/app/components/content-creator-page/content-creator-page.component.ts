@@ -23,7 +23,7 @@ export class ContentCreatorPageComponent implements OnInit {
 
    constructor(
       private cs: ContentFetcherService,
-      public ms: ModuleStoreService) {
+      private ms: ModuleStoreService) {
    }
 
    /* On page initialization load the modules to list on the dropdown menu */
