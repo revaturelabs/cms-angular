@@ -1,4 +1,4 @@
-import { SearchPage } from './search.po';
+import { SearchPage } from './contentsearch.po';
 import { browser, logging } from 'protractor';
 
 describe('workspace-project App', () => {

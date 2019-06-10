@@ -13,16 +13,20 @@
 
             <!-- TITLE COLUMN -->
             <div class="col">
-               <input [(ngModel)]="title" name="title" type="text" class="form-control" placeholder="Title">
+               <input [(ngModel)]="title" name="title" type="text"
+                  class="form-control" placeholder="Title">
             </div>
 
             <!-- RADIO BUTTON COLUMN -->
             <div class="col">
                <div class="btn-radio">
-                  <div class="form-check form-check-inline" *ngFor="let format of formats">
-                     <input [(ngModel)]="selFormat" class="form-check-input" type="radio" name="formatOptions"
+                  <div class="form-check form-check-inline"
+                     *ngFor="let format of formats">
+                     <input [(ngModel)]="selFormat" class="form-check-input"
+                        type="radio" name="formatOptions"
                         id="{{format}}" value="{{format}}">
-                     <label class="form-check-label" for="{{format}}" id="{{format}}Label">{{format}}</label>
+                     <label class="form-check-label" for="{{format}}"
+                        id="{{format}}Label">{{format}}</label>
                   </div>
                </div>
             </div>
@@ -37,9 +41,12 @@
          <div class="row subject mb-3">
             <div class="col-1"></div>
             <div class="col">
-               <ng-select id="subjectDropDown" [items]="ms.subjectNames" multiple="true" closeOnSelect="true" hideSelected="true"
-                  clearOnBackspace="true" bindLabel="name" spellcheck="false" notFoundText="(no such subject found)"
-                  [loading]="ms.isLoading" [placeholder]="ms.loadingText" [(ngModel)]="selectedSubjects"
+               <ng-select id="subjectDropDown" [items]="ms.subjectNames"
+                  multiple="true" closeOnSelect="true" hideSelected="true"
+                  clearOnBackspace="true" bindLabel="name" spellcheck="false"
+                  notFoundText="(no such subject found)"
+                  [loading]="ms.isLoading" [placeholder]="ms.loadingText"
+                  [(ngModel)]="selectedSubjects"
                   name="selectedSubjects">
                </ng-select>
             </div>
@@ -47,7 +54,8 @@
          </div>
          <!-- CONTENT FINDER BUTTON ROW -->
          <div class="row btn mb-3">
-            <button type="button" class="btn btn-primary" id="submitbutton" (click)="submit()">Find Content</button>
+            <button type="button" class="btn btn-primary" id="submitButton"
+               (click)="submit()">Find Content</button>
          </div>
       </form>
    </div>

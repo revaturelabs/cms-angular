@@ -156,7 +156,7 @@ export class PopulateContentPage {
 
    private getSubmitButton() {
       // return element(by.xpath('/html/body/app-component/div/app-create-user/form/button'));
-      return element(by.id("submitbutton"));
+      return element(by.id("submitButton"));
    }
 
    clickSubmitButton() {

@@ -41,7 +41,7 @@ export class ModuleCreatePage {
     }
 
     private getSubmitButton() {
-        return element(by.id("submitbutton"));
+        return element(by.id("submitButton"));
     }
 
     clickSubmitButton() {
