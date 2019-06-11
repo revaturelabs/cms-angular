@@ -55,6 +55,7 @@ describe('workspace-project App', () => {
   it('should click submit button', () => {
     browser.sleep(1000);
     createContent.clickSubmitButton();
+    createContent.acceptAlert();
   });
   
   afterEach(async () => {

@@ -46,6 +46,7 @@ describe('workspace-project App', () => {
   it('should click submit button', () => {
     browser.sleep(1000);
     findContent.clickSearchButton();
+    findContent.acceptAlert();
   });
   
   afterEach(async () => {
