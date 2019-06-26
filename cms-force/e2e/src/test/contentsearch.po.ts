@@ -123,6 +123,12 @@ export class SearchPage {
       this.getFindContentButton().click();
     }
 
+    acceptAlert() {
+      let EC = protractor.ExpectedConditions;
+      browser.wait(EC.alertIsPresent(), 5000, "Alert is not getting present :(");
+      browser.switchTo().alert().accept();
+   }
+
     refresh(){
       return browser.refresh();
     }
