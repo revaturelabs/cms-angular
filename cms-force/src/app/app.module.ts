@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { HttpClientModule } from '@angular/common/http';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
@@ -12,6 +13,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { ModuleCreatorPageComponent } from './components/module-creator-page/module-creator-page.component';
 import { ModuleIndexPageComponent } from './components/module-index-page/module-index-page.component';
 import { ReportsPageComponent } from './components/reports-page/reports-page.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -29,7 +31,9 @@ import { ReportsPageComponent } from './components/reports-page/reports-page.com
       AppRoutingModule,
       HttpClientModule,
       NgSelectModule,
-      FormsModule
+      FormsModule,
+      NgxChartsModule,
+      BrowserAnimationsModule
    ],
    providers: [],
    bootstrap: [AppComponent]

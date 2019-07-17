@@ -44,10 +44,28 @@
             <button class = "button" (click) = "getTimesForRange(yearInMillis)">Times for year</button>
             <button class = "button" (click) = "getTimesForRange(6 * monthInMillis)">Times for 6 months</button>
             <button class = "button" (click) = "getTimesForRange(monthInMillis)">Times for month</button>
-            <ul>
+            <!-- <ul>
               <li *ngFor = "let time of timeGraphData">{{time | date:'long'}}</li>
-            </ul>
+            </ul> -->
           </div>
+
+            <ngx-charts-line-chart
+            [view]="view"
+            [scheme]="colorScheme"
+            [results]="multi"
+            [gradient]="gradient"
+            [xAxis]="showXAxis"
+            [yAxis]="showYAxis"
+            [legend]="showLegend"
+            [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="showYAxisLabel"
+            [xAxisLabel]="xAxisLabel"
+            [yAxisLabel]="yAxisLabel"
+            [autoScale]="autoScale"
+            [timeline]="timeline"
+            (select)="onSelect($event)">
+            </ngx-charts-line-chart>
+
         </div>
       </div>
 
