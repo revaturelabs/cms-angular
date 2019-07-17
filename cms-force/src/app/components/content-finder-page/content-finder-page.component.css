@@ -62,4 +62,9 @@
     border: 1px solid black;
   }
 
+  .fa-trash:hover{
+    cursor: pointer;
+    color: gray !important;
+  }
+
   /* .table-responsive{-sm|-md|-lg|-xl} */

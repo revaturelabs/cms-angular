@@ -1,109 +1,132 @@
 <div class="card">
-   <div class="container">
-      <div class="col">
-         <div id="content">
-            <img src="/assets/img/logo.png" alt="revature" class="logo">
-         </div>
+  <div class="container">
+    <div class="col">
+      <div id="content">
+        <img src="/assets/img/logo.png" alt="revature" class="logo">
       </div>
-      <!-- TITLE & FORMAT ROW INPUTS - OPENING DIV -->
-      <form>
-         <div class="form-row mb-5">
-            <!-- EMPTY ROW FOR BETTER VISUAL DESIGN -->
-            <div class="col-1"></div>
+    </div>
+    <!-- TITLE & FORMAT ROW INPUTS - OPENING DIV -->
+    <form>
+      <div class="form-row mb-5">
+        <!-- EMPTY ROW FOR BETTER VISUAL DESIGN -->
+        <div class="col-1"></div>
 
-            <!-- TITLE COLUMN -->
-            <div class="col">
-               <input [(ngModel)]="title" name="title" type="text"
-                  class="form-control" placeholder="Title">
+        <!-- TITLE COLUMN -->
+        <div class="col">
+          <input [(ngModel)]="title" name="title" type="text" class="form-control" placeholder="Title">
+        </div>
+
+        <!-- RADIO BUTTON COLUMN -->
+        <div class="col">
+          <div class="btn-radio">
+            <div class="form-check form-check-inline" *ngFor="let format of formats">
+              <input [(ngModel)]="selFormat" class="form-check-input" type="radio" name="formatOptions" id="{{format}}"
+                value="{{format}}">
+              <label class="form-check-label" for="{{format}}" id="{{format}}Label">{{format}}</label>
             </div>
+          </div>
+        </div>
 
-            <!-- RADIO BUTTON COLUMN -->
-            <div class="col">
-               <div class="btn-radio">
-                  <div class="form-check form-check-inline"
-                     *ngFor="let format of formats">
-                     <input [(ngModel)]="selFormat" class="form-check-input"
-                        type="radio" name="formatOptions"
-                        id="{{format}}" value="{{format}}">
-                     <label class="form-check-label" for="{{format}}"
-                        id="{{format}}Label">{{format}}</label>
-                  </div>
-               </div>
-            </div>
+        <!-- EMPTY ROW FOR BETTER VISUAL DESIGN -->
+        <div class="col-1"></div>
 
-            <!-- EMPTY ROW FOR BETTER VISUAL DESIGN -->
-            <div class="col-1"></div>
+        <!-- TITLE & FORMAT ROW INPUTS - CLOSSING DIV-->
+      </div>
 
-            <!-- TITLE & FORMAT ROW INPUTS - CLOSSING DIV-->
-         </div>
-
-         <!-- TAGS - OPENING DIV -->
-         <div class="row subject mb-3">
-            <div class="col-1"></div>
-            <div class="col">
-               <ng-select id="subjectDropDown" [items]="ms.subjectNames"
-                  multiple="true" closeOnSelect="true" hideSelected="true"
-                  clearOnBackspace="true" bindLabel="name" spellcheck="false"
-                  notFoundText="(no such subject found)"
-                  [loading]="ms.isLoading" [placeholder]="ms.loadingText"
-                  [(ngModel)]="selectedSubjects"
-                  name="selectedSubjects">
-               </ng-select>
-            </div>
-            <div class="col-1"></div>
-         </div>
-         <!-- CONTENT FINDER BUTTON ROW -->
-         <div class="row btn mb-3">
-            <button type="button" class="btn btn-primary" id="submitButton"
-               (click)="submit()">Find Content</button>
-         </div>
-      </form>
-   </div>
+      <!-- TAGS - OPENING DIV -->
+      <div class="row subject mb-3">
+        <div class="col-1"></div>
+        <div class="col">
+          <ng-select id="subjectDropDown" [items]="ms.subjectNames" multiple="true" closeOnSelect="true"
+            hideSelected="true" clearOnBackspace="true" bindLabel="name" spellcheck="false"
+            notFoundText="(no such subject found)" [loading]="ms.isLoading" [placeholder]="ms.loadingText"
+            [(ngModel)]="selectedSubjects" name="selectedSubjects">
+          </ng-select>
+        </div>
+        <div class="col-1"></div>
+      </div>
+      <!-- CONTENT FINDER BUTTON ROW -->
+      <div class="row btn mb-3">
+        <button type="button" class="btn btn-primary" id="submitButton" (click)="submit()">Find Content</button>
+      </div>
+    </form>
+  </div>
 </div>
 <!-- OPEN ANOTHER CARD / CONTAINER WHEN TABLE IS POPULATED -->
 <div class="card " *ngIf="this.tablebool">
-   <div class="container">
+  <div class="container">
 
-      <!-- TABLE FORM - OPENING DIV -->
-      <form>
+    <!-- TABLE FORM - OPENING DIV -->
+    <form>
 
-         <div class="form-row mb-5">
-            <div class="table-responsive">
-               <table id="ResultsTable" class="table table-striped">
-                  <thead>
-                     <tr>
-                        <th scope="col">Content ID</th>
-                        <th scope="col">Title</th>
-                        <th scope="col">Format</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">URL</th>
-                        <th scope="col">Subjects</th>
-                     </tr>
-                  </thead>
+      <div class="form-row mb-5">
+        <div class="table-responsive">
+          <table id="ResultsTable" class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Content ID</th>
+                <th scope="col">Title</th>
+                <th scope="col">Format</th>
+                <th scope="col">Description</th>
+                <th scope="col">URL</th>
+                <th scope="col">Subjects</th>
+              </tr>
+            </thead>
 
-                  <tbody>
-                     <tr *ngFor="let content of contents">
-                        <td>{{content.id}}</td>
-                        <td>{{content.title}}</td>
-                        <td>{{content.format}}</td>
-                        <td>{{content.description}}</td>
-                        <td><a href="{{content.url}}">{{content.url}}</a></td>
-                        <!--Actually clicks to a link-->
-                        <td class="tag-bubble-cell">
-                           <span *ngFor="let link of content.links"
-                              [style.background-color]=ms.subjectIdToModule.get(link.moduleId).color
-                              [style.font-weight]="(searchedSubjects.includes(ms.subjectIdToName.get(link.moduleId))) ? 'bold' : 'normal'"
-                              class="badge badge-primary" style="color:black; font-size: 16px">
-                              {{ms.subjectIdToName.get(link.moduleId)}}
-                              <span (click) = "removeTag(link, content)">X</span>
-                              <!--Gets the subject's name from array of links in content-->
-                           </span>
-                        </td>
-                     </tr>
-                  </tbody>
-               </table>
-            </div>
-         </div>
-      </form>
-   </div>
+            <tbody>
+              <tr *ngFor="let content of contents">
+                <td>{{content.id}}</td>
+                <td>{{content.title}}</td>
+                <td>{{content.format}}</td>
+                <td>{{content.description}}</td>
+                <td><a href="{{content.url}}">{{content.url}}</a></td>
+                <!--Actually clicks to a link-->
+                <td class="tag-bubble-cell">
+                  <!-- Trigger the modal with a button -->
+                  <div data-toggle="modal" data-target="#addTag" (click) = selectedContent(content)>+</div>
+
+                  <span *ngFor="let link of content.links"
+                    [style.background-color]=ms.subjectIdToModule.get(link.moduleId).color
+                    [style.font-weight]="(searchedSubjects.includes(ms.subjectIdToName.get(link.moduleId))) ? 'bold' : 'normal'"
+                    class="badge badge-primary" style="color:black; font-size: 16px">
+                    {{ms.subjectIdToName.get(link.moduleId)}}
+                    <span (click)="removeTag(link, content)" class="fas fa-trash"></span>
+                    <!--Gets the subject's name from array of links in content-->
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="addTag" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+        <ng-select id="subjectDropDown" [items]="ms.subjectNames" multiple="true" closeOnSelect="true"
+          hideSelected="true" clearOnBackspace="true" bindLabel="name" spellcheck="false"
+          notFoundText="(no such subject found)" [loading]="ms.isLoading" [placeholder]="ms.loadingText"
+          [(ngModel)]="selectedTags" name="selectedTags">
+        </ng-select>
+        <div class="row btn mb-3">
+          <button type="button" class="btn btn-primary" id="submitButton" (click)="updateTags()" data-dismiss="modal">Add Tags</button>
+        </div>
+      </div>
+      <!--<div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>-->
+    </div>
+
+  </div>
 </div>

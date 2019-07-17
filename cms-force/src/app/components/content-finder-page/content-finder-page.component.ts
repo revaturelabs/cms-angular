@@ -14,12 +14,14 @@ import { Link } from 'src/app/models/Link';
 export class ContentFinderPageComponent implements OnInit {
 
    readonly formats: string[] = ["Code", "Document", "All"];
+   selCon: Content;
    title: string = "";
    selFormat: string = "All";
    contents: Content[];
    tablebool: boolean = false;
    moduleIDs: number[];
    selectedSubjects: string[] = [];  // selected from subject list
+   selectedTags: string[] = [];
    // contentWrapper: ContentWrapper;
    searchedSubjects: string[] = [];
 
@@ -129,6 +131,29 @@ export class ContentFinderPageComponent implements OnInit {
       content.links.splice(found, 1);
       this.cs.updateContentByContent(content).subscribe();
       console.log(content);
+   }
+
+   selectedContent(content: Content){
+      this.selCon = content;
+   }
+
+   updateTags(){
+      let links = [];
+      let subjects;
+      this.selectedTags.forEach(
+         (subject) => {
+            links.push(new Link(null, this.selCon.id,
+               this.ms.subjectNameToModule.get(subject).id, null));
+         }, this
+      )
+      
+      for(let l of links){
+         this.selCon.links.push(l);
+      }
+
+      console.log(this.selCon);
+      this.cs.updateContentByContent(this.selCon).subscribe();
+      
    }
 
 }
