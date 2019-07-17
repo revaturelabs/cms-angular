@@ -17,6 +17,7 @@ export class EndpointsService {
    public readonly GET_ALL_MODULES: string = this.baseURL + '/module';
    public readonly GET_MODULE_BY_ID: string = this.baseURL + '/module/${id}';
    public readonly FILTER_CONTENT: string = this.baseURL + '/search';
+   public readonly GET_CONTENT_FOR_TIME_RANGE: string = this.baseURL + '/timegraph/${time}';
 
    constructor(private http: HttpClient) { }
 

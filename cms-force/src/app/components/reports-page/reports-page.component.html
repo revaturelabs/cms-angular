@@ -40,6 +40,13 @@
         <div class="col-8">
           <div class="text-center">
             This is where the Time Graph stuff will be
+            <br>
+            <button class = "button" (click) = "getTimesForRange(yearInMillis)">Times for year</button>
+            <button class = "button" (click) = "getTimesForRange(6 * monthInMillis)">Times for 6 months</button>
+            <button class = "button" (click) = "getTimesForRange(monthInMillis)">Times for month</button>
+            <ul>
+              <li *ngFor = "let time of timeGraphData">{{time | date:'long'}}</li>
+            </ul>
           </div>
         </div>
       </div>
