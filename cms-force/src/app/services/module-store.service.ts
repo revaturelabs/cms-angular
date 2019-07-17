@@ -54,6 +54,7 @@ export class ModuleStoreService {
     * easy access to subject names, id, and alphabetical ordering */
    populateCollections(modules: Module[]) {
       let i = 0;
+      let c = 0;
 
       if (modules.length > 0) {
          this.subjectNameToModule = new Map<string, Module>();
@@ -70,7 +71,7 @@ export class ModuleStoreService {
          ).forEach(
             /* then for each in order, populate maps/array */
             (module) => {
-               module.color = this.getRandomColor();
+               module.color = this.getColor(c++);
                this.subjectNameToModule.set(module.subject, module);
                this.subjectIdToModule.set(module.id, module);
                this.subjectIdToName.set(module.id, module.subject);
@@ -87,5 +88,15 @@ export class ModuleStoreService {
    private getRandomColor(): string {
       let randomInRange = (min, max) => { return Math.floor((Math.random() * (max - min) + min)).toString(16) };
       return '#' + randomInRange(232, 256) + randomInRange(128, 256) + randomInRange(128, 256);
+   }
+
+   /* Choose color based on module index */
+   private getColor(index : number): string {
+      if(index%2 == 0){
+         return "#72A4C2";
+      }
+      else{
+         return "#B9B9BA";
+      }
    }
 }
