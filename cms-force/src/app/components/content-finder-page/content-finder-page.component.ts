@@ -11,7 +11,7 @@ import { ModuleStoreService } from 'src/app/services/module-store.service';
 })
 export class ContentFinderPageComponent implements OnInit {
 
-   readonly formats: string[] = ["Code", "Document", "All"];
+   readonly formats: string[] = ["Code", "Document", "Powerpoint", "All"];
    title: string = "";
    selFormat: string = "All";
    contents: Content[];
