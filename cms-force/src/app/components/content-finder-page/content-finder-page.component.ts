@@ -3,6 +3,8 @@ import { Content } from '../../models/Content';
 import { Filter } from '../../models/Filter';
 import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
+import { Link } from 'src/app/models/Link';
+//import { linkSync } from 'fs';
 
 @Component({
    selector: 'app-content-finder-page',
@@ -119,6 +121,14 @@ export class ContentFinderPageComponent implements OnInit {
             this.moduleIDs.push(this.ms.subjectNameToModule.get(subject).id);
          }, this
       )
+   }
+
+   removeTag(link: Link, content: Content){
+      let found = content.links.findIndex(l => link.id === l.id);
+      console.log(content);
+      content.links.splice(found, 1);
+      this.cs.updateContentByContent(content).subscribe();
+      console.log(content);
    }
 
 }

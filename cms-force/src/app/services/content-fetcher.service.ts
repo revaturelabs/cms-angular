@@ -35,6 +35,11 @@ export class ContentFetcherService {
       return this.http.put<HttpHeaderResponse>(this.endpoints.UPDATE_CONTENT_BY_ID.replace('${id}', id.toString()), body, { headers: this.HEADERS });
    }
 
+   updateContentByContent(newContent: Content): Observable<HttpHeaderResponse> {
+      let body: string = JSON.stringify(newContent);
+      return this.http.put<HttpHeaderResponse>(this.endpoints.UPDATE_CONTENT, body, { headers: this.HEADERS });
+   }
+
    /* Not yet implemented, Untested */
    updateContentModulesById(id: number, modules: Module[]): Observable<HttpHeaderResponse> {
       let body: string = JSON.stringify(modules);
