@@ -4,6 +4,7 @@ import { ContentCreatorPageComponent } from './components/content-creator-page/c
 import { ContentFinderPageComponent } from './components/content-finder-page/content-finder-page.component';
 import { ModuleCreatorPageComponent } from './components/module-creator-page/module-creator-page.component';
 import { ModuleIndexPageComponent } from './components/module-index-page/module-index-page.component';
+import { ReportsPageComponent } from './components/reports-page/reports-page.component';
 
 const routes: Routes = [
    { path: '', redirectTo: '/content-creator', pathMatch: 'full' },   // home page
@@ -11,6 +12,7 @@ const routes: Routes = [
    { path: 'finder', component: ContentFinderPageComponent, pathMatch: 'full' },
    { path: 'module-creator', component: ModuleCreatorPageComponent, pathMatch: 'full' },
    { path: 'module-index', component: ModuleIndexPageComponent, pathMatch: 'full' },
+   { path: 'reports', component: ReportsPageComponent},
    { path: '**', redirectTo: '/content-creator', pathMatch: 'full' }   // when invalid url entered
 ];
 
