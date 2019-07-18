@@ -1,5 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { TimeGraphService } from 'src/app/services/time-graph.service';
+import { TimeGraphData } from 'src/app/models/TimeGraphData';
 
 @Component({
   selector: 'app-reports-page',
@@ -14,7 +15,10 @@ export class ReportsPageComponent implements OnInit {
   lectureNotes : number;
   difModules : number;
   avgResources : number;
-  timeGraphData: number[];
+  timeGraphData: TimeGraphData = {
+    totalBeforeRange: 0,
+    creationTimesInRange: []
+  };
   yearInMillis: number = 3.154e+10;
   monthInMillis: number = 2.628e+9;
 
@@ -29,7 +33,7 @@ export class ReportsPageComponent implements OnInit {
     // TODO re-activate fetching code here
     // this.timeGraphService.getContentForTimeRange(timeRange)
     //   .subscribe(
-    //   (result: number[]) => {
+    //   (result: TimeGraphData) => {
     //     this.timeGraphData = result;
     //     console.log(result);
     //   },
@@ -39,41 +43,23 @@ export class ReportsPageComponent implements OnInit {
 
     let currentDay: number = Date.now();
 
-    this.timeGraphData = [];
+    this.timeGraphData = {
+      totalBeforeRange: 100,
+      creationTimesInRange: []
+    };
 
     for(let i = 0; i < 100; i++) {
-      this.timeGraphData.push(currentDay - Math.floor(timeRange * Math.random()));
+      this.timeGraphData.creationTimesInRange.push(currentDay - Math.floor(timeRange * Math.random()));
     }
 
-    this.timeGraphData.sort();
-
-    // sum values that land on same day
-    // if day === day
-    console.log(this.timeGraphData);
-
-    // currentDay = 0;
-
-    // let dataEntries = [];
-    
-    // for(let datum of this.timeGraphData) {
-
-    //   if((datum - this.MILLIS_PER_DAY) > currentDay) {
-    //     currentDay = Math.floor(datum / this.MILLIS_PER_DAY) * this.MILLIS_PER_DAY;
-    //     dataEntries.push({
-    //       name: new Date(currentDay),
-    //       value: 1 
-    //     })
-    //   } else {
-    //     dataEntries[dataEntries.length - 1].value++;
-    //   }
-    // }
+    this.timeGraphData.creationTimesInRange.sort();
 
     // This version does total accumulated over time
     let dataEntries = [];
     currentDay = 0;
-    let total = 0;
+    let total = this.timeGraphData.totalBeforeRange;
 
-    for(let datum of this.timeGraphData) {
+    for(let datum of this.timeGraphData.creationTimesInRange) {
 
       total++;
 
