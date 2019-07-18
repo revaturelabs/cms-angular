@@ -74,6 +74,8 @@ export class ReportsPageComponent implements OnInit {
     this.getMockData(timeRange);
 
     this.timeGraphData.creationTimesInRange.sort();
+
+    this.setGraphResults();
   }
 
   // TODO: remove this method once the real data is being retrieved
