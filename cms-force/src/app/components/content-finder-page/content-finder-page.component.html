@@ -83,7 +83,7 @@
 
                   <tbody>
                      <tr *ngFor="let content of contents">
-                        <td>{{content.id}}</td>
+                        <td>{{content.id}} <span *ngIf="content.links.length === 0" class="fas fa-flag" title="No Module"></span></td>
                         <td>{{content.title}}</td>
                         <td>{{content.format}}</td>
                         <td>{{content.description}}</td>
