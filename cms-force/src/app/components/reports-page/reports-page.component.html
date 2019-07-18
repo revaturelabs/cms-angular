@@ -50,7 +50,8 @@
           </div>
 
             <ngx-charts-line-chart
-            [view]="view"
+            [view]="view"      
+            [animations]="animations"      
             [scheme]="colorScheme"
             [results]="multi"
             [gradient]="gradient"
@@ -63,7 +64,8 @@
             [yAxisLabel]="yAxisLabel"
             [autoScale]="autoScale"
             [timeline]="timeline"
-            (select)="onSelect($event)">
+            (window:resize)="onResize($event)"
+            >
             </ngx-charts-line-chart>
 
         </div>

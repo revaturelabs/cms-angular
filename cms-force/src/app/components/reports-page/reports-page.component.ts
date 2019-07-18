@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { TimeGraphService } from 'src/app/services/time-graph.service';
 
 @Component({
@@ -95,8 +95,19 @@ export class ReportsPageComponent implements OnInit {
       }
     ]
   }
-  
-  view: any[] = [700, 400];
+  // viewport based width
+  w: number = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+  // h: number = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+  view: any[] = [(this.w/2), 400];
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    this.view = [(this.w/2), 400];
+    event.target.innerWidth;
+  }
+
+
   multi: any[] = [
     {
       name: 'Cyan',
@@ -117,10 +128,12 @@ export class ReportsPageComponent implements OnInit {
     }
   ];
   // options
+  autoScale = true; 
+  animations = true;
   showXAxis = true;
   showYAxis = true;
-  gradient = false;
-  showLegend = true;
+  gradient = true;
+  showLegend = false;
   showXAxisLabel = true;
   xAxisLabel = 'Time';
   showYAxisLabel = true;
