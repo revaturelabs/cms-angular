@@ -8,6 +8,8 @@ import { TimeGraphService } from 'src/app/services/time-graph.service';
 })
 export class ReportsPageComponent implements OnInit {
 
+  readonly MILLIS_PER_DAY : number = 8.64e+7;
+
   codeExamples : number;
   lectureNotes : number;
   difModules : number;
@@ -35,19 +37,63 @@ export class ReportsPageComponent implements OnInit {
     //     console.log(result);
     //   });
 
-    let currentTime: number = Date.now();
+    let currentDay: number = Date.now();
 
     this.timeGraphData = [];
 
     for(let i = 0; i < 100; i++) {
-      this.timeGraphData.push(currentTime - Math.floor(timeRange * Math.random()));
+      this.timeGraphData.push(currentDay - Math.floor(timeRange * Math.random()));
     }
+
+    this.timeGraphData.sort();
+
     // sum values that land on same day
     // if day === day
     console.log(this.timeGraphData);
 
-    // 
-    //
+    currentDay = 0;
+
+    let dataEntries = [];
+    
+    for(let datum of this.timeGraphData) {
+
+      if((datum - this.MILLIS_PER_DAY) > currentDay) {
+        currentDay = Math.floor(datum / this.MILLIS_PER_DAY) * this.MILLIS_PER_DAY;
+        dataEntries.push({
+          name: new Date(currentDay),
+          value: 1 
+        })
+      } else {
+        dataEntries[dataEntries.length - 1].value++;
+      }
+    }
+
+    // This version does total accumulated over time
+    // let dataEntries = [];
+    // currentDay = 0;
+    // let total = 0;
+
+    // for(let datum of this.timeGraphData) {
+
+    //   total++;
+
+    //   if((datum - this.MILLIS_PER_DAY) > currentDay) {
+    //     currentDay = Math.floor(datum / this.MILLIS_PER_DAY) * this.MILLIS_PER_DAY;
+    //     dataEntries.push({
+    //       name: new Date(currentDay),
+    //       value: total
+    //     })
+    //   } else {
+    //     dataEntries[dataEntries.length - 1].value = total;
+    //   }
+    // }
+
+    this.multi = [
+      {
+        name: 'content',
+        series: dataEntries
+      }
+    ]
   }
   
   view: any[] = [700, 400];
@@ -56,14 +102,15 @@ export class ReportsPageComponent implements OnInit {
       name: 'Cyan',
       series: [
         {
-          name: 5,
+          name: new Date('July 4, 2019 00:00:00'),
           value: 2650
         },
         {
-          name: 10,
-          value: 2800      },
+          name: new Date('July 6, 2019 00:00:00'),
+          value: 2800
+        },
         {
-          name: 15,
+          name: new Date('July 7, 2019 00:00:00'),
           value: 2000
         }
       ]
