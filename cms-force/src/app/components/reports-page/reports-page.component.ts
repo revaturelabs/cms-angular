@@ -51,42 +51,42 @@ export class ReportsPageComponent implements OnInit {
     // if day === day
     console.log(this.timeGraphData);
 
-    currentDay = 0;
-
-    let dataEntries = [];
-    
-    for(let datum of this.timeGraphData) {
-
-      if((datum - this.MILLIS_PER_DAY) > currentDay) {
-        currentDay = Math.floor(datum / this.MILLIS_PER_DAY) * this.MILLIS_PER_DAY;
-        dataEntries.push({
-          name: new Date(currentDay),
-          value: 1 
-        })
-      } else {
-        dataEntries[dataEntries.length - 1].value++;
-      }
-    }
-
-    // This version does total accumulated over time
-    // let dataEntries = [];
     // currentDay = 0;
-    // let total = 0;
 
+    // let dataEntries = [];
+    
     // for(let datum of this.timeGraphData) {
-
-    //   total++;
 
     //   if((datum - this.MILLIS_PER_DAY) > currentDay) {
     //     currentDay = Math.floor(datum / this.MILLIS_PER_DAY) * this.MILLIS_PER_DAY;
     //     dataEntries.push({
     //       name: new Date(currentDay),
-    //       value: total
+    //       value: 1 
     //     })
     //   } else {
-    //     dataEntries[dataEntries.length - 1].value = total;
+    //     dataEntries[dataEntries.length - 1].value++;
     //   }
     // }
+
+    // This version does total accumulated over time
+    let dataEntries = [];
+    currentDay = 0;
+    let total = 0;
+
+    for(let datum of this.timeGraphData) {
+
+      total++;
+
+      if((datum - this.MILLIS_PER_DAY) > currentDay) {
+        currentDay = Math.floor(datum / this.MILLIS_PER_DAY) * this.MILLIS_PER_DAY;
+        dataEntries.push({
+          name: new Date(currentDay),
+          value: total
+        })
+      } else {
+        dataEntries[dataEntries.length - 1].value = total;
+      }
+    }
 
     this.multi = [
       {
