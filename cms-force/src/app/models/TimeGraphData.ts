@@ -1,5 +1,5 @@
 export class TimeGraphData {
     
-    totalBeforeRange: number;
-    creationTimesInRange: number[];
+    numContents: number;
+    returnedLongs: number[];
 }

@@ -17,9 +17,10 @@ export class ReportsTimeGraphComponent implements OnInit {
   difModules : number;
   avgResources : number;
   timeGraphData: TimeGraphData = {
-    totalBeforeRange: 0,
-    creationTimesInRange: []
+    numContents: 0,
+    returnedLongs: []
   };
+  requestTime: number;
 
   graphResults: any[] = [
     {
@@ -53,62 +54,55 @@ export class ReportsTimeGraphComponent implements OnInit {
   constructor(private timeGraphService: TimeGraphService) { }
 
   ngOnInit() {
-    this.getTimesForRange(this.MILLIS_PER_MONTH);
+    this.getData(this.MILLIS_PER_YEAR);
   }
 
-  getTimesForRange(timeRange: number) {
+  getData(timeRange: number) {
 
     this.timeGraphService.getContentForTimeRange(timeRange)
       .subscribe(
       (result: TimeGraphData) => {
         this.timeGraphData = result;
-        console.log(result);
+        this.requestTime = Date.now();
+        this.timeGraphData.returnedLongs.sort();
+        this.setGraphResults(this.MILLIS_PER_MONTH);
+        // console.log(this.timeGraphData);
       },
       (result) => {
         console.log(result);
       });
-
-    // this.getMockData(timeRange);
-
-    this.timeGraphData.creationTimesInRange.sort();
-
-    this.setGraphResults();
-  }
-
-  // TODO: remove this method once the real data is being retrieved
-  getMockData(timeRange: number) {
-
-    let currentDay: number = Date.now();
-
-    this.timeGraphData = {
-      totalBeforeRange: 100,
-      creationTimesInRange: []
-    };
-
-    for(let i = 0; i < 100; i++) {
-      this.timeGraphData.creationTimesInRange.push(currentDay - Math.floor(timeRange * Math.random()));
-    }
   }
 
   // sets the graph's displaying data to match the timeGraphData variable
-  setGraphResults() {
+  setGraphResults(timeRange: number) {
 
+    if(this.timeGraphData.returnedLongs.length === 0)
+      return;
+    
     let dataEntries = [];
     let currentDay = 0;
-    let total = this.timeGraphData.totalBeforeRange;
+    let total = this.timeGraphData.numContents;
+    let startTime = this.requestTime - timeRange;
 
-    for(let datum of this.timeGraphData.creationTimesInRange) {
+    for(let datum of this.timeGraphData.returnedLongs) {
 
       total++;
 
-      if((datum - this.MILLIS_PER_DAY) > currentDay) {
-        currentDay = Math.floor(datum / this.MILLIS_PER_DAY) * this.MILLIS_PER_DAY;
-        dataEntries.push({
-          name: new Date(currentDay),
-          value: total
-        })
-      } else {
-        dataEntries[dataEntries.length - 1].value = total;
+      if(datum > startTime) {
+
+        if((datum - this.MILLIS_PER_DAY) > currentDay) {
+
+          currentDay = Math.floor(datum / this.MILLIS_PER_DAY) * this.MILLIS_PER_DAY;
+          dataEntries.push({
+            name: new Date(currentDay),
+            value: total
+          })
+
+        } else {
+
+          dataEntries[dataEntries.length - 1].value = total;
+        }
+
       }
     }
 

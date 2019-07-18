@@ -14,6 +14,6 @@ export class TimeGraphService {
     private endpoints: EndpointsService) { }
 
   getContentForTimeRange(rangeLength: number): Observable<TimeGraphData> {
-    return this.http.get<TimeGraphData>(this.endpoints.GET_CONTENT_FOR_TIME_RANGE.replace('${range}', rangeLength.toString()));
+    return this.http.get<TimeGraphData>(this.endpoints.GET_CONTENT_FOR_TIME_RANGE.replace('${time}', rangeLength.toString()));
   }
 }
