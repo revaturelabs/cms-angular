@@ -1,0 +1,29 @@
+<div class="text-center">
+    This is where the Time Graph stuff will be
+    <br>
+    <button class = "button" (click) = "getTimesForRange(MILLIS_PER_YEAR)">Times for year</button>
+    <button class = "button" (click) = "getTimesForRange(6 * MILLIS_PER_MONTH)">Times for 6 months</button>
+    <button class = "button" (click) = "getTimesForRange(MILLIS_PER_MONTH)">Times for month</button>
+    <!-- <ul>
+      <li *ngFor = "let time of timeGraphData">{{time | date:'long'}}</li>
+    </ul> -->
+  </div>
+
+    <ngx-charts-line-chart
+    [view]="view"      
+    [animations]="animations"      
+    [scheme]="colorScheme"
+    [results]="graphResults"
+    [gradient]="gradient"
+    [xAxis]="showXAxis"
+    [yAxis]="showYAxis"
+    [legend]="showLegend"
+    [showXAxisLabel]="showXAxisLabel"
+    [showYAxisLabel]="showYAxisLabel"
+    [xAxisLabel]="xAxisLabel"
+    [yAxisLabel]="yAxisLabel"
+    [autoScale]="autoScale"
+    [timeline]="timeline"
+    (window:resize)="onResize($event)"
+    >
+    </ngx-charts-line-chart>

@@ -14,6 +14,7 @@ import { ModuleCreatorPageComponent } from './components/module-creator-page/mod
 import { ModuleIndexPageComponent } from './components/module-index-page/module-index-page.component';
 import { ReportsPageComponent } from './components/reports-page/reports-page.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReportsTimeGraphComponent } from './components/reports-time-graph/reports-time-graph.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       NavbarComponent,
       ModuleCreatorPageComponent,
       ModuleIndexPageComponent,
-      ReportsPageComponent
+      ReportsPageComponent,
+      ReportsTimeGraphComponent
    ],
    imports: [
       BrowserModule,
