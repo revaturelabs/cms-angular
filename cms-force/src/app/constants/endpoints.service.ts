@@ -25,6 +25,7 @@ export class EndpointsService {
    public getAllEndpoints(): string[] {
       let endpoints: string[] = new Array(
          this.CREATE_NEW_CONTENT,
+         this.UPDATE_CONTENT,
          this.GET_ALL_CONTENT,
          this.GET_CONTENT_BY_ID,
          this.UPDATE_CONTENT_BY_ID,
