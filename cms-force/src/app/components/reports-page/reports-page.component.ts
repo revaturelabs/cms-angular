@@ -88,9 +88,10 @@ export class ReportsPageComponent implements OnInit {
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
+    event.target.innerWidth;
     this.w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
     this.view = [(this.w/2), 400];
-    event.target.innerWidth;
+
   }
 
 
