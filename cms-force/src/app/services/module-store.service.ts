@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Module } from '../models/Module';
 import { ModuleFetcherService } from './module-fetcher.service';
+import { Content } from '../models/Content';
+import { ContentFetcherService } from './content-fetcher.service';
 
 @Injectable({
    providedIn: 'root'
@@ -31,7 +33,8 @@ export class ModuleStoreService {
    loadingText: string = "Loading Subjects...";
 
 
-   constructor(private ms: ModuleFetcherService) { }
+   constructor(private ms: ModuleFetcherService,
+      private cs: ContentFetcherService) { }
 
 
    /* load Modules once from backend on program start */

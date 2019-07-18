@@ -62,4 +62,13 @@
     border: 1px solid black;
   }
 
+  .deleteContent{
+    padding: 25px;
+  }
+
+  .fa-trash:hover{
+    cursor: pointer;
+    color: gray !important;
+  }
+
   /* .table-responsive{-sm|-md|-lg|-xl} */

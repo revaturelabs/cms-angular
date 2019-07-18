@@ -8,9 +8,11 @@
       <!-- TABLE FORM - OPENING DIV -->
       <form *ngIf="!ms.isLoading" style="margin-bottom: 20px">
          <div *ngFor="let module of ms.response" name="modules"
-            (click)="listContent(module)" id="{{module.id}}"
+            id="{{module.id}}"
             class="tag-bubble" style="margin-bottom: 5px" [style.background-color]=module.color>
-            <span>{{module.subject}}</span><br>
+            <div (click)="listContent(module)">
+               <span>{{module.subject}}</span><br>
+            </div>
             <div *ngIf="contentVisible.get(module)">
                <form>
                   <div class="form-row mb-5">
@@ -18,6 +20,7 @@
                         <table style="width: 99%; margin: 0px auto" class="table table-striped" >
                            <thead>
                               <tr>
+                                 <th></th>
                                  <th scope="col">Content ID</th>
                                  <th scope="col">Title</th>
                                  <th scope="col">Format</th>
@@ -28,6 +31,7 @@
                            <tbody>
                               <tr
                                  *ngFor="let content of moduleContents.get(module)">
+                                 <td class="fas fa-trash deleteContent" (click)="removeContentFromModuleIndex(content, module)"></td>
                                  <td>{{content.id}}</td>
                                  <td>{{content.title}}</td>
                                  <td>{{content.format}}</td>
