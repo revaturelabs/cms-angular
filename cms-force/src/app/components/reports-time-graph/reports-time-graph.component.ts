@@ -58,19 +58,17 @@ export class ReportsTimeGraphComponent implements OnInit {
 
   getTimesForRange(timeRange: number) {
 
-    // TODO: re-activate fetching code here
-    // this.timeGraphService.getContentForTimeRange(timeRange)
-    //   .subscribe(
-    //   (result: TimeGraphData) => {
-    //     this.timeGraphData = result;
-    //     console.log(result);
-    //   },
-    //   (result) => {
-    //     console.log(result);
-    //   });
+    this.timeGraphService.getContentForTimeRange(timeRange)
+      .subscribe(
+      (result: TimeGraphData) => {
+        this.timeGraphData = result;
+        console.log(result);
+      },
+      (result) => {
+        console.log(result);
+      });
 
-    // TODO: remove this line once the real data is being retrieved
-    this.getMockData(timeRange);
+    // this.getMockData(timeRange);
 
     this.timeGraphData.creationTimesInRange.sort();
 
