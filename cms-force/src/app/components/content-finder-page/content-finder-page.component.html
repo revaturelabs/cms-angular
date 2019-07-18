@@ -93,7 +93,7 @@
                     [style.font-weight]="(searchedSubjects.includes(ms.subjectIdToName.get(link.moduleId))) ? 'bold' : 'normal'"
                     class="badge badge-primary" style="color:black; font-size: 16px">
                     {{ms.subjectIdToName.get(link.moduleId)}}
-                    <span (click)="removeTag(link, content)" class="fas fa-trash"></span>
+                    <span title = "Remove tag" (click)="removeTag(link, content)" class="fas fa-trash"></span>
                     <!--Gets the subject's name from array of links in content-->
                   </span>
                 </td>
