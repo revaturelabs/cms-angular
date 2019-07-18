@@ -126,51 +126,50 @@ export class ContentFinderPageComponent implements OnInit {
       )
    }
 
-   removeTag(link: Link, content: Content){
+   removeTag(link: Link, content: Content) {
       let found = content.links.findIndex(l => link.id === l.id);
       content.links.splice(found, 1);
       this.cs.updateContentByContent(content).subscribe();
    }
 
-   selectedContent(content: Content){
+   selectedContent(content: Content) {
       this.selCon = content;
 
       let subjectToName: string[] = [];
 
-      for(let l of this.selCon.links){
+      for (let l of this.selCon.links) {
          subjectToName.push(this.ms.subjectIdToName.get(l.moduleId));
       }
 
       let tempArr: string[] = [];
 
-      for(let t of this.ms.subjectNames){
-         if(!subjectToName.includes(t))
+      for (let t of this.ms.subjectNames) {
+         if (!subjectToName.includes(t))
             tempArr.push(t);
       }
       this.tagOptions = tempArr;
    }
 
-   
 
-   updateTags(){
+
+   updateTags() {
       let links = [];
-      let subjects;
-      this.selectedTags.forEach(
-         (subject) => {
-            links.push(new Link(null, this.selCon.id,
-               this.ms.subjectNameToModule.get(subject).id, null));
-         }, this
-      )
+      if (this.selectedTags.length > 0) {
+         this.selectedTags.forEach(
+            (subject) => {
+               links.push(new Link(null, this.selCon.id,
+                  this.ms.subjectNameToModule.get(subject).id, null));
+            }, this
+         )
 
-      for(let l of links){
-         this.selCon.links.push(l);
+         for (let l of links) {
+            this.selCon.links.push(l);
+         }
+
+         this.cs.updateContentByContent(this.selCon).subscribe((response: Content) => {
+            this.selCon.links = response.links;
+         });
       }
-
-      //console.log(this.selCon);
-      this.cs.updateContentByContent(this.selCon).subscribe((response: Content) => {
-         this.selCon.links = response.links;
-         console.log(typeof response);
-      });
 
       this.selectedTags = [];
 
