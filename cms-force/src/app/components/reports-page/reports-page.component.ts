@@ -122,9 +122,9 @@ export class ReportsPageComponent implements OnInit {
   gradient = false;
   showLegend = true;
   showXAxisLabel = true;
-  xAxisLabel = 'Number';
+  xAxisLabel = 'Time';
   showYAxisLabel = true;
-  yAxisLabel = 'Color Value';
+  yAxisLabel = 'Total Number of Content Records';
   timeline = true;
 
   colorScheme = {
