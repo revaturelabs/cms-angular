@@ -12,7 +12,7 @@ import { ModuleStoreService } from 'src/app/services/module-store.service';
 export class ContentCreatorPageComponent implements OnInit {
 
    /* Each format string automatically generates button */
-   readonly formats: string[] = ["Code", "Document"];
+   readonly formats: string[] = ["Code", "Document", "Powerpoint"];
    title: string;
    url: string;
    selFormat: string = "Code";
