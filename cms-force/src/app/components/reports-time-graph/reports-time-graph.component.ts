@@ -53,7 +53,7 @@ export class ReportsTimeGraphComponent implements OnInit {
   constructor(private timeGraphService: TimeGraphService) { }
 
   ngOnInit() {
-    this.getTimesForRange(this.MILLIS_PER_YEAR);
+    this.getTimesForRange(this.MILLIS_PER_MONTH);
   }
 
   getTimesForRange(timeRange: number) {
