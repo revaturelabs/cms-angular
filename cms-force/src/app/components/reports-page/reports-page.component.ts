@@ -8,8 +8,10 @@ import { TimeGraphData } from 'src/app/models/TimeGraphData';
   styleUrls: ['./reports-page.component.css']
 })
 export class ReportsPageComponent implements OnInit {
-
-  readonly MILLIS_PER_DAY : number = 8.64e+7;
+  
+  private readonly MILLIS_PER_YEAR: number = 3.154e+10;
+  private readonly MILLIS_PER_MONTH: number = 2.628e+9;
+  private readonly MILLIS_PER_DAY : number = 8.64e+7;
 
   codeExamples : number;
   lectureNotes : number;
@@ -19,8 +21,35 @@ export class ReportsPageComponent implements OnInit {
     totalBeforeRange: 0,
     creationTimesInRange: []
   };
-  yearInMillis: number = 3.154e+10;
-  monthInMillis: number = 2.628e+9;
+
+  graphResults: any[] = [
+    {
+      name: '',
+      series: []
+    }
+  ];
+
+  // line chart options
+  autoScale = true; 
+  animations = true;
+  showXAxis = true;
+  showYAxis = true;
+  gradient = true;
+  showLegend = false;
+  showXAxisLabel = true;
+  xAxisLabel = 'Time';
+  showYAxisLabel = true;
+  yAxisLabel = 'Total Number of Content Records';
+  timeline = true;
+
+  colorScheme = {
+    domain: ['#F26925']
+  };
+
+  // viewport based width
+  w: number = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+  // h: number = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+  view: any[] = [(this.w/2), 400];
 
   constructor(private timeGraphService: TimeGraphService) { }
 
@@ -74,17 +103,13 @@ export class ReportsPageComponent implements OnInit {
       }
     }
 
-    this.multi = [
+    this.graphResults = [
       {
         name: 'content',
         series: dataEntries
       }
     ]
   }
-  // viewport based width
-  w: number = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-  // h: number = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-  view: any[] = [(this.w/2), 400];
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -93,42 +118,4 @@ export class ReportsPageComponent implements OnInit {
     this.view = [(this.w/2), 400];
 
   }
-
-
-  multi: any[] = [
-    {
-      name: 'Cyan',
-      series: [
-        {
-          name: new Date('July 4, 2019 00:00:00'),
-          value: 2650
-        },
-        {
-          name: new Date('July 6, 2019 00:00:00'),
-          value: 2800
-        },
-        {
-          name: new Date('July 7, 2019 00:00:00'),
-          value: 2000
-        }
-      ]
-    }
-  ];
-  // options
-  autoScale = true; 
-  animations = true;
-  showXAxis = true;
-  showYAxis = true;
-  gradient = true;
-  showLegend = false;
-  showXAxisLabel = true;
-  xAxisLabel = 'Time';
-  showYAxisLabel = true;
-  yAxisLabel = 'Total Number of Content Records';
-  timeline = true;
-
-  colorScheme = {
-    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
-  };
-
 }
