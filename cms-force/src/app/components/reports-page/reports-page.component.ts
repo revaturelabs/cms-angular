@@ -54,12 +54,12 @@ export class ReportsPageComponent implements OnInit {
   constructor(private timeGraphService: TimeGraphService) { }
 
   ngOnInit() {
-
+    this.getTimesForRange(this.MILLIS_PER_YEAR);
   }
 
   getTimesForRange(timeRange: number) {
 
-    // TODO re-activate fetching code here
+    // TODO: re-activate fetching code here
     // this.timeGraphService.getContentForTimeRange(timeRange)
     //   .subscribe(
     //   (result: TimeGraphData) => {
@@ -69,6 +69,15 @@ export class ReportsPageComponent implements OnInit {
     //   (result) => {
     //     console.log(result);
     //   });
+
+    // TODO: remove this line once the real data is being retrieved
+    this.getMockData(timeRange);
+
+    this.timeGraphData.creationTimesInRange.sort();
+  }
+
+  // TODO: remove this method once the real data is being retrieved
+  getMockData(timeRange: number) {
 
     let currentDay: number = Date.now();
 
@@ -80,12 +89,13 @@ export class ReportsPageComponent implements OnInit {
     for(let i = 0; i < 100; i++) {
       this.timeGraphData.creationTimesInRange.push(currentDay - Math.floor(timeRange * Math.random()));
     }
+  }
 
-    this.timeGraphData.creationTimesInRange.sort();
+  // sets the graph's displaying data to match the timeGraphData variable
+  setGraphResults() {
 
-    // This version does total accumulated over time
     let dataEntries = [];
-    currentDay = 0;
+    let currentDay = 0;
     let total = this.timeGraphData.totalBeforeRange;
 
     for(let datum of this.timeGraphData.creationTimesInRange) {
