@@ -24,9 +24,11 @@ export class ReportsPageComponent implements OnInit {
     this.populateModules();
     this.populateNotes();
   }
+  
 
-  // Functions call server to recieve metric statistics and display in HTML on Reports page
-
+  /*
+   * Calls server to get code count 
+   */
   populateCode(){
     this.http.get(this.endpoints.COUNTCODE).subscribe(data => {
       this.codeExamples = data;
@@ -34,18 +36,30 @@ export class ReportsPageComponent implements OnInit {
 
   }
 
+
+  /*
+   * Calls server to get notes (document) count 
+   */
   populateNotes(){
     this.http.get(this.endpoints.COUNTNOTES).subscribe(data => {
       this.lectureNotes = data;
     });
   }
 
+
+  /*
+   * Calls server to get different module count 
+   */
   populateModules(){
     this.http.get(this.endpoints.COUNTMODULES).subscribe(data => {
       this.difModules = data;
     });
   }
 
+
+  /*
+   * Calls server to get average number of resources
+   */
   populateAvg(){
     this.http.get(this.endpoints.COUNTAVERAGE).subscribe(data => {
       this.avgResources = data;
