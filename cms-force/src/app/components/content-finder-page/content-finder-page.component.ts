@@ -127,10 +127,10 @@ export class ContentFinderPageComponent implements OnInit {
 
    removeTag(link: Link, content: Content){
       let found = content.links.findIndex(l => link.id === l.id);
-      console.log(content);
+      //console.log(content);
       content.links.splice(found, 1);
       this.cs.updateContentByContent(content).subscribe();
-      console.log(content);
+      //console.log(content);
    }
 
    selectedContent(content: Content){
@@ -151,8 +151,11 @@ export class ContentFinderPageComponent implements OnInit {
          this.selCon.links.push(l);
       }
 
-      console.log(this.selCon);
-      this.cs.updateContentByContent(this.selCon).subscribe();
+      //console.log(this.selCon);
+      this.cs.updateContentByContent(this.selCon).subscribe((response: Content) => {
+         this.selCon = response;
+         console.log(typeof response);
+      });
       
    }
 

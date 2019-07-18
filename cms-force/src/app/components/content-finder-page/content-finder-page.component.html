@@ -83,7 +83,10 @@
                 <!--Actually clicks to a link-->
                 <td class="tag-bubble-cell">
                   <!-- Trigger the modal with a button -->
-                  <div data-toggle="modal" data-target="#addTag" (click) = selectedContent(content)>+</div>
+                  <div class="addTag">
+                  <span data-toggle="modal" data-target="#addTag" (click) = selectedContent(content) class="fas fa-plus-square plusCenter"></span>
+                  </div>
+                  <br>
 
                   <span *ngFor="let link of content.links"
                     [style.background-color]=ms.subjectIdToModule.get(link.moduleId).color
@@ -110,8 +113,8 @@
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
+        <h4 class="modal-title">Add Tags</h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Modal Header</h4>
       </div>
       <div class="modal-body">
         <ng-select id="subjectDropDown" [items]="ms.subjectNames" multiple="true" closeOnSelect="true"
@@ -123,9 +126,6 @@
           <button type="button" class="btn btn-primary" id="submitButton" (click)="updateTags()" data-dismiss="modal">Add Tags</button>
         </div>
       </div>
-      <!--<div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>-->
     </div>
 
   </div>
