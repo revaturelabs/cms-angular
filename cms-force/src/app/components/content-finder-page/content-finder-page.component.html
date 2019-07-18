@@ -117,7 +117,7 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
       <div class="modal-body">
-        <ng-select id="subjectDropDown" [items]="ms.subjectNames" multiple="true" closeOnSelect="true"
+        <ng-select id="tagsDropDown" [items]="tagOptions" multiple="true" closeOnSelect="true"
           hideSelected="true" clearOnBackspace="true" bindLabel="name" spellcheck="false"
           notFoundText="(no such subject found)" [loading]="ms.isLoading" [placeholder]="ms.loadingText"
           [(ngModel)]="selectedTags" name="selectedTags">

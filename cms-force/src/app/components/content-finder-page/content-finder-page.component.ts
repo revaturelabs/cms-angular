@@ -24,6 +24,7 @@ export class ContentFinderPageComponent implements OnInit {
    selectedTags: string[] = [];
    // contentWrapper: ContentWrapper;
    searchedSubjects: string[] = [];
+   tagOptions: string[] = [];
 
    constructor(
       private cs: ContentFetcherService,
@@ -127,15 +128,29 @@ export class ContentFinderPageComponent implements OnInit {
 
    removeTag(link: Link, content: Content){
       let found = content.links.findIndex(l => link.id === l.id);
-      //console.log(content);
       content.links.splice(found, 1);
       this.cs.updateContentByContent(content).subscribe();
-      //console.log(content);
    }
 
    selectedContent(content: Content){
       this.selCon = content;
+
+      let subjectToName: string[] = [];
+
+      for(let l of this.selCon.links){
+         subjectToName.push(this.ms.subjectIdToName.get(l.moduleId));
+      }
+
+      let tempArr: string[] = [];
+
+      for(let t of this.ms.subjectNames){
+         if(!subjectToName.includes(t))
+            tempArr.push(t);
+      }
+      this.tagOptions = tempArr;
    }
+
+   
 
    updateTags(){
       let links = [];
@@ -156,6 +171,8 @@ export class ContentFinderPageComponent implements OnInit {
          this.selCon.links = response.links;
          console.log(typeof response);
       });
+
+      this.selectedTags = [];
 
    }
 
