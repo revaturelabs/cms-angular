@@ -146,17 +146,17 @@ export class ContentFinderPageComponent implements OnInit {
                this.ms.subjectNameToModule.get(subject).id, null));
          }, this
       )
-      
+
       for(let l of links){
          this.selCon.links.push(l);
       }
 
       //console.log(this.selCon);
       this.cs.updateContentByContent(this.selCon).subscribe((response: Content) => {
-         this.selCon = response;
+         this.selCon.links = response.links;
          console.log(typeof response);
       });
-      
+
    }
 
 }
