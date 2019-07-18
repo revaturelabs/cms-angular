@@ -125,16 +125,22 @@ export class ContentFinderPageComponent implements OnInit {
          }, this
       )
    }
-
+   //This method removes a link from a content
    removeTag(link: Link, content: Content) {
+      //looks through the array of links that belongs to content and splices out the module/tag if it finds one.
       let found = content.links.findIndex(l => link.id === l.id);
       content.links.splice(found, 1);
+      //once content has been adjusted, call the server for update.
       this.cs.updateContentByContent(content).subscribe();
    }
 
+   //assign the generated "+" button with the appropriate content
+   //also filter out the modules that this content already has so that the client cannot add duplicate modules.
    selectedContent(content: Content) {
+      //assign the generated "+" button with the appropriate content
       this.selCon = content;
 
+      //also filter out the modules that this content already has so that the client cannot add duplicate modules.
       let subjectToName: string[] = [];
 
       for (let l of this.selCon.links) {
@@ -151,26 +157,33 @@ export class ContentFinderPageComponent implements OnInit {
    }
 
 
-
+/**
+ * Method is called upon submitting adding tags
+ * Grabs the inputted tags and pushes them into the content.links array
+ * Then sends a request to the database to update the content.
+ */
    updateTags() {
       let links = [];
-      if (this.selectedTags.length > 0) {
+      if (this.selectedTags.length > 0) { //if a content has all the existing tags, you cannot update.
+         //this loop will create and add a new link to content.links. It will assign the selected content (selCon)'s id to the link and the name of the module.
          this.selectedTags.forEach(
             (subject) => {
                links.push(new Link(null, this.selCon.id,
                   this.ms.subjectNameToModule.get(subject).id, null));
             }, this
          )
-
+            //push the link array into selected content's links
          for (let l of links) {
             this.selCon.links.push(l);
          }
-
+         
+         //send the request to server for update
          this.cs.updateContentByContent(this.selCon).subscribe((response: Content) => {
             this.selCon.links = response.links;
          });
       }
 
+      //empty the selected tags bar in the add tags modal.
       this.selectedTags = [];
 
    }
