@@ -32,14 +32,14 @@
                               <tr
                                  *ngFor="let content of moduleContents.get(module)">
                                  <td>
-                                   <em class="fas fa-trash" (click)="removeContentFromModuleIndex(content, module)"></em>
+                                   <em title = "Remove from module " class="fas fa-trash" (click)="removeContentFromModuleIndex(content, module)"></em>
                                  </td>
                                  <td>{{content.id}}</td>
                                  <td>{{content.title}}</td>
                                  <td>{{content.format}}</td>
                                  <td>{{content.description}}</td>
                                  <td><a
-                                       href="{{content.url}}">{{content.url}}</a>
+                                    target="_blank" href="{{content.url}}">{{content.url}}</a>
                                  </td>
                               </tr>
                            </tbody>
