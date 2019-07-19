@@ -20,7 +20,7 @@
                         <table style="width: 99%; margin: 0px auto" class="table table-striped" >
                            <thead>
                               <tr>
-                                 <th></th>
+                                 <th scope="col"></th>
                                  <th scope="col">Content ID</th>
                                  <th scope="col">Title</th>
                                  <th scope="col">Format</th>
@@ -31,7 +31,9 @@
                            <tbody>
                               <tr
                                  *ngFor="let content of moduleContents.get(module)">
-                                 <td class="fas fa-trash deleteContent" (click)="removeContentFromModuleIndex(content, module)"></td>
+                                 <td>
+                                   <em class="fas fa-trash" (click)="removeContentFromModuleIndex(content, module)"></em>
+                                 </td>
                                  <td>{{content.id}}</td>
                                  <td>{{content.title}}</td>
                                  <td>{{content.format}}</td>
