@@ -82,7 +82,11 @@ export class ModuleIndexPageComponent implements OnInit {
       //looks through the array of links that belongs to content and splices out the module/tag if it finds one.
       let found = content.links.findIndex(l => module.id === l.moduleId);
       content.links.splice(found, 1);
-      console.log(content.links);
+
+      //looks through the contents being displayed and removes the deleted content from the specific module
+      let foundContent = this.moduleContents.get(module).findIndex(l => content.id === l.id);
+      this.moduleContents.get(module).splice(foundContent, 1);
+
       //once content has been adjusted, call the server for update.
       this.cs.updateContentByContent(content).subscribe();
    }
