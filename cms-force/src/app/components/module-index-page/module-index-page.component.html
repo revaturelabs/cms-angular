@@ -12,7 +12,7 @@
             class="tag-bubble" style="margin-bottom: 5px" [style.background-color]=module.color>
             <span>
               <!--Display flag is module has no content-->
-              <span class="fas fa-flag" *ngIf="module.links.length === 0" title="No Content" style="color:rgb(119, 0, 0)"></span>
+              <span class="fas fa-flag flag" *ngIf="module.links.length === 0" title="No Content"></span>
               {{module.subject}}
             </span><br>
             <div *ngIf="contentVisible.get(module)">

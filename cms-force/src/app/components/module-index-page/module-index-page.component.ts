@@ -29,9 +29,6 @@ export class ModuleIndexPageComponent implements OnInit {
    }
 
    listContent(module: Module) {
-     console.log('listContent')
-      console.log(module)
-      console.log(this.moduleContents.get(module))
       /* Check if Content list already loaded for Module */
       if (null == this.moduleContents.get(module)) {
 
