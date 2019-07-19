@@ -6,14 +6,14 @@
     margin: 0 auto; /* Added */
     float: none; /* Added */
     margin-top: 20px; /* Added */
- 
+
   }
-  
+
   .card:hover {
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
   }
-  
-  .container { 
+
+  .container {
     padding: 2px 16px;
     margin-top: 70px;
   }
@@ -63,3 +63,11 @@
   }
 
   /* .table-responsive{-sm|-md|-lg|-xl} */
+
+  .fa-flag {
+    color: rgb(190,0,0);
+  }
+
+  .fa-flag:hover {
+    color: orange;
+  }
