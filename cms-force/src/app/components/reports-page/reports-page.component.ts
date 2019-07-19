@@ -16,6 +16,7 @@ export class ReportsPageComponent implements OnInit {
 
   constructor(private http:HttpClient, private endpoints: EndpointsService) { }
 
+
   // Call in ngOnInit to happen immediately upon page visitation
   
   ngOnInit() {
@@ -24,6 +25,7 @@ export class ReportsPageComponent implements OnInit {
     this.populateModules();
     this.populateNotes();
   }
+
   
 
   /*
@@ -65,6 +67,7 @@ export class ReportsPageComponent implements OnInit {
       this.avgResources = data;
     });
   }
+
 }
 
 
