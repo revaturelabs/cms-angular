@@ -64,6 +64,10 @@
 
   /* .table-responsive{-sm|-md|-lg|-xl} */
 
-  .flag {
-    color: rgb(119, 0, 0);
+  .fa-flag {
+    color: rgb(190,0,0);
+  }
+
+  .fa-flag:hover {
+    color: orange;
   }
