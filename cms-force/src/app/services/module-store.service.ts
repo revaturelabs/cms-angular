@@ -84,12 +84,6 @@ export class ModuleStoreService {
       this.loadingText = "Select relevant subjects";
    }
 
-   /* Generate random color for Subject tags in Module-Index page */
-   private getRandomColor(): string {
-      let randomInRange = (min, max) => { return Math.floor((Math.random() * (max - min) + min)).toString(16) };
-      return '#' + randomInRange(232, 256) + randomInRange(128, 256) + randomInRange(128, 256);
-   }
-
    /* Choose color based on module index */
    private getColor(index : number): string {
       if(index%2 == 0){
