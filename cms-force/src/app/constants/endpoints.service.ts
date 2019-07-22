@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class EndpointsService {
    // public readonly baseURL = 'http://ec2-18-191-112-157.us-east-2.compute.amazonaws.com:9009/CMSforce/as';   // CHANGE TO HOST
-   public readonly baseURL = "http://localhost:9002";
+   public readonly baseURL = "http://localhost:9009/CMSforce/as";
 
    public readonly CREATE_NEW_CONTENT: string = this.baseURL + '/content';
    public readonly GET_ALL_CONTENT: string = this.baseURL + '/content';
@@ -19,7 +19,7 @@ export class EndpointsService {
    public readonly GET_MODULE_BY_ID: string = this.baseURL + '/module/${id}';
    public readonly FILTER_CONTENT: string = this.baseURL + '/search';
    public readonly GET_CONTENT_FOR_TIME_RANGE: string = this.baseURL + '/timegraph/${time}';
-   public readonly COUNTCODE: string = this.baseURL + '/metrics/codeCount'; 
+   public readonly COUNTCODE: string = this.baseURL + '/metrics/codeCount'; //needs more
    public readonly COUNTMODULES: string = this.baseURL + '/metrics/numDiffMods';
    public readonly COUNTNOTES: string = this.baseURL + '/metrics/documentCount';
    public readonly COUNTAVERAGE: string = this.baseURL + '/metrics/averageRecs';

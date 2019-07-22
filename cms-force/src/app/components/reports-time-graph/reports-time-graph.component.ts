@@ -66,7 +66,7 @@ export class ReportsTimeGraphComponent implements OnInit {
         this.requestTime = Date.now();
         this.timeGraphData.returnedLongs.sort();
         this.setGraphResults(this.MILLIS_PER_MONTH);
-        
+        // console.log(this.timeGraphData);
       },
       (result) => {
         console.log(result);
@@ -105,7 +105,7 @@ export class ReportsTimeGraphComponent implements OnInit {
 
       }
     }
-    console.log("After for loop");
+
     this.graphResults = [
       {
         name: 'content',
