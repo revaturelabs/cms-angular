@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { EndpointsService } from 'src/app/constants/endpoints.service';
+import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
+
 
 @Component({
   selector: 'app-reports-page',
@@ -14,16 +16,17 @@ export class ReportsPageComponent implements OnInit {
   difModules : Object;
   avgResources : Object;
 
-  constructor(private http:HttpClient, private endpoints: EndpointsService) { }
+  constructor(private http:HttpClient, private endpoints: EndpointsService, private contentService: ContentFetcherService) { }
 
 
   // Call in ngOnInit to happen immediately upon page visitation
   
   ngOnInit() {
+    // this.populateNotes();
     this.populateCode();
     this.populateAvg();
     this.populateModules();
-    this.populateNotes();
+
   }
 
   
@@ -33,7 +36,10 @@ export class ReportsPageComponent implements OnInit {
    */
   populateCode(){
     this.http.get(this.endpoints.COUNTCODE).subscribe(data => {
-      this.codeExamples = data;
+      console.log(data);
+      this.codeExamples = data[0];
+      this.lectureNotes = data[1];
+
     });
 
   }
@@ -41,11 +47,12 @@ export class ReportsPageComponent implements OnInit {
 
   /*
    * Calls server to get notes (document) count 
+   * call Search
    */
   populateNotes(){
     this.http.get(this.endpoints.COUNTNOTES).subscribe(data => {
       this.lectureNotes = data;
-    });
+    })
   }
 
 
