@@ -78,6 +78,11 @@ export class ModuleIndexPageComponent implements OnInit {
       this.moduleContents.set(module, sortedResponse);
    }
 
+   /**
+    * Description - removes the content from the specified module. It will also send a request to decouple the link between content and module.
+    * @param content - the content being removed
+    * @param module - the module the content is being removed from
+    */
    removeContentFromModuleIndex(content: Content, module: Module) {
       //looks through the array of links that belongs to content and splices out the module/tag if it finds one.
       let found = content.links.findIndex(l => module.id === l.moduleId);

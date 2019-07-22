@@ -113,9 +113,9 @@ export class ContentFinderPageComponent implements OnInit {
    }
 
    /**
-    * Gets the string array of selected subjects and populates
+    * Description - Gets the string array of selected subjects and populates
     * the number array of subject id (or model or tag or whatever the team never really settled on the name like it was tag at first then prerequisite then modules then affiliation then subjects like come on)
-    * @param subjects
+    * @param subjects - array of subjects
     */
    getIDsFromSubjects(subjects: string[]) {
       this.moduleIDs = [];
@@ -125,7 +125,12 @@ export class ContentFinderPageComponent implements OnInit {
          }, this
       )
    }
-   //This method removes a link from a content
+   
+   /**
+    * Description - This method deletes a link between a content and a module
+    * @param link - the link that needs to be deleted
+    * @param content - the content in which the request link is to be deleted from
+    */
    removeTag(link: Link, content: Content) {
       //looks through the array of links that belongs to content and splices out the module/tag if it finds one.
       let found = content.links.findIndex(l => link.id === l.id);
@@ -134,8 +139,10 @@ export class ContentFinderPageComponent implements OnInit {
       this.cs.updateContentByContent(content).subscribe();
    }
 
-   //assign the generated "+" button with the appropriate content
-   //also filter out the modules that this content already has so that the client cannot add duplicate modules.
+   /**
+    * Description - selects the generated content
+    * @param content - the content that needs to be selected
+    */
    selectedContent(content: Content) {
       //assign the generated "+" button with the appropriate content
       this.selCon = content;
@@ -158,7 +165,7 @@ export class ContentFinderPageComponent implements OnInit {
 
 
 /**
- * Method is called upon submitting adding tags
+ * Description - Adds tags to a specific content
  * Grabs the inputted tags and pushes them into the content.links array
  * Then sends a request to the database to update the content.
  */

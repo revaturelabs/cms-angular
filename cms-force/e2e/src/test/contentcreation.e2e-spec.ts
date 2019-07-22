@@ -10,7 +10,7 @@ describe('workspace-project App', () => {
 
   beforeAll(() => {
     createContent = new AppPage();
-    title = Math.random().toString(36).substring(7);
+    title = "CMS";
     url = 'http://www.test.com';
     selectedSubjects = ["Java", "CSS"];
     description = "Test description."
