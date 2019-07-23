@@ -10,27 +10,22 @@ import { TimeGraphService } from 'src/app/services/time-graph.service';
 export class ReportsTimeGraphComponent implements OnInit {
   private readonly MILLIS_PER_YEAR: number = 3.154e+10;
   private readonly MILLIS_PER_MONTH: number = 2.628e+9;
-  private readonly MILLIS_PER_DAY : number = 8.64e+7;
+  private readonly MILLIS_PER_DAY: number = 8.64e+7;
 
-  codeExamples : number;
-  lectureNotes : number;
-  difModules : number;
-  avgResources : number;
+  codeExamples: number;
+  lectureNotes: number;
+  difModules: number;
+  avgResources: number;
   timeGraphData: TimeGraphData = {
     numContents: 0,
     returnedLongs: []
   };
   requestTime: number;
 
-  graphResults: any[] = [
-    {
-      name: '',
-      series: []
-    }
-  ];
+  graphResults: any[] = null;
 
   // line chart options
-  autoScale = true; 
+  autoScale = true;
   animations = true;
   showXAxis = true;
   showYAxis = true;
@@ -46,10 +41,12 @@ export class ReportsTimeGraphComponent implements OnInit {
     domain: ['#F26925']
   };
 
+  selectedView: string = null;
+
   // viewport based width
   w: number = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
   // h: number = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-  view: any[] = [(this.w/2), 400];
+  view: any[] = [(this.w / 2), 400];
 
   constructor(private timeGraphService: TimeGraphService) { }
 
@@ -61,36 +58,43 @@ export class ReportsTimeGraphComponent implements OnInit {
 
     this.timeGraphService.getContentForTimeRange(timeRange)
       .subscribe(
-      (result: TimeGraphData) => {
-        this.timeGraphData = result;
-        this.requestTime = Date.now();
-        this.timeGraphData.returnedLongs.sort();
-        this.setGraphResults(this.MILLIS_PER_MONTH);
-        // console.log(this.timeGraphData);
-      },
-      (result) => {
-        console.log(result);
-      });
+        (result: TimeGraphData) => {
+          this.timeGraphData = result;
+          this.requestTime = Date.now();
+          this.timeGraphData.returnedLongs.sort();
+          this.setGraphResults(this.MILLIS_PER_MONTH);
+          // console.log(this.timeGraphData);
+        },
+        (result) => {
+          console.log(result);
+        });
   }
 
   // sets the graph's displaying data to match the timeGraphData variable
   setGraphResults(timeRange: number) {
 
-    if(this.timeGraphData.returnedLongs.length === 0)
-      return;
+    if (timeRange === this.MILLIS_PER_MONTH)
+      this.selectedView = "Past Month";
+    else if(timeRange === 6 * this.MILLIS_PER_MONTH)
+      this.selectedView = "Past Six Months";
+    else
+      this.selectedView = "Past Year";
     
+    if (this.timeGraphData.returnedLongs.length === 0)
+      return;
+
     let dataEntries = [];
     let currentDay = 0;
     let total = this.timeGraphData.numContents;
     let startTime = this.requestTime - timeRange;
 
-    for(let datum of this.timeGraphData.returnedLongs) {
+    for (let datum of this.timeGraphData.returnedLongs) {
 
       total++;
 
-      if(datum > startTime) {
+      if (datum > startTime) {
 
-        if((datum - this.MILLIS_PER_DAY) > currentDay) {
+        if ((datum - this.MILLIS_PER_DAY) > currentDay) {
 
           currentDay = Math.floor(datum / this.MILLIS_PER_DAY) * this.MILLIS_PER_DAY;
           dataEntries.push({
@@ -117,7 +121,7 @@ export class ReportsTimeGraphComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-    this.view = [(this.w/2), 400];
+    this.view = [(this.w / 2), 400];
     event.target.innerWidth;
   }
 }
