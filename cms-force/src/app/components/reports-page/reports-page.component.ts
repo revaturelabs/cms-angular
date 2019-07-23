@@ -22,7 +22,7 @@ export class ReportsPageComponent implements OnInit {
     this.populateCode();
     this.populateAvg();
     this.populateModules();
-    this.populateNotes();
+    // this.populateNotes();
   }
   
 
@@ -31,7 +31,8 @@ export class ReportsPageComponent implements OnInit {
    */
   populateCode(){
     this.http.get(this.endpoints.COUNTCODE).subscribe(data => {
-      this.codeExamples = data;
+      this.codeExamples = data[0];
+      this.lectureNotes = data[1];
     });
 
   }
