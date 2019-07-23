@@ -1,10 +1,14 @@
-import { browser, element, by, ElementFinder } from 'protractor';
+import { browser, element, by } from 'protractor';
 
 export class ReportsPage {
     
 
     constructor() {
 
+    }
+
+    navigateTo() {
+        return browser.get(browser.baseUrl+"reports") as Promise<any>;
     }
 
     getCodeExamples() {

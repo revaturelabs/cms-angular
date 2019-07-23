@@ -4,6 +4,11 @@ import { ReportsPage } from './reports.po';
 describe('workspace-project App', () => {
     let reportsPage : ReportsPage;
 
+    beforeAll(() => {
+        reportsPage = new ReportsPage();
+        reportsPage.navigateTo();
+    });
+
     it('should contain content in Code Examples', () => {
         expect(reportsPage.getCodeExamples.toString() !== "");
     });
