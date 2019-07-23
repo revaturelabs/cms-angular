@@ -13,8 +13,7 @@ import { Link } from 'src/app/models/Link';
 })
 export class ContentFinderPageComponent implements OnInit {
 
-   readonly formats: string[] = ["Code", "Document", "All"];
-   selCon: Content;
+   readonly formats: string[] = ["Code", "Document", "Powerpoint", "All"];
    title: string = "";
    selFormat: string = "All";
    contents: Content[];

@@ -11,13 +11,15 @@
             id="{{module.id}}"
             class="tag-bubble" style="margin-bottom: 5px" [style.background-color]=module.color>
             <div (click)="listContent(module)">
-               <span>{{module.subject}}</span><br>
-            </div>
+              <!--Display flag is module has no content-->
+              <span class="fas fa-flag" *ngIf="module.links.length === 0" title="No Content"></span>
+              {{module.subject}}
+            </div><br>
             <div *ngIf="contentVisible.get(module)">
                <form>
                   <div class="form-row mb-5">
                      <div class="table-responsive">
-                        <table style="width: 99%; margin: 0px auto" class="table table-striped" >
+                        <table style="width: 99%; margin: 0px auto" class="table table-striped">
                            <thead>
                               <tr>
                                  <th scope="col"></th>
@@ -42,7 +44,7 @@
                                     target="_blank" href="{{content.url}}">{{content.url}}</a>
                                  </td>
                               </tr>
-                           </tbody>
+                          </tbody>
                         </table>
                      </div>
                   </div>
