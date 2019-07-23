@@ -21,6 +21,7 @@ export class ModuleCreatorPageComponent implements OnInit {
       private mf: ModuleFetcherService
    ) { }
 
+   /**@ignore */
    ngOnInit() {
    }
 
