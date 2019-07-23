@@ -84,7 +84,8 @@
                 <td class="tag-bubble-cell">
                   <!-- Trigger the modal with a button -->
                   <div class="addTag">
-                  <span data-toggle="modal" data-target="#addTag" (click) = selectedContent(content) class="fas fa-plus-square plusCenter"></span>
+                    <span data-toggle="modal" data-target="#addTag" (click)=selectedContent(content)
+                      class="fas fa-plus-square plusCenter"></span>
                   </div>
                   <br>
 
@@ -93,7 +94,7 @@
                     [style.font-weight]="(searchedSubjects.includes(ms.subjectIdToName.get(link.moduleId))) ? 'bold' : 'normal'"
                     class="badge badge-primary" style="color:black; font-size: 16px">
                     {{ms.subjectIdToName.get(link.moduleId)}}
-                    <span title = "Remove tag" (click)="removeTag(link, content)" class="fas fa-trash"></span>
+                    <span title="Remove tag" (click)="removeTag(link, content)" class="fas fa-trash"></span>
                     <!--Gets the subject's name from array of links in content-->
                   </span>
                 </td>
@@ -117,13 +118,13 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
       <div class="modal-body">
-        <ng-select id="tagsDropDown" [items]="tagOptions" multiple="true" closeOnSelect="true"
-          hideSelected="true" clearOnBackspace="true" bindLabel="name" spellcheck="false"
-          notFoundText="(no such subject found)" [loading]="ms.isLoading" [placeholder]="ms.loadingText"
-          [(ngModel)]="selectedTags" name="selectedTags">
+        <ng-select id="tagsDropDown" [items]="tagOptions" multiple="true" closeOnSelect="true" hideSelected="true"
+          clearOnBackspace="true" bindLabel="name" spellcheck="false" notFoundText="(no such subject found)"
+          [loading]="ms.isLoading" [placeholder]="ms.loadingText" [(ngModel)]="selectedTags" name="selectedTags">
         </ng-select>
         <div class="row btn mb-3">
-          <button type="button" class="btn btn-primary addATag" id="submitButton" (click)="updateTags()" data-dismiss="modal">Add Tags</button>
+          <button type="button" class="btn btn-primary addATag" id="submitButton" (click)="updateTags()"
+            data-dismiss="modal">Add Tags</button>
         </div>
       </div>
     </div>

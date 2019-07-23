@@ -20,7 +20,7 @@ import { ModuleIndexPageComponent } from './components/module-index-page/module-
       ContentFinderPageComponent,
       NavbarComponent,
       ModuleCreatorPageComponent,
-      ModuleIndexPageComponent,
+      ModuleIndexPageComponent
    ],
    imports: [
       BrowserModule,
