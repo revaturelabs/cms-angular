@@ -4,6 +4,7 @@ import { ContentFetcherService } from 'src/app/services/content-fetcher.service'
 import { Link } from 'src/app/models/Link';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
 
+/** Typescript component for the Content Creator page */
 @Component({
    selector: 'app-content-creator-page',
    templateUrl: './content-creator-page.component.html',
@@ -41,6 +42,11 @@ export class ContentCreatorPageComponent implements OnInit {
     */
    selectedSubjects: string[] = [];  
 
+   /**
+    *  Content creater constructor 
+    * @param cs Content Fetcher
+    * @param ms Module Store
+    */
    constructor(
       private cs: ContentFetcherService,
       public ms: ModuleStoreService) {

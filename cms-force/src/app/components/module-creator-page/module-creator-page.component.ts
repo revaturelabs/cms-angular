@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Module } from 'src/app/models/Module';
 import { ModuleFetcherService } from 'src/app/services/module-fetcher.service';
 
+/** Typescript Component for Module Creator Page */
 @Component({
    selector: 'app-module-creator-page',
    templateUrl: './module-creator-page.component.html',
@@ -15,6 +16,7 @@ export class ModuleCreatorPageComponent implements OnInit {
    subject: string = "";
 
    /**
+    * Constructor for Module Crator
     * @param mf Grabs links/tag
     */
    constructor(

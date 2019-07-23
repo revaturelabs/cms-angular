@@ -4,6 +4,7 @@ import { Filter } from '../../models/Filter';
 import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
 
+/** Typescript component for Content Finder page */
 @Component({
    selector: 'app-content-finder-page',
    templateUrl: './content-finder-page.component.html',
@@ -52,6 +53,7 @@ export class ContentFinderPageComponent implements OnInit {
    searchedSubjects: string[] = [];
 
    /**
+    * Content Finder Constructor
     * @param cs Allows us to fetch content
     * @param ms Allows us to get information for tags
     */

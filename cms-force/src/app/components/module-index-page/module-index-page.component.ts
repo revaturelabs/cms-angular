@@ -5,6 +5,7 @@ import { ContentFetcherService } from 'src/app/services/content-fetcher.service'
 import { Content } from 'src/app/models/Content';
 import { Filter } from 'src/app/models/Filter';
 
+/** Typescript Component for Module Index Page */
 @Component({
    selector: 'app-module-index-page',
    templateUrl: './module-index-page.component.html',
@@ -20,7 +21,7 @@ export class ModuleIndexPageComponent implements OnInit {
    moduleContents: Map<Module, Content[]> = new Map<Module, Content[]>();
 
    /**
-    * 
+    * Constructor for Module Index Component
     * @param cs Fetches content
     * @param ms Fetches tags
     */
