@@ -43,7 +43,6 @@ export class ReportsPageComponent implements OnInit {
   
   ngOnInit() {
     this.populateCode();
-    // this.populateAvg();
     this.populateModules();
     this.ms.loadModules();
     this.ms.buffer.subscribe((ret)=>{
@@ -52,8 +51,6 @@ export class ReportsPageComponent implements OnInit {
         console.log(ret + " is false");
       }
     });
-    // this.populateMs();
-    // this.populateNotes();
   }
   
   /**
@@ -103,18 +100,18 @@ export class ReportsPageComponent implements OnInit {
   }
 
   /**
+    * Took this from another container
     * Gets the string array of selected subjects and populates
     * the number array of subject id (or model or tag or whatever the team never really settled on the name like it was tag at first then prerequisite then modules then affiliation then subjects like come on)
     * @param subjects
     */
    getIDsFromSubjects(subjects: string[]) {
-    // this.moduleIDs = [];
+    this.moduleIDs = [];
     subjects.forEach(
        (subject) => {
           this.moduleIDs.push(this.ms.subjectNameToModule.get(subject).id);
-       }, this
-    )
- }
+       }, this)
+   }
 
 
 }
