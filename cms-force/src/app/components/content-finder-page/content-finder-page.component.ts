@@ -21,6 +21,7 @@ export class ContentFinderPageComponent implements OnInit {
    moduleIDs: number[];
    selectedSubjects: string[] = [];  // selected from subject list
    selectedTags: string[] = [];
+   selCon: Content;
    // contentWrapper: ContentWrapper;
    searchedSubjects: string[] = [];
    tagOptions: string[] = [];
