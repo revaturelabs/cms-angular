@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { EndpointsService } from 'src/app/constants/endpoints.service';
+import { ModuleStoreService } from 'src/app/services/module-store.service';
 
 /**
  * Reports page that measures and displays metrics.
@@ -21,12 +22,17 @@ export class ReportsPageComponent implements OnInit {
     /** TS variable referenced to display the average number of resources per module */
   avgResources : Object;
 
+  moduleIDs: number[] = [];
+
+  selectedSubject:string[] = [];
+
   /**
  * Constructor uses HttpClient for communication and sends to specific endpoints.
  * @param http 
  * @param endpoints 
  */
-  constructor(private http:HttpClient, private endpoints: EndpointsService) { }
+  constructor(private http:HttpClient, private endpoints: EndpointsService,
+              public ms:ModuleStoreService) { }
 
  /** 
     * Call in ngOnInit to happen immediately upon page visitation
@@ -34,8 +40,10 @@ export class ReportsPageComponent implements OnInit {
   
   ngOnInit() {
     this.populateCode();
-    this.populateAvg();
+    // this.populateAvg();
     this.populateModules();
+    this.ms.loadModules();
+    // this.populateMs();
     // this.populateNotes();
   }
   
@@ -75,10 +83,31 @@ export class ReportsPageComponent implements OnInit {
    * Calls server to get average number of resources
    */
   populateAvg(){
-    this.http.get(this.endpoints.COUNTAVERAGE).subscribe(data => {
-      this.avgResources = data;
-    });
+    this.selectedSubject = this.ms.subjectNames;
+    this.getIDsFromSubjects(this.selectedSubject); //sets
+    
+    if(this.moduleIDs.length >0){
+      this.http.post(this.endpoints.COUNTAVERAGE, {modules: this.moduleIDs}).subscribe(data => {
+        this.avgResources = data;
+      });
+    }
   }
+
+  /**
+    * Gets the string array of selected subjects and populates
+    * the number array of subject id (or model or tag or whatever the team never really settled on the name like it was tag at first then prerequisite then modules then affiliation then subjects like come on)
+    * @param subjects
+    */
+   getIDsFromSubjects(subjects: string[]) {
+    // this.moduleIDs = [];
+    subjects.forEach(
+       (subject) => {
+          this.moduleIDs.push(this.ms.subjectNameToModule.get(subject).id);
+       }, this
+    )
+ }
+
+
 }
 
 
