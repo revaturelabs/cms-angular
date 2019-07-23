@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { EndpointsService } from 'src/app/constants/endpoints.service';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
+import { BehaviorSubject } from 'rxjs';
 
 /**
  * Reports page that measures and displays metrics.
@@ -26,6 +27,8 @@ export class ReportsPageComponent implements OnInit {
 
   selectedSubject:string[] = [];
 
+
+
   /**
  * Constructor uses HttpClient for communication and sends to specific endpoints.
  * @param http 
@@ -43,6 +46,12 @@ export class ReportsPageComponent implements OnInit {
     // this.populateAvg();
     this.populateModules();
     this.ms.loadModules();
+    this.ms.buffer.subscribe((ret)=>{
+      if(ret === false){
+        this.populateAvg()
+        console.log(ret + " is false");
+      }
+    });
     // this.populateMs();
     // this.populateNotes();
   }

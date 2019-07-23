@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Module } from '../models/Module';
 import { ModuleFetcherService } from './module-fetcher.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
    providedIn: 'root'
@@ -29,6 +30,8 @@ export class ModuleStoreService {
    response: Module[];
    isLoading: boolean = true;
    loadingText: string = "Loading Subjects...";
+   buffer:BehaviorSubject<boolean> = new BehaviorSubject(true);
+
 
 
    constructor(private ms: ModuleFetcherService) { }
@@ -80,6 +83,7 @@ export class ModuleStoreService {
          )
       }
       this.isLoading = false;
+      this.buffer.next(false);
       this.loadingText = "Select relevant subjects";
    }
 
