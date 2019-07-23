@@ -1,0 +1,33 @@
+  <!-- Example split danger button -->
+
+    <div type="button" class="dropdown-menu">
+
+    </div>
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Change Time Range
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <button type="button" class = "dropdown-item" (click) = "setGraphResults(MILLIS_PER_YEAR)">Past year</button>
+        <button type="button" class = "dropdown-item" (click) = "setGraphResults(6 * MILLIS_PER_MONTH)">Past 6 months</button>
+        <button type="button" class = "dropdown-item" (click) = "setGraphResults(MILLIS_PER_MONTH)">Past month</button>
+      </div>
+    </div>
+    <ngx-charts-line-chart
+    [view]="view"      
+    [animations]="animations"      
+    [scheme]="colorScheme"
+    [results]="graphResults"
+    [gradient]="gradient"
+    [xAxis]="showXAxis"
+    [yAxis]="showYAxis"
+    [legend]="showLegend"
+    [showXAxisLabel]="showXAxisLabel"
+    [showYAxisLabel]="showYAxisLabel"
+    [xAxisLabel]="xAxisLabel"
+    [yAxisLabel]="yAxisLabel"
+    [autoScale]="autoScale"
+    [timeline]="timeline"
+    (window:resize)="onResize($event)"
+    >
+    </ngx-charts-line-chart>
