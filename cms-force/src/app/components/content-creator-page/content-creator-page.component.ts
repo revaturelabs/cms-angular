@@ -11,22 +11,43 @@ import { ModuleStoreService } from 'src/app/services/module-store.service';
 })
 export class ContentCreatorPageComponent implements OnInit {
 
-   /* Each format string automatically generates button */
+   /**
+    * Each format string automatically generates button 
+    */
    readonly formats: string[] = ["Code", "Document", "Powerpoint"];
+
+   /**
+    * Title of content
+    */
    title: string;
+
+   /**
+    * Url of content
+    */
    url: string;
+
+   /**
+    * Used for radio selection for content (Ex. Powerpoint, code, etc)
+    */
    selFormat: string = "Code";
+
+   /**
+    * Description of content
+    */
    description: string;
-   // document: string;
-   selectedSubjects: string[] = [];  // selected from subject list
-   // prerequisites: string[] = [];
+
+   /**
+    * Stores selected subjects
+    */
+   selectedSubjects: string[] = [];  
 
    constructor(
       private cs: ContentFetcherService,
       public ms: ModuleStoreService) {
    }
 
-   /* On page initialization load the modules to list on the dropdown menu */
+   /** On page initialization load the modules to list on the dropdown menu 
+   */
    ngOnInit() {
       this.ms.loadModules();
    }
@@ -44,7 +65,7 @@ export class ContentCreatorPageComponent implements OnInit {
 
    /**
     * Submit the content object which has the input fields and the list of tags as link array
-    * where the link has it's subject id populated and the rest set to default value
+    * where the link has its subject id populated and the rest are set to default values
     */
    submit() {
 
@@ -87,7 +108,13 @@ export class ContentCreatorPageComponent implements OnInit {
       this.selectedSubjects = [];
    }
 
-   /* create a new set of links from selected subject names */
+   
+   /**
+    * Creates a new set of links from selected subject names
+    * 
+    * @param {string[]} subjects List/array of selected subjects subjects
+    * @returns A new set of links.
+    */
    getLinksFromSubjects(subjects: string[]): Link[] {
       let links = [];
       subjects.forEach(
@@ -100,9 +127,11 @@ export class ContentCreatorPageComponent implements OnInit {
    }
 
    /**
-    * Takes in the url to check if it has the application protocol like http.
+    * Takes in the url to check if it matches the application protocol such as http
     * See "Url Regex Filter" for more information on this implementation
-    * @param url
+    * 
+    * @param {string} url Url of content
+    * @returns True if url is valid, false if not valid.
     */
    validURL(url: string): boolean {
       let regexp: RegExp = /^((http[s]?|ftp):\/\/)(((\w+\.)?\w+\.\w{2,})|(\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}))(\/[\w-._~:/?#[\]@!$&'()*+,;=]+(\.[\w-._~:/?#[\]@!$&'()*+,;=]+)?)*(\?|\?[\w-._~:/?#[\]@!$&'()*+,;=]+=[\w-._~:/?#[\]@!$&'()*+,;=]*(&[\w-._~:/?#[\]@!$&'()*+,;=]+=[\w-._~:/?#[\]@!$&'()*+,;=]*)*)?(#[\w-._~:/?#[\]@!$&'()*+,;=]*)?\/?$/;

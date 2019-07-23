@@ -9,8 +9,14 @@ import { ModuleFetcherService } from 'src/app/services/module-fetcher.service';
 })
 export class ModuleCreatorPageComponent implements OnInit {
 
+   /**
+    * Tag name/subject
+    */
    subject: string = "";
 
+   /**
+    * @param mf Grabs links/tag
+    */
    constructor(
       private mf: ModuleFetcherService
    ) { }
@@ -54,6 +60,9 @@ export class ModuleCreatorPageComponent implements OnInit {
       )
    }
 
+   /**
+    * Resets subject field
+    */
    private resetVariables() {
       this.subject = "";
    }
