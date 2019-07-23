@@ -41,6 +41,8 @@ export class ReportsTimeGraphComponent implements OnInit {
     domain: ['#F26925']
   };
 
+  selectedView: string = null;
+
   // viewport based width
   w: number = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
   // h: number = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
@@ -71,6 +73,13 @@ export class ReportsTimeGraphComponent implements OnInit {
   // sets the graph's displaying data to match the timeGraphData variable
   setGraphResults(timeRange: number) {
 
+    if (timeRange === this.MILLIS_PER_MONTH)
+      this.selectedView = "Past Month";
+    else if(timeRange === 6 * this.MILLIS_PER_MONTH)
+      this.selectedView = "Past Six Months";
+    else
+      this.selectedView = "Past Year";
+    
     if (this.timeGraphData.returnedLongs.length === 0)
       return;
 
