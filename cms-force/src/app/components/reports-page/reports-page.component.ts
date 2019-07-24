@@ -47,8 +47,7 @@ export class ReportsPageComponent implements OnInit {
     this.ms.loadModules();
     this.ms.buffer.subscribe((ret)=>{
       if(ret === false){
-        this.populateAvg()
-        console.log(ret + " is false");
+        this.populateAvg();
       }
     });
   }
