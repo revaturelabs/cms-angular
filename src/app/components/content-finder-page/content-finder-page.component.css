@@ -71,3 +71,7 @@
   .fa-flag:hover {
     color: orange;
   }
+
+  .subjectFailed {
+    color: red;
+ }
