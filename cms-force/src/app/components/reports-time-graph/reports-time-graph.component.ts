@@ -1,6 +1,7 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { TimeGraphData } from 'src/app/models/TimeGraphData';
-import { TimeGraphService } from 'src/app/services/time-graph.service';
+import { ReportsService } from 'src/app/services/reports.service';
+import { GlobalReports } from 'src/app/providers/GlobalReports';
 
 /**
  * Reports Time Graph component for didsplaying the time graph
@@ -10,7 +11,6 @@ import { TimeGraphService } from 'src/app/services/time-graph.service';
   templateUrl: './reports-time-graph.component.html',
   styleUrls: ['./reports-time-graph.component.css']
 })
-
 export class ReportsTimeGraphComponent implements OnInit {
   /** Milliseconds per year */
   private readonly MILLIS_PER_YEAR: number = 3.154e+10;
@@ -64,38 +64,36 @@ export class ReportsTimeGraphComponent implements OnInit {
   /** Viewport base width */
   w: number = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
   // h: number = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+
   /** Setting view size */
   view: any[] = [(this.w/2), 400];
 
+  selectedTimeRange: number = this.MILLIS_PER_MONTH;
+
   /**
-   * Constructor using the TimeGraphService service
-   * @param timeGraphService 
+   * Constructor using the ReportsService service
+   * @param reportsService 
    */
-  constructor(private timeGraphService: TimeGraphService) { }
+  constructor(
+    private reportsService: ReportsService,
+    private globalReports: GlobalReports) { }
 
   /** Declaring functions to be called on page load */
   ngOnInit() {
-    this.getData(this.MILLIS_PER_YEAR);
+    this.reportsService.reportsTimeGraph = this;
+    if(this.globalReports.metricsData)
+      this.updateGraph(this.globalReports.metricsData.timeGraphData);
   }
-
+  
   /**
-   * Method for getting data to populate graph
-   * @param timeRange 
+   * Callback method for updating the timegraph data
+   * @param timeGraphData 
    */
-  getData(timeRange: number) {
-
-    this.timeGraphService.getContentForTimeRange(timeRange)
-      .subscribe(
-        (result: TimeGraphData) => {
-          this.timeGraphData = result;
-          this.requestTime = Date.now();
-          this.timeGraphData.returnedLongs.sort();
-          this.setGraphResults(this.MILLIS_PER_MONTH);
-          // console.log(this.timeGraphData);
-        },
-        (result) => {
-          console.log(result);
-        });
+  updateGraph(timeGraphData: TimeGraphData) {
+    this.timeGraphData = timeGraphData;
+    this.requestTime = Date.now();
+    this.timeGraphData.returnedLongs.sort();
+    this.setGraphResults(this.selectedTimeRange);
   }
 
   /**
@@ -104,6 +102,7 @@ export class ReportsTimeGraphComponent implements OnInit {
    */
   setGraphResults(timeRange: number) {
 
+    this.selectedTimeRange = timeRange;
     if (timeRange === this.MILLIS_PER_MONTH)
       this.selectedView = "Past Month";
     else if(timeRange === 6 * this.MILLIS_PER_MONTH)

@@ -4,6 +4,9 @@ import { MetricsData } from '../models/MetricsData';
 import { TimeGraphData } from '../models/TimeGraphData';
 import { EndpointsService } from '../constants/endpoints.service';
 import { ModuleStoreService } from './module-store.service';
+import { ReportsPageComponent } from '../components/reports-page/reports-page.component';
+import { ReportsTimeGraphComponent } from '../components/reports-time-graph/reports-time-graph.component';
+import { GlobalReports } from '../providers/GlobalReports';
 
 @Injectable({
   providedIn: 'root'
@@ -16,10 +19,10 @@ export class ReportsService {
   /** Milliseconds per year */
   private readonly MILLIS_PER_YEAR: number = 3.154e+10;
 
-  /** Callback which populates the displayed metrics in the reports page */
-  updateMetrics: (MetricsData) => void;
-  /** Callback which populates the time graph on the reports page */
-  updateGraph: (TimeGraphData) => void;
+  /** Reports page component */
+  reportsPage: ReportsPageComponent;
+  /** Reports time graph component */
+  reportsTimeGraph: ReportsTimeGraphComponent;
 
   /** TS variable that gets the moduleIDs we are sending back to the server to get average of */
   moduleIDs: number[] = [];
@@ -27,13 +30,14 @@ export class ReportsService {
   constructor(
     private http: HttpClient,
     private endpoints: EndpointsService,
-    private ms: ModuleStoreService) { }
+    private ms: ModuleStoreService,
+    private globalReports: GlobalReports) { }
   
   /**
    * sends the http request to the server to get the reports metrics data
    */
   getMetrics() {
-
+    
     this.ms.loadModules();
     this.ms.buffer.subscribe((ret)=>{
 
@@ -52,10 +56,9 @@ export class ReportsService {
             headers: this.HEADERS
           }
           ).subscribe((result: MetricsData) => {
-            if(this.updateMetrics)
-              this.updateMetrics(result);
-            if(this.updateGraph)
-              this.updateGraph(result.timeGraphData);
+            this.globalReports.metricsData = result;
+            this.reportsPage.updateMetrics(result);
+            this.reportsTimeGraph.updateGraph(result.timeGraphData);
           });
       }
     });

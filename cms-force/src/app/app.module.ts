@@ -15,6 +15,7 @@ import { ModuleIndexPageComponent } from './components/module-index-page/module-
 import { ReportsPageComponent } from './components/reports-page/reports-page.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReportsTimeGraphComponent } from './components/reports-time-graph/reports-time-graph.component';
+import { GlobalReports } from './providers/GlobalReports';
 
 
 @NgModule({
@@ -37,7 +38,9 @@ import { ReportsTimeGraphComponent } from './components/reports-time-graph/repor
       NgxChartsModule,
       BrowserAnimationsModule
    ],
-   providers: [],
+   providers: [
+      GlobalReports
+   ],
    bootstrap: [AppComponent]
 })
 export class AppModule { }

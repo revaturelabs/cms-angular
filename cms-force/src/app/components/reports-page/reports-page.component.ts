@@ -3,6 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { EndpointsService } from 'src/app/constants/endpoints.service';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { BehaviorSubject } from 'rxjs';
+import { ReportsService } from 'src/app/services/reports.service';
+import { MetricsData } from 'src/app/models/MetricsData';
+import { GlobalReports } from 'src/app/providers/GlobalReports';
 
 /**
  * Reports page that measures and displays metrics.
@@ -22,103 +25,40 @@ export class ReportsPageComponent implements OnInit {
   difModules : Object;
     /** TS variable referenced to display the average number of resources per module */
   avgResources : Object;
-  /** TS variable that gets the moduleIDs we are sending back to the server to get average of */
-  moduleIDs: number[] = [];
-  /** TS variable to store all of the modules from server  */
-  selectedSubject:string[] = [];
-
-
 
 /**
  * Constructor uses HttpClient for communication and sends to specific endpoints.
  * @param http 
  * @param endpoints 
  */
-  constructor(private http:HttpClient, private endpoints: EndpointsService,
-              public ms:ModuleStoreService) { }
+  constructor(
+    private reportsService: ReportsService,
+    private globalReports: GlobalReports) { }
 
  /** 
   * Call in ngOnInit to happen immediately upon page visitation
   */
-  
   ngOnInit() {
-    this.populateCode();
-    this.populateModules();
-    this.ms.loadModules();
-    this.ms.buffer.subscribe((ret)=>{
-      if(ret === false){
-        this.populateAvg();
-      }
-    });
-  }
 
+    this.reportsService.reportsPage = this;
+
+    if(this.globalReports.metricsData)
+      this.updateMetrics(this.globalReports.metricsData);
+    else
+      this.reportsService.getMetrics();
+  }
   
-  /**
-   * Calls server to get code count
-   */
-  populateCode(){
-    this.http.get(this.endpoints.COUNTCODE).subscribe(data => {
-      this.codeExamples = data[0];
-      this.lectureNotes = data[1];
-    });
-
+  getMetrics() {
+    this.reportsService.getMetrics();
   }
 
+  updateMetrics(data: MetricsData) {
 
-   /**
-   * Calls server to get notes (document) count
-   */
-  // populateNotes(){
-  //   this.http.get(this.endpoints.COUNTNOTES).subscribe(data => {
-  //     this.lectureNotes = data;
-  //   });
-  // }
-
-
-  /** 
-   * Calls server to get different module count 
-   */
-  populateModules(){
-    this.http.get(this.endpoints.COUNTMODULES).subscribe(data => {
-      this.difModules = data;
-    });
+    this.codeExamples = data.codeCount;
+    this.lectureNotes = data.documentCount;
+    this.difModules = data.numDiffModsCount;
+    this.avgResources = data.avgResources;
   }
-
-
- /** 
-   * Calls server to get average number of resources
-   */
-  populateAvg(){
-    this.selectedSubject = this.ms.subjectNames;
-    this.getIDsFromSubjects(this.selectedSubject); //sets
-    
-    if(this.moduleIDs.length > 0){
-      this.http.post(this.endpoints.COUNTAVERAGE, {modules: this.moduleIDs}).subscribe(data => {
-        this.avgResources = data;
-      });
-    } else {
-      this.avgResources = 0;
-    }
-  }
-
-  /**
-    * Took this from another container
-    * Gets the string array of selected subjects and populates
-    * the number array of subject id (or model or tag or whatever the team never really settled on the name 
-    * like it was tag at first then prerequisite then modules then affiliation then subjects like come on)
-    * @param subjects
-    */
-    getIDsFromSubjects(subjects: string[]) {
-      this.moduleIDs = [];
-      if(subjects){
-        subjects.forEach(
-          (subject) => {
-            this.moduleIDs.push(this.ms.subjectNameToModule.get(subject).id);
-          }, this
-        )
-      }
-   }
-
 }
 
 
