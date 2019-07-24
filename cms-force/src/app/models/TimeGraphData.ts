@@ -1,4 +1,4 @@
-export class TimeGraphData {
+export interface TimeGraphData {
     
     numContents: number;
     returnedLongs: number[];

@@ -23,7 +23,8 @@ export class EndpointsService {
    public readonly COUNTMODULES: string = this.baseURL + '/metrics/numDiffMods';
    public readonly COUNTNOTES: string = this.baseURL + '/metrics/documentCount';
    public readonly COUNTAVERAGE: string = this.baseURL + '/metrics/averageRecs';
-
+   public readonly GET_METRICS: string = this.baseURL + '/metrics/obtain/${timeFrame}';
+   
    constructor(private http: HttpClient) { }
 
    /* for easy access for testing, etc. */
