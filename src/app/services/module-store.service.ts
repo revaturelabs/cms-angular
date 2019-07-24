@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Module } from '../models/Module';
 import { ModuleFetcherService } from './module-fetcher.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
    providedIn: 'root'
@@ -33,8 +34,9 @@ export class ModuleStoreService {
    failedRequest: boolean = false;
 
 
-   constructor(private ms: ModuleFetcherService) { }
-
+   constructor(private ms: ModuleFetcherService,
+               private toastr: ToastrService
+                  ) { }
 
    /* load Modules once from backend on program start */
    loadModules() {
@@ -47,11 +49,14 @@ export class ModuleStoreService {
             }
             else { 
                this.failedRetrieve = true;
+               this.toastr.error('failed to retrieve modules');
                this.isLoading = false;
             }
          }, (response) => {
+            this.toastr.error('failed to retrieve modules');
             this.failedRequest = true;
             this.isLoading = false;
+
          }, () => this.populateCollections(this.response)
       )
    }
