@@ -50,8 +50,8 @@
                   name="selectedSubjects">
                </ng-select>
                <div class="text-right">
-                  <span class="subjectFailed" *ngIf="ms.failedRequest">Failed to send module request.</span>
-                  <span class="subjectFailed" *ngIf="ms.failedRetrieve">Failed to retrieve module.</span>
+                  <span class="failed" *ngIf="ms.failedRequest">Failed to send module request.</span>
+                  <span class="failed" *ngIf="ms.failedRetrieve">Failed to retrieve module.</span>
                </div>
             </div>
             <div class="col-1"></div>
