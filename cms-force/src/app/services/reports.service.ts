@@ -27,6 +27,8 @@ export class ReportsService {
   /** TS variable that gets the moduleIDs we are sending back to the server to get average of */
   moduleIDs: number[] = [];
   
+  loading: boolean = false;
+
   constructor(
     private http: HttpClient,
     private endpoints: EndpointsService,
@@ -38,6 +40,8 @@ export class ReportsService {
    */
   getMetrics() {
     
+    this.loading = true;
+
     this.ms.loadModules();
     this.ms.buffer.subscribe((ret)=>{
 
@@ -59,8 +63,18 @@ export class ReportsService {
             this.globalReports.metricsData = result;
             this.reportsPage.updateMetrics(result);
             this.reportsTimeGraph.updateGraph(result.timeGraphData);
+          },
+          (err) => {
+            console.log(err);
+          },
+          () => {
+            this.loading = false;
           });
       }
+    },
+    (err) => {
+      console.log(err);
+      this.loading = false;
     });
   }
 

@@ -12,8 +12,15 @@
     </div>
     <h5 id = "selectedViewText" class = "float-left p-2">Selected View: {{selectedView}}</h5>
 
+    <div *ngIf="reportsService.loading">
+      <br>
+      <br>
+      <br>
+      <p>Loading...</p>
+    </div>
     <ngx-charts-line-chart
     id="lineChart"
+    *ngIf="!reportsService.loading"
     [view]="view"      
     [animations]="animations"      
     [scheme]="colorScheme"
