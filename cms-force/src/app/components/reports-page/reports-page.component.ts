@@ -22,9 +22,9 @@ export class ReportsPageComponent implements OnInit {
   difModules : Object;
     /** TS variable referenced to display the average number of resources per module */
   avgResources : Object;
-
+  /** TS variable that gets the moduleIDs we are sending back to the server to get average of */
   moduleIDs: number[] = [];
-
+  /** TS variable to store all of the modules from server  */
   selectedSubject:string[] = [];
 
 
@@ -68,11 +68,11 @@ export class ReportsPageComponent implements OnInit {
    /**
    * Calls server to get notes (document) count
    */
-  populateNotes(){
-    this.http.get(this.endpoints.COUNTNOTES).subscribe(data => {
-      this.lectureNotes = data;
-    });
-  }
+  // populateNotes(){
+  //   this.http.get(this.endpoints.COUNTNOTES).subscribe(data => {
+  //     this.lectureNotes = data;
+  //   });
+  // }
 
 
   /** 
@@ -92,27 +92,32 @@ export class ReportsPageComponent implements OnInit {
     this.selectedSubject = this.ms.subjectNames;
     this.getIDsFromSubjects(this.selectedSubject); //sets
     
-    if(this.moduleIDs.length >0){
+    if(this.moduleIDs.length > 0){
       this.http.post(this.endpoints.COUNTAVERAGE, {modules: this.moduleIDs}).subscribe(data => {
         this.avgResources = data;
       });
+    } else {
+      this.avgResources = 0;
     }
   }
 
   /**
     * Took this from another container
     * Gets the string array of selected subjects and populates
-    * the number array of subject id (or model or tag or whatever the team never really settled on the name like it was tag at first then prerequisite then modules then affiliation then subjects like come on)
+    * the number array of subject id (or model or tag or whatever the team never really settled on the name 
+    * like it was tag at first then prerequisite then modules then affiliation then subjects like come on)
     * @param subjects
     */
-   getIDsFromSubjects(subjects: string[]) {
-    this.moduleIDs = [];
-    subjects.forEach(
-       (subject) => {
-          this.moduleIDs.push(this.ms.subjectNameToModule.get(subject).id);
-       }, this)
+    getIDsFromSubjects(subjects: string[]) {
+      this.moduleIDs = [];
+      if(subjects){
+        subjects.forEach(
+          (subject) => {
+            this.moduleIDs.push(this.ms.subjectNameToModule.get(subject).id);
+          }, this
+        )
+      }
    }
-
 
 }
 
