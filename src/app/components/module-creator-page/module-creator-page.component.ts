@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Module } from 'src/app/models/Module';
 import { ModuleFetcherService } from 'src/app/services/module-fetcher.service';
 
+/** Typescript Component for Module Creator Page */
 @Component({
    selector: 'app-module-creator-page',
    templateUrl: './module-creator-page.component.html',
@@ -9,12 +10,20 @@ import { ModuleFetcherService } from 'src/app/services/module-fetcher.service';
 })
 export class ModuleCreatorPageComponent implements OnInit {
 
+   /**
+    * Tag name/subject
+    */
    subject: string = "";
 
+   /**
+    * Constructor for Module Crator
+    * @param mf Grabs links/tag
+    */
    constructor(
       private mf: ModuleFetcherService
    ) { }
 
+   /**@ignore */
    ngOnInit() {
    }
 
@@ -54,6 +63,9 @@ export class ModuleCreatorPageComponent implements OnInit {
       )
    }
 
+   /**
+    * Resets subject field
+    */
    private resetVariables() {
       this.subject = "";
    }

@@ -5,6 +5,7 @@ import { ContentFinderPageComponent } from './components/content-finder-page/con
 import { ModuleCreatorPageComponent } from './components/module-creator-page/module-creator-page.component';
 import { ModuleIndexPageComponent } from './components/module-index-page/module-index-page.component';
 
+/** @ignore */
 const routes: Routes = [
    { path: '', redirectTo: '/content-creator', pathMatch: 'full' },   // home page
    { path: 'content-creator', component: ContentCreatorPageComponent, pathMatch: 'full' },
@@ -14,11 +15,13 @@ const routes: Routes = [
    { path: '**', redirectTo: '/content-creator', pathMatch: 'full' }   // when invalid url entered
 ];
 
+/** @ignore */
 const extraOptions: ExtraOptions = {
    enableTracing: false,
    scrollPositionRestoration: 'enabled'
 };
 
+/** @ignore */
 @NgModule({
    imports: [RouterModule.forRoot(routes, extraOptions)],
    exports: [RouterModule]

@@ -6,6 +6,7 @@ import { Content } from 'src/app/models/Content';
 import { Filter } from 'src/app/models/Filter';
 import { Link } from 'src/app/models/Link';
 
+/** Typescript Component for Module Index Page */
 @Component({
    selector: 'app-module-index-page',
    templateUrl: './module-index-page.component.html',
@@ -13,25 +14,36 @@ import { Link } from 'src/app/models/Link';
 })
 export class ModuleIndexPageComponent implements OnInit {
 
-   /* Visibility status of each Module */
+   /** Map of Visibility status of each Module */
    contentVisible: Map<Module, boolean> = new Map<Module, boolean>();
 
-   /* Map of Modules to their list of related Content.
-      Loaded when user clicks on Module (lazy load) */
+   /** Map of Modules to their list of related Content.
+    * Loaded when user clicks on Module (lazy load) */
    moduleContents: Map<Module, Content[]> = new Map<Module, Content[]>();
 
    selCon: Content = new Content(0, "", "", "", "", []);
    selModule: Module = new Module(0, "", 0, []);
 
+   /**
+    * Constructor for Module Index Component
+    * @param cs Fetches content
+    * @param ms Fetches tags
+    */
    constructor(
       private cs: ContentFetcherService,
       public ms: ModuleStoreService
    ) { }
 
+   /** On page initialization load the modules to list on the dropdown menu
+    */
    ngOnInit() {
       this.ms.loadModules();
    }
 
+   /**
+    * Lists the available content for module input
+    * @param {Module} module 
+    */
    listContent(module: Module) {
       /* Check if Content list already loaded for Module */
       if (null == this.moduleContents.get(module)) {
@@ -67,10 +79,11 @@ export class ModuleIndexPageComponent implements OnInit {
    }
 
    /**
-     * Sort the content list order by title,
-     * insert into Module->List<Content> Map
-     * @param response
-     */
+    * Sort the content list order by title
+    * Insert into Module->List<Content> Map
+    * @param response Available content
+    * @param module Tags/modules for content
+    */
    parseContentResponse(response: Content[], module: Module) {
 
       /* sort contents by their title */

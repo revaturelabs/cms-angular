@@ -6,6 +6,7 @@ import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { Link } from 'src/app/models/Link';
 //import { linkSync } from 'fs';
 
+/** Typescript component for Content Finder page */
 @Component({
    selector: 'app-content-finder-page',
    templateUrl: './content-finder-page.component.html',
@@ -13,24 +14,62 @@ import { Link } from 'src/app/models/Link';
 })
 export class ContentFinderPageComponent implements OnInit {
 
+   /**
+    * Selection of formats to choose betwwen
+    */
    readonly formats: string[] = ["Code", "Document", "Powerpoint", "All"];
+
+   /**
+    * Title of content
+    */
    title: string = "";
+
+   /**
+    * Sets defualt for content selection to All
+    */
    selFormat: string = "All";
+
+   /**
+    * Array of contents
+    */
    contents: Content[];
+
+   /**
+    * Hides table for contents until Find content is clicked and content is available
+    */
    tablebool: boolean = false;
+
+   /**
+    * Stores the tags
+    */
    moduleIDs: number[];
-   selectedSubjects: string[] = [];  // selected from subject list
+
+   /**
+    * Selected from subject list
+    */
+   selectedSubjects: string[] = [];
    selectedTags: string[] = [];
    selCon: Content;
-   // contentWrapper: ContentWrapper;
+
+   /**
+    * Takes selected subjects and used for searching
+    */
    searchedSubjects: string[] = [];
    tagOptions: string[] = [];
    selLink: Link;
 
+   /**
+    * Content Finder Constructor
+    * @param cs Allows us to fetch content
+    * @param ms Allows us to get information for tags
+    */
    constructor(
       private cs: ContentFetcherService,
       public ms: ModuleStoreService) { }
 
+   /**
+    * On page initialization load the modules to list on the dropdown menu 
+    */
    ngOnInit() {
       this.ms.loadModules();
    }
@@ -72,11 +111,11 @@ export class ContentFinderPageComponent implements OnInit {
     * @param response
     */
    parseContentResponse(response: Content[]) {
-      /* sort contents by their id */
+      /* Sorts contents by their id */
       this.contents = response.sort(
          (a, b) => { return a.id - b.id });
 
-      /* sort each content's list of links by
+      /* Sorts each content's list of links by
        * subject/module name via lookup Map */
       this.contents.forEach(
          (content) => {
@@ -102,6 +141,8 @@ export class ContentFinderPageComponent implements OnInit {
 
    /**
     * Function to see if the table is populated with content
+    * 
+    * @returns True if table has content and false if no content is preset
     */
    notEmpty(): boolean {
       if (this.contents.length != 0) {
