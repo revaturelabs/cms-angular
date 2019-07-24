@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Module } from '../models/Module';
 import { ModuleFetcherService } from './module-fetcher.service';
+import { Content } from '../models/Content';
+import { ContentFetcherService } from './content-fetcher.service';
 
 /** 
  * ModuleStoreService provides a method to load all Modules and houses
@@ -36,12 +38,13 @@ export class ModuleStoreService {
    /** String representing the status of module-store-service */
    loadingText: string = "Loading Subjects...";
 
+
    /**
     * Basic constructor for bss
     * @param ms Service to obtain Modules from back-end
     */
-   constructor(private ms: ModuleFetcherService) { }
-
+   constructor(private ms: ModuleFetcherService,
+      private cs: ContentFetcherService) { }
 
    /** load Modules once from backend on program start */
    loadModules() {

@@ -12,6 +12,7 @@ export class EndpointsService {
 
    /** Create Content Endpoint */
    public readonly CREATE_NEW_CONTENT: string = this.baseURL + '/content';
+   public readonly UPDATE_CONTENT: string = this.baseURL + '/content';
    /** Get All Content Endpoint */
    public readonly GET_ALL_CONTENT: string = this.baseURL + '/content';
    /** Get Content by ID Endpoint */
@@ -38,6 +39,7 @@ export class EndpointsService {
    public getAllEndpoints(): string[] {
       let endpoints: string[] = new Array(
          this.CREATE_NEW_CONTENT,
+         this.UPDATE_CONTENT,
          this.GET_ALL_CONTENT,
          this.GET_CONTENT_BY_ID,
          this.UPDATE_CONTENT_BY_ID,

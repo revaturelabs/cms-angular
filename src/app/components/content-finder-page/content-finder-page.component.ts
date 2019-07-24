@@ -3,6 +3,8 @@ import { Content } from '../../models/Content';
 import { Filter } from '../../models/Filter';
 import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
+import { Link } from 'src/app/models/Link';
+//import { linkSync } from 'fs';
 
 /** Typescript component for Content Finder page */
 @Component({
@@ -46,11 +48,15 @@ export class ContentFinderPageComponent implements OnInit {
     * Selected from subject list
     */
    selectedSubjects: string[] = [];
+   selectedTags: string[] = [];
+   selCon: Content;
 
    /**
     * Takes selected subjects and used for searching
     */
    searchedSubjects: string[] = [];
+   tagOptions: string[] = [];
+   selLink: Link;
 
    /**
     * Content Finder Constructor
@@ -149,8 +155,9 @@ export class ContentFinderPageComponent implements OnInit {
    }
 
    /**
-    * Gets the string array of selected subjects and populates the number array of subject id
-    * @param {string} subjects
+    * Description - Gets the string array of selected subjects and populates
+    * the number array of subject id (or model or tag or whatever the team never really settled on the name like it was tag at first then prerequisite then modules then affiliation then subjects like come on)
+    * @param subjects - array of subjects
     */
    getIDsFromSubjects(subjects: string[]) {
       this.moduleIDs = [];
@@ -159,6 +166,70 @@ export class ContentFinderPageComponent implements OnInit {
             this.moduleIDs.push(this.ms.subjectNameToModule.get(subject).id);
          }, this
       )
+   }
+   
+   /**
+    * Description - This method deletes a link between a content and a module
+    */
+   removeTag() {
+      let found = this.selCon.links.findIndex(l => this.selLink.id === l.id);
+      this.selCon.links.splice(found, 1);
+      this.cs.updateContentByContent(this.selCon).subscribe();
+   }
+
+   /**
+    * Description - selects the generated content
+    * @param content - the content that needs to be selected
+    */
+   selectedContent(content: Content) {
+      this.selCon = content;
+
+      let subjectToName: string[] = [];
+
+      for (let l of this.selCon.links) {
+         subjectToName.push(this.ms.subjectIdToName.get(l.moduleId));
+      }
+
+      let tempArr: string[] = [];
+
+      for (let t of this.ms.subjectNames) {
+         if (!subjectToName.includes(t))
+            tempArr.push(t);
+      }
+      this.tagOptions = tempArr;
+   }
+
+   selectedLinkForRemoval(content: Content, link: Link) {
+      this.selCon = content;
+      this.selLink = link;
+   }
+
+
+/**
+ * Description - Adds tags to a specific content
+ * Grabs the inputted tags and pushes them into the content.links array
+ * Then sends a request to the database to update the content.
+ */
+   updateTags() {
+      let links = [];
+      if (this.selectedTags.length > 0) {
+         this.selectedTags.forEach(
+            (subject) => {
+               links.push(new Link(null, this.selCon.id,
+                  this.ms.subjectNameToModule.get(subject).id, null));
+            }, this
+         )
+         for (let l of links) {
+            this.selCon.links.push(l);
+         }
+         
+         this.cs.updateContentByContent(this.selCon).subscribe((response: Content) => {
+            this.selCon.links = response.links;
+         });
+      }
+
+      this.selectedTags = [];
+
    }
 
 }
