@@ -14,34 +14,35 @@
 
           <div class="card d-flex" style="width: 18rem;" style="margin-bottom: 15px">
             <ul class="list-group list-group-flush">
-              <li class="list-group-item"> <span class="font-weight-bold">Code Examples</span> <span class="float-right">{{codeExamples}}</span></li>
+              <li class="list-group-item"> <span class="font-weight-bold">Code Examples</span> <span id="code_Ex" class="float-right">{{codeExamples}}</span></li>
             </ul>
           </div>
 
           <div class="card" style="width: 18rem;" style="margin-bottom: 15px">
             <ul class="list-group list-group-flush">
-              <li class="list-group-item"><span class="font-weight-bold">Lecture Notes</span> <span class="float-right">{{lectureNotes}}</span></li>
+              <li class="list-group-item"><span class="font-weight-bold">Lecture Notes</span> <span id="lect_Notes" class="float-right">{{lectureNotes}}</span></li>
             </ul>
           </div>
 
           <div class="card" style="width: 18rem;" style="margin-bottom: 15px">
             <ul class="list-group list-group-flush">
-              <li class="list-group-item"><span class="font-weight-bold">Different Modules</span> <span class="float-right">{{difModules}}</span></li>
+              <li class="list-group-item"><span class="font-weight-bold">Different Modules</span> <span id="dif_Mods" class="float-right">{{difModules}}</span></li>
             </ul>
           </div>
 
           <div class="card" style="width: 18rem;" style="margin-bottom: 15px">
             <ul class="list-group list-group-flush">
-              <li class="list-group-item"><span class="font-weight-bold">Avg. Resources</span> <span class="float-right">{{avgResources}}</span></li>
+              <li class="list-group-item"><span class="font-weight-bold">Avg. Resources</span> <span id="avg_Res" class="float-right">{{avgResources}}</span></li>
             </ul>
           </div>
         </div>
 
         <div class="col-8">
-          <app-reports-time-graph></app-reports-time-graph>
+          <div class="text-center">
+            <app-reports-time-graph></app-reports-time-graph>
+          </div>
         </div>
       </div>
-
     </div>
   </div>
 </div>
