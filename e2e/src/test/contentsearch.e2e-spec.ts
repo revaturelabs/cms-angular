@@ -53,7 +53,7 @@ describe('workspace-project App', () => {
     findContent.clickDeleteTag();
   });
 
-  it('should click delete/add tags button', () =>{
+  it('should click add tags button', () =>{
     browser.sleep(1000);
     findContent.enterAddTag(selectedSubjects);
   })

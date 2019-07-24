@@ -25,6 +25,7 @@ export class ContentFinderPageComponent implements OnInit {
    // contentWrapper: ContentWrapper;
    searchedSubjects: string[] = [];
    tagOptions: string[] = [];
+   selLink: Link;
 
    constructor(
       private cs: ContentFetcherService,
@@ -128,13 +129,11 @@ export class ContentFinderPageComponent implements OnInit {
    
    /**
     * Description - This method deletes a link between a content and a module
-    * @param link - the link that needs to be deleted
-    * @param content - the content in which the request link is to be deleted from
     */
-   removeTag(link: Link, content: Content) {
-      let found = content.links.findIndex(l => link.id === l.id);
-      content.links.splice(found, 1);
-      this.cs.updateContentByContent(content).subscribe();
+   removeTag() {
+      let found = this.selCon.links.findIndex(l => this.selLink.id === l.id);
+      this.selCon.links.splice(found, 1);
+      this.cs.updateContentByContent(this.selCon).subscribe();
    }
 
    /**
@@ -157,6 +156,11 @@ export class ContentFinderPageComponent implements OnInit {
             tempArr.push(t);
       }
       this.tagOptions = tempArr;
+   }
+
+   selectedLinkForRemoval(content: Content, link: Link) {
+      this.selCon = content;
+      this.selLink = link;
    }
 
 
