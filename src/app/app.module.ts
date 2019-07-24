@@ -12,7 +12,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { ModuleCreatorPageComponent } from './components/module-creator-page/module-creator-page.component';
 import { ModuleIndexPageComponent } from './components/module-index-page/module-index-page.component';
 
-
+/** @ignore */
 @NgModule({
    declarations: [
       AppComponent,
