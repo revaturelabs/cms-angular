@@ -12,29 +12,30 @@
     </div>
     <h5 id = "selectedViewText" class = "float-left p-2">Selected View: {{selectedView}}</h5>
 
-    <div *ngIf="reportsService.loading">
-      <br>
-      <br>
-      <br>
-      <p>Loading...</p>
+    <div class = "chart-container">
+      <div *ngIf="reportsService.loading">
+        <br>
+        <br>
+        <img id="loadingImage" src="https://res.cloudinary.com/davd4ynha/image/upload/v1540342369/loading.gif" alt="loading">
+      </div>
+      <ngx-charts-line-chart
+      id="lineChart"
+      *ngIf="!reportsService.loading"
+      [view]="view"      
+      [animations]="animations"      
+      [scheme]="colorScheme"
+      [results]="graphResults"
+      [gradient]="gradient"
+      [xAxis]="showXAxis"
+      [yAxis]="showYAxis"
+      [legend]="showLegend"
+      [showXAxisLabel]="showXAxisLabel"
+      [showYAxisLabel]="showYAxisLabel"
+      [xAxisLabel]="xAxisLabel"
+      [yAxisLabel]="yAxisLabel"
+      [autoScale]="autoScale"
+      [timeline]="timeline"
+      (window:resize)="onResize($event)"
+      >
+      </ngx-charts-line-chart>
     </div>
-    <ngx-charts-line-chart
-    id="lineChart"
-    *ngIf="!reportsService.loading"
-    [view]="view"      
-    [animations]="animations"      
-    [scheme]="colorScheme"
-    [results]="graphResults"
-    [gradient]="gradient"
-    [xAxis]="showXAxis"
-    [yAxis]="showYAxis"
-    [legend]="showLegend"
-    [showXAxisLabel]="showXAxisLabel"
-    [showYAxisLabel]="showYAxisLabel"
-    [xAxisLabel]="xAxisLabel"
-    [yAxisLabel]="yAxisLabel"
-    [autoScale]="autoScale"
-    [timeline]="timeline"
-    (window:resize)="onResize($event)"
-    >
-    </ngx-charts-line-chart>

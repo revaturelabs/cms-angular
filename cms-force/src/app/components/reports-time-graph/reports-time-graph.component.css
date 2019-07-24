@@ -1,0 +1,10 @@
+.chart-container {
+    height: 400px;
+}
+
+#loadingImage {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 25%;
+}

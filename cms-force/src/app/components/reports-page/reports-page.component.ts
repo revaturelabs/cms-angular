@@ -50,6 +50,10 @@ export class ReportsPageComponent implements OnInit {
   
   getMetrics() {
     this.reportsService.getMetrics();
+    this.codeExamples = null;
+    this.lectureNotes = null;
+    this.difModules = null;
+    this.avgResources = null;
   }
 
   updateMetrics(data: MetricsData) {
