@@ -5,8 +5,7 @@
 
       <div class="col">
          <div id="content">
-            <img src="/assets/img/logo.png"
-               alt="revature" class="logo">
+            <img src="/assets/img/logo.png" alt="revature" class="logo">
          </div>
 
          <!-- TITLE & URL -->
@@ -16,20 +15,12 @@
                <div class="col-1"></div>
 
                <div class="col">
-                  <input id="titleTextBox" [(ngModel)]="title"
-                     required
-                     name="title"
-                     type="text"
-                     class="form-control"
+                  <input id="titleTextBox" [(ngModel)]="title" required name="title" type="text" class="form-control"
                      placeholder="Title">
                </div>
 
                <div class="col">
-                  <input id="urlTextBox" [(ngModel)]="url"
-                     required
-                     name="url"
-                     type="text"
-                     class="form-control"
+                  <input id="urlTextBox" [(ngModel)]="url" required name="url" type="text" class="form-control"
                      placeholder="URL">
                </div>
                <div class="col-1"></div>
@@ -40,19 +31,16 @@
             <div class="row subject mb-3">
                <div class="col-1"></div>
                <div class="col rele">
-                  <ng-select id="subjectDropDown" [items]="ms.subjectNames"
-                     multiple="true"
-                     closeOnSelect="true"
-                     hideSelected="true"
-                     clearOnBackspace="true"
-                     bindLabel="name"
-                     spellcheck="false"
-                     notFoundText="(no such subject found)"
-                     [loading]="ms.isLoading"
-                     [placeholder]="ms.loadingText"
-                     [(ngModel)]="selectedSubjects"
-                     name="selectedSubjects">
+                  <ng-select id="subjectDropDown" [items]="ms.subjectNames" multiple="true" closeOnSelect="true"
+                     hideSelected="true" clearOnBackspace="true" bindLabel="name" spellcheck="false"
+                     notFoundText="(no such subject found)" [loading]="ms.isLoading" [placeholder]="ms.loadingText"
+                     [(ngModel)]="selectedSubjects" name="selectedSubjects">
                   </ng-select>
+                  <div class="text-right">
+                     <span class="subjectFailed" *ngIf="ms.failedRequest">Failed to send module request.</span>
+                     <br *ngIf="ms.failedRetrieve">
+                     <span class="subjectFailed" *ngIf="ms.failedRetrieve">Failed to retrieve module.</span>
+                  </div>
                </div>
                <div class="col-1"></div>
             </div>
@@ -62,12 +50,8 @@
                <div class="col-1"></div>
                <div class="col">
                   <label for="exampleFormControlTextarea1"></label>
-                  <textarea id="descriptionTextBox" [(ngModel)]="description"
-                     name="description"
-                     class="form-control"
-                     id="exampleFormControlTextarea1"
-                     rows="4"
-                     placeholder="Description"></textarea>
+                  <textarea id="descriptionTextBox" [(ngModel)]="description" name="description" class="form-control"
+                     id="exampleFormControlTextarea1" rows="4" placeholder="Description"></textarea>
                </div>
                <div class="col-1"></div>
             </div>
@@ -77,26 +61,19 @@
                <!-- RADIO BUTTONS -->
                <div class="col">
                   <div class="btn-radio">
-                     <div class="form-check form-check-inline"
-                        *ngFor="let format of formats">
+                     <div class="form-check form-check-inline" *ngFor="let format of formats">
 
-                        <input [(ngModel)]="selFormat"
-                           class="form-check-input"
-                           type="radio" name="formatOptions"
+                        <input [(ngModel)]="selFormat" class="form-check-input" type="radio" name="formatOptions"
                            id="{{format}}" value="{{format}}">
-                        <label class="form-check-label"
-                           for="{{format}}"
-                           id="{{format}}RadioButton">{{format}}</label>
+                        <label class="form-check-label" for="{{format}}" id="{{format}}RadioButton">{{format}}</label>
                      </div>
                   </div>
                </div>
             </div>
             <!-- BUTTON ROW -->
             <div class="row btn mb-3">
-               <button type="button"
-                  class="btn btn-primary"
-                  id="submitButton"
-                  (click)="submit()">Submit Content</button>
+               <button type="button" class="btn btn-primary" id="submitButton" (click)="submit()">Submit
+                  Content</button>
             </div>
 
          </form>

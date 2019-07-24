@@ -27,8 +27,10 @@ export class ModuleStoreService {
 
 
    response: Module[];
-   isLoading: boolean = true;
+   isLoading: boolean = false;
    loadingText: string = "Loading Subjects...";
+   failedRetrieve: boolean = false;
+   failedRequest: boolean = false;
 
 
    constructor(private ms: ModuleFetcherService) { }
@@ -43,9 +45,13 @@ export class ModuleStoreService {
             if (response != null) {
                this.response = response;
             }
-            else alert("Failed to retrieve any modules.");
+            else { 
+               this.failedRetrieve = true;
+               this.isLoading = false;
+            }
          }, (response) => {
-            alert("Failed to send module request.");
+            this.failedRequest = true;
+            this.isLoading = false;
          }, () => this.populateCollections(this.response)
       )
    }
@@ -81,6 +87,8 @@ export class ModuleStoreService {
          )
       }
       this.isLoading = false;
+      this.failedRequest = false;
+      this.failedRetrieve = false;
       this.loadingText = "Select relevant subjects";
    }
 

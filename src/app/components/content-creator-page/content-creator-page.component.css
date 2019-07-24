@@ -69,4 +69,8 @@ input[type="radio"] {
    justify-content: center;
 }
 
+.subjectFailed {
+   color: red;
+}
+
 

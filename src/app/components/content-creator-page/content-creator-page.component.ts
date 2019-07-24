@@ -7,7 +7,7 @@ import { ModuleStoreService } from 'src/app/services/module-store.service';
 @Component({
    selector: 'app-content-creator-page',
    templateUrl: './content-creator-page.component.html',
-   styleUrls: ['./content-creator-page.component.css']
+   styleUrls: ['./content-creator-page.component.css'],
 })
 export class ContentCreatorPageComponent implements OnInit {
 
@@ -20,7 +20,8 @@ export class ContentCreatorPageComponent implements OnInit {
    // document: string;
    selectedSubjects: string[] = [];  // selected from subject list
    // prerequisites: string[] = [];
-
+   failedRetrieve: boolean;
+   failedRequest: boolean;
    constructor(
       private cs: ContentFetcherService,
       public ms: ModuleStoreService) {
@@ -29,7 +30,10 @@ export class ContentCreatorPageComponent implements OnInit {
    /* On page initialization load the modules to list on the dropdown menu */
    ngOnInit() {
       this.ms.loadModules();
+      console.log(this.ms.failedRequest);
    }
+
+
 
    /**
     * Check if the input fields are all valid - all filled in
