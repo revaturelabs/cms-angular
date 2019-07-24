@@ -48,13 +48,13 @@ export class ModuleStoreService {
                this.response = response;
             }
             else { 
-               this.failedRetrieve = true;
+               // this.failedRetrieve = true;
                this.toastr.error('failed to retrieve modules');
                this.isLoading = false;
             }
          }, (response) => {
             this.toastr.error('failed to retrieve modules');
-            this.failedRequest = true;
+            // this.failedRequest = true;
             this.isLoading = false;
 
          }, () => this.populateCollections(this.response)
