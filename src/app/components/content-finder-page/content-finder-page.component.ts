@@ -20,6 +20,7 @@ export class ContentFinderPageComponent implements OnInit {
    selectedSubjects: string[] = [];  // selected from subject list
    // contentWrapper: ContentWrapper;
    searchedSubjects: string[] = [];
+   isSearching: boolean = false;
 
    constructor(
       private cs: ContentFetcherService,
@@ -35,6 +36,7 @@ export class ContentFinderPageComponent implements OnInit {
     * response as the array of content and populate the table and print it.
     */
    submit() {
+      this.isSearching = true;
       let format: string = this.selFormat;
       if (format === "All") {
          format = "";
@@ -56,6 +58,7 @@ export class ContentFinderPageComponent implements OnInit {
             }
          },
          (response) => {
+            this.isSearching = false;
             alert("Failed to send filter")
          }
       )

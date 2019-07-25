@@ -15,6 +15,7 @@ import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ToastrModule } from 'ngx-toastr';
+import { MatProgressSpinnerModule} from '@angular/material';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { ToastrModule } from 'ngx-toastr';
       FormsModule,
       CommonModule,
       BrowserAnimationsModule,
-      ToastrModule.forRoot() // toastrModule
+      ToastrModule.forRoot(), // toastrModule
+      MatProgressSpinnerModule
    ],
    providers: [],
    bootstrap: [AppComponent]
