@@ -2,6 +2,7 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+/** @ignore */
 export const environment = {
    production: false,
    cms_url: 'http://localhost:9009/CMSforce/as'

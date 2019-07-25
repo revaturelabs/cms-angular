@@ -6,6 +6,8 @@ export class SearchPage {
     private documentRadio        : ElementFinder;
     private allRadio             : ElementFinder;
     private selectedSubjects     : ElementFinder;
+    private addTagsSelector      : ElementFinder;
+    private deleteTagsSelector   : ElementFinder;
 
     constructor() {
          this.title = this.getTitleInput();
@@ -13,6 +15,8 @@ export class SearchPage {
          this.documentRadio = this.getDocumentRadio();
          this.allRadio = this.getAllRadio();
          this.selectedSubjects = this.getSelectedSubjectsSelect();
+         this.addTagsSelector = this.getAddTagsSelector();
+         this.deleteTagsSelector = this.getDeleteTagsSelector();
     }
 
     navigateTo() {
@@ -46,6 +50,38 @@ export class SearchPage {
      */
     private getSelectedSubjectsSelect() {
       return element(by.css('[name="selectedSubjects"]'));
+    }
+
+    /**
+     * Returns the element for adding tags
+     */
+    private getAddTagsSelector(){
+      return element(by.css('.plusCenter'));
+    }
+
+    enterAddTag(inputs: string[]){
+      this.addTagsSelector.click();
+      browser.sleep(1000);
+      let addSelectedTags: ElementFinder = element(by.css('[name=selectedTags]'));
+      let addSelectedTagsButton: ElementFinder = element(by.css('.addATag'));
+      addSelectedTags.click();
+      inputs.forEach((input) =>{
+        browser.actions().sendKeys(input).perform();
+        browser.actions().sendKeys(protractor.Key.ENTER).perform();
+      });
+      addSelectedTagsButton.click();
+    }
+
+
+    /**
+     * Returns the element for deleting tags
+     */
+    private getDeleteTagsSelector(){
+      return element(by.css('.fa-trash'));
+    }
+
+    clickDeleteTag(){
+      this.deleteTagsSelector.click();
     }
 
     /**

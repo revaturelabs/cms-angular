@@ -2,41 +2,52 @@ import { Injectable } from '@angular/core';
 import { Module } from '../models/Module';
 import { ModuleFetcherService } from './module-fetcher.service';
 import { ToastrService } from 'ngx-toastr';
+import { ContentFetcherService } from './content-fetcher.service';
 
+/** 
+ * ModuleStoreService provides a method to load all Modules and houses
+ * collections of Module-related data for direct access.
+ */
 @Injectable({
    providedIn: 'root'
 })
-
-/* ModuleStoreService provides a method to load all Modules and houses
- * collections of Module-related data for direct access.
- */
 export class ModuleStoreService {
 
-   /* Various maps for easy retrieving of module/subject info */
+   /** Mapping of Subject Name to Module */
    subjectNameToModule: Map<string, Module>;
+   /** Mapping of Subject ID to Module */
    subjectIdToModule: Map<number, Module>;
+   /** Mapping of Subject ID to Subject Name */
    subjectIdToName: Map<number, string>;
 
-   /* all subject names in alphabetical order */
+   /** all subject names in alphabetical order */
    subjectNames: string[];
 
-   /* subject id => index of subject's name in
+   /**
+    * subject id => index of subject's name in
     * alphabetical order name array.
     * Can be used for module Name string comparison using
-    * only module ID */
+    * only module ID 
+    */
    subjectIdToSortedIndex: Map<number, number>;
 
-
+   /** All Modules being returned */
    response: Module[];
-   isLoading: boolean = false;
+   /** Whether or not the Modules are still being loaded from back-end */
+   isLoading: boolean = true;
+   /** String representing the status of module-store-service */
    loadingText: string = "Loading Subjects...";
 
 
+   /**
+    * Basic constructor for bss
+    * @param ms Service to obtain Modules from back-end
+    */
    constructor(private ms: ModuleFetcherService,
-               private toastr: ToastrService
-                  ) { }
+      private cs: ContentFetcherService,
+      private toastr: ToastrService) { }
 
-   /* load Modules once from backend on program start */
+   /** load Modules once from backend on program start */
    loadModules() {
       this.isLoading = true;
       this.loadingText = "Loading Subjects...";
@@ -59,8 +70,10 @@ export class ModuleStoreService {
       )
    }
 
-   /* fills collections defined using all available module info for quick,
-    * easy access to subject names, id, and alphabetical ordering */
+   /**
+    * fills collections defined using all available module info for quick,
+    * easy access to subject names, id, and alphabetical ordering 
+    */
    populateCollections(modules: Module[]) {
       let i = 0;
       let c = 0;
@@ -93,7 +106,10 @@ export class ModuleStoreService {
       this.loadingText = "Select relevant subjects";
    }
 
-   /* Choose color based on module index */
+   /**
+    * Choose color based on module index
+    * @param index Index of Module, used to determine color
+    */
    private getColor(index : number): string {
       if(index%2 == 0){
          return "#72A4C2";

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Module } from 'src/app/models/Module';
 import { ModuleFetcherService } from 'src/app/services/module-fetcher.service';
+import { ToastrService } from 'ngx-toastr';
 
+/** Typescript Component for Module Creator Page */
 @Component({
    selector: 'app-module-creator-page',
    templateUrl: './module-creator-page.component.html',
@@ -9,12 +11,21 @@ import { ModuleFetcherService } from 'src/app/services/module-fetcher.service';
 })
 export class ModuleCreatorPageComponent implements OnInit {
 
+   /**
+    * Tag name/subject
+    */
    subject: string = "";
 
+   /**
+    * Constructor for Module Crator
+    * @param mf Grabs links/tag
+    */
    constructor(
-      private mf: ModuleFetcherService
+      private mf: ModuleFetcherService,
+      private toastr: ToastrService
    ) { }
 
+   /**@ignore */
    ngOnInit() {
    }
 
@@ -26,7 +37,7 @@ export class ModuleCreatorPageComponent implements OnInit {
 
       /* If input field is null alert the user */
       if (['', null, undefined].includes(this.subject)) {
-         alert('Please fill in the input field!');
+         this.toastr.error('Please fill in the input field!');
          this.resetVariables();
          return;
       }
@@ -39,14 +50,14 @@ export class ModuleCreatorPageComponent implements OnInit {
          /* On Success */
          (response) => {
             if (response != null)
-               alert('Successfully sent module.');
+               this.toastr.success('Successfully sent module.');
             else
-               alert('There was a problem creating a subject');
+               this.toastr.error('There was a problem creating a subject');
          },
 
          /* On Failure */
          (response) => {
-            alert("Failed to create subject. Subject may already exist.");
+            this.toastr.error('Failed to create subject. Subject may already exist.');
          },
 
          /* After success */
@@ -54,6 +65,9 @@ export class ModuleCreatorPageComponent implements OnInit {
       )
    }
 
+   /**
+    * Resets subject field
+    */
    private resetVariables() {
       this.subject = "";
    }

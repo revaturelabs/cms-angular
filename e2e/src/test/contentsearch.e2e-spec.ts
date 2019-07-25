@@ -1,5 +1,6 @@
 import { SearchPage } from './contentsearch.po';
 import { browser, logging } from 'protractor';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 
 describe('workspace-project App', () => {
   let findContent           : SearchPage;
@@ -9,7 +10,7 @@ describe('workspace-project App', () => {
   beforeAll(() => {
     findContent = new SearchPage();
     title = "CMS";
-    selectedSubjects = ["Java", "CSS"];
+    selectedSubjects = ["Java"];
     findContent.navigateTo();
   });
 
@@ -25,7 +26,6 @@ describe('workspace-project App', () => {
   // only enters values
   it('should accept selected subjects input', () => {
     findContent.enterSelectedSubjects(selectedSubjects);
-    // browser.sleep(5000); // to manually check, uncomment.
   });
 
   it('should select Document radio button', () => {
@@ -46,8 +46,19 @@ describe('workspace-project App', () => {
   it('should click submit button', () => {
     browser.sleep(1000);
     findContent.clickSearchButton();
-    findContent.acceptAlert();
   });
+
+  it('should click trash can icon', () => {
+    browser.sleep(1000);
+    findContent.clickDeleteTag();
+  });
+
+  it('should click add tags button', () =>{
+    browser.sleep(1000);
+    findContent.enterAddTag(selectedSubjects);
+  })
+
+
   
   afterEach(async () => {
     // Assert that there are no errors emitted from the browser
