@@ -17,6 +17,11 @@ export class ModuleCreatorPageComponent implements OnInit {
    subject: string = "";
 
    /**
+    * Checks to see if a spinner is required to be displayed if module submission is in progress
+    */
+   isSubmitting: boolean = false;
+
+   /**
     * Constructor for Module Crator
     * @param mf Grabs links/tag
     */
@@ -34,7 +39,7 @@ export class ModuleCreatorPageComponent implements OnInit {
     * with HTTP GET from the services
     */
    submit() {
-
+      this.isSubmitting = true;
       /* If input field is null alert the user */
       if (['', null, undefined].includes(this.subject)) {
          this.toastr.error('Please fill in the input field!');
@@ -53,11 +58,13 @@ export class ModuleCreatorPageComponent implements OnInit {
                this.toastr.success('Successfully sent module.');
             else
                this.toastr.error('There was a problem creating a subject');
+            this.isSubmitting = false;
          },
 
          /* On Failure */
          (response) => {
             this.toastr.error('Failed to create subject. Subject may already exist.');
+            this.isSubmitting = false;
          },
 
          /* After success */
@@ -70,5 +77,6 @@ export class ModuleCreatorPageComponent implements OnInit {
     */
    private resetVariables() {
       this.subject = "";
+      this.isSubmitting = false;
    }
 }

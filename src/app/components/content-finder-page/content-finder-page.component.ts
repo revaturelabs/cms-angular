@@ -55,12 +55,9 @@ export class ContentFinderPageComponent implements OnInit {
     * Takes selected subjects and used for searching
     */
    searchedSubjects: string[] = [];
-<<<<<<< HEAD
    isSearching: boolean = false;
-=======
    tagOptions: string[] = [];
    selLink: Link;
->>>>>>> 7ad66596464b9e0ba6750a3a369be8947d662a6d
 
    /**
     * Content Finder Constructor
@@ -108,12 +105,8 @@ export class ContentFinderPageComponent implements OnInit {
             }
          },
          (response) => {
-<<<<<<< HEAD
-            this.isSearching = false;
-            alert("Failed to send filter")
-=======
             this.toastr.error('Failed to send filter');
->>>>>>> 7ad66596464b9e0ba6750a3a369be8947d662a6d
+            this.isSearching = false;
          }
       )
    }
@@ -123,6 +116,7 @@ export class ContentFinderPageComponent implements OnInit {
     * @param response
     */
    parseContentResponse(response: Content[]) {
+      this.isSearching = false;
       /* Sorts contents by their id */
       this.contents = response.sort(
          (a, b) => { return a.id - b.id });

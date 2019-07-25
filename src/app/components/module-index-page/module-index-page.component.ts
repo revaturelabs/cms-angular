@@ -25,6 +25,11 @@ export class ModuleIndexPageComponent implements OnInit {
    selModule: Module = new Module(0, "", 0, []);
 
    /**
+    * Used to display a spinner when modules are loading.
+    */
+   isLoading: boolean = false;
+
+   /**
     * Constructor for Module Index Component
     * @param cs Fetches content
     * @param ms Fetches tags

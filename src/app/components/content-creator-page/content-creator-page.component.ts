@@ -38,8 +38,10 @@ export class ContentCreatorPageComponent implements OnInit {
     */
    description: string;
 
-   failedRetrieve: boolean;
-   failedRequest: boolean;
+   /**
+    * Description - boolean to display a spinner for submitting in progress
+    */
+   isSubmitting: boolean = false;
 
    /**
     * Stores selected subjects
@@ -70,6 +72,7 @@ export class ContentCreatorPageComponent implements OnInit {
     * Check if the input fields are all valid - all filled in
     */
    validInput(): boolean {
+      this.isSubmitting = false;
       let cantBeNull = [this.title, this.selFormat, this.url, this.selectedSubjects.length];
 
       if (cantBeNull.includes(null) || cantBeNull.includes(undefined)) return false;
@@ -82,7 +85,7 @@ export class ContentCreatorPageComponent implements OnInit {
     * where the link has its subject id populated and the rest are set to default values
     */
    submit() {
-
+      this.isSubmitting = true;
       if (!this.validInput()) {
          this.toastr.error('Please fill in all input fields!');
          return;
@@ -103,10 +106,12 @@ export class ContentCreatorPageComponent implements OnInit {
                this.resetVariables();
             } else {
                this.toastr.error('Response was null.');
+               this.isSubmitting = false;
             }
          },
          (response) => {
             this.toastr.error('Failed to send content.');
+            this.isSubmitting = false;
          }
       )
    }
@@ -120,6 +125,7 @@ export class ContentCreatorPageComponent implements OnInit {
       this.selFormat = "Code";
       this.description = null;
       this.selectedSubjects = [];
+      this.isSubmitting = false;
    }
 
    
@@ -149,7 +155,7 @@ export class ContentCreatorPageComponent implements OnInit {
     */
    validURL(url: string): boolean {
       let regexp: RegExp = /^((http[s]?|ftp):\/\/)(((\w+\.)?\w+\.\w{2,})|(\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}))(\/[\w-._~:/?#[\]@!$&'()*+,;=]+(\.[\w-._~:/?#[\]@!$&'()*+,;=]+)?)*(\?|\?[\w-._~:/?#[\]@!$&'()*+,;=]+=[\w-._~:/?#[\]@!$&'()*+,;=]*(&[\w-._~:/?#[\]@!$&'()*+,;=]+=[\w-._~:/?#[\]@!$&'()*+,;=]*)*)?(#[\w-._~:/?#[\]@!$&'()*+,;=]*)?\/?$/;
-
+      this.isSubmitting = false;
       return regexp.test(url);
    }
 }
