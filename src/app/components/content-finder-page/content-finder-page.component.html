@@ -33,24 +33,29 @@
         <!-- TITLE & FORMAT ROW INPUTS - CLOSSING DIV-->
       </div>
 
-      <!-- TAGS - OPENING DIV -->
-      <div class="row subject mb-3">
-        <div class="col-1"></div>
-        <div class="col">
-          <ng-select id="subjectDropDown" [items]="ms.subjectNames" multiple="true" closeOnSelect="true"
-            hideSelected="true" clearOnBackspace="true" bindLabel="name" spellcheck="false"
-            notFoundText="(no such subject found)" [loading]="ms.isLoading" [placeholder]="ms.loadingText"
-            [(ngModel)]="selectedSubjects" name="selectedSubjects">
-          </ng-select>
-        </div>
-        <div class="col-1"></div>
-      </div>
-      <!-- CONTENT FINDER BUTTON ROW -->
-      <div class="row btn mb-3">
-        <button type="button" class="btn btn-primary" id="submitButton" (click)="submit()">Find Content</button>
-      </div>
-    </form>
-  </div>
+         <!-- TAGS - OPENING DIV -->
+         <div class="row subject mb-3">
+            <div class="col-1"></div>
+            <div class="col">
+               <ng-select id="subjectDropDown" [items]="ms.subjectNames"
+                  multiple="true" closeOnSelect="true" hideSelected="true"
+                  clearOnBackspace="true" bindLabel="name" spellcheck="false"
+                  notFoundText="(no such subject found)"
+                  [loading]="ms.isLoading" [placeholder]="ms.loadingText"
+                  [(ngModel)]="selectedSubjects"
+                  name="selectedSubjects">
+               </ng-select>
+            </div>
+            <div class="col-1"></div>
+         </div>
+         <!-- CONTENT FINDER BUTTON ROW -->
+         <div class="row btn mb-3">
+            <button type="button" class="btn btn-primary" id="submitButton"
+               (click)="submit()" *ngIf="!this.isSearching">Find Content</button>
+               <mat-spinner [diameter]="30" *ngIf="this.isSearching"></mat-spinner>
+         </div>
+      </form>
+   </div>
 </div>
 <!-- OPEN ANOTHER CARD / CONTAINER WHEN TABLE IS POPULATED -->
 <div class="card " *ngIf="this.tablebool">

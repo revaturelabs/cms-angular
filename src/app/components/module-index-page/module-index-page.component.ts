@@ -4,7 +4,7 @@ import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
 import { Content } from 'src/app/models/Content';
 import { Filter } from 'src/app/models/Filter';
-import { Link } from 'src/app/models/Link';
+import { ToastrService } from 'ngx-toastr';
 
 /** Typescript Component for Module Index Page */
 @Component({
@@ -25,13 +25,19 @@ export class ModuleIndexPageComponent implements OnInit {
    selModule: Module = new Module(0, "", 0, []);
 
    /**
+    * Used to display a spinner when modules are loading.
+    */
+   isLoading: boolean = false;
+
+   /**
     * Constructor for Module Index Component
     * @param cs Fetches content
     * @param ms Fetches tags
     */
    constructor(
       private cs: ContentFetcherService,
-      public ms: ModuleStoreService
+      public ms: ModuleStoreService,
+      private toastr: ToastrService
    ) { }
 
    /** On page initialization load the modules to list on the dropdown menu
@@ -60,11 +66,12 @@ export class ModuleIndexPageComponent implements OnInit {
                if (response != null) {
                   this.parseContentResponse(response, module);
                } else {
-                  alert('Response was null');
+                  this.toastr.error('Response was null');
                }
             },
             (response) => {
-               alert("Failed to request contents");
+               this.toastr.error('Failed to request contents');
+               
             },
             /* display module's contents when done loading */
             () => { this.contentVisible.set(module, true); }

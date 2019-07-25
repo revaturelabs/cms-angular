@@ -6,6 +6,9 @@
       </div>
     </div>
     <!-- TABLE FORM - OPENING DIV -->
+    <div *ngIf="ms.isLoading" class="btn spinner">
+      <mat-spinner [diameter]="30"></mat-spinner>
+    </div>
     <form *ngIf="!ms.isLoading" style="margin-bottom: 20px">
       <div *ngFor="let module of ms.response" name="modules" id="{{module.id}}" class="tag-bubble"
         style="margin-bottom: 5px" [style.background-color]=module.color>
@@ -13,7 +16,7 @@
           <!--Display flag is module has no content-->
           <span class="fas fa-flag" *ngIf="module.links.length === 0" title="No Content"></span>
           {{module.subject}}
-        </div><br>
+        </div>
         <div *ngIf="contentVisible.get(module)">
           <form>
             <div class="form-row mb-5">

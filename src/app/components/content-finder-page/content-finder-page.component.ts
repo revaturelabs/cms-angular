@@ -3,8 +3,8 @@ import { Content } from '../../models/Content';
 import { Filter } from '../../models/Filter';
 import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
+import { ToastrService } from 'ngx-toastr';
 import { Link } from 'src/app/models/Link';
-//import { linkSync } from 'fs';
 
 /** Typescript component for Content Finder page */
 @Component({
@@ -55,6 +55,7 @@ export class ContentFinderPageComponent implements OnInit {
     * Takes selected subjects and used for searching
     */
    searchedSubjects: string[] = [];
+   isSearching: boolean = false;
    tagOptions: string[] = [];
    selLink: Link;
 
@@ -65,7 +66,9 @@ export class ContentFinderPageComponent implements OnInit {
     */
    constructor(
       private cs: ContentFetcherService,
-      public ms: ModuleStoreService) { }
+      public ms: ModuleStoreService,
+      private toastr: ToastrService
+      ) { }
 
    /**
     * On page initialization load the modules to list on the dropdown menu 
@@ -80,6 +83,7 @@ export class ContentFinderPageComponent implements OnInit {
     * response as the array of content and populate the table and print it.
     */
    submit() {
+      this.isSearching = true;
       let format: string = this.selFormat;
       if (format === "All") {
          format = "";
@@ -95,13 +99,14 @@ export class ContentFinderPageComponent implements OnInit {
                this.parseContentResponse(response);
                if (this.notEmpty()) { }
                else
-                  alert("No Results Found");
+                  this.toastr.error('No Results Found');
             } else {
-               alert('Response was null');
+               this.toastr.error('Response was null');
             }
          },
          (response) => {
-            alert("Failed to send filter")
+            this.toastr.error('Failed to send filter');
+            this.isSearching = false;
          }
       )
    }
@@ -111,6 +116,7 @@ export class ContentFinderPageComponent implements OnInit {
     * @param response
     */
    parseContentResponse(response: Content[]) {
+      this.isSearching = false;
       /* Sorts contents by their id */
       this.contents = response.sort(
          (a, b) => { return a.id - b.id });

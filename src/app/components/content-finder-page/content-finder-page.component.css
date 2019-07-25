@@ -91,3 +91,7 @@
   .fa-flag:hover {
     color: orange;
   }
+
+  .failed {
+    color: red;
+ }

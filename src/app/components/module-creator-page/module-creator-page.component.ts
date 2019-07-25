@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Module } from 'src/app/models/Module';
 import { ModuleFetcherService } from 'src/app/services/module-fetcher.service';
+import { ToastrService } from 'ngx-toastr';
 
 /** Typescript Component for Module Creator Page */
 @Component({
@@ -16,11 +17,17 @@ export class ModuleCreatorPageComponent implements OnInit {
    subject: string = "";
 
    /**
+    * Checks to see if a spinner is required to be displayed if module submission is in progress
+    */
+   isSubmitting: boolean = false;
+
+   /**
     * Constructor for Module Crator
     * @param mf Grabs links/tag
     */
    constructor(
-      private mf: ModuleFetcherService
+      private mf: ModuleFetcherService,
+      private toastr: ToastrService
    ) { }
 
    /**@ignore */
@@ -32,10 +39,10 @@ export class ModuleCreatorPageComponent implements OnInit {
     * with HTTP GET from the services
     */
    submit() {
-
+      this.isSubmitting = true;
       /* If input field is null alert the user */
       if (['', null, undefined].includes(this.subject)) {
-         alert('Please fill in the input field!');
+         this.toastr.error('Please fill in the input field!');
          this.resetVariables();
          return;
       }
@@ -48,14 +55,16 @@ export class ModuleCreatorPageComponent implements OnInit {
          /* On Success */
          (response) => {
             if (response != null)
-               alert('Successfully sent module.');
+               this.toastr.success('Successfully sent module.');
             else
-               alert('There was a problem creating a subject');
+               this.toastr.error('There was a problem creating a subject');
+            this.isSubmitting = false;
          },
 
          /* On Failure */
          (response) => {
-            alert("Failed to create subject. Subject may already exist.");
+            this.toastr.error('Failed to create subject. Subject may already exist.');
+            this.isSubmitting = false;
          },
 
          /* After success */
@@ -68,5 +77,6 @@ export class ModuleCreatorPageComponent implements OnInit {
     */
    private resetVariables() {
       this.subject = "";
+      this.isSubmitting = false;
    }
 }
