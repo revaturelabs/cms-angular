@@ -7,6 +7,7 @@ import { ReportsService } from 'src/app/services/reports.service';
 import { MetricsData } from 'src/app/models/MetricsData';
 import { GlobalReports } from 'src/app/providers/GlobalReports';
 import { Content } from '../../models/Content';
+import { Filter } from 'src/app/models/Filter';
 
 /**
  * Reports page that measures and displays metrics.
@@ -20,7 +21,6 @@ import { Content } from '../../models/Content';
 export class ReportsPageComponent implements OnInit {
 
   readonly formats: string[] = ["Code", "Document", "Powerpoint", "All"];
-  title: string = "";
   selFormat: string = "All";
    contents: Content[];
    tablebool: boolean = false;
@@ -60,11 +60,11 @@ export class ReportsPageComponent implements OnInit {
     if(this.globalReports.metricsData)
       this.updateMetrics(this.globalReports.metricsData);
     else
-      this.reportsService.getMetrics();
+      this.getMetrics();
   }
   
   getMetrics() {
-    this.reportsService.getMetrics();
+    this.reportsService.getMetrics(new Filter("", this.selFormat, this.moduleIDs));
     this.codeExamples = null;
     this.lectureNotes = null;
     this.difModules = null;
