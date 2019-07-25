@@ -3,6 +3,7 @@ import { Content } from 'src/app/models/Content';
 import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
 import { Link } from 'src/app/models/Link';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
    selector: 'app-content-creator-page',
@@ -24,7 +25,9 @@ export class ContentCreatorPageComponent implements OnInit {
    failedRequest: boolean;
    constructor(
       private cs: ContentFetcherService,
-      public ms: ModuleStoreService) {
+      public ms: ModuleStoreService,
+      private toastr: ToastrService
+      ) {
    }
 
    /* On page initialization load the modules to list on the dropdown menu */
@@ -53,10 +56,10 @@ export class ContentCreatorPageComponent implements OnInit {
    submit() {
 
       if (!this.validInput()) {
-         alert('Please fill in all input fields!');
+         this.toastr.error('Please fill in all input fields!');
          return;
       } else if (!this.validURL(this.url)) {
-         alert('Invalid URL. e.g. "http://example.com", "ftp://www.example.com", "http://192.168.0.0"');
+         this.toastr.error('Invalid URL. e.g. "http://example.com", "ftp://www.example.com", "http://192.168.0.0"');
          return;
       }
 
@@ -68,14 +71,14 @@ export class ContentCreatorPageComponent implements OnInit {
       this.cs.createNewContent(content).subscribe(
          (response) => {
             if (response != null) {
-               alert('Successfully sent content.');
+               this.toastr.success('Successfully sent content.');
                this.resetVariables();
             } else {
-               alert('Response was null');
+               this.toastr.error('Response was null.');
             }
          },
          (response) => {
-            alert("Failed to send content");
+            this.toastr.error('Failed to send content.');
          }
       )
    }

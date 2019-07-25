@@ -3,6 +3,7 @@ import { Content } from '../../models/Content';
 import { Filter } from '../../models/Filter';
 import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
    selector: 'app-content-finder-page',
@@ -23,7 +24,9 @@ export class ContentFinderPageComponent implements OnInit {
 
    constructor(
       private cs: ContentFetcherService,
-      public ms: ModuleStoreService) { }
+      public ms: ModuleStoreService,
+      private toastr: ToastrService
+      ) { }
 
    ngOnInit() {
       this.ms.loadModules();
@@ -50,13 +53,13 @@ export class ContentFinderPageComponent implements OnInit {
                this.parseContentResponse(response);
                if (this.notEmpty()) { }
                else
-                  alert("No Results Found");
+                  this.toastr.error('No Results Found');
             } else {
-               alert('Response was null');
+               this.toastr.error('Response was null');
             }
          },
          (response) => {
-            alert("Failed to send filter")
+            this.toastr.error('failed to send filter');
          }
       )
    }

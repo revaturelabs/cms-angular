@@ -4,6 +4,7 @@ import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
 import { Content } from 'src/app/models/Content';
 import { Filter } from 'src/app/models/Filter';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
    selector: 'app-module-index-page',
@@ -21,7 +22,8 @@ export class ModuleIndexPageComponent implements OnInit {
 
    constructor(
       private cs: ContentFetcherService,
-      public ms: ModuleStoreService
+      public ms: ModuleStoreService,
+      private toastr: ToastrService
    ) { }
 
    ngOnInit() {
@@ -44,11 +46,12 @@ export class ModuleIndexPageComponent implements OnInit {
                if (response != null) {
                   this.parseContentResponse(response, module);
                } else {
-                  alert('Response was null');
+                  this.toastr.error('Response was null');
                }
             },
             (response) => {
-               alert("Failed to request contents");
+               this.toastr.error('Failed to request contents');
+               
             },
             /* display module's contents when done loading */
             () => { this.contentVisible.set(module, true); }
