@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 import { ReportsService } from 'src/app/services/reports.service';
 import { MetricsData } from 'src/app/models/MetricsData';
 import { GlobalReports } from 'src/app/providers/GlobalReports';
+import { Content } from '../../models/Content';
 
 /**
  * Reports page that measures and displays metrics.
@@ -17,6 +18,17 @@ import { GlobalReports } from 'src/app/providers/GlobalReports';
   styleUrls: ['./reports-page.component.css']
 })
 export class ReportsPageComponent implements OnInit {
+
+  readonly formats: string[] = ["Code", "Document", "Powerpoint", "All"];
+  title: string = "";
+  selFormat: string = "All";
+   contents: Content[];
+   tablebool: boolean = false;
+   moduleIDs: number[];
+   selectedSubjects: string[] = [];  // selected from subject list
+   // contentWrapper: ContentWrapper;
+   searchedSubjects: string[] = [];
+
 /** TS variable referenced to display number of code examples */
   codeExamples : Object;
     /** TS variable referenced to display number of lecture notes */
@@ -33,12 +45,15 @@ export class ReportsPageComponent implements OnInit {
  */
   constructor(
     private reportsService: ReportsService,
-    private globalReports: GlobalReports) { }
+    private globalReports: GlobalReports,
+    public ms: ModuleStoreService) { }
+
 
  /** 
   * Call in ngOnInit to happen immediately upon page visitation
   */
   ngOnInit() {
+    this.ms.loadModules();
 
     this.reportsService.reportsPage = this;
 
