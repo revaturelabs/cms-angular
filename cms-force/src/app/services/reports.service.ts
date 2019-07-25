@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MetricsData } from '../models/MetricsData';
-import { TimeGraphData } from '../models/TimeGraphData';
 import { EndpointsService } from '../constants/endpoints.service';
 import { ModuleStoreService } from './module-store.service';
 import { ReportsPageComponent } from '../components/reports-page/reports-page.component';
 import { ReportsTimeGraphComponent } from '../components/reports-time-graph/reports-time-graph.component';
 import { GlobalReports } from '../providers/GlobalReports';
+import { Filter } from '../models/Filter';
 
 @Injectable({
   providedIn: 'root'
@@ -38,44 +38,34 @@ export class ReportsService {
   /**
    * sends the http request to the server to get the reports metrics data
    */
-  getMetrics() {
+  getMetrics(filter: Filter) {
     
     this.loading = true;
 
-    this.ms.loadModules();
-    this.ms.buffer.subscribe((ret)=>{
+    this.getIDsFromSubjects(this.ms.subjectNames);
 
-      if(ret === false){
-        
-        this.getIDsFromSubjects(this.ms.subjectNames);
-
-        let body = {
-          modules: this.moduleIDs
-        };
-
-        this.http.post(
-          this.endpoints.GET_METRICS.replace('${timeFrame}', this.MILLIS_PER_YEAR.toString()),
-          JSON.stringify(body),
-          {
-            headers: this.HEADERS
-          }
-          ).subscribe((result: MetricsData) => {
-            this.globalReports.metricsData = result;
-            this.reportsPage.updateMetrics(result);
-            this.reportsTimeGraph.updateGraph(result.timeGraphData);
-          },
-          (err) => {
-            console.log(err);
-          },
-          () => {
-            this.loading = false;
-          });
+    let body = {
+      format: filter.getFormat(),
+      modules: filter.getModules()
+    };
+    
+    this.http.post(
+      this.endpoints.GET_METRICS.replace('${timeFrame}', this.MILLIS_PER_YEAR.toString()),
+      JSON.stringify(body),
+      {
+        headers: this.HEADERS
       }
-    },
-    (err) => {
-      console.log(err);
-      this.loading = false;
-    });
+      ).subscribe((result: MetricsData) => {
+        this.globalReports.metricsData = result;
+        this.reportsPage.updateMetrics(result);
+        this.reportsTimeGraph.updateGraph(result.timeGraphData);
+      },
+      (err) => {
+        console.log(err);
+      },
+      () => {
+        this.loading = false;
+      });
   }
 
   /**
