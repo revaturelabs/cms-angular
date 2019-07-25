@@ -23,7 +23,6 @@ export class ReportsPageComponent implements OnInit {
   readonly formats: string[] = ["Code", "Document", "Powerpoint", "All"];
   selFormat: string = "All";
    contents: Content[];
-   tablebool: boolean = false;
    moduleIDs: number[];
    selectedSubjects: string[] = [];  // selected from subject list
    // contentWrapper: ContentWrapper;
@@ -57,10 +56,14 @@ export class ReportsPageComponent implements OnInit {
 
     this.reportsService.reportsPage = this;
 
-    if(this.globalReports.metricsData)
+    if(this.globalReports.metricsData) {
+
       this.updateMetrics(this.globalReports.metricsData);
-    else
+
+    } else {
+
       this.getMetrics();
+    }
   }
   
   getMetrics() {
