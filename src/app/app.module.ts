@@ -11,6 +11,10 @@ import { ContentFinderPageComponent } from './components/content-finder-page/con
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ModuleCreatorPageComponent } from './components/module-creator-page/module-creator-page.component';
 import { ModuleIndexPageComponent } from './components/module-index-page/module-index-page.component';
+import { CommonModule } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { ToastrModule } from 'ngx-toastr';
 
 
 @NgModule({
@@ -27,7 +31,10 @@ import { ModuleIndexPageComponent } from './components/module-index-page/module-
       AppRoutingModule,
       HttpClientModule,
       NgSelectModule,
-      FormsModule
+      FormsModule,
+      CommonModule,
+      BrowserAnimationsModule,
+      ToastrModule.forRoot() // toastrModule
    ],
    providers: [],
    bootstrap: [AppComponent]

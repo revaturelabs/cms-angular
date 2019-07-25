@@ -7,7 +7,7 @@ import { ModuleStoreService } from 'src/app/services/module-store.service';
 @Component({
    selector: 'app-content-creator-page',
    templateUrl: './content-creator-page.component.html',
-   styleUrls: ['./content-creator-page.component.css'],
+   styleUrls: ['./content-creator-page.component.css']
 })
 export class ContentCreatorPageComponent implements OnInit {
 
