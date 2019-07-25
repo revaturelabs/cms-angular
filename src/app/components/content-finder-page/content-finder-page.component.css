@@ -62,6 +62,26 @@
     border: 1px solid black;
   }
 
+  .fa-trash:hover{
+    cursor: pointer;
+    color: gray !important;
+  }
+
+
+  .fa-plus-square{
+    color: green;
+  }
+  .fa-plus-square:hover{
+    cursor: pointer;
+    color: rgb(4, 172, 4) !important;
+  }
+
+  .addTag{
+    text-align: right;
+    margin: 0 auto;
+    height: 0px;
+  }
+
   /* .table-responsive{-sm|-md|-lg|-xl} */
 
   .fa-flag {
