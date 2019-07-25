@@ -30,7 +30,6 @@ export class ContentCreatorPageComponent implements OnInit {
    /* On page initialization load the modules to list on the dropdown menu */
    ngOnInit() {
       this.ms.loadModules();
-      console.log(this.ms.failedRequest);
    }
 
 
