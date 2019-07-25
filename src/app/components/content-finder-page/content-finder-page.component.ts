@@ -103,7 +103,7 @@ export class ContentFinderPageComponent implements OnInit {
             }
          },
          (response) => {
-            this.toastr.error('failed to send filter');
+            this.toastr.error('Failed to send filter');
          }
       )
    }
