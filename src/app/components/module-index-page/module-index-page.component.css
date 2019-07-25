@@ -76,3 +76,11 @@
   .fa-flag:hover {
     color: orange;
   }
+
+  a {
+    color: rgb(3, 0, 192);
+  }
+
+  a:hover{
+    color: orange
+  }
