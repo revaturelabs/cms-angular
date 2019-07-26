@@ -18,4 +18,5 @@ phases:
       - echo Build completed on `date`
 artifacts:
   files:
-    - 'dist/cms-force/*'
+    - '*'
+  base-directory: dist/cms-force/
