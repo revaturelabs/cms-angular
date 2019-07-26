@@ -1,22 +1,35 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment'
 
+/** Accessible back-end endpoints */
 @Injectable({
    providedIn: 'root'
 })
 export class EndpointsService {
-   // public readonly baseURL = 'http://ec2-18-191-112-157.us-east-2.compute.amazonaws.com:9009/CMSforce/as';   // CHANGE TO HOST
-   public readonly baseURL = "http://localhost:9002";
+   /** Base URL to add endpoints to, obtained from ENV */
+   public readonly baseURL = environment.cms_url;   // CHANGE TO HOST
 
+   /** Create Content Endpoint */
    public readonly CREATE_NEW_CONTENT: string = this.baseURL + '/content';
+   public readonly UPDATE_CONTENT: string = this.baseURL + '/content';
+   /** Get All Content Endpoint */
    public readonly GET_ALL_CONTENT: string = this.baseURL + '/content';
+   /** Get Content by ID Endpoint */
    public readonly GET_CONTENT_BY_ID: string = this.baseURL + '/content/${id}';
+   /** Update Content Endpoint */
    public readonly UPDATE_CONTENT_BY_ID: string = this.baseURL + '/content/${id}';
+   /** Unused */
    public readonly UPDATE_CONTENT_MODULES_BY_ID: string = this.baseURL + '/content/${id}/modules';
+   /** Delete Content Endpoint */
    public readonly DELETE_CONTENT_BY_ID: string = this.baseURL + '/content/${id}';
+   /** Create Module Endpoint */
    public readonly CREATE_NEW_MODULE: string = this.baseURL + '/module';
+   /** Get All Modules Endpoint */
    public readonly GET_ALL_MODULES: string = this.baseURL + '/module';
+   /** Get Module by ID Endpoint */
    public readonly GET_MODULE_BY_ID: string = this.baseURL + '/module/${id}';
+   /** Filter Content Endpoint */
    public readonly FILTER_CONTENT: string = this.baseURL + '/search';
    public readonly GET_CONTENT_FOR_TIME_RANGE: string = this.baseURL + '/timegraph/${time}';
    public readonly COUNTCODE: string = this.baseURL + '/metrics/codeCount'; //needs more
@@ -25,12 +38,15 @@ export class EndpointsService {
    public readonly COUNTAVERAGE: string = this.baseURL + '/metrics/averageRecs';
    public readonly GET_METRICS: string = this.baseURL + '/metrics/obtain/${timeFrame}';
    
+
+   /** Initialization of Endpoints */
    constructor(private http: HttpClient) { }
 
-   /* for easy access for testing, etc. */
+   /** Returns string array containing all endpoints */
    public getAllEndpoints(): string[] {
       let endpoints: string[] = new Array(
          this.CREATE_NEW_CONTENT,
+         this.UPDATE_CONTENT,
          this.GET_ALL_CONTENT,
          this.GET_CONTENT_BY_ID,
          this.UPDATE_CONTENT_BY_ID,
@@ -44,7 +60,7 @@ export class EndpointsService {
       return endpoints;
    }
 
-   /* test method for printing out JSON at any given URL */
+   /** Test method for printing out JSON at any given URL */
    public printJSON(uri: string): any {
       let obs = this.http.get<any>(uri);
       obs.subscribe(

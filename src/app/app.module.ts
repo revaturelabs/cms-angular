@@ -16,8 +16,12 @@ import { ReportsPageComponent } from './components/reports-page/reports-page.com
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReportsTimeGraphComponent } from './components/reports-time-graph/reports-time-graph.component';
 import { GlobalReports } from './providers/GlobalReports';
+import { CommonModule } from '@angular/common';
 
+import { ToastrModule } from 'ngx-toastr';
+import { MatProgressSpinnerModule} from '@angular/material';
 
+/** @ignore */
 @NgModule({
    declarations: [
       AppComponent,
@@ -36,7 +40,11 @@ import { GlobalReports } from './providers/GlobalReports';
       NgSelectModule,
       FormsModule,
       NgxChartsModule,
-      BrowserAnimationsModule
+      BrowserAnimationsModule,
+      CommonModule,
+      BrowserAnimationsModule,
+      ToastrModule.forRoot(), // toastrModule
+      MatProgressSpinnerModule
    ],
    providers: [
       GlobalReports

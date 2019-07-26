@@ -2,42 +2,55 @@ import { Injectable } from '@angular/core';
 import { Module } from '../models/Module';
 import { ModuleFetcherService } from './module-fetcher.service';
 import { BehaviorSubject } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { ContentFetcherService } from './content-fetcher.service';
 
+/** 
+ * ModuleStoreService provides a method to load all Modules and houses
+ * collections of Module-related data for direct access.
+ */
 @Injectable({
    providedIn: 'root'
 })
-
-/* ModuleStoreService provides a method to load all Modules and houses
- * collections of Module-related data for direct access.
- */
 export class ModuleStoreService {
 
-   /* Various maps for easy retrieving of module/subject info */
+   /** Mapping of Subject Name to Module */
    subjectNameToModule: Map<string, Module>;
+   /** Mapping of Subject ID to Module */
    subjectIdToModule: Map<number, Module>;
+   /** Mapping of Subject ID to Subject Name */
    subjectIdToName: Map<number, string>;
 
-   /* all subject names in alphabetical order */
+   /** all subject names in alphabetical order */
    subjectNames: string[];
 
-   /* subject id => index of subject's name in
+   /**
+    * subject id => index of subject's name in
     * alphabetical order name array.
     * Can be used for module Name string comparison using
-    * only module ID */
+    * only module ID 
+    */
    subjectIdToSortedIndex: Map<number, number>;
 
-
+   /** All Modules being returned */
    response: Module[];
+   /** Whether or not the Modules are still being loaded from back-end */
    isLoading: boolean = true;
+   /** String representing the status of module-store-service */
    loadingText: string = "Loading Subjects...";
    buffer:BehaviorSubject<boolean> = new BehaviorSubject(true);
 
 
 
-   constructor(private ms: ModuleFetcherService) { }
+   /**
+    * Basic constructor for bss
+    * @param ms Service to obtain Modules from back-end
+    */
+   constructor(private ms: ModuleFetcherService,
+      private cs: ContentFetcherService,
+      private toastr: ToastrService) { }
 
-
-   /* load Modules once from backend on program start */
+   /** load Modules once from backend on program start */
    loadModules() {
       this.isLoading = true;
       this.loadingText = "Loading Subjects...";
@@ -46,17 +59,27 @@ export class ModuleStoreService {
             if (response != null) {
                this.response = response;
             }
-            else alert("Failed to retrieve any modules.");
+            else { 
+               // this.failedRetrieve = true;
+               this.toastr.error('failed to retrieve modules');
+               this.isLoading = false;
+            }
          }, (response) => {
-            alert("Failed to send module request.");
+            this.toastr.error('failed to retrieve modules');
+            // this.failedRequest = true;
+            this.isLoading = false;
+
          }, () => this.populateCollections(this.response)
       )
    }
 
-   /* fills collections defined using all available module info for quick,
-    * easy access to subject names, id, and alphabetical ordering */
+   /**
+    * fills collections defined using all available module info for quick,
+    * easy access to subject names, id, and alphabetical ordering 
+    */
    populateCollections(modules: Module[]) {
       let i = 0;
+      let c = 0;
 
       if (modules.length > 0) {
          this.subjectNameToModule = new Map<string, Module>();
@@ -73,7 +96,7 @@ export class ModuleStoreService {
          ).forEach(
             /* then for each in order, populate maps/array */
             (module) => {
-               module.color = this.getRandomColor();
+               module.color = this.getColor(c++);
                this.subjectNameToModule.set(module.subject, module);
                this.subjectIdToModule.set(module.id, module);
                this.subjectIdToName.set(module.id, module.subject);
@@ -87,9 +110,16 @@ export class ModuleStoreService {
       this.loadingText = "Select relevant subjects";
    }
 
-   /* Generate random color for Subject tags in Module-Index page */
-   private getRandomColor(): string {
-      let randomInRange = (min, max) => { return Math.floor((Math.random() * (max - min) + min)).toString(16) };
-      return '#' + randomInRange(232, 256) + randomInRange(128, 256) + randomInRange(128, 256);
+   /**
+    * Choose color based on module index
+    * @param index Index of Module, used to determine color
+    */
+   private getColor(index : number): string {
+      if(index%2 == 0){
+         return "#72A4C2";
+      }
+      else{
+         return "#B9B9BA";
+      }
    }
 }
