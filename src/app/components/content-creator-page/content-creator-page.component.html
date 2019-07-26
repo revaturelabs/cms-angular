@@ -16,12 +16,12 @@
 
                <div class="col">
                   <input id="titleTextBox" [(ngModel)]="title" required name="title" type="text" class="form-control"
-                     placeholder="Title">
+                     placeholder="Title" maxlength="254">
                </div>
 
                <div class="col">
                   <input id="urlTextBox" [(ngModel)]="url" required name="url" type="text" class="form-control"
-                     placeholder="URL">
+                     placeholder="URL" maxlength="254">
                </div>
                <div class="col-1"></div>
             </div>
@@ -46,7 +46,7 @@
                <div class="col">
                   <label for="exampleFormControlTextarea1"></label>
                   <textarea id="descriptionTextBox" [(ngModel)]="description" name="description" class="form-control"
-                     id="exampleFormControlTextarea1" rows="4" placeholder="Description"></textarea>
+                     id="exampleFormControlTextarea1" rows="4" placeholder="Description" maxlength="254"></textarea>
                </div>
                <div class="col-1"></div>
             </div>
