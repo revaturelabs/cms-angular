@@ -31,12 +31,7 @@ export class EndpointsService {
    public readonly GET_MODULE_BY_ID: string = this.baseURL + '/module/${id}';
    /** Filter Content Endpoint */
    public readonly FILTER_CONTENT: string = this.baseURL + '/search';
-   public readonly GET_CONTENT_FOR_TIME_RANGE: string = this.baseURL + '/timegraph/${time}';
-   public readonly COUNTCODE: string = this.baseURL + '/metrics/codeCount'; //needs more
-   public readonly COUNTMODULES: string = this.baseURL + '/metrics/numDiffMods';
-   public readonly COUNTNOTES: string = this.baseURL + '/metrics/documentCount';
-   public readonly COUNTAVERAGE: string = this.baseURL + '/metrics/averageRecs';
-   public readonly GET_METRICS: string = this.baseURL + '/metrics/obtain/${timeFrame}';
+   public readonly GET_METRICS: string = this.baseURL + '/metrics/${timeFrame}';
    
 
    /** Initialization of Endpoints */
@@ -55,7 +50,8 @@ export class EndpointsService {
          this.CREATE_NEW_MODULE,
          this.GET_ALL_MODULES,
          this.GET_MODULE_BY_ID,
-         this.FILTER_CONTENT);
+         this.FILTER_CONTENT,
+         this.GET_METRICS);
 
       return endpoints;
    }

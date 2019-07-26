@@ -28,20 +28,22 @@ export class ReportsPageComponent implements OnInit {
    // contentWrapper: ContentWrapper;
    searchedSubjects: string[] = [];
 
-/** TS variable referenced to display number of code examples */
+  /** TS variable referenced to display number of code examples */
   codeExamples : Object;
-    /** TS variable referenced to display number of lecture notes */
+  /** TS variable referenced to display number of lecture notes */
   lectureNotes : Object;
-    /** TS variable referenced to display number of different modules */
+  /** TS varialbe referenced to display number of powerpoints */
+  powerpoints : Object;
+  /** TS variable referenced to display number of different modules */
   difModules : Object;
-    /** TS variable referenced to display the average number of resources per module */
+  /** TS variable referenced to display the average number of resources per module */
   avgResources : Object;
 
-/**
- * Constructor uses HttpClient for communication and sends to specific endpoints.
- * @param http 
- * @param endpoints 
- */
+  /**
+   * Constructor uses HttpClient for communication and sends to specific endpoints.
+   * @param http 
+   * @param endpoints 
+   */
   constructor(
     private reportsService: ReportsService,
     private globalReports: GlobalReports,
@@ -67,9 +69,12 @@ export class ReportsPageComponent implements OnInit {
   }
   
   getMetrics() {
+    this.getIDsFromSubjects(this.selectedSubjects);
+
     this.reportsService.getMetrics(new Filter("", this.selFormat, this.moduleIDs));
     this.codeExamples = null;
     this.lectureNotes = null;
+    this.powerpoints = null;
     this.difModules = null;
     this.avgResources = null;
   }
@@ -78,8 +83,28 @@ export class ReportsPageComponent implements OnInit {
 
     this.codeExamples = data.codeCount;
     this.lectureNotes = data.documentCount;
+    this.powerpoints = data.pptCount;
     this.difModules = data.numDiffModsCount;
     this.avgResources = data.avgResources;
+  }
+
+  
+  /**
+    * Took this from another container
+    * Gets the string array of selected subjects and populates
+    * the number array of subject id (or model or tag or whatever the team never really settled on the name 
+    * like it was tag at first then prerequisite then modules then affiliation then subjects like come on)
+    * @param subjects
+    */
+   getIDsFromSubjects(subjects: string[]) {
+    this.moduleIDs = [];
+    if(subjects){
+      subjects.forEach(
+        (subject) => {
+          this.moduleIDs.push(this.ms.subjectNameToModule.get(subject).id);
+        }, this
+      )
+    }
   }
 }
 
