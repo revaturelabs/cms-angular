@@ -72,7 +72,6 @@ export class ContentCreatorPageComponent implements OnInit {
     * Check if the input fields are all valid - all filled in
     */
    validInput(): boolean {
-      this.isSubmitting = false;
       let cantBeNull = [this.title, this.selFormat, this.url, this.selectedSubjects.length];
 
       if (cantBeNull.includes(null) || cantBeNull.includes(undefined)) return false;
@@ -88,9 +87,11 @@ export class ContentCreatorPageComponent implements OnInit {
       this.isSubmitting = true;
       if (!this.validInput()) {
          this.toastr.error('Please fill in all input fields!');
+         this.isSubmitting = false;
          return;
       } else if (!this.validURL(this.url)) {
          this.toastr.error('Invalid URL. e.g. "http://example.com", "ftp://www.example.com", "http://192.168.0.0"');
+         this.isSubmitting = false;
          return;
       }
 
@@ -155,7 +156,6 @@ export class ContentCreatorPageComponent implements OnInit {
     */
    validURL(url: string): boolean {
       let regexp: RegExp = /^((http[s]?|ftp):\/\/)(((\w+\.)?\w+\.\w{2,})|(\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}))(\/[\w-._~:/?#[\]@!$&'()*+,;=]+(\.[\w-._~:/?#[\]@!$&'()*+,;=]+)?)*(\?|\?[\w-._~:/?#[\]@!$&'()*+,;=]+=[\w-._~:/?#[\]@!$&'()*+,;=]*(&[\w-._~:/?#[\]@!$&'()*+,;=]+=[\w-._~:/?#[\]@!$&'()*+,;=]*)*)?(#[\w-._~:/?#[\]@!$&'()*+,;=]*)?\/?$/;
-      this.isSubmitting = false;
       return regexp.test(url);
    }
 }
