@@ -31,7 +31,7 @@ export class EndpointsService {
    public readonly GET_MODULE_BY_ID: string = this.baseURL + '/module/${id}';
    /** Filter Content Endpoint */
    public readonly FILTER_CONTENT: string = this.baseURL + '/search';
-   public readonly GET_CONTENT_FOR_TIME_RANGE: string = this.baseURL + '/timegraph/${time}';
+   /** Get metrics for information in DB */
    public readonly GET_METRICS: string = this.baseURL + '/metrics/${timeFrame}';
    
 
