@@ -33,6 +33,8 @@ export class EndpointsService {
    public readonly FILTER_CONTENT: string = this.baseURL + '/search';
    /** Get metrics for information in DB */
    public readonly GET_METRICS: string = this.baseURL + '/metrics/${timeFrame}';
+   public readonly GET_CONTENT_FOR_TIME_RANGE: string = this.baseURL + '/timegraph/${time}';
+
    
 
    /** Initialization of Endpoints */
