@@ -1,47 +1,79 @@
 <div class="card " style="margin-bottom: 10px">
-   <div class="container">
-      <div class="col">
-         <div id="content">
-            <img src="/assets/img/logo.png" alt="revature" class="logo">
-         </div>
+  <div class="container">
+    <div class="col">
+      <div id="content">
+        <img src="/assets/img/logo.png" alt="revature" class="logo">
       </div>
-      <form *ngIf="!ms.isLoading" style="margin-bottom: 20px">
-         <div *ngFor="let module of ms.response" name="modules"
-            (click)="listContent(module)" id="{{module.id}}"
-            class="tag-bubble" style="margin-bottom: 5px" [style.background-color]=module.color>
-            <span>{{module.subject}}</span><br>
-            <div *ngIf="contentVisible.get(module)">
-               <form>
-                  <div class="form-row mb-5">
-                     <div class="table-responsive">
-                        <table style="width: 99%; margin: 0px auto" class="table table-striped" >
-                           <thead>
-                              <tr>
-                                 <th scope="col">Content ID</th>
-                                 <th scope="col">Title</th>
-                                 <th scope="col">Format</th>
-                                 <th scope="col">Description</th>
-                                 <th scope="col">URL</th>
-                              </tr>
-                           </thead>
-                           <tbody>
-                              <tr
-                                 *ngFor="let content of moduleContents.get(module)">
-                                 <td>{{content.id}}</td>
-                                 <td>{{content.title}}</td>
-                                 <td>{{content.format}}</td>
-                                 <td>{{content.description}}</td>
-                                 <td><a
-                                       href="{{content.url}}">{{content.url}}</a>
-                                 </td>
-                              </tr>
-                           </tbody>
-                        </table>
-                     </div>
-                  </div>
-               </form>
+    </div>
+    <!-- TABLE FORM - OPENING DIV -->
+    <div *ngIf="ms.isLoading" class="btn spinner">
+      <mat-spinner [diameter]="30"></mat-spinner>
+    </div>
+    <form *ngIf="!ms.isLoading" style="margin-bottom: 20px">
+      <div *ngFor="let module of ms.response" name="modules" id="{{module.id}}" class="tag-bubble"
+        style="margin-bottom: 5px" [style.background-color]=module.color>
+        <div (click)="listContent(module)">
+          <!--Display flag is module has no content-->
+          <span class="fas fa-flag" *ngIf="module.links.length === 0" title="No Content"></span>
+          {{module.subject}}
+        </div>
+        <div *ngIf="contentVisible.get(module)">
+          <form>
+            <div class="form-row mb-5">
+              <div class="table-responsive">
+                <table style="width: 99%; margin: 0px auto" class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col"></th>
+                      <th scope="col">Content ID</th>
+                      <th scope="col">Title</th>
+                      <th scope="col">Format</th>
+                      <th scope="col">Description</th>
+                      <th scope="col">URL</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let content of moduleContents.get(module)">
+                      <td>
+                        <em title="Remove from module " (click)="selectedLinkForRemoval(content, module)" class="fas fa-trash" data-toggle="modal"
+                          data-target="#deleteContent" title="Remove Content"></em>
+                      </td>
+                      <td>{{content.id}}</td>
+                      <td>{{content.title}}</td>
+                      <td>{{content.format}}</td>
+                      <td>{{content.description}}</td>
+                      <td><a target="_blank" href="{{content.url}}">{{content.url}}</a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
-         </div>
-      </form>
-   </div>
+          </form>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Delete Tag Modal -->
+<div id="deleteContent" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Removing Content</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h6>Are you sure you want to delete this {{selCon.title}} from the {{selModule.subject}}?</h6>
+          <div class="row btn mb-3">
+            <button type="button" class="btn btn-primary" id="submitButton"
+              (click)="removeContentFromModuleIndex()" data-dismiss="modal">Confirm Removal</button>
+          </div>
+      </div>
+    </div>
+
+  </div>
 </div>

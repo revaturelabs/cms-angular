@@ -4,8 +4,11 @@
    width: 80%;
    height: 15%;
    margin: 0 auto;
+   /* Added */
    float: none;
+   /* Added */
    margin-top: 20px;
+   /* Added */
 }
 
 .card:hover {
@@ -23,6 +26,8 @@
    justify-content: center;
    position: relative;
    top: -50px;
+   /* left: 0px; */
+   /* margin-bottom: 200px; */
 }
 
 .logo {
@@ -55,6 +60,7 @@
 
 input[type="radio"] {
    margin-right: -15px;
+   /* width: 30px; */
 }
 
 .btn {
