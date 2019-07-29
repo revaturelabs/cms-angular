@@ -5,7 +5,6 @@
         <img src="/assets/img/logo.png" alt="revature" class="logo">
       </div>
     </div>
-    <!-- TABLE FORM - OPENING DIV -->
     <div *ngIf="ms.isLoading" class="btn spinner">
       <mat-spinner [diameter]="30"></mat-spinner>
     </div>
@@ -13,7 +12,6 @@
       <div *ngFor="let module of ms.response" name="modules" id="{{module.id}}" class="tag-bubble"
         style="margin-bottom: 5px" [style.background-color]=module.color>
         <div (click)="listContent(module)">
-          <!--Display flag is module has no content-->
           <span class="fas fa-flag" *ngIf="module.links.length === 0" title="No Content"></span>
           {{module.subject}}
         </div>
@@ -56,11 +54,8 @@
   </div>
 </div>
 
-<!-- Delete Tag Modal -->
 <div id="deleteContent" class="modal fade" role="dialog">
   <div class="modal-dialog">
-
-    <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">Removing Content</h4>

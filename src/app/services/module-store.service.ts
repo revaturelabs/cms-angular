@@ -68,7 +68,6 @@ export class ModuleStoreService {
             }
          }, (response) => {
             this.toastr.error('failed to retrieve modules');
-            // this.failedRequest = true;
             this.isLoading = false;
 
          }, () => this.populateCollections(this.response)
@@ -93,7 +92,7 @@ export class ModuleStoreService {
 
          modules.sort(
             (a, b) => {
-               return a.subject.toLowerCase() < b.subject.toLowerCase() ? -1 : 1;  // compare subject names alphabetically
+               return a.subject.toLowerCase() < b.subject.toLowerCase() ? -1 : 1;
             }
          ).forEach(
             (module) => {
