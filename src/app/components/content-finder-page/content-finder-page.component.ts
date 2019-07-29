@@ -3,28 +3,41 @@ import { Content } from '../../models/Content';
 import { Filter } from '../../models/Filter';
 import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
-
+/** Component for finding content */
 @Component({
    selector: 'app-content-finder-page',
    templateUrl: './content-finder-page.component.html',
    styleUrls: ['./content-finder-page.component.css']
 })
 export class ContentFinderPageComponent implements OnInit {
-
+   /** Readonly string array for formats */
    readonly formats: string[] = ["Code", "Document", "All"];
+   /** String variable for title */
    title: string = "";
+   /** String variable for selected format */
    selFormat: string = "All";
+   /** Content array variable for contents */
    contents: Content[];
+   /** Boolean for determining whether to display table */
    tablebool: boolean = false;
+   /** Number array variable for moduleIDs */
    moduleIDs: number[];
+   /** String array for subjects selected from subject list */
    selectedSubjects: string[] = [];  // selected from subject list
    // contentWrapper: ContentWrapper;
+   /** String array variable for storing searched subjects */
    searchedSubjects: string[] = [];
 
+   /**
+    * Constructor with ContentFetcherService and ModuleStoreService
+    * @param cs 
+    * @param ms ModuleStoreService variable
+    */
    constructor(
       private cs: ContentFetcherService,
       public ms: ModuleStoreService) { }
 
+   /** Load modules upon page load */
    ngOnInit() {
       this.ms.loadModules();
    }

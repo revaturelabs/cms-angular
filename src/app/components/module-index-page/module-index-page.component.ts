@@ -5,6 +5,8 @@ import { ContentFetcherService } from 'src/app/services/content-fetcher.service'
 import { Content } from 'src/app/models/Content';
 import { Filter } from 'src/app/models/Filter';
 
+/** Component for module index */
+
 @Component({
    selector: 'app-module-index-page',
    templateUrl: './module-index-page.component.html',
@@ -12,22 +14,31 @@ import { Filter } from 'src/app/models/Filter';
 })
 export class ModuleIndexPageComponent implements OnInit {
 
-   /* Visibility status of each Module */
+   /** Visibility status of each Module */
    contentVisible: Map<Module, boolean> = new Map<Module, boolean>();
 
-   /* Map of Modules to their list of related Content.
+   /** Map of Modules to their list of related Content.
       Loaded when user clicks on Module (lazy load) */
    moduleContents: Map<Module, Content[]> = new Map<Module, Content[]>();
 
+   /**
+    * Constructor with ContentFetcherService and ModuleStoreService
+    * @param cs 
+    * @param ms ModuleStoreService variable
+    */
    constructor(
       private cs: ContentFetcherService,
       public ms: ModuleStoreService
    ) { }
 
+   /** Load modules on page load */
    ngOnInit() {
       this.ms.loadModules();
    }
 
+   /** Method for liting the content
+    * @param module
+    */
    listContent(module: Module) {
 
       /* Check if Content list already loaded for Module */
@@ -67,6 +78,7 @@ export class ModuleIndexPageComponent implements OnInit {
      * Sort the content list order by title,
      * insert into Module->List<Content> Map
      * @param response
+     * @param module
      */
    parseContentResponse(response: Content[], module: Module) {
 

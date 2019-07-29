@@ -48,6 +48,7 @@ export class ReportsPageComponent implements OnInit {
       this.reportsService.getMetrics();
   }
   
+  /** Method for getting the metrics and setting them to null */
   getMetrics() {
     this.reportsService.getMetrics();
     this.codeExamples = null;
@@ -56,8 +57,11 @@ export class ReportsPageComponent implements OnInit {
     this.avgResources = null;
   }
 
+  /**
+   * Method for updating the metrics using the data from MetricsData
+   * @param data 
+   */
   updateMetrics(data: MetricsData) {
-
     this.codeExamples = data.codeCount;
     this.lectureNotes = data.documentCount;
     this.difModules = data.numDiffModsCount;

@@ -4,7 +4,7 @@ import { ReportsService } from 'src/app/services/reports.service';
 import { GlobalReports } from 'src/app/providers/GlobalReports';
 
 /**
- * Reports Time Graph component for didsplaying the time graph
+ * Reports Time Graph component for displaying the time graph
  */
 @Component({
   selector: 'app-reports-time-graph',
@@ -68,12 +68,14 @@ export class ReportsTimeGraphComponent implements OnInit {
   /** Setting view size */
   view: any[] = [(this.w/2), 400];
 
+  /** Displaying the selected time range */
   selectedTimeRange: number = this.MILLIS_PER_MONTH;
 
-  /**
-   * Constructor using the ReportsService service
-   * @param reportsService 
-   */
+ /**
+  * Constructor using the ReportsService service and GlobalReports Service
+  * @param reportsService 
+  * @param globalReports 
+  */
   constructor(
     private reportsService: ReportsService,
     private globalReports: GlobalReports) { }
