@@ -16,7 +16,9 @@
       <div *ngIf="reportsService.loading">
         <br>
         <br>
-        <img id="loadingImage" src="https://res.cloudinary.com/davd4ynha/image/upload/v1540342369/loading.gif" alt="loading">
+         <div id="loadingImage" class="spinner-border text-secondary" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
       </div>
       <ngx-charts-line-chart
       id="lineChart"
