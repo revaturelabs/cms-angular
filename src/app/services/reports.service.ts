@@ -6,6 +6,7 @@ import { ModuleStoreService } from './module-store.service';
 import { ReportsPageComponent } from '../components/reports-page/reports-page.component';
 import { ReportsTimeGraphComponent } from '../components/reports-time-graph/reports-time-graph.component';
 import { GlobalReports } from '../providers/GlobalReports';
+import { ToastrService } from 'ngx-toastr';
 
 /** Reports Service for Reports Page */
 @Injectable({
@@ -41,7 +42,8 @@ export class ReportsService {
     private http: HttpClient,
     private endpoints: EndpointsService,
     private ms: ModuleStoreService,
-    private globalReports: GlobalReports) { }
+    private globalReports: GlobalReports,
+    private toastr: ToastrService) { }
   
   /**
    * sends the http request to the server to get the reports metrics data
@@ -50,40 +52,30 @@ export class ReportsService {
     
     this.loading = true;
 
-    this.ms.loadModules();
-    this.ms.buffer.subscribe((ret)=>{
-
-      if(ret === false){
-        
-        this.getIDsFromSubjects(this.ms.subjectNames);
-
-        let body = {
-          modules: this.moduleIDs
-        };
-
-        this.http.post(
-          this.endpoints.GET_METRICS.replace('${timeFrame}', this.MILLIS_PER_YEAR.toString()),
-          JSON.stringify(body),
-          {
-            headers: this.HEADERS
-          }
-          ).subscribe((result: MetricsData) => {
-            this.globalReports.metricsData = result;
-            this.reportsPage.updateMetrics(result);
-            this.reportsTimeGraph.updateGraph(result.timeGraphData);
-          },
-          (err) => {
-            console.log(err);
-          },
-          () => {
-            this.loading = false;
-          });
+    let body = {
+      title: "",
+      format: "All",
+      modules: []
+    };
+    
+    this.http.post(
+      this.endpoints.GET_METRICS.replace('${timeFrame}', this.MILLIS_PER_YEAR.toString()),
+      JSON.stringify(body),
+      {
+        headers: this.HEADERS
       }
-    },
-    (err) => {
-      console.log(err);
-      this.loading = false;
-    });
+      ).subscribe((result: MetricsData) => {
+        this.globalReports.metricsData = result;
+        this.reportsPage.updateMetrics(result);
+        this.reportsTimeGraph.updateGraph(result.timeGraphData);
+      },
+      (err) => {
+        this.toastr.error("Failed to load reports metrics.");
+        this.loading = false;
+      },
+      () => {
+        this.loading = false;
+      });
   }
 
   /**

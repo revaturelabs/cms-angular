@@ -10,7 +10,6 @@ import { GlobalReports } from 'src/app/providers/GlobalReports';
 /**
  * Reports page that measures and displays metrics.
  */
-
 @Component({
   selector: 'app-reports-page',
   templateUrl: './reports-page.component.html',

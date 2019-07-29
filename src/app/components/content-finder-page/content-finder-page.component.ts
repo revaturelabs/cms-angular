@@ -3,41 +3,76 @@ import { Content } from '../../models/Content';
 import { Filter } from '../../models/Filter';
 import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
-/** Component for finding content */
+import { ToastrService } from 'ngx-toastr';
+import { Link } from 'src/app/models/Link';
+
+/** Typescript component for Content Finder page */
 @Component({
    selector: 'app-content-finder-page',
    templateUrl: './content-finder-page.component.html',
    styleUrls: ['./content-finder-page.component.css']
 })
 export class ContentFinderPageComponent implements OnInit {
-   /** Readonly string array for formats */
-   readonly formats: string[] = ["Code", "Document", "All"];
-   /** String variable for title */
-   title: string = "";
-   /** String variable for selected format */
-   selFormat: string = "All";
-   /** Content array variable for contents */
-   contents: Content[];
-   /** Boolean for determining whether to display table */
-   tablebool: boolean = false;
-   /** Number array variable for moduleIDs */
-   moduleIDs: number[];
-   /** String array for subjects selected from subject list */
-   selectedSubjects: string[] = [];  // selected from subject list
-   // contentWrapper: ContentWrapper;
-   /** String array variable for storing searched subjects */
-   searchedSubjects: string[] = [];
 
    /**
-    * Constructor with ContentFetcherService and ModuleStoreService
-    * @param cs 
-    * @param ms ModuleStoreService variable
+    * Selection of formats to choose betwwen
+    */
+   readonly formats: string[] = ["Code", "Document", "Powerpoint", "All"];
+
+   /**
+    * Title of content
+    */
+   title: string = "";
+
+   /**
+    * Sets defualt for content selection to All
+    */
+   selFormat: string = "All";
+
+   /**
+    * Array of contents
+    */
+   contents: Content[];
+
+   /**
+    * Hides table for contents until Find content is clicked and content is available
+    */
+   tablebool: boolean = false;
+
+   /**
+    * Stores the tags
+    */
+   moduleIDs: number[];
+
+   /**
+    * Selected from subject list
+    */
+   selectedSubjects: string[] = [];
+   selectedTags: string[] = [];
+   selCon: Content;
+
+   /**
+    * Takes selected subjects and used for searching
+    */
+   searchedSubjects: string[] = [];
+   isSearching: boolean = false;
+   tagOptions: string[] = [];
+   selLink: Link;
+
+   /**
+    * Content Finder Constructor
+    * @param cs Allows us to fetch content
+    * @param ms Allows us to get information for tags
     */
    constructor(
       private cs: ContentFetcherService,
-      public ms: ModuleStoreService) { }
+      public ms: ModuleStoreService,
+      private toastr: ToastrService
+      ) { }
 
-   /** Load modules upon page load */
+   /**
+    * On page initialization load the modules to list on the dropdown menu 
+    */
    ngOnInit() {
       this.ms.loadModules();
    }
@@ -48,6 +83,7 @@ export class ContentFinderPageComponent implements OnInit {
     * response as the array of content and populate the table and print it.
     */
    submit() {
+      this.isSearching = true;
       let format: string = this.selFormat;
       if (format === "All") {
          format = "";
@@ -63,13 +99,14 @@ export class ContentFinderPageComponent implements OnInit {
                this.parseContentResponse(response);
                if (this.notEmpty()) { }
                else
-                  alert("No Results Found");
+                  this.toastr.error('No Results Found');
             } else {
-               alert('Response was null');
+               this.toastr.error('Response was null');
             }
          },
          (response) => {
-            alert("Failed to send filter")
+            this.toastr.error('Failed to send filter');
+            this.isSearching = false;
          }
       )
    }
@@ -79,11 +116,12 @@ export class ContentFinderPageComponent implements OnInit {
     * @param response
     */
    parseContentResponse(response: Content[]) {
-      /* sort contents by their id */
+      this.isSearching = false;
+      /* Sorts contents by their id */
       this.contents = response.sort(
          (a, b) => { return a.id - b.id });
 
-      /* sort each content's list of links by
+      /* Sorts each content's list of links by
        * subject/module name via lookup Map */
       this.contents.forEach(
          (content) => {
@@ -109,6 +147,8 @@ export class ContentFinderPageComponent implements OnInit {
 
    /**
     * Function to see if the table is populated with content
+    * 
+    * @returns True if table has content and false if no content is preset
     */
    notEmpty(): boolean {
       if (this.contents.length != 0) {
@@ -121,9 +161,9 @@ export class ContentFinderPageComponent implements OnInit {
    }
 
    /**
-    * Gets the string array of selected subjects and populates
+    * Description - Gets the string array of selected subjects and populates
     * the number array of subject id (or model or tag or whatever the team never really settled on the name like it was tag at first then prerequisite then modules then affiliation then subjects like come on)
-    * @param subjects
+    * @param subjects - array of subjects
     */
    getIDsFromSubjects(subjects: string[]) {
       this.moduleIDs = [];
@@ -132,6 +172,70 @@ export class ContentFinderPageComponent implements OnInit {
             this.moduleIDs.push(this.ms.subjectNameToModule.get(subject).id);
          }, this
       )
+   }
+   
+   /**
+    * Description - This method deletes a link between a content and a module
+    */
+   removeTag() {
+      let found = this.selCon.links.findIndex(l => this.selLink.id === l.id);
+      this.selCon.links.splice(found, 1);
+      this.cs.updateContentByContent(this.selCon).subscribe();
+   }
+
+   /**
+    * Description - selects the generated content
+    * @param content - the content that needs to be selected
+    */
+   selectedContent(content: Content) {
+      this.selCon = content;
+
+      let subjectToName: string[] = [];
+
+      for (let l of this.selCon.links) {
+         subjectToName.push(this.ms.subjectIdToName.get(l.moduleId));
+      }
+
+      let tempArr: string[] = [];
+
+      for (let t of this.ms.subjectNames) {
+         if (!subjectToName.includes(t))
+            tempArr.push(t);
+      }
+      this.tagOptions = tempArr;
+   }
+
+   selectedLinkForRemoval(content: Content, link: Link) {
+      this.selCon = content;
+      this.selLink = link;
+   }
+
+
+/**
+ * Description - Adds tags to a specific content
+ * Grabs the inputted tags and pushes them into the content.links array
+ * Then sends a request to the database to update the content.
+ */
+   updateTags() {
+      let links = [];
+      if (this.selectedTags.length > 0) {
+         this.selectedTags.forEach(
+            (subject) => {
+               links.push(new Link(null, this.selCon.id,
+                  this.ms.subjectNameToModule.get(subject).id, null));
+            }, this
+         )
+         for (let l of links) {
+            this.selCon.links.push(l);
+         }
+         
+         this.cs.updateContentByContent(this.selCon).subscribe((response: Content) => {
+            this.selCon.links = response.links;
+         });
+      }
+
+      this.selectedTags = [];
+
    }
 
 }
