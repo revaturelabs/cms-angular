@@ -1,102 +1,69 @@
-<!-- CARD -->
 <div class="card">
-   <!-- CONTAINER -->
+   
    <div class="container">
 
       <div class="col">
          <div id="content">
-            <img src="/assets/img/logo.png"
-               alt="revature" class="logo">
+            <img src="/assets/img/logo.png" alt="revature" class="logo">
          </div>
 
-         <!-- TITLE & URL -->
+         
          <form>
 
             <div class="form-row mb-5">
                <div class="col-1"></div>
 
                <div class="col">
-                  <input id="titleTextBox" [(ngModel)]="title"
-                     required
-                     name="title"
-                     type="text"
-                     class="form-control"
-                     placeholder="Title">
+                  <input id="titleTextBox" [(ngModel)]="title" required name="title" type="text" class="form-control"
+                     placeholder="Title" maxlength="254">
                </div>
 
                <div class="col">
-                  <input id="urlTextBox" [(ngModel)]="url"
-                     required
-                     name="url"
-                     type="text"
-                     class="form-control"
-                     placeholder="URL">
+                  <input id="urlTextBox" [(ngModel)]="url" required name="url" type="text" class="form-control"
+                     placeholder="URL" maxlength="254">
                </div>
                <div class="col-1"></div>
             </div>
 
-            <!-- RELEVANT TO SUBJECT ROW -->
-            <!-- https://github.com/ng-select/ng-select#getting-started -->
             <div class="row subject mb-3">
                <div class="col-1"></div>
                <div class="col rele">
-                  <ng-select id="subjectDropDown" [items]="ms.subjectNames"
-                     multiple="true"
-                     closeOnSelect="true"
-                     hideSelected="true"
-                     clearOnBackspace="true"
-                     bindLabel="name"
-                     spellcheck="false"
-                     notFoundText="(no such subject found)"
-                     [loading]="ms.isLoading"
-                     [placeholder]="ms.loadingText"
-                     [(ngModel)]="selectedSubjects"
-                     name="selectedSubjects">
+                  <ng-select id="subjectDropDown" [items]="ms.subjectNames" multiple="true" closeOnSelect="true"
+                     hideSelected="true" clearOnBackspace="true" bindLabel="name" spellcheck="false"
+                     notFoundText="(no such subject found)" [loading]="ms.isLoading" [placeholder]="ms.loadingText"
+                     [(ngModel)]="selectedSubjects" name="selectedSubjects">
                   </ng-select>
                </div>
                <div class="col-1"></div>
             </div>
 
-            <!-- DESCRIPTION ROW -->
             <div class="row desc mb-5">
                <div class="col-1"></div>
                <div class="col">
                   <label for="exampleFormControlTextarea1"></label>
-                  <textarea id="descriptionTextBox" [(ngModel)]="description"
-                     name="description"
-                     class="form-control"
-                     id="exampleFormControlTextarea1"
-                     rows="4"
-                     placeholder="Description"></textarea>
+                  <textarea id="descriptionTextBox" [(ngModel)]="description" name="description" class="form-control"
+                     id="exampleFormControlTextarea1" rows="4" placeholder="Description" maxlength="254"></textarea>
                </div>
                <div class="col-1"></div>
             </div>
 
-            <!-- FORMAT ROW -->
             <div class="row format mb-3">
-               <!-- RADIO BUTTONS -->
                <div class="col">
                   <div class="btn-radio">
-                     <div class="form-check form-check-inline"
-                        *ngFor="let format of formats">
+                     <div class="form-check form-check-inline" *ngFor="let format of formats">
 
-                        <input [(ngModel)]="selFormat"
-                           class="form-check-input"
-                           type="radio" name="formatOptions"
+                        <input [(ngModel)]="selFormat" class="form-check-input" type="radio" name="formatOptions"
                            id="{{format}}" value="{{format}}">
-                        <label class="form-check-label"
-                           for="{{format}}"
-                           id="{{format}}RadioButton">{{format}}</label>
+                        <label class="form-check-label" for="{{format}}" id="{{format}}RadioButton">{{format}}</label>
                      </div>
                   </div>
                </div>
             </div>
-            <!-- BUTTON ROW -->
+
             <div class="row btn mb-3">
-               <button type="button"
-                  class="btn btn-primary"
-                  id="submitButton"
-                  (click)="submit()">Submit Content</button>
+               <button type="button" class="btn btn-primary" id="submitButton" (click)="submit()" *ngIf="!this.isSubmitting">Submit
+                  Content</button>
+                  <mat-spinner [diameter]="30" *ngIf="this.isSubmitting"></mat-spinner>
             </div>
 
          </form>

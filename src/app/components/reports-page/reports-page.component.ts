@@ -12,7 +12,6 @@ import { Filter } from 'src/app/models/Filter';
 /**
  * Reports page that measures and displays metrics.
  */
-
 @Component({
   selector: 'app-reports-page',
   templateUrl: './reports-page.component.html',
@@ -22,11 +21,10 @@ export class ReportsPageComponent implements OnInit {
 
   readonly formats: string[] = ["Code", "Document", "Powerpoint", "All"];
   selFormat: string = "All";
-   contents: Content[];
-   moduleIDs: number[];
-   selectedSubjects: string[] = [];  // selected from subject list
-   // contentWrapper: ContentWrapper;
-   searchedSubjects: string[] = [];
+  contents: Content[];
+  moduleIDs: number[];
+  selectedSubjects: string[] = [];
+  searchedSubjects: string[] = [];
 
   /** TS variable referenced to display number of code examples */
   codeExamples : Object;
@@ -50,9 +48,9 @@ export class ReportsPageComponent implements OnInit {
     public ms: ModuleStoreService) { }
 
 
- /** 
-  * Call in ngOnInit to happen immediately upon page visitation
-  */
+  /** 
+    * Call in ngOnInit to happen immediately upon page visitation
+    */
   ngOnInit() {
     this.ms.loadModules();
 
@@ -68,6 +66,7 @@ export class ReportsPageComponent implements OnInit {
     }
   }
   
+  /** Method for getting the metrics and setting them to null */
   getMetrics() {
     this.getIDsFromSubjects(this.selectedSubjects);
 
@@ -79,8 +78,11 @@ export class ReportsPageComponent implements OnInit {
     this.avgResources = null;
   }
 
+  /**
+   * Method for updating the metrics using the data from MetricsData
+   * @param data 
+   */
   updateMetrics(data: MetricsData) {
-
     this.codeExamples = data.codeCount;
     this.lectureNotes = data.documentCount;
     this.powerpoints = data.pptCount;

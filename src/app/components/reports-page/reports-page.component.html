@@ -5,19 +5,13 @@
         <img src="/assets/img/logo.png" alt="revature" class="logo">
       </div>
     </div>
-
-    <!-- Added cards to hold information regarding the summation of stats. Uses TypeScript reference variables to reference functions in TypeScript -->
-
-    <!-- Filtering -->
     <div>
 
-      <!-- Filter Button -->
       <div class="form-row">
         <div class="m-3 ml-5">
           <button id = "filterButton" class="btn btn-secondary" (click)="getMetrics()" [disabled] = "reportsService.loading">Filter</button>
         </div>
 
-        <!-- Tag Selector -->
         <div class="m-3">
           <ng-select id="subjectDropDown" [items]="ms.subjectNames" multiple="true" closeOnSelect="true"
             hideSelected="true" clearOnBackspace="true" bindLabel="name" spellcheck="false"
@@ -26,7 +20,6 @@
           </ng-select>
         </div>
 
-        <!-- Radio Buttons -->
         <form>
           <div class="btn-radio float-right m-3">
             <div class="form-check form-check-inline" *ngFor="let format of formats">
@@ -39,7 +32,6 @@
         </form>
       </div>
 
-      <!-- Metrics Display -->
       <div class="row">
 
         <div class="col-4">
@@ -71,11 +63,9 @@
                   class="float-right">{{difModules}}</span></li>
             </ul>
           </div>
-
-          <div class="card" style="width: 18rem;" style="margin-bottom: 15px">
+          <div class="card" style="width: 18rem;" style="margin-bottom: 15px; height:auto;">
             <ul class="list-group list-group-flush">
-              <li class="list-group-item"><span class="font-weight-bold">Avg. Resources</span> <span id="avg_Res"
-                  class="float-right">{{avgResources}}</span></li>
+              <li class="list-group-item"><div class="row"><span class="font-weight-bold col-8">Avg. Resources per Module</span> <span id="avg_Res" class="text-right col-4">{{avgResources}}</span></div></li>
             </ul>
           </div>
         </div>

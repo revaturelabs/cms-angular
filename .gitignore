@@ -65,3 +65,7 @@ documentation/
 
 dist/
 
+#Remove workspace settings
+*.code-workspace
+*.editorconfig
+

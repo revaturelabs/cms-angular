@@ -1,43 +1,30 @@
-  <!-- Example split danger button -->
-  
-    <div class="dropdown float-left">
-      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Change Time Range
-      </button>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <button id = "selectPastYear" type="button" class = "dropdown-item" (click) = "setGraphResults(MILLIS_PER_YEAR)">Past year</button>
-        <button id = "selectPastSixMonths" type="button" class = "dropdown-item" (click) = "setGraphResults(6 * MILLIS_PER_MONTH)">Past 6 months</button>
-        <button id = "selectPastMonth" type="button" class = "dropdown-item" (click) = "setGraphResults(MILLIS_PER_MONTH)">Past month</button>
-      </div>
-    </div>
-    <h5 id = "selectedViewText" class = "float-left p-2">Selected View: {{selectedView}}</h5>
 
-    <div class = "chart-container">
-      <div *ngIf="reportsService.loading">
-        <br>
-        <br>
-         <div id="loadingImage" class="spinner-border text-secondary" role="status">
-          <span class="sr-only">Loading...</span>
-        </div>
-      </div>
-      <ngx-charts-line-chart
-      id="lineChart"
-      *ngIf="!reportsService.loading"
-      [view]="view"      
-      [animations]="animations"      
-      [scheme]="colorScheme"
-      [results]="graphResults"
-      [gradient]="gradient"
-      [xAxis]="showXAxis"
-      [yAxis]="showYAxis"
-      [legend]="showLegend"
-      [showXAxisLabel]="showXAxisLabel"
-      [showYAxisLabel]="showYAxisLabel"
-      [xAxisLabel]="xAxisLabel"
-      [yAxisLabel]="yAxisLabel"
-      [autoScale]="autoScale"
-      [timeline]="timeline"
-      (window:resize)="onResize($event)"
-      >
-      </ngx-charts-line-chart>
+<div class = "chart-container">
+  <div *ngIf="reportsService.loading">
+    <br>
+    <br>
+      <div id="loadingImage" class="spinner-border text-secondary" role="status">
+      <span class="sr-only">Loading...</span>
     </div>
+  </div>
+  <ngx-charts-line-chart
+  id="lineChart"
+  *ngIf="!reportsService.loading"
+  [view]="view"      
+  [animations]="animations"      
+  [scheme]="colorScheme"
+  [results]="graphResults"
+  [gradient]="gradient"
+  [xAxis]="showXAxis"
+  [yAxis]="showYAxis"
+  [legend]="showLegend"
+  [showXAxisLabel]="showXAxisLabel"
+  [showYAxisLabel]="showYAxisLabel"
+  [xAxisLabel]="xAxisLabel"
+  [yAxisLabel]="yAxisLabel"
+  [autoScale]="autoScale"
+  [timeline]="timeline"
+  (window:resize)="onResize($event)"
+  >
+  </ngx-charts-line-chart>
+</div>

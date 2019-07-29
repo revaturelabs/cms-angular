@@ -4,7 +4,7 @@ import { ReportsService } from 'src/app/services/reports.service';
 import { GlobalReports } from 'src/app/providers/GlobalReports';
 
 /**
- * Reports Time Graph component for didsplaying the time graph
+ * Reports Time Graph component for displaying the time graph
  */
 @Component({
   selector: 'app-reports-time-graph',
@@ -24,14 +24,14 @@ export class ReportsTimeGraphComponent implements OnInit {
     numContents: 0,
     returnedLongs: []
   };
-  /** Time for request to display */
+  /** The time at which the data was retrieved */
   requestTime: number;
 
   /** Displaying the results of the graph in an array */
   graphResults: any[] = null;
 
- /** Line chart option to auto scale */
-  autoScale = true; 
+  /** Line chart option to auto scale */
+  autoScale = true;
   /** Line chart option for animations */
   animations = true;
   /** Line chart option to show the x axis of graph */
@@ -53,7 +53,7 @@ export class ReportsTimeGraphComponent implements OnInit {
   /** Line chart option for timeline */
   timeline = true;
 
-  /** Declaring the color scheme being following */
+  /** The color scheme of the line chart */
   colorScheme = {
     domain: ['#F26925']
   };
@@ -61,24 +61,27 @@ export class ReportsTimeGraphComponent implements OnInit {
   /** text representing the selected time range displayed in the graph */
   selectedView: string = null;
 
-  /** Viewport base width */
+  /** Viewport base width of the line chart */
   w: number = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-  // h: number = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 
-  /** Setting view size */
+  /** The dimensions of the line chart */
   view: any[] = [(this.w/2), 400];
 
+  /** Displaying the selected time range */
   selectedTimeRange: number = this.MILLIS_PER_MONTH;
 
-  /**
-   * Constructor using the ReportsService service
-   * @param reportsService 
-   */
+ /**
+  * Constructor using the ReportsService service and GlobalReports Service
+  * @param reportsService 
+  * @param globalReports 
+  */
   constructor(
     private reportsService: ReportsService,
     private globalReports: GlobalReports) { }
 
-  /** Declaring functions to be called on page load */
+  /** 
+  * Call in ngOnInit to happen immediately upon page visitation
+  */
   ngOnInit() {
     this.reportsService.reportsTimeGraph = this;
     if(this.globalReports.metricsData)
@@ -91,6 +94,10 @@ export class ReportsTimeGraphComponent implements OnInit {
    */
   updateGraph(timeGraphData: TimeGraphData) {
     this.timeGraphData = timeGraphData;
+    if(this.timeGraphData == null) {
+      this.graphResults = null;
+      return;
+    }
     this.requestTime = Date.now();
     this.timeGraphData.returnedLongs.sort();
     this.setGraphResults(this.selectedTimeRange);

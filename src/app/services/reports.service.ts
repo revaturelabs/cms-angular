@@ -7,7 +7,9 @@ import { ReportsPageComponent } from '../components/reports-page/reports-page.co
 import { ReportsTimeGraphComponent } from '../components/reports-time-graph/reports-time-graph.component';
 import { GlobalReports } from '../providers/GlobalReports';
 import { Filter } from '../models/Filter';
+import { ToastrService } from 'ngx-toastr';
 
+/** Reports Service for Reports Page */
 @Injectable({
   providedIn: 'root'
 })
@@ -26,11 +28,19 @@ export class ReportsService {
 
   loading: boolean = false;
 
+  /**
+   * Constructor for reports service
+   * @param http 
+   * @param endpoints 
+   * @param ms 
+   * @param globalReports 
+   */
   constructor(
     private http: HttpClient,
     private endpoints: EndpointsService,
     private ms: ModuleStoreService,
-    private globalReports: GlobalReports) { }
+    private globalReports: GlobalReports,
+    private toastr: ToastrService) { }
   
   /**
    * sends the http request to the server to get the reports metrics data
@@ -40,6 +50,7 @@ export class ReportsService {
     this.loading = true;
 
     let body = {
+      title: "",
       format: filter.getFormat(),
       modules: filter.getModules()
     };
@@ -56,7 +67,10 @@ export class ReportsService {
         this.reportsTimeGraph.updateGraph(result.timeGraphData);
       },
       (err) => {
-        console.log(err);
+        this.globalReports.metricsData = null;
+        this.toastr.error("Failed to load reports metrics.");
+        this.reportsTimeGraph.updateGraph(null);
+        this.loading = false;
       },
       () => {
         this.loading = false;
