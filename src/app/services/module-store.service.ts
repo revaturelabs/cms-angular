@@ -91,13 +91,11 @@ export class ModuleStoreService {
          this.subjectIdToSortedIndex = new Map<number, number>();
          this.subjectNames = [];
 
-         /* sort modules by subject name alphabetically */
          modules.sort(
             (a, b) => {
                return a.subject.toLowerCase() < b.subject.toLowerCase() ? -1 : 1;  // compare subject names alphabetically
             }
          ).forEach(
-            /* then for each in order, populate maps/array */
             (module) => {
                module.color = this.getColor(c++);
                this.subjectNameToModule.set(module.subject, module);

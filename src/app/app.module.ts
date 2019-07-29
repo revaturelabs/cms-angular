@@ -43,7 +43,7 @@ import { MatProgressSpinnerModule} from '@angular/material';
       BrowserAnimationsModule,
       CommonModule,
       BrowserAnimationsModule,
-      ToastrModule.forRoot(), // toastrModule
+      ToastrModule.forRoot(),
       MatProgressSpinnerModule
    ],
    providers: [

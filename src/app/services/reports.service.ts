@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MetricsData } from '../models/MetricsData';
-import { TimeGraphData } from '../models/TimeGraphData';
 import { EndpointsService } from '../constants/endpoints.service';
 import { ModuleStoreService } from './module-store.service';
 import { ReportsPageComponent } from '../components/reports-page/reports-page.component';

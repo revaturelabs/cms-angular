@@ -41,13 +41,10 @@ export class ModuleIndexPageComponent implements OnInit {
     */
    listContent(module: Module) {
 
-      /* Check if Content list already loaded for Module */
       if (null == this.moduleContents.get(module)) {
 
-         /* initialize the module's visibility */
          this.contentVisible.set(module, false);
 
-         /* Retrieve Module's list of Content */
          let filter: Filter = new Filter(
             null, null, [module.id]
          );
@@ -62,14 +59,10 @@ export class ModuleIndexPageComponent implements OnInit {
             (response) => {
                alert("Failed to request contents");
             },
-            /* display module's contents when done loading */
             () => { this.contentVisible.set(module, true); }
          )
-      }
+      } else {
 
-      else {
-         /* Toggle visibility of Module's list of Content
-         * using ModuleStoreServices's map of Module->Boolean */
          this.contentVisible.set(module, !this.contentVisible.get(module));
       }
    }
@@ -82,7 +75,6 @@ export class ModuleIndexPageComponent implements OnInit {
      */
    parseContentResponse(response: Content[], module: Module) {
 
-      /* sort contents by their title */
       let sortedResponse = response.sort(
          (a, b) => { return a.title < b.title ? -1 : 1 }
       )

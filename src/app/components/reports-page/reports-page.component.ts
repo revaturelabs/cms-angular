@@ -17,27 +17,27 @@ import { GlobalReports } from 'src/app/providers/GlobalReports';
   styleUrls: ['./reports-page.component.css']
 })
 export class ReportsPageComponent implements OnInit {
-/** TS variable referenced to display number of code examples */
+  /** TS variable referenced to display number of code examples */
   codeExamples : Object;
-    /** TS variable referenced to display number of lecture notes */
+  /** TS variable referenced to display number of lecture notes */
   lectureNotes : Object;
-    /** TS variable referenced to display number of different modules */
+  /** TS variable referenced to display number of different modules */
   difModules : Object;
-    /** TS variable referenced to display the average number of resources per module */
+  /** TS variable referenced to display the average number of resources per module */
   avgResources : Object;
 
-/**
- * Constructor uses HttpClient for communication and sends to specific endpoints.
- * @param http 
- * @param endpoints 
- */
+  /**
+   * Constructor uses HttpClient for communication and sends to specific endpoints.
+   * @param http 
+   * @param endpoints 
+   */
   constructor(
     private reportsService: ReportsService,
     private globalReports: GlobalReports) { }
 
- /** 
-  * Call in ngOnInit to happen immediately upon page visitation
-  */
+  /** 
+    * Call in ngOnInit to happen immediately upon page visitation
+    */
   ngOnInit() {
 
     this.reportsService.reportsPage = this;

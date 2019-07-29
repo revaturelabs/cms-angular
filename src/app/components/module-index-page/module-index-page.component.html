@@ -5,7 +5,6 @@
             <img src="/assets/img/logo.png" alt="revature" class="logo">
          </div>
       </div>
-      <!-- TABLE FORM - OPENING DIV -->
       <form *ngIf="!ms.isLoading" style="margin-bottom: 20px">
          <div *ngFor="let module of ms.response" name="modules"
             (click)="listContent(module)" id="{{module.id}}"
