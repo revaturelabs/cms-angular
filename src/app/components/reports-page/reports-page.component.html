@@ -37,7 +37,7 @@
 
         <div class="col-8">
           <div class="text-center">
-            <button class="btn btn-secondary float-right" (click)="getMetrics()">Refresh</button>
+            <button class="btn btn-secondary float-right" (click)="getMetrics()" [disabled] = "reportsService.loading">Refresh</button>
             <app-reports-time-graph></app-reports-time-graph>
           </div>
         </div>

@@ -49,7 +49,7 @@ export class ReportsService {
    * sends the http request to the server to get the reports metrics data
    */
   getMetrics() {
-    
+
     this.loading = true;
 
     let body = {
@@ -70,7 +70,9 @@ export class ReportsService {
         this.reportsTimeGraph.updateGraph(result.timeGraphData);
       },
       (err) => {
+        this.globalReports.metricsData = null;
         this.toastr.error("Failed to load reports metrics.");
+        this.reportsTimeGraph.updateGraph(null);
         this.loading = false;
       },
       () => {

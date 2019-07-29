@@ -94,6 +94,10 @@ export class ReportsTimeGraphComponent implements OnInit {
    */
   updateGraph(timeGraphData: TimeGraphData) {
     this.timeGraphData = timeGraphData;
+    if(this.timeGraphData == null) {
+      this.graphResults = null;
+      return;
+    }
     this.requestTime = Date.now();
     this.timeGraphData.returnedLongs.sort();
     this.setGraphResults(this.selectedTimeRange);
