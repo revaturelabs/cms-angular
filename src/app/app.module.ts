@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { HttpClientModule } from '@angular/common/http';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
@@ -11,8 +12,11 @@ import { ContentFinderPageComponent } from './components/content-finder-page/con
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ModuleCreatorPageComponent } from './components/module-creator-page/module-creator-page.component';
 import { ModuleIndexPageComponent } from './components/module-index-page/module-index-page.component';
-import { CommonModule } from '@angular/common';
+import { ReportsPageComponent } from './components/reports-page/reports-page.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReportsTimeGraphComponent } from './components/reports-time-graph/reports-time-graph.component';
+import { GlobalReports } from './providers/GlobalReports';
+import { CommonModule } from '@angular/common';
 
 import { ToastrModule } from 'ngx-toastr';
 import { MatProgressSpinnerModule} from '@angular/material';
@@ -25,7 +29,9 @@ import { MatProgressSpinnerModule} from '@angular/material';
       ContentFinderPageComponent,
       NavbarComponent,
       ModuleCreatorPageComponent,
-      ModuleIndexPageComponent
+      ModuleIndexPageComponent,
+      ReportsPageComponent,
+      ReportsTimeGraphComponent
    ],
    imports: [
       BrowserModule,
@@ -33,12 +39,16 @@ import { MatProgressSpinnerModule} from '@angular/material';
       HttpClientModule,
       NgSelectModule,
       FormsModule,
+      NgxChartsModule,
+      BrowserAnimationsModule,
       CommonModule,
       BrowserAnimationsModule,
-      ToastrModule.forRoot(), // toastrModule
+      ToastrModule.forRoot(),
       MatProgressSpinnerModule
    ],
-   providers: [],
+   providers: [
+      GlobalReports
+   ],
    bootstrap: [AppComponent]
 })
 export class AppModule { }

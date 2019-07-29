@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Module } from '../models/Module';
 import { ModuleFetcherService } from './module-fetcher.service';
+import { BehaviorSubject } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { ContentFetcherService } from './content-fetcher.service';
 
@@ -37,11 +38,15 @@ export class ModuleStoreService {
    isLoading: boolean = true;
    /** String representing the status of module-store-service */
    loadingText: string = "Loading Subjects...";
+   /** BehaviorSubject for buffer */
+   buffer:BehaviorSubject<boolean> = new BehaviorSubject(true);
+
 
 
    /**
     * Basic constructor for bss
     * @param ms Service to obtain Modules from back-end
+    * @param toastr
     */
    constructor(private ms: ModuleFetcherService,
       private cs: ContentFetcherService,
@@ -63,7 +68,6 @@ export class ModuleStoreService {
             }
          }, (response) => {
             this.toastr.error('failed to retrieve modules');
-            // this.failedRequest = true;
             this.isLoading = false;
 
          }, () => this.populateCollections(this.response)
@@ -73,6 +77,7 @@ export class ModuleStoreService {
    /**
     * fills collections defined using all available module info for quick,
     * easy access to subject names, id, and alphabetical ordering 
+    * @param modules
     */
    populateCollections(modules: Module[]) {
       let i = 0;
@@ -85,13 +90,11 @@ export class ModuleStoreService {
          this.subjectIdToSortedIndex = new Map<number, number>();
          this.subjectNames = [];
 
-         /* sort modules by subject name alphabetically */
          modules.sort(
             (a, b) => {
-               return a.subject.toLowerCase() < b.subject.toLowerCase() ? -1 : 1;  // compare subject names alphabetically
+               return a.subject.toLowerCase() < b.subject.toLowerCase() ? -1 : 1;
             }
          ).forEach(
-            /* then for each in order, populate maps/array */
             (module) => {
                module.color = this.getColor(c++);
                this.subjectNameToModule.set(module.subject, module);
@@ -103,6 +106,7 @@ export class ModuleStoreService {
          )
       }
       this.isLoading = false;
+      this.buffer.next(false);
       this.loadingText = "Select relevant subjects";
    }
 

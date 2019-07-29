@@ -3,7 +3,6 @@ import { Module } from 'src/app/models/Module';
 import { ModuleFetcherService } from 'src/app/services/module-fetcher.service';
 import { ToastrService } from 'ngx-toastr';
 
-/** Typescript Component for Module Creator Page */
 @Component({
    selector: 'app-module-creator-page',
    templateUrl: './module-creator-page.component.html',
@@ -40,7 +39,6 @@ export class ModuleCreatorPageComponent implements OnInit {
     */
    submit() {
       this.isSubmitting = true;
-      /* If input field is null alert the user */
       if (['', null, undefined].includes(this.subject)) {
          this.toastr.error('Please fill in the input field!');
          this.resetVariables();
@@ -52,7 +50,6 @@ export class ModuleCreatorPageComponent implements OnInit {
       )
 
       this.mf.createNewModule(module).subscribe(
-         /* On Success */
          (response) => {
             if (response != null)
                this.toastr.success('Successfully sent module.');
@@ -61,13 +58,11 @@ export class ModuleCreatorPageComponent implements OnInit {
             this.isSubmitting = false;
          },
 
-         /* On Failure */
          (response) => {
             this.toastr.error('Failed to create subject. Subject may already exist.');
             this.isSubmitting = false;
          },
 
-         /* After success */
          () => this.resetVariables()
       )
    }

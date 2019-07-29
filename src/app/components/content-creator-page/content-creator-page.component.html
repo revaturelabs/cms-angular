@@ -1,6 +1,5 @@
-<!-- CARD -->
 <div class="card">
-   <!-- CONTAINER -->
+   
    <div class="container">
 
       <div class="col">
@@ -8,7 +7,7 @@
             <img src="/assets/img/logo.png" alt="revature" class="logo">
          </div>
 
-         <!-- TITLE & URL -->
+         
          <form>
 
             <div class="form-row mb-5">
@@ -26,8 +25,6 @@
                <div class="col-1"></div>
             </div>
 
-            <!-- RELEVANT TO SUBJECT ROW -->
-            <!-- https://github.com/ng-select/ng-select#getting-started -->
             <div class="row subject mb-3">
                <div class="col-1"></div>
                <div class="col rele">
@@ -40,7 +37,6 @@
                <div class="col-1"></div>
             </div>
 
-            <!-- DESCRIPTION ROW -->
             <div class="row desc mb-5">
                <div class="col-1"></div>
                <div class="col">
@@ -51,9 +47,7 @@
                <div class="col-1"></div>
             </div>
 
-            <!-- FORMAT ROW -->
             <div class="row format mb-3">
-               <!-- RADIO BUTTONS -->
                <div class="col">
                   <div class="btn-radio">
                      <div class="form-check form-check-inline" *ngFor="let format of formats">
@@ -65,7 +59,7 @@
                   </div>
                </div>
             </div>
-            <!-- BUTTON ROW -->
+
             <div class="row btn mb-3">
                <button type="button" class="btn btn-primary" id="submitButton" (click)="submit()" *ngIf="!this.isSubmitting">Submit
                   Content</button>

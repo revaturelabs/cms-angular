@@ -24,6 +24,7 @@
       "@angular/platform-browser-dynamic": "~7.2.0",
       "@angular/router": "~7.2.0",
       "@ng-select/ng-select": "^2.20.0",
+      "@swimlane/ngx-charts": "^12.0.1",
       "@types/jasmine": "^3.3.13",
       "@types/jasminewd2": "^2.0.6",
       "ngx-toastr": "^10.0.4",

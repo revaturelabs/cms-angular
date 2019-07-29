@@ -3,9 +3,9 @@
     transition: 0.3s;
     width: 80%;
     height: 15%;
-    margin: 0 auto; /* Added */
-    float: none; /* Added */
-    margin-top: 20px; /* Added */
+    margin: 0 auto;
+    float: none;
+    margin-top: 20px;
  
   }
   
@@ -24,8 +24,6 @@
   justify-content: center;
   position: relative;
   top: -50px;
-    /* left: 0px; */
-    /* margin-bottom: 200px; */
   }
 
   .logo {
@@ -41,7 +39,6 @@
 
   input[type="radio"] {
     margin-right: -15px;
-    /* width: 30px; */
   }
 
   .btn {
@@ -81,8 +78,6 @@
     margin: 0 auto;
     height: 0px;
   }
-
-  /* .table-responsive{-sm|-md|-lg|-xl} */
 
   .fa-flag {
     color: rgb(190,0,0);

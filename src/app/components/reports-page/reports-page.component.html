@@ -1,0 +1,47 @@
+<div class="card " style="margin-bottom: 10px">
+  <div class="container">
+    <div class="col">
+      <div id="content">
+        <img src="/assets/img/logo.png" alt="revature" class="logo">
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+
+        <div class="col-4">
+
+          <div class="card d-flex" style="width: 18rem;" style="margin-bottom: 15px">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"> <span class="font-weight-bold">Code Examples</span> <span id="code_Ex" class="float-right">{{codeExamples}}</span></li>
+            </ul>
+          </div>
+
+          <div class="card" style="width: 18rem;" style="margin-bottom: 15px">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"><span class="font-weight-bold">Lecture Notes</span> <span id="lect_Notes" class="float-right">{{lectureNotes}}</span></li>
+            </ul>
+          </div>
+
+          <div class="card" style="width: 18rem;" style="margin-bottom: 15px">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"><span class="font-weight-bold">Different Modules</span> <span id="dif_Mods" class="float-right">{{difModules}}</span></li>
+            </ul>
+          </div>
+          <div class="card" style="width: 18rem;" style="margin-bottom: 15px; height:auto;">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"><div class="row"><span class="font-weight-bold col-8">Avg. Resources per Module</span> <span id="avg_Res" class="text-right col-4">{{avgResources}}</span></div></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-8">
+          <div class="text-center">
+            <button class="btn btn-secondary float-right" (click)="getMetrics()" [disabled] = "reportsService.loading">Refresh</button>
+            <app-reports-time-graph></app-reports-time-graph>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
