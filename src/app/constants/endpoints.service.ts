@@ -12,6 +12,7 @@ export class EndpointsService {
 
    /** Create Content Endpoint */
    public readonly CREATE_NEW_CONTENT: string = this.baseURL + '/content';
+   /** Update Content */
    public readonly UPDATE_CONTENT: string = this.baseURL + '/content';
    /** Get All Content Endpoint */
    public readonly GET_ALL_CONTENT: string = this.baseURL + '/content';
@@ -55,7 +56,9 @@ export class EndpointsService {
       return endpoints;
    }
 
-   /** Test method for printing out JSON at any given URL */
+   /** Test method for printing out JSON at any given URL 
+    * @param uri
+   */
    public printJSON(uri: string): any {
       let obs = this.http.get<any>(uri);
       obs.subscribe(

@@ -8,6 +8,7 @@ import { ReportsPageComponent } from '../components/reports-page/reports-page.co
 import { ReportsTimeGraphComponent } from '../components/reports-time-graph/reports-time-graph.component';
 import { GlobalReports } from '../providers/GlobalReports';
 
+/** Reports Service for Reports Page */
 @Injectable({
   providedIn: 'root'
 })
@@ -27,8 +28,16 @@ export class ReportsService {
   /** TS variable that gets the moduleIDs we are sending back to the server to get average of */
   moduleIDs: number[] = [];
   
+  /** TS variable that determines whether or not to display loading */
   loading: boolean = false;
 
+  /**
+   * Constructor for reports service
+   * @param http 
+   * @param endpoints 
+   * @param ms 
+   * @param globalReports 
+   */
   constructor(
     private http: HttpClient,
     private endpoints: EndpointsService,

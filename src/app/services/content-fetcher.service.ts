@@ -44,6 +44,7 @@ export class ContentFetcherService {
 
    /**
     * Sends HTTP request to return Content by ID
+    * @param id
     */
    getContentByID(id: number): Observable<Content> {
       return this.http.get<Content>(this.endpoints.GET_CONTENT_BY_ID.replace('${id}', id.toString()));
@@ -59,11 +60,18 @@ export class ContentFetcherService {
       return this.http.put<HttpHeaderResponse>(this.endpoints.UPDATE_CONTENT_BY_ID.replace('${id}', id.toString()), body, { headers: this.HEADERS });
    }
   
+   /**
+    * Method for updating content by content
+    * @param newContent 
+    */
    updateContentByContent(newContent: Content) {
       let body: string = JSON.stringify(newContent);
       return this.http.put(this.endpoints.UPDATE_CONTENT, body, { headers: this.HEADERS });
    }
-   /** Not yet implemented, Untested */
+   /** Not yet implemented, Untested 
+    * @param id
+    * @param modules
+   */
    updateContentModulesById(id: number, modules: Module[]): Observable<HttpHeaderResponse> {
       let body: string = JSON.stringify(modules);
       return this.http.put<HttpHeaderResponse>(this.endpoints.UPDATE_CONTENT_MODULES_BY_ID.replace('${id}', id.toString()), body, { headers: this.HEADERS });

@@ -38,6 +38,7 @@ export class ModuleStoreService {
    isLoading: boolean = true;
    /** String representing the status of module-store-service */
    loadingText: string = "Loading Subjects...";
+   /** BehaviorSubject for buffer */
    buffer:BehaviorSubject<boolean> = new BehaviorSubject(true);
 
 
@@ -45,6 +46,7 @@ export class ModuleStoreService {
    /**
     * Basic constructor for bss
     * @param ms Service to obtain Modules from back-end
+    * @param toastr
     */
    constructor(private ms: ModuleFetcherService,
       private cs: ContentFetcherService,
@@ -76,6 +78,7 @@ export class ModuleStoreService {
    /**
     * fills collections defined using all available module info for quick,
     * easy access to subject names, id, and alphabetical ordering 
+    * @param modules
     */
    populateCollections(modules: Module[]) {
       let i = 0;
