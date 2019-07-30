@@ -65,7 +65,7 @@ export class ReportsTimeGraphComponent implements OnInit {
   w: number = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 
   /** The dimensions of the line chart */
-  view: any[] = [((this.w/2) - (this.w/18)), 400];
+  view: any[] = [(this.w/2), 400];
 
   /** Displaying the selected time range */
   selectedTimeRange: number = this.MILLIS_PER_MONTH;
@@ -168,8 +168,9 @@ export class ReportsTimeGraphComponent implements OnInit {
  */
   @HostListener('window:resize', ['$event'])
   onResize(event) {
+    console.log(event);
     this.w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-    this.view = [((this.w/2) - (this.w/18)), 400];
+    this.view = [(this.w/2), 400];
     event.target.innerWidth;
   }
 }
