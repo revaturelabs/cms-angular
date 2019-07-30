@@ -1,5 +1,18 @@
 
 <div class = "chart-container">
+  
+  <div class="dropdown float-left">	
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">	
+      Change Time Range	
+    </button>	
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">	
+      <button id = "selectPastYear" type="button" class = "dropdown-item" (click) = "setGraphResults(MILLIS_PER_YEAR)">Past year</button>	
+      <button id = "selectPastSixMonths" type="button" class = "dropdown-item" (click) = "setGraphResults(6 * MILLIS_PER_MONTH)">Past 6 months</button>	
+      <button id = "selectPastMonth" type="button" class = "dropdown-item" (click) = "setGraphResults(MILLIS_PER_MONTH)">Past month</button>	
+    </div>	
+  </div>	
+  <h5 id = "selectedViewText" class = "float-left p-2">Selected View: {{selectedView}}</h5>
+
   <div *ngIf="reportsService.loading">
     <br>
     <br>

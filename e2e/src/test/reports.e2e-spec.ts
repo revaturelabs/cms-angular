@@ -7,6 +7,7 @@ describe('workspace-project App', () => {
     beforeAll(() => {
         reportsPage = new ReportsPage();
         reportsPage.navigateTo();
+        browser.sleep(15000);
     });
 
     it('should contain content in Code Examples', () => {
@@ -74,7 +75,7 @@ describe('workspace-project App', () => {
 
     it('should get filtered data', () => {
         reportsPage.clickFilterButton();
-        browser.sleep(5000);
+        browser.sleep(15000);
         expect(reportsPage.getChartData()).not.toBe(null);
     });
 
