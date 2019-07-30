@@ -51,7 +51,8 @@ export class EndpointsService {
          this.CREATE_NEW_MODULE,
          this.GET_ALL_MODULES,
          this.GET_MODULE_BY_ID,
-         this.FILTER_CONTENT);
+         this.FILTER_CONTENT,
+         this.GET_METRICS);
 
       return endpoints;
    }
