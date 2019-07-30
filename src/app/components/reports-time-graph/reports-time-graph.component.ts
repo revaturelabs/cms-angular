@@ -13,11 +13,11 @@ import { GlobalReports } from 'src/app/providers/GlobalReports';
 })
 export class ReportsTimeGraphComponent implements OnInit {
   /** Milliseconds per year */
-  private readonly MILLIS_PER_YEAR: number = 3.154e+10;
+  public readonly MILLIS_PER_YEAR: number = 3.154e+10;
   /** Milliseconds per month */
-  private readonly MILLIS_PER_MONTH: number = 2.628e+9;
+  public readonly MILLIS_PER_MONTH: number = 2.628e+9;
   /** Milliseconds per day */
-  private readonly MILLIS_PER_DAY : number = 8.64e+7;
+  public readonly MILLIS_PER_DAY : number = 8.64e+7;
 
   /** Data returned by time graph, including number of content */
   timeGraphData: TimeGraphData = {
@@ -76,8 +76,8 @@ export class ReportsTimeGraphComponent implements OnInit {
   * @param globalReports 
   */
   constructor(
-    private reportsService: ReportsService,
-    private globalReports: GlobalReports) { }
+    public reportsService: ReportsService,
+    public globalReports: GlobalReports) { }
 
   /** 
   * Call in ngOnInit to happen immediately upon page visitation
