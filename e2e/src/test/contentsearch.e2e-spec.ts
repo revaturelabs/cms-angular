@@ -23,7 +23,6 @@ describe('workspace-project App', () => {
     expect(findContent.getTitleValue()).toEqual(title);
   });
 
-  // only enters values
   it('should accept selected subjects input', () => {
     findContent.enterSelectedSubjects(selectedSubjects);
   });
@@ -49,16 +48,16 @@ describe('workspace-project App', () => {
   });
 
   it('should click trash can icon', () => {
-    browser.sleep(1000);
+    browser.sleep(10000);
     findContent.clickDeleteTag();
+    browser.sleep(1000);
+    findContent.clickDeleteTagConfirmButton();
   });
 
   it('should click add tags button', () =>{
     browser.sleep(1000);
     findContent.enterAddTag(selectedSubjects);
-  })
-
-
+  });
   
   afterEach(async () => {
     // Assert that there are no errors emitted from the browser

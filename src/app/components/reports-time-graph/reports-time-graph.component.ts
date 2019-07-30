@@ -117,8 +117,15 @@ export class ReportsTimeGraphComponent implements OnInit {
     else
       this.selectedView = "Past Year";
     
-    if (this.timeGraphData.returnedLongs.length === 0)
+    if (this.timeGraphData.returnedLongs.length === 0) {
+      this.graphResults = [
+        {
+          name: 'content',
+          series: []
+        }
+      ]
       return;
+    }
 
     let dataEntries = [];
     let currentDay = 0;

@@ -162,17 +162,12 @@ export class AppPage {
       this.getSubmitButton().click();
     }
 
-    // getAlert(){
-    //   return element(by.css('body > app-component > div > app-create-user > form > fieldset:nth-child(2) > div'));
-    // }
-    // getUserNameAlert(){
-    //   return element(by.xpath('//*[@id="error-username"]'));
-    // }
-
     acceptAlert() {
-        let EC = protractor.ExpectedConditions;
-        browser.wait(EC.alertIsPresent(), 5000, "Alert is not getting present :(");
-        browser.switchTo().alert().accept();
+
+        browser.wait(() => element(by.css('.toast-message')).isPresent(), 5000, "Alert is not getting present :(");
+
+        if(element(by.css('.toast-message')).isPresent())
+            element(by.css('.toast-message')).click();
     }
 
     refresh(){

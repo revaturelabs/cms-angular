@@ -5,39 +5,75 @@
         <img src="/assets/img/logo.png" alt="revature" class="logo">
       </div>
     </div>
+    <div>
 
-    <div class="container">
+      <div class="form-row">
+
+        <div class="m-3 ml-5">
+          <ng-select id="subjectDropDown" [items]="ms.subjectNames" multiple="true" closeOnSelect="true"
+            hideSelected="true" clearOnBackspace="true" bindLabel="name" spellcheck="false"
+            notFoundText="(no such subject found)" [loading]="ms.isLoading" [placeholder]="ms.loadingText"
+            [(ngModel)]="selectedSubjects" name="selectedSubjects">
+          </ng-select>
+        </div>
+
+        <form>
+          <div class="btn-radio float-right m-3">
+            <div class="form-check form-check-inline" *ngFor="let format of formats">
+              <input [(ngModel)]="selFormat" class="form-check-input" type="radio" name="formatOptions" id="{{format}}"
+                value="{{format}}">
+              <label class="form-check-label" for="{{format}}" id="{{format}}Label">{{format}}</label>
+            </div>
+          </div>
+          <br>
+        </form>
+
+        <div class="m-3">
+          <button id = "filterButton" class="btn btn-secondary" (click)="getMetrics()" [disabled] = "reportsService.loading">Filter/Refresh</button>
+        </div>
+
+      </div>
+
       <div class="row">
 
         <div class="col-4">
 
           <div class="card d-flex" style="width: 18rem;" style="margin-bottom: 15px">
             <ul class="list-group list-group-flush">
-              <li class="list-group-item"> <span class="font-weight-bold">Code Examples</span> <span id="code_Ex" class="float-right">{{codeExamples}}</span></li>
+              <li class="list-group-item"> <span class="font-weight-bold">Code Examples</span> <span id="code_Ex"
+                  class="float-right">{{codeExamples}}</span></li>
             </ul>
           </div>
 
           <div class="card" style="width: 18rem;" style="margin-bottom: 15px">
             <ul class="list-group list-group-flush">
-              <li class="list-group-item"><span class="font-weight-bold">Lecture Notes</span> <span id="lect_Notes" class="float-right">{{lectureNotes}}</span></li>
+              <li class="list-group-item"><span class="font-weight-bold">Lecture Notes</span> <span id="lect_Notes"
+                  class="float-right">{{lectureNotes}}</span></li>
             </ul>
           </div>
 
           <div class="card" style="width: 18rem;" style="margin-bottom: 15px">
             <ul class="list-group list-group-flush">
-              <li class="list-group-item"><span class="font-weight-bold">Different Modules</span> <span id="dif_Mods" class="float-right">{{difModules}}</span></li>
+              <li class="list-group-item"><span class="font-weight-bold">Powerpoints</span> <span id="powerpoints"
+                  class="float-right">{{powerpoints}}</span></li>
+            </ul>
+          </div>
+
+          <div class="card" style="width: 18rem;" style="margin-bottom: 15px">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"><span class="font-weight-bold">Different Modules</span> <span id="dif_Mods"
+                  class="float-right">{{difModules}}</span></li>
             </ul>
           </div>
           <div class="card" style="width: 18rem;" style="margin-bottom: 15px; height:auto;">
             <ul class="list-group list-group-flush">
-              <li class="list-group-item"><div class="row"><span class="font-weight-bold col-8">Avg. Resources per Module</span> <span id="avg_Res" class="text-right col-4">{{avgResources}}</span></div></li>
+              <li class="list-group-item"><div class="row"><span class="font-weight-bold col-8">Avg. Resources per Module</span> <span id="avg_Res" class="text-right col-4">{{avgResources | number : "1.0-2"}}</span></div></li>
             </ul>
           </div>
         </div>
 
         <div class="col-8">
           <div class="text-center">
-            <button class="btn btn-secondary float-right" (click)="getMetrics()" [disabled] = "reportsService.loading">Refresh</button>
             <app-reports-time-graph></app-reports-time-graph>
           </div>
         </div>

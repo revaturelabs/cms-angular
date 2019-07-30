@@ -49,10 +49,12 @@ export class ModuleCreatePage {
     }
 
     acceptAlert() {
-        let EC = protractor.ExpectedConditions;
-        browser.wait(EC.alertIsPresent(), 5000, "Alert is not getting present :(");
-        browser.switchTo().alert().accept();
-    }
+
+        browser.wait(() => element(by.css('.toast-message')).isPresent(), 5000, "Alert is not getting present :(");
+        
+        if(element(by.css('.toast-message')).isPresent())
+            element(by.css('.toast-message')).click();
+      }
 
     refresh() {
         return browser.refresh();
