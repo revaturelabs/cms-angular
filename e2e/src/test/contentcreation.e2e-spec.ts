@@ -31,7 +31,6 @@ describe('workspace-project App', () => {
     expect(createContent.getUrlValue()).toEqual(url);
   });
 
-  // only enters values
   it('should accept selected subjects input', () => {
     createContent.enterSelectedSubjects(selectedSubjects);
     // browser.sleep(5000); // to manually check, uncomment.
