@@ -5,6 +5,3 @@ node_js:
 before_script:
     - npm install -g @angular/cli
 
-script:
-    - ng test cms-force --watch=false --browsers=ChromeHeadless
-   
