@@ -6,5 +6,5 @@ before_script:
     - npm install -g @angular/cli
 
 script:
-    - npm run test
+    - ng test --watch=false --browsers=ChromeHeadless
    
