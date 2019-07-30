@@ -21,7 +21,14 @@ export class ModuleIndexPageComponent implements OnInit {
     * Loaded when user clicks on Module (lazy load) */
    moduleContents: Map<Module, Content[]> = new Map<Module, Content[]>();
 
+   /**
+    * Variable that will reference selected content for removal. Pre-initialized as it would cause errors upon loading the component.
+    */
    selCon: Content = new Content(0, "", "", "", "", []);
+
+   /**
+    * Variable that will reference the module of the selected content for removal. Pre-initialized as it would cause errors upon loading the component.
+    */
    selModule: Module = new Module(0, "", 0, []);
 
    /**
@@ -108,7 +115,11 @@ export class ModuleIndexPageComponent implements OnInit {
 
       this.cs.updateContentByContent(this.selCon).subscribe();
    }
-
+   /**
+    * Description - assigns the content and the module that the content resides into variables for this component to utilize.
+    * @param content - the selected content
+    * @param module - the module the selected content resides in
+    */
    selectedLinkForRemoval(content: Content, module: Module) {
       this.selCon = content;
       this.selModule = module;

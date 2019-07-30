@@ -66,3 +66,7 @@ input[type="radio"] {
 .failed {
    color: red;
 }
+
+textarea{
+   resize: none;
+}
