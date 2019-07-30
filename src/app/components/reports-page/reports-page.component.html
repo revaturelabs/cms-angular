@@ -9,7 +9,7 @@
 
       <div class="form-row">
         <div class="m-3 ml-5">
-          <button id = "filterButton" class="btn btn-secondary" (click)="getMetrics()" [disabled] = "reportsService.loading">Filter</button>
+          <button id = "filterButton" class="btn btn-secondary" (click)="getMetrics()" [disabled] = "reportsService.loading">Filter/Refresh</button>
         </div>
 
         <div class="m-3">
@@ -70,7 +70,6 @@
           </div>
         </div>
 
-        <!-- Graph Display -->
         <div class="col-8">
           <div class="text-center">
             <app-reports-time-graph></app-reports-time-graph>
