@@ -7,32 +7,33 @@
     </div>
     <div>
 
-      <div class="form-row">
-
-        <div class="m-3 ml-5">
-          <ng-select id="subjectDropDown" [items]="ms.subjectNames" multiple="true" closeOnSelect="true"
+      <div class="row filtering">
+          <div class = 'col col-4 left-margin'> 
+            <ng-select id="subjectDropDown" [items]="ms.subjectNames" multiple="true" closeOnSelect="true"
             hideSelected="true" clearOnBackspace="true" bindLabel="name" spellcheck="false"
             notFoundText="(no such subject found)" [loading]="ms.isLoading" [placeholder]="ms.loadingText"
             [(ngModel)]="selectedSubjects" name="selectedSubjects">
           </ng-select>
         </div>
-
-        <form>
-          <div class="btn-radio float-right m-3">
-            <div class="form-check form-check-inline" *ngFor="let format of formats">
-              <input [(ngModel)]="selFormat" class="form-check-input" type="radio" name="formatOptions" id="{{format}}"
+          
+        <div class = 'col col-4'>
+          <form>
+            <div class="btn-radio float-left">
+              <div class="form-check form-check-inline" *ngFor="let format of formats">
+                <input [(ngModel)]="selFormat" class="form-check-input" type="radio" name="formatOptions" id="{{format}}"
                 value="{{format}}">
-              <label class="form-check-label" for="{{format}}" id="{{format}}Label">{{format}}</label>
+                <label class="form-check-label" for="{{format}}" id="{{format}}Label">{{format}}</label>
+              </div>
             </div>
-          </div>
-          <br>
-        </form>
-
-        <div class="m-3">
-          <button id = "filterButton" class="btn btn-secondary" (click)="getMetrics()" [disabled] = "reportsService.loading">Filter/Refresh</button>
+            <br>
+          </form>
         </div>
 
+        <div class = 'col col-3 left-margin'>
+          <button id = "filterButton" class="btn btn-secondary float-right" (click)="getMetrics()" [disabled] = "reportsService.loading">Filter/Refresh</button>
+        </div>
       </div>
+      <hr class = 'hr-seperator'>
 
       <div class="row">
 
