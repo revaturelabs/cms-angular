@@ -2,10 +2,15 @@ language: node_js
 node_js:
     - "10.16.0"
 
+install:
+    - npm install
+
 before_script:
     - npm install -g @angular/cli
+
 script:
-    - echo Test Building Prod Build
-    - ng build --aot --prod
+    - npm test
+    - npm run webdriver-update
+    - npm run webdriver-start
     - echo Running tests
-    - npm run test:headless 
+    - npm run ci-e2e
