@@ -13,7 +13,7 @@
       "webdriver-start": "webdriver-manager start &",
       "webdriver-update": "webdriver-manager update",
       "protractor": "protractor",
-      "ci-e2e": "protractor --capabilities.chromeOptions.args=--headless --capabilities.chromeOptions.args=--no-sandbox e2e/cfg/test.conf.js"
+      "ci-e2e": "protractor e2e/cfg/test.conf.js"
    },
    "private": true,
    "dependencies": {
