@@ -43,8 +43,8 @@ export class ReportsPageComponent implements OnInit {
    * @param endpoints 
    */
   constructor(
-    private reportsService: ReportsService,
-    private globalReports: GlobalReports,
+    public reportsService: ReportsService,
+    public globalReports: GlobalReports,
     public ms: ModuleStoreService) { }
 
 
