@@ -13,3 +13,6 @@ script:
     - npm run webdriver-start
     - echo Running tests
     - npm run ci-e2e
+
+addons:
+    chrome: stable
