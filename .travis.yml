@@ -9,9 +9,6 @@ before_install:
 install:
     - npm install
 
-before_script:
-    - npm install -g @angular/cli
-
 script:
     - npm run webdriver-update
     - npm run webdriver-start
