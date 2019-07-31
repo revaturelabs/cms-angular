@@ -32,6 +32,7 @@
       "@swimlane/ngx-charts": "^12.0.1",
       "@types/jasmine": "^3.3.13",
       "@types/jasminewd2": "^2.0.6",
+      "chromedriver": "^73.0.0",
       "ngx-toastr": "^10.0.4",
       "puppeteer": "^1.19.0",
       "rxjs": "~6.3.3",
