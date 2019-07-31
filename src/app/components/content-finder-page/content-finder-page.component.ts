@@ -48,15 +48,35 @@ export class ContentFinderPageComponent implements OnInit {
     * Selected from subject list
     */
    selectedSubjects: string[] = [];
+
+   /**
+    * Holds the links that will be applied to a content
+    */
    selectedTags: string[] = [];
+
+   /**
+    * Holds a reference of a content being worked upon
+    */
    selCon: Content;
 
    /**
     * Takes selected subjects and used for searching
     */
    searchedSubjects: string[] = [];
+
+   /**
+    * Boolean for checking if a spinner should be displayed
+    */
    isSearching: boolean = false;
+
+   /**
+    * Variable used to contain tags that a content does not have
+    */
    tagOptions: string[] = [];
+
+   /**
+    * Variable that holds the link that is currently selected. Used for removal of tags.
+    */
    selLink: Link;
 
    /**
@@ -205,6 +225,11 @@ export class ContentFinderPageComponent implements OnInit {
       this.tagOptions = tempArr;
    }
 
+   /**
+    * Description - Assigns references to a content and it's link that is being removed
+    * @param content - content being worked upon
+    * @param link - the link that will be removed from the content
+    */
    selectedLinkForRemoval(content: Content, link: Link) {
       this.selCon = content;
       this.selLink = link;

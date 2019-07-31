@@ -3,6 +3,9 @@ import { Module } from 'src/app/models/Module';
 import { ModuleFetcherService } from 'src/app/services/module-fetcher.service';
 import { ToastrService } from 'ngx-toastr';
 
+/**
+ * Description - Typescript component for module creator page
+ */
 @Component({
    selector: 'app-module-creator-page',
    templateUrl: './module-creator-page.component.html',
