@@ -11,7 +11,7 @@ install:
 
 before_script:
     - npm install -g @angular/cli
-    - bundle exec rails runner "Webdrivers::Chromedriver.update"
+    - npm install chromedriver@73.0.0
 
 script:
     - npm run webdriver-update
