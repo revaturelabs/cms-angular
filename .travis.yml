@@ -9,7 +9,6 @@ before_script:
     - npm install -g @angular/cli
 
 script:
-    - npm test
     - npm run webdriver-update
     - npm run webdriver-start
     - echo Running tests
