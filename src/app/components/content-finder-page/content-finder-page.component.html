@@ -9,7 +9,7 @@
       <div class="form-row mb-5">
         <div class="col-1"></div>
 
-        <div class="col">
+        <div class="col-5">
           <input [(ngModel)]="title" name="title" type="text" class="form-control" placeholder="Title" maxlength="254">
         </div>
 
@@ -29,7 +29,7 @@
 
          <div class="row subject mb-3">
             <div class="col-1"></div>
-            <div class="col">
+            <div class="col-7">
                <ng-select id="subjectDropDown" [items]="ms.subjectNames"
                   multiple="true" closeOnSelect="true" hideSelected="true"
                   clearOnBackspace="true" bindLabel="name" spellcheck="false"
@@ -38,6 +38,9 @@
                   [(ngModel)]="selectedSubjects"
                   name="selectedSubjects">
                </ng-select>
+            </div>
+            <div class="col-1">
+              <input type="button" class="btn btn-secondary float-left" (click)="showEmpty()" value="Show Empty Subjects">
             </div>
             <div class="col-1"></div>
          </div>
@@ -52,9 +55,7 @@
 
 <div class="card " *ngIf="this.tablebool">
   <div class="container">
-
     <form>
-
       <div class="form-row mb-5">
         <div class="table-responsive">
           <table id="ResultsTable" class="table table-striped">
@@ -143,3 +144,25 @@
 
   </div>
 </div>
+
+<!---Empty Subjects table -->
+<div class="card " *ngIf="this.emptybool">
+    <div class="container">
+        <div class="form-row mb-5">
+          <div class="table-responsive">
+              <div *ngIf="ms.isLoading" class="btn spinner">
+                  <mat-spinner [diameter]="30"></mat-spinner>
+                </div>
+                <form *ngIf="!ms.isLoading" style="margin-bottom: 20px">
+                    <div *ngFor="let module of ms.emptyresponse" name="modules" id="{{module.id}}" class="tag-bubble"
+                      style="margin-bottom: 5px" [style.background-color]=module.color>
+                      <div (click)="listContent(module)">
+                        <span class="fas fa-flag" *ngIf="module.links.length === 0" title="No Content"></span>
+                        {{module.subject}}
+                      </div>
+                    </div>
+                </form>
+        </div>
+      </div>
+    </div>
+  </div>

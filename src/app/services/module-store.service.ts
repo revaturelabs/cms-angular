@@ -34,6 +34,10 @@ export class ModuleStoreService {
 
    /** All Modules being returned */
    response: Module[];
+
+   /** All Modules that have no conten */
+   emptyresponse: Module[] = [];
+
    /** Whether or not the Modules are still being loaded from back-end */
    isLoading: boolean = true;
    /** String representing the status of module-store-service */
@@ -73,6 +77,36 @@ export class ModuleStoreService {
          }, () => this.populateCollections(this.response)
       )
    }
+
+     /** load Modules that have no content */
+     loadEmptyModules() {
+
+      this.emptyresponse = []
+      this.isLoading = true;
+      this.loadingText = "Loading Subjects...";
+      this.ms.getAllModules().subscribe(
+         (response) => {
+            if (response != null) {
+               for (let i = 0; i < response.length; i++) {
+                  if(response[i].links.length == 0){
+                     this.emptyresponse.push(response[i]);
+                  }
+                }
+               
+            }
+            else { 
+               // this.failedRetrieve = true;
+               this.toastr.error('failed to retrieve modules');
+               this.isLoading = false;
+            }
+         }, (response) => {
+            this.toastr.error('failed to retrieve modules');
+            this.isLoading = false;
+
+         }, () => this.populateCollections(this.emptyresponse)
+      )
+   }
+
 
    /**
     * fills collections defined using all available module info for quick,
