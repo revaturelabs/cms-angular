@@ -1,0 +1,145 @@
+<div class="card">
+  <div class="container">
+    <div class="col">
+      <div id="content">
+        <img src="/assets/img/logo.png" alt="revature" class="logo">
+      </div>
+    </div>
+    <form>
+      <div class="form-row mb-5">
+        <div class="col-1"></div>
+
+        <div class="col">
+          <input [(ngModel)]="title" name="title" type="text" class="form-control" placeholder="Title" maxlength="254">
+        </div>
+
+        <div class="col">
+          <div class="btn-radio">
+            <div class="form-check form-check-inline" *ngFor="let format of formats">
+              <input [(ngModel)]="selFormat" class="form-check-input" type="radio" name="formatOptions" id="{{format}}"
+                value="{{format}}">
+              <label class="form-check-label" for="{{format}}" id="{{format}}Label">{{format}}</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-1"></div>
+
+      </div>
+
+         <div class="row subject mb-3">
+            <div class="col-1"></div>
+            <div class="col">
+               <ng-select id="subjectDropDown" [items]="ms.subjectNames"
+                  multiple="true" closeOnSelect="true" hideSelected="true"
+                  clearOnBackspace="true" bindLabel="name" spellcheck="false"
+                  notFoundText="(no such subject found)"
+                  [loading]="ms.isLoading" [placeholder]="ms.loadingText"
+                  [(ngModel)]="selectedSubjects"
+                  name="selectedSubjects">
+               </ng-select>
+            </div>
+            <div class="col-1"></div>
+         </div>
+         <div class="row btn mb-3">
+            <button type="button" class="btn btn-primary" id="submitButton"
+               (click)="submit()" *ngIf="!this.isSearching">Find Content</button>
+               <mat-spinner [diameter]="30" *ngIf="this.isSearching"></mat-spinner>
+         </div>
+      </form>
+   </div>
+</div>
+
+<div class="card " *ngIf="this.tablebool">
+  <div class="container">
+
+    <form>
+
+      <div class="form-row mb-5">
+        <div class="table-responsive">
+          <table id="ResultsTable" class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Content ID</th>
+                <th scope="col">Title</th>
+                <th scope="col">Format</th>
+                <th scope="col">Description</th>
+                <th scope="col">URL</th>
+                <th scope="col">Subjects</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let content of contents">
+                <td>{{content.id}} <span *ngIf="content.links.length === 0" class="fas fa-flag"
+                    title="No Module"></span></td>
+                <td>{{content.title}}</td>
+                <td>{{content.format}}</td>
+                <td>{{content.description}}</td>
+                <td><a href="{{content.url}}">{{content.url}}</a></td>
+                <td class="tag-bubble-cell">
+                  <div class="addTag">
+                    <span data-toggle="modal" data-target="#addTag" (click)=selectedContent(content)
+                      class="fas fa-plus-square plusCenter"></span>
+                  </div>
+                  <br>
+
+                  <span *ngFor="let link of content.links"
+                    [style.background-color]=ms.subjectIdToModule.get(link.moduleId).color
+                    [style.font-weight]="(searchedSubjects.includes(ms.subjectIdToName.get(link.moduleId))) ? 'bold' : 'normal'"
+                    class="badge badge-primary" style="color:black; font-size: 16px">
+                    {{ms.subjectIdToName.get(link.moduleId)}}
+                    <span data-toggle="modal" data-target="#deleteTag" title="Remove tag"
+                      (click)="selectedLinkForRemoval(content, link)" class="fas fa-trash"></span>
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div id="addTag" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Add Tags</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <ng-select id="tagsDropDown" [items]="tagOptions" multiple="true" closeOnSelect="true" hideSelected="true"
+          clearOnBackspace="true" bindLabel="name" spellcheck="false" notFoundText="(no such subject found)"
+          [loading]="ms.isLoading" [placeholder]="ms.loadingText" [(ngModel)]="selectedTags" name="addTags">
+        </ng-select>
+        <div class="row btn mb-3">
+          <button type="button" class="btn btn-primary addATag" id="submitButton" (click)="updateTags()"
+            data-dismiss="modal">Add Tags</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="deleteTag" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Delete Tags</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h4>Are you sure you want to delete this tag?</h4>
+        <div class="row btn mb-3">
+          <button type="button" class="btn btn-primary addATag" id="submitButton" (click)="removeTag()"
+            data-dismiss="modal" name = "confirmDeleteTag">Confirm Delete</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,42 @@
+<div class="card">
+
+  <div class="container">
+     
+     <div class="col">
+        <div id="content">
+           <img src="/assets/img/logo.png"
+              alt="revature" class="logo">
+        </div>
+
+        <form>
+
+           <div class="form-row mb-5">
+              <div class="col-1"></div>
+
+              <div class="col">
+                 <input [(ngModel)]="subject"
+                    required
+                    name="subject"
+                    type="text"
+                    class="form-control"
+                    placeholder="Subject"
+                    id="inputText"
+                    maxlength="254">
+              </div>
+              <div class="col-1"></div>
+           </div>
+           <div class="row btn mb-3">
+              <button type="button"
+                 class="btn btn-primary"
+                 id="submitButton"
+                 (click)="submit()" *ngIf="!this.isSubmitting">Submit Module</button>
+                 <mat-spinner [diameter]="30" *ngIf="this.isSubmitting"></mat-spinner>
+           </div>
+
+        </form>
+
+     </div>
+
+  </div>
+
+</div>
