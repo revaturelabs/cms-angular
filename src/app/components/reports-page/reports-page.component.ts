@@ -70,14 +70,16 @@ export class ReportsPageComponent implements OnInit {
   /** Method for getting the metrics and setting them to null */
   getMetrics() {
     this.getIDsFromSubjects(this.selectedSubjects);
+    this.selFormatFilter = this.selFormat;
 
     this.reportsService.getMetrics(new Filter("", this.selFormat, this.moduleIDs));
-    this.selFormatFilter = this.selFormat;
+
     this.codeExamples = null;
     this.lectureNotes = null;
     this.powerpoints = null;
     this.difModules = null;
     this.avgResources = null;
+
   }
 
   /**
