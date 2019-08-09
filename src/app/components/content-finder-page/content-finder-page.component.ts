@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Content } from '../../models/Content';
+import { Module } from 'src/app/models/Module';
 import { Filter } from '../../models/Filter';
 import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
@@ -40,9 +41,19 @@ export class ContentFinderPageComponent implements OnInit {
    tablebool: boolean = false;
 
    /**
+    * Hides the empty subjects module until button is clicked
+    */
+   emptybool: boolean = false;
+
+   /**
     * Stores the tags
     */
    moduleIDs: number[];
+
+   
+   /** Map of Visibility status of each Module */
+   contentVisible: Map<Module, boolean> = new Map<Module, boolean>();
+
 
    /**
     * Selected from subject list
@@ -94,6 +105,7 @@ export class ContentFinderPageComponent implements OnInit {
     * On page initialization load the modules to list on the dropdown menu 
     */
    ngOnInit() {
+      this.ms.loadEmptyModules();
       this.ms.loadModules();
    }
 
@@ -103,6 +115,7 @@ export class ContentFinderPageComponent implements OnInit {
     * response as the array of content and populate the table and print it.
     */
    submit() {
+      this.emptybool = false;
       this.isSearching = true;
       let format: string = this.selFormat;
       if (format === "All") {
@@ -261,6 +274,12 @@ export class ContentFinderPageComponent implements OnInit {
 
       this.selectedTags = [];
 
+   }
+
+   showEmpty(){
+      this.tablebool = false;
+      this.emptybool = true;
+      
    }
 
 }

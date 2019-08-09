@@ -21,6 +21,7 @@ export class ReportsPageComponent implements OnInit {
 
   readonly formats: string[] = ["Code", "Document", "Powerpoint", "All"];
   selFormat: string = "All";
+  selFormatFilter = "";
   contents: Content[];
   moduleIDs: number[];
   selectedSubjects: string[] = [];
@@ -71,6 +72,7 @@ export class ReportsPageComponent implements OnInit {
     this.getIDsFromSubjects(this.selectedSubjects);
 
     this.reportsService.getMetrics(new Filter("", this.selFormat, this.moduleIDs));
+    this.selFormatFilter = this.selFormat;
     this.codeExamples = null;
     this.lectureNotes = null;
     this.powerpoints = null;
