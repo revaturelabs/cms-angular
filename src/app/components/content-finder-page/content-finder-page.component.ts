@@ -277,8 +277,14 @@ export class ContentFinderPageComponent implements OnInit {
    }
 
    showEmpty(){
-      this.tablebool = false;
-      this.emptybool = true;
+      if(this.ms.emptyresponse.length > 0){
+         this.emptybool = true;
+         this.tablebool = false;
+      } else{
+         this.toastr.error('No Results Found');
+
+      }
+
       
    }
 
