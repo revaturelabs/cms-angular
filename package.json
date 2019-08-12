@@ -8,7 +8,7 @@
     "test": "ng test",
     "test:headless": "ng test --watch=false --browsers=ChromeHeadless",
     "lint": "ng lint",
-    "e2e": "ng e2e",
+    "e2e": "ng e2e --webdriver-update=false",
     "compodoc": "npx compodoc -p src/tsconfig.app.json"
   },
   "private": true,
