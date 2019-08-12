@@ -8,6 +8,9 @@
       "jasmine",
       "jasminewd2",
       "node"
+    ],
+    "typeRoots": [
+      "../node_modules/@types"
     ]
   }
 }
