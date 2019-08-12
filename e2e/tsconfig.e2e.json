@@ -1,9 +1,9 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../tsconfig.json",
   "compilerOptions": {
-    "outDir": "../../out-tsc/app",
+    "outDir": "../dist/out-tsc-e2e",
     "module": "commonjs",
-    "target": "es5",
+    "target": "es6",
     "types": [
       "jasmine",
       "jasminewd2",
@@ -13,4 +13,4 @@
       "../node_modules/@types"
     ]
   }
-}
+ }
