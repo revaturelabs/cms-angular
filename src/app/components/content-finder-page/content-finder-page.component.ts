@@ -251,7 +251,7 @@ export class ContentFinderPageComponent implements OnInit {
     * @param content - content being worked upon
     * @param link - the link that will be removed from the content
     */
-   selectedLinkForRemoval(content: Content, link: Link) {
+   selectedTagForRemoval(content: Content, link: Link) {
       this.selCon = content;
       this.selLink = link;
    }
@@ -283,5 +283,7 @@ export class ContentFinderPageComponent implements OnInit {
       this.selectedTags = [];
 
    }
+
+
 
 }
