@@ -29,7 +29,7 @@
 
          <div class="row subject mb-3">
             <div class="col-1"></div>
-            <div class="col-7">
+            <div class="col-10">
                <ng-select id="subjectDropDown" [items]="ms.subjectNames"
                   multiple="true" closeOnSelect="true" hideSelected="true"
                   clearOnBackspace="true" bindLabel="name" spellcheck="false"
@@ -38,9 +38,6 @@
                   [(ngModel)]="selectedSubjects"
                   name="selectedSubjects">
                </ng-select>
-            </div>
-            <div class="col-1">
-              <input type="button" class="btn btn-secondary float-left" (click)="showEmpty()" value="Show Empty Subjects">
             </div>
             <div class="col-1"></div>
          </div>
@@ -61,6 +58,7 @@
           <table id="ResultsTable" class="table table-striped">
             <thead>
               <tr>
+                  <th scope="col"></th>
                 <th scope="col">Content ID</th>
                 <th scope="col">Title</th>
                 <th scope="col">Format</th>
@@ -72,6 +70,11 @@
 
             <tbody>
               <tr *ngFor="let content of contents">
+                <td>
+                    <em title="Remove from module " (click)="selectedLinkForRemoval(content, module)"
+                    class="fas fa-trash" data-toggle="modal" data-target="#deleteContent"
+                    title="Remove Content"></em>
+                </td>
                 <td>{{content.id}} <span *ngIf="content.links.length === 0" class="fas fa-flag"
                     title="No Module"></span></td>
                 <td>{{content.title}}</td>
@@ -91,7 +94,7 @@
                     class="badge badge-primary" style="color:black; font-size: 16px">
                     {{ms.subjectIdToName.get(link.moduleId)}}
                     <span data-toggle="modal" data-target="#deleteTag" title="Remove tag"
-                      (click)="selectedLinkForRemoval(content, link)" class="fas fa-trash"></span>
+                      (click)="selectedTagForRemoval(content, link)" class="fas fa-trash"></span>
                   </span>
                 </td>
               </tr>
@@ -126,6 +129,10 @@
   </div>
 </div>
 
+
+<!-- 
+  Here is a pop up the occurs when deleting a tag from a content
+ -->
 <div id="deleteTag" class="modal fade" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -145,24 +152,26 @@
   </div>
 </div>
 
-<!---Empty Subjects table -->
-<div class="card " *ngIf="this.emptybool">
-    <div class="container">
-        <div class="form-row mb-5">
-          <div class="table-responsive">
-              <div *ngIf="ms.isLoading" class="btn spinner">
-                  <mat-spinner [diameter]="30"></mat-spinner>
-                </div>
-                <form *ngIf="!ms.isLoading" style="margin-bottom: 20px">
-                    <div *ngFor="let module of ms.emptyresponse" name="modules" id="{{module.id}}" class="tag-bubble"
-                      style="margin-bottom: 5px" [style.background-color]=module.color>
-                      <div (click)="listContent(module)">
-                        <span class="fas fa-flag" *ngIf="module.links.length === 0" title="No Content"></span>
-                        {{module.subject}}
-                      </div>
-                    </div>
-                </form>
+
+<!-- 
+  Here is a pop up the occurs when deleting content.
+ -->
+ <!-- <div id="deleteContent" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Removing Content</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <h6>Are you sure you want to delete {{selModule.subject}} from {{selCon.title}}?</h6>
+          <div class="row btn mb-3">
+  
+            <button type="button" class="btn btn-primary" id="submitButton" 
+            (click)="removeContentFromModuleIndex()" data-dismiss="modal">Confirm Removal</button>
+          </div>
         </div>
       </div>
+  
     </div>
-  </div>
+  </div> -->

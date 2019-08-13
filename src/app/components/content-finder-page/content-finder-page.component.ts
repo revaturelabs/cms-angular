@@ -18,7 +18,7 @@ export class ContentFinderPageComponent implements OnInit {
    /**
     * Selection of formats to choose betwwen
     */
-   readonly formats: string[] = ["Code", "Document", "Powerpoint", "All"];
+   readonly formats: string[] = ["Code", "Document", "Powerpoint", "Flagged", "All"];
 
    /**
     * Title of content
@@ -39,11 +39,6 @@ export class ContentFinderPageComponent implements OnInit {
     * Hides table for contents until Find content is clicked and content is available
     */
    tablebool: boolean = false;
-
-   /**
-    * Hides the empty subjects module until button is clicked
-    */
-   emptybool: boolean = false;
 
    /**
     * Stores the tags
@@ -105,7 +100,6 @@ export class ContentFinderPageComponent implements OnInit {
     * On page initialization load the modules to list on the dropdown menu 
     */
    ngOnInit() {
-      this.ms.loadEmptyModules();
       this.ms.loadModules();
    }
 
@@ -115,10 +109,11 @@ export class ContentFinderPageComponent implements OnInit {
     * response as the array of content and populate the table and print it.
     */
    submit() {
-      this.emptybool = false;
       this.isSearching = true;
       let format: string = this.selFormat;
-      if (format === "All") {
+
+      //if 'all' or 'flagged' was selected return all content
+      if (format === "All" || format === "Flagged") {
          format = "";
       }
       this.getIDsFromSubjects(this.selectedSubjects);
@@ -129,6 +124,8 @@ export class ContentFinderPageComponent implements OnInit {
       this.cs.filterContent(filter).subscribe(
          (response) => {
             if (response != null) {
+
+               //populate the contents array with the response with the parseContentResponse function
                this.parseContentResponse(response);
                if (this.notEmpty()) { }
                else
@@ -167,6 +164,17 @@ export class ContentFinderPageComponent implements OnInit {
             );
          }, this
       )
+
+      /**
+      * Filter the contents by content with no links (not attached to a modules) 
+      * if 'flagged' is the selected format
+      */
+      if( this.selFormat === "Flagged"){
+         this.contents = this.contents.filter(function(flaggedContent){
+            return flaggedContent.links.length === 0;
+         });
+      }
+
    }
 
    /**
@@ -243,7 +251,7 @@ export class ContentFinderPageComponent implements OnInit {
     * @param content - content being worked upon
     * @param link - the link that will be removed from the content
     */
-   selectedLinkForRemoval(content: Content, link: Link) {
+   selectedTagForRemoval(content: Content, link: Link) {
       this.selCon = content;
       this.selLink = link;
    }
@@ -276,16 +284,6 @@ export class ContentFinderPageComponent implements OnInit {
 
    }
 
-   showEmpty(){
-      if(this.ms.emptyresponse.length > 0){
-         this.emptybool = true;
-         this.tablebool = false;
-      } else{
-         this.toastr.error('No Results Found');
 
-      }
-
-      
-   }
 
 }
