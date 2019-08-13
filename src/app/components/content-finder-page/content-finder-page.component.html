@@ -75,7 +75,7 @@
             <tbody>
               <tr *ngFor="let content of contents"> <!-- Section that removes content and links from modules -->
                 <td>
-                    <em title="Remove from module " (click)="selectedLinkForRemoval(content, module)"
+                    <em title="Remove from module " (click)="selectedContentForRemoval(content)"
                     class="fas fa-trash" data-toggle="modal" data-target="#deleteContent"
                     title="Remove Content"></em>
                 </td>
@@ -170,11 +170,11 @@
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
-          <h6>Are you sure you want to delete ?</h6>
+          <h6>Are you sure you want to delete {{selCon.title}}?</h6>
           <div class="row btn mb-3">
   
             <button type="button" class="btn btn-primary" id="submitButton" 
-            (click)="removeContentFromModuleIndex()" data-dismiss="modal">Confirm Removal</button>
+            (click)="removeContent()"  data-dismiss="modal">Confirm Removal</button>
           </div>
         </div>
       </div>
