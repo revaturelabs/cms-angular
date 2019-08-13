@@ -6,6 +6,7 @@ import { ContentFetcherService } from 'src/app/services/content-fetcher.service'
 import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { ToastrService } from 'ngx-toastr';
 import { Link } from 'src/app/models/Link';
+import { SelectControlValueAccessor } from '@angular/forms';
 
 /** Typescript component for Content Finder page */
 @Component({
@@ -63,7 +64,8 @@ export class ContentFinderPageComponent implements OnInit {
    /**
     * Holds a reference of a content being worked upon
     */
-   selCon: Content;
+   //Note that this needs defualt values so the bindings {{}} in html will work on page load
+   selCon: Content = new Content(0, "", "", "", "", []);
 
    /**
     * Takes selected subjects and used for searching
@@ -282,6 +284,17 @@ export class ContentFinderPageComponent implements OnInit {
 
       this.selectedTags = [];
 
+   }
+
+   /**
+    * Description - set selCon to the content selected for removal, to show title on popup
+    */
+   selectedContentForRemoval(content: Content) {
+      this.selCon = content;
+   }
+
+   removeContent(){
+      //TODO add functionality to delete selected content (selCon)
    }
 
 

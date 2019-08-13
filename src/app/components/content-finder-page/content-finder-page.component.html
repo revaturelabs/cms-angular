@@ -71,7 +71,7 @@
             <tbody>
               <tr *ngFor="let content of contents">
                 <td>
-                    <em title="Remove from module " (click)="selectedLinkForRemoval(content, module)"
+                    <em title="Remove from module " (click)="selectedContentForRemoval(content)"
                     class="fas fa-trash" data-toggle="modal" data-target="#deleteContent"
                     title="Remove Content"></em>
                 </td>
@@ -156,7 +156,7 @@
 <!-- 
   Here is a pop up the occurs when deleting content.
  -->
- <!-- <div id="deleteContent" class="modal fade" role="dialog">
+ <div id="deleteContent" class="modal fade" role="dialog">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -164,14 +164,14 @@
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
-          <h6>Are you sure you want to delete {{selModule.subject}} from {{selCon.title}}?</h6>
+          <h6>Are you sure you want to delete {{selCon.title}}?</h6>
           <div class="row btn mb-3">
   
             <button type="button" class="btn btn-primary" id="submitButton" 
-            (click)="removeContentFromModuleIndex()" data-dismiss="modal">Confirm Removal</button>
+            (click)="removeContent()"  data-dismiss="modal">Confirm Removal</button>
           </div>
         </div>
       </div>
   
     </div>
-  </div> -->
+  </div>

@@ -24,11 +24,13 @@ export class ModuleIndexPageComponent implements OnInit {
    /**
     * Variable that will reference selected content for removal. Pre-initialized as it would cause errors upon loading the component.
     */
+   //Note that this needs defualt values so the bindings {{}} in html will work on page load
    selCon: Content = new Content(0, "", "", "", "", []);
 
    /**
     * Variable that will reference the module of the selected content for removal. Pre-initialized as it would cause errors upon loading the component.
     */
+   //Note that this needs defualt values so the bindings {{}} in html will work on page load
    selModule: Module = new Module(0, "", 0, []);
 
    /**
