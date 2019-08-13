@@ -18,7 +18,7 @@ export class ContentFinderPageComponent implements OnInit {
    /**
     * Selection of formats to choose betwwen
     */
-   readonly formats: string[] = ["Code", "Document", "Powerpoint", "All"];
+   readonly formats: string[] = ["Code", "Document", "Powerpoint", "Flagged", "All"];
 
    /**
     * Title of content
@@ -105,7 +105,6 @@ export class ContentFinderPageComponent implements OnInit {
     * On page initialization load the modules to list on the dropdown menu 
     */
    ngOnInit() {
-      this.ms.loadEmptyModules();
       this.ms.loadModules();
    }
 
@@ -118,7 +117,7 @@ export class ContentFinderPageComponent implements OnInit {
       this.emptybool = false;
       this.isSearching = true;
       let format: string = this.selFormat;
-      if (format === "All") {
+      if (format === "All" || format === "Flagged") {
          format = "";
       }
       this.getIDsFromSubjects(this.selectedSubjects);
@@ -167,6 +166,13 @@ export class ContentFinderPageComponent implements OnInit {
             );
          }, this
       )
+
+      if( this.selFormat === "Flagged"){
+         this.contents = this.contents.filter(function(flaggedContent){
+            return flaggedContent.links.length === 0;
+         });
+      }
+
    }
 
    /**
@@ -274,18 +280,6 @@ export class ContentFinderPageComponent implements OnInit {
 
       this.selectedTags = [];
 
-   }
-
-   showEmpty(){
-      if(this.ms.emptyresponse.length > 0){
-         this.emptybool = true;
-         this.tablebool = false;
-      } else{
-         this.toastr.error('No Results Found');
-
-      }
-
-      
    }
 
 }
