@@ -109,7 +109,6 @@ export class ContentFinderPageComponent implements OnInit {
     * response as the array of content and populate the table and print it.
     */
    submit() {
-      this.emptybool = false;
       this.isSearching = true;
       let format: string = this.selFormat;
 
