@@ -41,11 +41,6 @@ export class ContentFinderPageComponent implements OnInit {
    tablebool: boolean = false;
 
    /**
-    * Hides the empty subjects module until button is clicked
-    */
-   emptybool: boolean = false;
-
-   /**
     * Stores the tags
     */
    moduleIDs: number[];
@@ -117,6 +112,8 @@ export class ContentFinderPageComponent implements OnInit {
       this.emptybool = false;
       this.isSearching = true;
       let format: string = this.selFormat;
+
+      //if 'all' or 'flagged' was selected return all content
       if (format === "All" || format === "Flagged") {
          format = "";
       }
@@ -128,6 +125,8 @@ export class ContentFinderPageComponent implements OnInit {
       this.cs.filterContent(filter).subscribe(
          (response) => {
             if (response != null) {
+
+               //populate the contents array with the response with the parseContentResponse function
                this.parseContentResponse(response);
                if (this.notEmpty()) { }
                else
@@ -167,6 +166,10 @@ export class ContentFinderPageComponent implements OnInit {
          }, this
       )
 
+      /**
+      * Filter the contents by content with no links (not attached to a modules) 
+      * if 'flagged' is the selected format
+      */
       if( this.selFormat === "Flagged"){
          this.contents = this.contents.filter(function(flaggedContent){
             return flaggedContent.links.length === 0;
