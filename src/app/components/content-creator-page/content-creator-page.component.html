@@ -13,21 +13,26 @@
             <div class="form-row mb-5">
                <div class="col-1"></div>
 
-               <div class="col">
+               <div class="col"> <!-- Input section for the title -->
+                  <!-- The input for the title is associated with an ngModel binding that we use to set the title of the content as a string -->
                   <input id="titleTextBox" [(ngModel)]="title" required name="title" type="text" class="form-control"
                      placeholder="Title" maxlength="254">
                </div>
 
-               <div class="col">
+               <div class="col"> <!-- Input section for the URL of useful links to use -->
+                  <!-- Similar as above, used to set the url specified to the content we are submitting using ngModel -->
                   <input id="urlTextBox" [(ngModel)]="url" required name="url" type="text" class="form-control"
                      placeholder="URL" maxlength="254">
                </div>
                <div class="col-1"></div>
             </div>
 
-            <div class="row subject mb-3">
+            <div class="row subject mb-3"> <!-- Dropdown section for the subjects you want to tie the links to -->
                <div class="col-1"></div>
                <div class="col rele">
+                  <!-- In this dropdown, the subjects are being accessed through a Module Store ms. 
+                       Using ngModel binding, the subjects are displayed.
+                  -->
                   <ng-select id="subjectDropDown" [items]="ms.subjectNames" multiple="true" closeOnSelect="true"
                      hideSelected="true" clearOnBackspace="true" bindLabel="name" spellcheck="false"
                      notFoundText="(no such subject found)" [loading]="ms.isLoading" [placeholder]="ms.loadingText"
@@ -37,9 +42,10 @@
                <div class="col-1"></div>
             </div>
 
-            <div class="row desc mb-5">
+            <div class="row desc mb-5"> <!-- Text box section for adding a description to the content provided -->
                <div class="col-1"></div>
                <div class="col">
+                  <!-- We use ngModel binding to record the description written, where the max character length is 254 -->
                   <label for="exampleFormControlTextarea1"></label>
                   <textarea id="descriptionTextBox" [(ngModel)]="description" name="description" class="form-control"
                      id="exampleFormControlTextarea1" rows="4" placeholder="Description" maxlength="254"></textarea>
@@ -49,9 +55,9 @@
 
             <div class="row format mb-3">
                <div class="col">
-                  <div class="btn-radio">
+                  <div class="btn-radio"> <!-- Radio buttons to select what kind of resource you want this content to be sectioned under, that being Code, Document, or PowerPoint -->
                      <div class="form-check form-check-inline" *ngFor="let format of formats">
-
+                        <!-- Here, ngModel is taking the specified radio button for submitting the form -->
                         <input [(ngModel)]="selFormat" class="form-check-input" type="radio" name="formatOptions"
                            id="{{format}}" value="{{format}}">
                         <label class="form-check-label" for="{{format}}" id="{{format}}RadioButton">{{format}}</label>
@@ -60,9 +66,9 @@
                </div>
             </div>
 
-            <div class="row btn mb-3">
+            <div class="row btn mb-3"> <!-- Submit button tied to submit() function that sends the form information to the database, adding the specified information for later retrieval -->
                <button type="button" class="btn btn-primary" id="submitButton" (click)="submit()" *ngIf="!this.isSubmitting">Submit
-                  Content</button>
+                  Content</button><!-- When submitting, this.isSubmitting is inverted from false to true in order to submit the form -->
                   <mat-spinner [diameter]="30" *ngIf="this.isSubmitting"></mat-spinner>
             </div>
 
