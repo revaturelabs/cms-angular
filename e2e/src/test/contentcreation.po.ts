@@ -110,6 +110,7 @@ export class AppPage {
         inputs.forEach( (input) => {
             browser.actions().sendKeys(input).perform();
             browser.actions().sendKeys(protractor.Key.ENTER).perform();
+            browser.sleep(3000);
         });
     }
 

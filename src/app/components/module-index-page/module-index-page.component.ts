@@ -124,4 +124,5 @@ export class ModuleIndexPageComponent implements OnInit {
       this.selCon = content;
       this.selModule = module;
    }
+   
 }
