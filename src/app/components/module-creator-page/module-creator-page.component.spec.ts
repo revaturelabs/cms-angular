@@ -1,5 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+
+import { FormsModule } from '@angular/forms';
+import { MatProgressSpinnerModule} from '@angular/material';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ToastrModule } from 'ngx-toastr';
+
 import { ModuleCreatorPageComponent } from './module-creator-page.component';
 
 describe('ModuleCreatorPageComponent', () => {
@@ -8,7 +14,14 @@ describe('ModuleCreatorPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ModuleCreatorPageComponent ]
+      declarations: [ ModuleCreatorPageComponent ],
+      imports: [ 
+        FormsModule,
+        MatProgressSpinnerModule,
+        HttpClientTestingModule,
+        ToastrModule.forRoot()
+        
+      ]
     })
     .compileComponents();
   }));
