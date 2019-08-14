@@ -1,60 +1,67 @@
 import { AppPage } from './contentcreation.po';
+import { ModuleCreatePage } from './modulecreation.po';
+import { SearchPage } from './contentsearch.po';
 import { browser, logging } from 'protractor';
+import { ContentCreatorPageComponent } from 'src/app/components/content-creator-page/content-creator-page.component';
 
 describe('workspace-project App', () => {
   let createContent         : AppPage;
-  let title                 : string;
-  let url                   : string;
+  let title                 : string[] = [];
+  let url                   : string[] = [];
   let selectedSubjects      : string[];
-  let description           : string;
+  let description           : string[] = [];
+  let findContent           : SearchPage;
+  let moduleCreate          : ModuleCreatePage;
 
   beforeAll(() => {
     createContent = new AppPage();
-    title = "CMS";
-    url = 'http://www.test.com';
-    selectedSubjects = ["Java", "CSS"];
-    description = "Test description."
+    findContent = new SearchPage();
+    moduleCreate = new ModuleCreatePage();
+    selectedSubjects = [Math.random().toString(36).substring(7), Math.random().toString(36).substring(7)];
+    moduleCreate.navigateTo();
+    for (let i = 0; i < 2; i++) {
+      moduleCreate.inputSubject(selectedSubjects[i]);
+      expect(moduleCreate.getSubjectValue()).toEqual(selectedSubjects[i]);
+      browser.sleep(1000);
+      moduleCreate.clickSubmitButton();
+      moduleCreate.acceptAlert();
+    }
     createContent.navigateTo();
+    for (let i = 0; i < 3; i++) {
+      title.push(Math.random().toString(36).substring(7));
+      url.push(Math.random().toString(36).substring(7));
+      description.push(Math.random().toString(36).substring(7));
+    }
   });
 
   beforeEach(() => {
-    browser.manage().timeouts().implicitlyWait(5000);
+    browser.manage().timeouts().implicitlyWait(3000);
   });
 
-  it('should accept title input', () => {
-    createContent.inputTitle(title);
-    expect(createContent.getTitleValue()).toEqual(title);
+  it('should create a piece of content with a title, URL, subject tags, and description.', () => {
+    for (let i = 0; i < 3; i++) {
+      createContent.inputTitle(title[i]);
+      expect(createContent.getTitleValue()).toEqual(title[i]);
+      createContent.inputUrl(url[i]);
+      expect(createContent.getUrlValue()).toEqual(url[i]);
+      createContent.enterSelectedSubjects([selectedSubjects[0]]);
+      createContent.inputDescription(description[i]);
+      expect(createContent.getDescriptionValue()).toEqual(description[i]);
+      createContent.clickRadio(i);
+      browser.sleep(1000);
+      createContent.clickSubmitButton();
+      createContent.acceptAlert();
+    }
   });
 
-  it('should accept url input', () => {
-    createContent.inputUrl(url);
-    expect(createContent.getUrlValue()).toEqual(url);
-  });
-
-  it('should accept selected subjects input', () => {
-    createContent.enterSelectedSubjects(selectedSubjects);
-    // browser.sleep(5000); // to manually check, uncomment.
-  });
-
-  it('should accept description input', () => {
-    createContent.inputDescription(description);
-    expect(createContent.getDescriptionValue()).toEqual(description);
-  });
-
-  it('should select Document radio button', () => {
-    createContent.clickDocumentRadio();
-    expect(createContent.getCheckedRadioValue()).toEqual('Document');
-  });
-
-  it('should select Code radio button', () => {
-    createContent.clickCodeRadio();
-    expect(createContent.getCheckedRadioValue()).toEqual('Code');
-  });
-
-  it('should click submit button', () => {
+  it('should search for all content.', () => {
+    findContent.navigateTo();
+    findContent.clickAllRadio();
+    expect(findContent.getCheckedRadioValue()).toEqual('All');
     browser.sleep(1000);
-    createContent.clickSubmitButton();
-    createContent.acceptAlert();
+    findContent.clickSearchButton();
+    browser.waitForAngular();
+    
   });
   
   afterEach(async () => {
