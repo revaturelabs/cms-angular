@@ -294,7 +294,7 @@ export class ContentFinderPageComponent implements OnInit {
    }
 
    removeContent(){
-      //TODO add functionality to delete selected content (selCon)
+      this.cs.deleteContentByID(this.selCon.id).subscribe();
    }
 
 
