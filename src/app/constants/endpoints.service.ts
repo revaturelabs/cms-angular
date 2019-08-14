@@ -2,7 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment'
 
+<<<<<<< HEAD:src/app/constants/endpoints.service.ts
 /** Accessible back-end endpoints */
+=======
+/** 
+ * For simplicity and abstraction, this service is used to call the
+ * accessible back-end endpoints.
+ */
+>>>>>>> a16a9cc8878f901dc273343f22373d1b6e86ace3:src/app/constants/endpoints.service.ts
 @Injectable({
    providedIn: 'root'
 })
@@ -24,6 +31,11 @@ export class EndpointsService {
    public readonly UPDATE_CONTENT_MODULES_BY_ID: string = this.baseURL + '/content/${id}/modules';
    /** Delete Content Endpoint */
    public readonly DELETE_CONTENT_BY_ID: string = this.baseURL + '/content/${id}';
+<<<<<<< HEAD:src/app/constants/endpoints.service.ts
+=======
+   /** Delete Module Endpoint */
+   public readonly DELETE_MODULE_BY_ID: string = this.baseURL + '/module/${id}';
+>>>>>>> a16a9cc8878f901dc273343f22373d1b6e86ace3:src/app/constants/endpoints.service.ts
    /** Create Module Endpoint */
    public readonly CREATE_NEW_MODULE: string = this.baseURL + '/module';
    /** Get All Modules Endpoint */

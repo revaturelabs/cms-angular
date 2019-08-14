@@ -1,4 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+
+
+import { FormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { MatProgressSpinnerModule} from '@angular/material';
+import { ToastrModule } from 'ngx-toastr';
 
 import { ContentFinderPageComponent } from './content-finder-page.component';
 
@@ -8,7 +15,15 @@ describe('ContentFinderPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ContentFinderPageComponent ]
+      declarations: [ ContentFinderPageComponent ],
+      imports: [ 
+        FormsModule,
+        NgSelectModule,
+        MatProgressSpinnerModule,
+        HttpClientTestingModule,
+        ToastrModule.forRoot(),
+      ]
+
     })
     .compileComponents();
   }));

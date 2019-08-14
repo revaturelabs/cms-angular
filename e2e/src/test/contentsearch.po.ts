@@ -5,6 +5,7 @@ import {
   ElementFinder,
   protractor
 } from 'protractor';
+import { ContentFinderPageComponent } from 'src/app/components/content-finder-page/content-finder-page.component';
 
 export class SearchPage {
   private title: ElementFinder;
@@ -15,6 +16,8 @@ export class SearchPage {
   private addTagsSelector: ElementFinder;
   private deleteTagsSelector: ElementFinder;
   private deleteTagConfirmButton: ElementFinder;
+  private contentId: number;
+  private linkId: number;
 
   constructor() {
     this.title = this.getTitleInput();
@@ -23,7 +26,7 @@ export class SearchPage {
     this.allRadio = this.getAllRadio();
     this.selectedSubjects = this.getSelectedSubjectsSelect();
     this.addTagsSelector = this.getAddTagsSelector();
-    this.deleteTagsSelector = this.getDeleteTagsSelector();
+    //this.deleteTagsSelector = this.getDeleteTagsSelector(this.contentId, this.linkId);
     this.deleteTagConfirmButton = this.getDeleteTagConfirmButton();
   }
 
@@ -84,8 +87,8 @@ export class SearchPage {
   /**
    * Returns the element for deleting tags
    */
-  private getDeleteTagsSelector() {
-    return element(by.css('.fa-trash'));
+  private getDeleteTagsSelector(contentId : number, linkId : number) {
+    return element(by.id (ContentFinderPageComponent.generateLinkId (contentId, linkId)));
   }
 
   clickDeleteTag() {
