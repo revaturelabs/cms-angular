@@ -50,7 +50,7 @@ describe('workspace-project App', () => {
 
   it('should click trash can icon', () => {
     browser.sleep(10000);
-    findContent.clickDeleteTag();
+    // findContent.clickDeleteTag();
     browser.sleep(1000);
     findContent.clickDeleteTagConfirmButton();
   });
