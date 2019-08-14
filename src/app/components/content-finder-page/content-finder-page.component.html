@@ -105,7 +105,7 @@
 
                     <span data-toggle="modal" data-target="#deleteTag" title="Remove tag"
                       (click)="selectedLinkForRemoval(content, link)" class="fas fa-trash"
-                      id="{{generateLinkId(content.id,link.id)}}{{'-trash'}}"></span>
+                      id="{{DoThis(content.id,link.id)}}{{'-trash'}}"></span>
                   </span>
                 </td>
               </tr>
@@ -160,7 +160,11 @@
         <h6>Are you sure you want to remove this module from {{selCon.title}}?</h6>
         <div class="row btn mb-3">
           <button type="button" class="btn btn-primary addATag" id="submitButton" (click)="removeTag()"
+<<<<<<< HEAD
             data-dismiss="modal" name = "confirmDeleteTag">Confirm Remove</button>
+=======
+            data-dismiss="modal" name="confirmDeleteTag">Confirm Delete</button>
+>>>>>>> c570228c106dd384af81e0d3a3b8c122b522725f
         </div>
       </div>
     </div>

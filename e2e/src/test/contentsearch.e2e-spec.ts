@@ -1,6 +1,7 @@
 import { SearchPage } from './contentsearch.po';
 import { browser, logging } from 'protractor';
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { ContentFinderPageComponent } from 'src/app/components/content-finder-page/content-finder-page.component';
 
 describe('workspace-project App', () => {
   let findContent           : SearchPage;
