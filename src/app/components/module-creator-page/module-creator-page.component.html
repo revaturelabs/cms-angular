@@ -1,19 +1,32 @@
+<!-- 
+   This page is used to create a new module. It consists solely of one card that 
+   contains the Revature logo centered on the top, a single text-input box, and 
+   a 'Submit Module' button. 
+ -->
 <div class="card">
 
   <div class="container">
      
      <div class="col">
         <div id="content">
+           <!-- First the Revature logo is disaplyed from a src -->
            <img src="/assets/img/logo.png"
               alt="revature" class="logo">
         </div>
 
+        <!-- 
+           Here the actual form is made to take in a new module subject. To do so
+           an input box is created utilizing two-way databinding with ngModel which 
+           takes in text. Upon clicking the 'Submit Module' button, the 'submit()'
+           function is triggered to store the Module internally.
+         -->
         <form>
 
            <div class="form-row mb-5">
               <div class="col-1"></div>
 
               <div class="col">
+                 <!-- Databinding for subject -->
                  <input [(ngModel)]="subject"
                     required
                     name="subject"
@@ -29,7 +42,8 @@
               <button type="button"
                  class="btn btn-primary"
                  id="submitButton"
-                 (click)="submit()" *ngIf="!this.isSubmitting">Create Module</button>
+                 (click)="submit()" *ngIf="!this.isSubmitting">Submit Module</button>
+                 <!-- Upon click, a spinner is used to indicate the process is in action -->
                  <mat-spinner [diameter]="30" *ngIf="this.isSubmitting"></mat-spinner>
            </div>
 
