@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Content } from '../../models/Content';
-import { Module } from 'src/app/models/Module';
+import { Module } from '../../models/Module';
 import { Filter } from '../../models/Filter';
-import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
-import { ModuleStoreService } from 'src/app/services/module-store.service';
+import { ContentFetcherService } from '../../services/content-fetcher.service';
+import { ModuleStoreService } from '../../services/module-store.service';
 import { ToastrService } from 'ngx-toastr';
-import { Link } from 'src/app/models/Link';
+import { Link } from '../../models/Link';
 import { SelectControlValueAccessor } from '@angular/forms';
 /** Typescript component for Content Finder page */
 @Component({

@@ -5,7 +5,7 @@ import {
   ElementFinder,
   protractor
 } from 'protractor';
-import { ContentFinderPageComponent } from 'src/app/components/content-finder-page/content-finder-page.component';
+import { ContentFinderPageComponent } from '../../../src/app/components/content-finder-page/content-finder-page.component';
 import { link } from 'fs';
 
 export class SearchPage {
