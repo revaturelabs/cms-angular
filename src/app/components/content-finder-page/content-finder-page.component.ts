@@ -288,4 +288,10 @@ export class ContentFinderPageComponent implements OnInit {
       
    }
 
+
+
+   public static generateLinkId (contentID : number, linkID : number) {
+      return "contentID-" + contentID + "-linkID-" + linkID;
+   }
+
 }
