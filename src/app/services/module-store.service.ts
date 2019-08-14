@@ -41,7 +41,7 @@ export class ModuleStoreService {
    /** Whether or not the Modules are still being loaded from back-end */
    isLoading: boolean = true;
    /** String representing the status of module-store-service */
-   loadingText: string = "Loading Subjects...";
+   loadingText: string = "Loading modules...";
    /** BehaviorSubject for buffer */
    buffer:BehaviorSubject<boolean> = new BehaviorSubject(true);
 
@@ -59,7 +59,7 @@ export class ModuleStoreService {
    /** load Modules once from backend on program start */
    loadModules() {
       this.isLoading = true;
-      this.loadingText = "Loading Subjects...";
+      this.loadingText = "Loading modules...";
       this.ms.getAllModules().subscribe(
          (response) => {
             if (response != null) {
@@ -83,7 +83,7 @@ export class ModuleStoreService {
 
       this.emptyresponse = []
       this.isLoading = true;
-      this.loadingText = "Loading Subjects...";
+      this.loadingText = "Loading modules...";
       this.ms.getAllModules().subscribe(
          (response) => {
             if (response != null) {
@@ -141,7 +141,7 @@ export class ModuleStoreService {
       }
       this.isLoading = false;
       this.buffer.next(false);
-      this.loadingText = "Select relevant subjects";
+      this.loadingText = "Select relevant modules";
    }
 
    /**
