@@ -55,8 +55,8 @@
             defined in both the .ts file and java using the selectedLinkForRemoval() 
             function.
           -->
-          <span data-toggle="modal" data-target="#deleteTag" title="Remove tag" style="float: right;"
-                      (click)="selectedLinkForRemoval(content, link)" class="fas fa-trash"></span>
+          <span data-toggle="modal" data-target="#deleteModule" title="Remove Module" style="float: right;"
+                      (click)="selectedModuleForRemoval(module)" class="fas fa-trash"></span>
         </div>
 
         <!-- 
@@ -155,6 +155,35 @@
            -->
             <button type="button" class="btn btn-primary" id="submitButton"
               (click)="removeContentFromModuleIndex()" data-dismiss="modal">Confirm Removal</button>
+          </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- 
+  Here is a pop up the occurs when deleting a module. Simply put, this creates a pop
+  up box, titled "Removing Module", and asks for confirmation of removal. To do this, 
+  String Interpolation is used to say what module is being deleted, 
+  and a button is used to confirm.
+ -->
+ <div id="deleteModule" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Removing Module</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h6>Are you sure you want to delete the {{selModule.subject}} module?</h6>
+          <div class="row btn mb-3">
+            <!-- 
+            Here is the confirm button which utilizes the removeContentFromModuleIndex() 
+            function.
+           -->
+            <button type="button" class="btn btn-primary" id="submitButton"
+              (click)="removeModule()" data-dismiss="modal">Confirm Removal</button>
           </div>
       </div>
     </div>

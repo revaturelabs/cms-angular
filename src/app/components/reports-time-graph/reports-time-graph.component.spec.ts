@@ -1,4 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { ToastrModule } from 'ngx-toastr';
+import { GlobalReports } from 'src/app/providers/GlobalReports';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ReportsTimeGraphComponent } from './reports-time-graph.component';
 
@@ -8,7 +14,14 @@ describe('ReportsTimeGraphComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ReportsTimeGraphComponent ]
+      declarations: [ ReportsTimeGraphComponent ],
+      imports: [
+        NgxChartsModule,
+        HttpClientTestingModule,
+        ToastrModule.forRoot(),
+        BrowserAnimationsModule
+      ],
+      providers: [GlobalReports]
     })
     .compileComponents();
   }));
