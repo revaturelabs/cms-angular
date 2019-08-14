@@ -113,7 +113,13 @@ export class ModuleIndexPageComponent implements OnInit {
       let foundContent = this.moduleContents.get(this.selModule).findIndex(l => this.selCon.id === l.id);
       this.moduleContents.get(this.selModule).splice(foundContent, 1);
 
-      this.cs.updateContentByContent(this.selCon).subscribe();
+      this.cs.updateContentByContent(this.selCon).subscribe(
+         data => {
+            if(data!= null){
+               this.ngOnInit();
+            }
+         }
+      );
    }
    /**
     * Description - assigns the content and the module that the content resides into variables for this component to utilize.
@@ -123,5 +129,19 @@ export class ModuleIndexPageComponent implements OnInit {
    selectedLinkForRemoval(content: Content, module: Module) {
       this.selCon = content;
       this.selModule = module;
+   }
+
+   /** 
+      This method checks whether the flag should be displayed for the current module.
+      @param module - the module that is selected.
+   */
+   checkFlag(module:Module){
+      if(module.links.length === 0){
+         return true;
+
+      }
+      else{
+         return false;
+      }
    }
 }
