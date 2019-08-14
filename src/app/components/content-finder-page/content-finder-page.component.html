@@ -27,27 +27,24 @@
 
       </div>
 
-         <div class="row subject mb-3">
-            <div class="col-1"></div>
-            <div class="col-10">
-               <ng-select id="subjectDropDown" [items]="ms.subjectNames"
-                  multiple="true" closeOnSelect="true" hideSelected="true"
-                  clearOnBackspace="true" bindLabel="name" spellcheck="false"
-                  notFoundText="(no such subject found)"
-                  [loading]="ms.isLoading" [placeholder]="ms.loadingText"
-                  [(ngModel)]="selectedSubjects"
-                  name="selectedSubjects">
-               </ng-select>
-            </div>
-            <div class="col-1"></div>
-         </div>
-         <div class="row btn mb-3">
-            <button type="button" class="btn btn-primary" id="submitButton"
-               (click)="submit()" *ngIf="!this.isSearching">Find Content</button>
-               <mat-spinner [diameter]="30" *ngIf="this.isSearching"></mat-spinner>
-         </div>
-      </form>
-   </div>
+      <div class="row subject mb-3">
+        <div class="col-1"></div>
+        <div class="col-10">
+          <ng-select id="subjectDropDown" [items]="ms.subjectNames" multiple="true" closeOnSelect="true"
+            hideSelected="true" clearOnBackspace="true" bindLabel="name" spellcheck="false"
+            notFoundText="(no such subject found)" [loading]="ms.isLoading" [placeholder]="ms.loadingText"
+            [(ngModel)]="selectedSubjects" name="selectedSubjects">
+          </ng-select>
+        </div>
+        <div class="col-1"></div>
+      </div>
+      <div class="row btn mb-3">
+        <button type="button" class="btn btn-primary" id="submitButton" (click)="submit()"
+          *ngIf="!this.isSearching">Find Content</button>
+        <mat-spinner [diameter]="30" *ngIf="this.isSearching"></mat-spinner>
+      </div>
+    </form>
+  </div>
 </div>
 
 <div class="card " *ngIf="this.tablebool">
@@ -58,7 +55,7 @@
           <table id="ResultsTable" class="table table-striped">
             <thead>
               <tr>
-                  <th scope="col"></th>
+                <th scope="col"></th>
                 <th scope="col">Content ID</th>
                 <th scope="col">Title</th>
                 <th scope="col">Format</th>
@@ -71,9 +68,8 @@
             <tbody>
               <tr *ngFor="let content of contents">
                 <td>
-                    <em title="Remove from module " (click)="selectedLinkForRemoval(content, module)"
-                    class="fas fa-trash" data-toggle="modal" data-target="#deleteContent"
-                    title="Remove Content"></em>
+                  <em title="Remove from module " (click)="selectedLinkForRemoval(content, module)" class="fas fa-trash"
+                    data-toggle="modal" data-target="#deleteContent" title="Remove Content"></em>
                 </td>
                 <td>{{content.id}} <span *ngIf="content.links.length === 0" class="fas fa-flag"
                     title="No Module"></span></td>
@@ -95,7 +91,7 @@
                     {{ms.subjectIdToName.get(link.moduleId)}}
                     <span data-toggle="modal" data-target="#deleteTag" title="Remove tag"
                       (click)="selectedLinkForRemoval(content, link)" class="fas fa-trash"
-                      id="{{generateLinkId(content.id,link.id)}}{{'-trash'}}"></span>
+                      id="{{DoThis(content.id,link.id)}}{{'-trash'}}"></span>
                   </span>
                 </td>
               </tr>
@@ -145,7 +141,7 @@
         <h4>Are you sure you want to delete this tag?</h4>
         <div class="row btn mb-3">
           <button type="button" class="btn btn-primary addATag" id="submitButton" (click)="removeTag()"
-            data-dismiss="modal" name = "confirmDeleteTag">Confirm Delete</button>
+            data-dismiss="modal" name="confirmDeleteTag">Confirm Delete</button>
         </div>
       </div>
     </div>
@@ -157,7 +153,7 @@
 <!-- 
   Here is a pop up the occurs when deleting content.
  -->
- <!-- <div id="deleteContent" class="modal fade" role="dialog">
+<!-- <div id="deleteContent" class="modal fade" role="dialog">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">

@@ -287,6 +287,9 @@ export class ContentFinderPageComponent implements OnInit {
 
 
 
+   public DoThis(contentID : number, linkID : number) {
+      return ContentFinderPageComponent.generateLinkId (contentID, linkID);
+   }
 
    public static generateLinkId (contentID : number, linkID : number) {
       return "contentID-" + contentID + "-linkID-" + linkID;
