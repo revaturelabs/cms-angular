@@ -17,6 +17,8 @@ import { ContentCreatorPageComponent } from './content-creator-page.component';
 describe('ContentCreatorPageComponent', () => {
   let component: ContentCreatorPageComponent;
   let fixture: ComponentFixture<ContentCreatorPageComponent>;
+  let content: Content;
+  let link: Link;
 
 
   beforeEach(async(() => {
@@ -33,6 +35,7 @@ describe('ContentCreatorPageComponent', () => {
       ]
     })
       .compileComponents();
+    
 
   }));
 
@@ -40,6 +43,16 @@ describe('ContentCreatorPageComponent', () => {
     fixture = TestBed.createComponent(ContentCreatorPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
+    // Populate components box fields for testing purposes
+    component.title = 'I am a Title'
+    component.selFormat = 'Code'
+    component.url = 'http://www.test.com'
+    component.description = 'I am a code'
+    component.selectedSubjects = ['Java', 'CSS']
+    
+    
+    
   });
 
   // First let's test general creation of the current component
@@ -48,7 +61,11 @@ describe('ContentCreatorPageComponent', () => {
   });
 
   // Next test that the desired input fields in the card exist
-  // i.e. Title, URL, Drop Down for Modules, and Description.
+  // i.e. Logo, Title, URL, Drop Down for Modules, Description, Radio Buttons, and Submit Button.
+  it('Should have Revature logo.', () => {
+    expect(document.getElementById('logo')).toBeTruthy();
+  })
+  
   it('Should have a Title input box.', () => {
     expect(document.getElementById('titleTextBox')).toBeTruthy();
   })
@@ -76,6 +93,61 @@ describe('ContentCreatorPageComponent', () => {
   it('Should have a Powerpoint radio button.', () => {
     expect(document.getElementById('Powerpoint')).toBeTruthy();
   })
+
+  it('Should have a Submit Content button.', () => {
+    expect(document.getElementById('submitButton')).toBeTruthy();
+  })
   // =====End Element creation finds=====
+
+  /**  
+   * Now test the content-creator-page.ts file methods. The following methods are found here:
+   * validInput()
+   * submit()
+   * resetVariables
+   * getLinksFromSubjects()
+   * validURL()
+   */
+
+  // First test validInput for bad input and good input.
+  // First bad inputs
+  it('Should give an error when there is no input given on a field, specifically, Title, URL, Format, and subjects ',
+   () =>{
+    // Test title first
+    component.title = null;
+    expect(component.validInput()).toBeFalsy();
+    component.title='a title'
+
+    // Test URL
+    component.url = null;
+    expect(component.validInput()).toBeFalsy();
+    component.url='http://www.test.com'
+
+    // Test Subjects
+    component.selectedSubjects = [];
+    expect(component.validInput()).toBeFalsy();
+    component.selectedSubjects = ['Java', 'CSS']
+
+    // Test radio selformat
+    component.selFormat = null
+    expect(component.validInput()).toBeFalsy()
+    component.selFormat = 'Code'
+  })
+
+  // Good inputs
+  it('Should return true when all fields are valid.', () => {
+    expect(component.validInput()).toBeTruthy();
+  })
+
+  // Next test resetVariables
+  it('Should bring fields back to default states using resetVariables', () => {
+    component.resetVariables();
+    expect(component.title).toBeNull();
+    expect(component.url).toBeNull();
+    expect(component.selFormat).toEqual("Code")
+    expect(component.description).toBeNull();
+    expect(component.selectedSubjects.length).toEqual(0);
+    expect(component.isSubmitting).toBeFalsy();
+  })
+
 
 });
