@@ -7,7 +7,6 @@ import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { ToastrService } from 'ngx-toastr';
 import { Link } from 'src/app/models/Link';
 import { SelectControlValueAccessor } from '@angular/forms';
-
 /** Typescript component for Content Finder page */
 @Component({
    selector: 'app-content-finder-page',
@@ -15,6 +14,7 @@ import { SelectControlValueAccessor } from '@angular/forms';
    styleUrls: ['./content-finder-page.component.css']
 })
 export class ContentFinderPageComponent implements OnInit {
+
 
    /**
     * Selection of formats to choose betwwen
