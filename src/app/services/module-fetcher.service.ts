@@ -50,4 +50,12 @@ export class ModuleFetcherService {
       let body: string = JSON.stringify(module);
       return this.http.post<HttpHeaderResponse>(this.endpoints.CREATE_NEW_MODULE, body, { headers: this.HEADERS });
    }
+
+   /**
+    * Sends HTTP request to remove Module from back-end
+    * @param id Unique identifier determining which Module to remove
+    */
+   deleteModuleByID(id: number): Observable<HttpHeaderResponse> {
+      return this.http.delete<HttpHeaderResponse>(this.endpoints.DELETE_MODULE_BY_ID.replace('${id}', id.toString()));
+   }
 }

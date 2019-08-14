@@ -24,6 +24,8 @@ export class EndpointsService {
    public readonly UPDATE_CONTENT_MODULES_BY_ID: string = this.baseURL + '/content/${id}/modules';
    /** Delete Content Endpoint */
    public readonly DELETE_CONTENT_BY_ID: string = this.baseURL + '/content/${id}';
+   /** Delete Module Endpoint */
+   public readonly DELETE_MODULE_BY_ID: string = this.baseURL + '/module/${id}';
    /** Create Module Endpoint */
    public readonly CREATE_NEW_MODULE: string = this.baseURL + '/module';
    /** Get All Modules Endpoint */
