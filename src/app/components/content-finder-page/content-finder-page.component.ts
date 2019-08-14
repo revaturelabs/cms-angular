@@ -299,7 +299,9 @@ export class ContentFinderPageComponent implements OnInit {
 
 
 
-
+   public generateLinkIdLocal (contentID : number, linkID : number) {
+      return ContentFinderPageComponent.generateLinkId (contentID, linkID);
+   }
 
    public static generateLinkId (contentID : number, linkID : number) {
       return "contentID-" + contentID + "-linkID-" + linkID;
