@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 import { Module } from 'src/app/models/Module';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { ModuleFetcherService } from 'src/app/services/module-fetcher.service'
@@ -6,6 +6,8 @@ import { ContentFetcherService } from 'src/app/services/content-fetcher.service'
 import { Content } from 'src/app/models/Content';
 import { Filter } from 'src/app/models/Filter';
 import { ToastrService } from 'ngx-toastr';
+import { PagesService } from 'src/app/services/pages.service';
+import { globalCacheBusterNotifier } from 'ngx-cacheable';
 
 /** Typescript Component for Module Index Page */
 @Component({
@@ -49,7 +51,8 @@ export class ModuleIndexPageComponent implements OnInit {
       private cs: ContentFetcherService,
       public ms: ModuleStoreService,
       private toastr: ToastrService,
-      private mfs: ModuleFetcherService
+      private mfs: ModuleFetcherService,
+      private pageService: PagesService
    ) { }
 
    /** 
@@ -113,6 +116,7 @@ export class ModuleIndexPageComponent implements OnInit {
     * @param module - the module the content is being removed from
     */
    removeContentFromModuleIndex() {
+      globalCacheBusterNotifier.next();
       let found = this.selCon.links.findIndex(l => this.selModule.id === l.moduleId);
       this.selCon.links.splice(found, 1);
 
@@ -124,9 +128,9 @@ export class ModuleIndexPageComponent implements OnInit {
           * Below is used to refresh this component when content has been removed from a module
           */
          data => {
-            if (data != null) {
-               this.ngOnInit();
-            }
+               if (data != null) {
+                     this.ngOnInit();
+               }
          }
       );
    }

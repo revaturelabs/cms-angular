@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { Module } from '../models/Module';
 import { HttpClient, HttpHeaderResponse, HttpHeaders } from '@angular/common/http';
 import { EndpointsService } from '../constants/endpoints.service';
-import { Cacheable } from 'ngx-cacheable';
+import { Cacheable, CacheBuster, globalCacheBusterNotifier } from 'ngx-cacheable';
 
 /** 
  * Manages Modules between Angular and spring-boot back-end. To do this, the 
@@ -60,8 +60,10 @@ export class ModuleFetcherService {
     * Sends HTTP request to persist Module to back-end
     * @param module What module to persist to back-end
     */
+   
    createNewModule(module: Module): Observable<HttpHeaderResponse> {
       let body: string = JSON.stringify(module);
+      globalCacheBusterNotifier.next();
       return this.http.post<HttpHeaderResponse>(this.endpoints.CREATE_NEW_MODULE, body, { headers: this.HEADERS });
    }
 
@@ -69,8 +71,9 @@ export class ModuleFetcherService {
     * Sends HTTP request to remove Module from back-end
     * @param id Unique identifier determining which Module to remove
     */
-
+   
    deleteModuleByID(id: number): Observable<HttpHeaderResponse> {
+      globalCacheBusterNotifier.next();
       return this.http.delete<HttpHeaderResponse>(this.endpoints.DELETE_MODULE_BY_ID.replace('${id}', id.toString()));
    }
 

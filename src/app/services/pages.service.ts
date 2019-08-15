@@ -5,15 +5,16 @@ import { Injectable } from '@angular/core';
 })
 export class PagesService {
 
-  constructor(private view?:Window) { 
+  constructor() { 
   }
 
   /**
    * Function that refreshes the entire page
    * @param view 
    */
-  pageRefresh(view:Window){
-    view.location.reload;
+  pageRefresh(){
+    window.location.reload();
+    
   }
 
 }
