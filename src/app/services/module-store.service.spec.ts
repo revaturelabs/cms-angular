@@ -16,4 +16,13 @@ describe('ModuleStoreService', () => {
     const service: ModuleStoreService = TestBed.get(ModuleStoreService);
     expect(service).toBeTruthy();
   });
+
+  it('should do something', () => {
+    // let service = new ModuleStoreService();
+  });
+
+  it('', () => {
+
+  });
+
 });
