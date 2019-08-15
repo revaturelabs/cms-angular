@@ -52,7 +52,8 @@ export class ModuleIndexPageComponent implements OnInit {
       private mfs: ModuleFetcherService
    ) { }
 
-   /** On page initialization load the modules to list on the dropdown menu
+   /** 
+    * On page initialization load the modules to list on the dropdown menu
     */
    ngOnInit() {
       this.ms.loadModules();
@@ -80,7 +81,7 @@ export class ModuleIndexPageComponent implements OnInit {
             },
             (response) => {
                this.toastr.error('Failed to request contents');
-               
+
             },
             () => { this.contentVisible.set(module, true); }
          )
@@ -119,8 +120,11 @@ export class ModuleIndexPageComponent implements OnInit {
       this.moduleContents.get(this.selModule).splice(foundContent, 1);
 
       this.cs.updateContentByContent(this.selCon).subscribe(
+         /**
+          * Below is used to refresh this component when content has been removed from a module
+          */
          data => {
-            if(data!= null){
+            if (data != null) {
                this.ngOnInit();
             }
          }
@@ -140,22 +144,34 @@ export class ModuleIndexPageComponent implements OnInit {
       This method checks whether the flag should be displayed for the current module.
       @param module - the module that is selected.
    */
-   checkFlag(module:Module){
-      if(module.links.length === 0){
+   checkFlag(module: Module) {
+      if (module.links.length === 0) {
          return true;
-
       }
-      else{
+      else {
          return false;
       }
    }
 
+   /**
+    * 
+    * @param module 
+    */
    selectedModuleForRemoval(module: Module) {
       this.selModule = module;
    }
 
    removeModule() {
-      this.mfs.deleteModuleByID(this.selModule.id).subscribe();
+      this.mfs.deleteModuleByID(this.selModule.id).subscribe(
+         /**
+          * Below is used to refresh this component when a module has been removed
+          */
+         data => {
+            if (data != null) {
+               this.ngOnInit();
+            }
+         }
+      );
    }
-  
+
 }
