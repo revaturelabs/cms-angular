@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders, HttpHeaderResponse } from '@angular/common/htt
 import { EndpointsService } from '../constants/endpoints.service';
 import { Content } from '../models/Content';
 import { Filter } from '../models/Filter';
+import { Cacheable } from 'ngx-cacheable'
 
 /**
  * Manages Content between Angular and back-end
@@ -89,6 +90,7 @@ export class ContentFetcherService {
     * Sends HTTP request to return filtered Content
     * @param filter What to filter returned content by
     */
+   @Cacheable()
    filterContent(filter: Filter): Observable<Content[]> {
       let body: string = JSON.stringify(filter);
       return this.http.post<Content[]>(this.endpoints.FILTER_CONTENT, body, { headers: this.HEADERS });

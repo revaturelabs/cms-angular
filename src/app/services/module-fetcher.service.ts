@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { Module } from '../models/Module';
 import { HttpClient, HttpHeaderResponse, HttpHeaders } from '@angular/common/http';
 import { EndpointsService } from '../constants/endpoints.service';
+import { Cacheable } from 'ngx-cacheable';
 
 /** 
  * Manages Modules between Angular and spring-boot back-end. To do this, the 
@@ -36,7 +37,7 @@ export class ModuleFetcherService {
     * Sends HTTP request to return all Modules using the .GET_ALL_MODULES endpoint to
     * fetch all the modules. 
     */
-
+   @Cacheable()
    getAllModules(): Observable<Module[]> {
       return this.http.get<Module[]>(this.endpoints.GET_ALL_MODULES);
    }
