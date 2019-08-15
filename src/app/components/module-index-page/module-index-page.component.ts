@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Module } from 'src/app/models/Module';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
+import { ModuleFetcherService } from 'src/app/services/module-fetcher.service'
 import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
 import { Content } from 'src/app/models/Content';
 import { Filter } from 'src/app/models/Filter';
@@ -22,13 +23,16 @@ export class ModuleIndexPageComponent implements OnInit {
    moduleContents: Map<Module, Content[]> = new Map<Module, Content[]>();
 
    /**
-    * Variable that will reference selected content for removal. Pre-initialized as it would cause errors upon loading the component.
+    * Variable that will reference selected content for removal. Pre-initialized as it would 
+    * cause errors upon loading the component.
     */
+   //Note that this needs defualt values so the bindings {{}} in html will work on page load
    selCon: Content = new Content(0, "", "", "", "", []);
 
    /**
     * Variable that will reference the module of the selected content for removal. Pre-initialized as it would cause errors upon loading the component.
     */
+   //Note that this needs defualt values so the bindings {{}} in html will work on page load
    selModule: Module = new Module(0, "", 0, []);
 
    /**
@@ -44,7 +48,8 @@ export class ModuleIndexPageComponent implements OnInit {
    constructor(
       private cs: ContentFetcherService,
       public ms: ModuleStoreService,
-      private toastr: ToastrService
+      private toastr: ToastrService,
+      private mfs: ModuleFetcherService
    ) { }
 
    /** On page initialization load the modules to list on the dropdown menu
@@ -144,4 +149,13 @@ export class ModuleIndexPageComponent implements OnInit {
          return false;
       }
    }
+
+   selectedModuleForRemoval(module: Module) {
+      this.selModule = module;
+   }
+
+   removeModule() {
+      this.mfs.deleteModuleByID(this.selModule.id).subscribe();
+   }
+  
 }

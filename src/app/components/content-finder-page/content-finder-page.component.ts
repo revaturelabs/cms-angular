@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Content } from '../../models/Content';
+import { Module } from 'src/app/models/Module';
 import { Filter } from '../../models/Filter';
 import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { ToastrService } from 'ngx-toastr';
 import { Link } from 'src/app/models/Link';
-
+import { SelectControlValueAccessor } from '@angular/forms';
 /** Typescript component for Content Finder page */
 @Component({
    selector: 'app-content-finder-page',
@@ -14,10 +15,11 @@ import { Link } from 'src/app/models/Link';
 })
 export class ContentFinderPageComponent implements OnInit {
 
+
    /**
     * Selection of formats to choose betwwen
     */
-   readonly formats: string[] = ["Code", "Document", "Powerpoint", "All"];
+   readonly formats: string[] = ["Code", "Document", "Powerpoint", "Flagged", "All"];
 
    /**
     * Title of content
@@ -44,6 +46,11 @@ export class ContentFinderPageComponent implements OnInit {
     */
    moduleIDs: number[];
 
+   
+   /** Map of Visibility status of each Module */
+   contentVisible: Map<Module, boolean> = new Map<Module, boolean>();
+
+
    /**
     * Selected from subject list
     */
@@ -57,7 +64,8 @@ export class ContentFinderPageComponent implements OnInit {
    /**
     * Holds a reference of a content being worked upon
     */
-   selCon: Content;
+   //Note that this needs defualt values so the bindings {{}} in html will work on page load
+   selCon: Content = new Content(0, "", "", "", "", []);
 
    /**
     * Takes selected subjects and used for searching
@@ -105,7 +113,9 @@ export class ContentFinderPageComponent implements OnInit {
    submit() {
       this.isSearching = true;
       let format: string = this.selFormat;
-      if (format === "All") {
+
+      //if 'all' or 'flagged' was selected return all content
+      if (format === "All" || format === "Flagged") {
          format = "";
       }
       this.getIDsFromSubjects(this.selectedSubjects);
@@ -116,6 +126,8 @@ export class ContentFinderPageComponent implements OnInit {
       this.cs.filterContent(filter).subscribe(
          (response) => {
             if (response != null) {
+
+               //populate the contents array with the response with the parseContentResponse function
                this.parseContentResponse(response);
                if (this.notEmpty()) { }
                else
@@ -154,6 +166,17 @@ export class ContentFinderPageComponent implements OnInit {
             );
          }, this
       )
+
+      /**
+      * Filter the contents by content with no links (not attached to a modules) 
+      * if 'flagged' is the selected format
+      */
+      if( this.selFormat === "Flagged"){
+         this.contents = this.contents.filter(function(flaggedContent){
+            return flaggedContent.links.length === 0;
+         });
+      }
+
    }
 
    /**
@@ -230,7 +253,7 @@ export class ContentFinderPageComponent implements OnInit {
     * @param content - content being worked upon
     * @param link - the link that will be removed from the content
     */
-   selectedLinkForRemoval(content: Content, link: Link) {
+   selectedTagForRemoval(content: Content, link: Link) {
       this.selCon = content;
       this.selLink = link;
    }
@@ -262,5 +285,18 @@ export class ContentFinderPageComponent implements OnInit {
       this.selectedTags = [];
 
    }
+
+   /**
+    * Description - set selCon to the content selected for removal, to show title on popup
+    */
+   selectedContentForRemoval(content: Content) {
+      this.selCon = content;
+   }
+
+   removeContent(){
+      this.cs.deleteContentByID(this.selCon.id).subscribe();
+   }
+
+
 
 }

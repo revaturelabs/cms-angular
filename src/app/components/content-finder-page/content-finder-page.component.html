@@ -1,4 +1,9 @@
-<div class="card">
+<!-- 
+  This view represents the Content Finder page. This page displays a 
+  form to input and select criteria to search for specific content and 
+  links within modules.
+ -->
+<div class="card"> <!-- Displays the content search fields in a card -->
   <div class="container">
     <div class="col">
       <div id="content">
@@ -9,12 +14,12 @@
       <div class="form-row mb-5">
         <div class="col-1"></div>
 
-        <div class="col">
+        <div class="col-5"> <!-- Input the title of a content you want to search for, working with ngModel -->
           <input [(ngModel)]="title" name="title" type="text" class="form-control" placeholder="Title" maxlength="254">
         </div>
 
         <div class="col">
-          <div class="btn-radio">
+          <div class="btn-radio"> <!-- Radio buttons to filter the content, with format id's. This uses ngModel for the select format -->
             <div class="form-check form-check-inline" *ngFor="let format of formats">
               <input [(ngModel)]="selFormat" class="form-check-input" type="radio" name="formatOptions" id="{{format}}"
                 value="{{format}}">
@@ -27,52 +32,59 @@
 
       </div>
 
-         <div class="row subject mb-3">
+         <div class="row subject mb-3"> <!-- Dropdown section which retrieves subjects using ms to load and ngModel to populate -->
             <div class="col-1"></div>
-            <div class="col">
+            <div class="col-10">
                <ng-select id="subjectDropDown" [items]="ms.subjectNames"
                   multiple="true" closeOnSelect="true" hideSelected="true"
                   clearOnBackspace="true" bindLabel="name" spellcheck="false"
                   notFoundText="(no such subject found)"
                   [loading]="ms.isLoading" [placeholder]="ms.loadingText"
                   [(ngModel)]="selectedSubjects"
-                  name="selectedSubjects">
+                  name="selectedSubjects"> <!-- ngSelect to manage selecting subjects and operating dropdown functionality -->
                </ng-select>
             </div>
             <div class="col-1"></div>
          </div>
-         <div class="row btn mb-3">
+         <div class="row btn mb-3"> <!-- Find Content button to submit criteria using submit() function -->
             <button type="button" class="btn btn-primary" id="submitButton"
-               (click)="submit()" *ngIf="!this.isSearching">Find Content</button>
+               (click)="submit()" *ngIf="!this.isSearching">Find Content</button><!-- While not searching, we can click the button -->
                <mat-spinner [diameter]="30" *ngIf="this.isSearching"></mat-spinner>
          </div>
       </form>
    </div>
 </div>
 
-<div class="card " *ngIf="this.tablebool">
+<div class="card " *ngIf="this.tablebool"> <!-- Card that is revealed upon successful criteria search -->
   <div class="container">
-
     <form>
-
       <div class="form-row mb-5">
         <div class="table-responsive">
           <table id="ResultsTable" class="table table-striped">
-            <thead>
+            <thead> <!-- The column names for the table that displays the related information -->
               <tr>
+                <th scope="col"></th><!--Row for trash can icon-->
                 <th scope="col">Content ID</th>
                 <th scope="col">Title</th>
                 <th scope="col">Format</th>
                 <th scope="col">Description</th>
                 <th scope="col">URL</th>
-                <th scope="col">Subjects</th>
+                <th scope="col">Modules</th>
               </tr>
             </thead>
 
             <tbody>
-              <tr *ngFor="let content of contents">
-                <td>{{content.id}} <span *ngIf="content.links.length === 0" class="fas fa-flag"
-                    title="No Module"></span></td>
+              <tr *ngFor="let content of contents"> <!-- Section that removes content and links from modules -->
+                <td>
+                    <em title="Remove from module " (click)="selectedContentForRemoval(content)"
+                    class="fas fa-trash" data-toggle="modal" data-target="#deleteContent"
+                    title="Remove Content"></em>
+                </td>
+                <td>
+                  {{content.id}} 
+                  <!-- Flags the modules that do not have content -->
+                  <span *ngIf="content.links.length === 0" class="fas fa-flag" title="No Module"></span>
+                </td> 
                 <td>{{content.title}}</td>
                 <td>{{content.format}}</td>
                 <td>{{content.description}}</td>
@@ -80,17 +92,18 @@
                 <td class="tag-bubble-cell">
                   <div class="addTag">
                     <span data-toggle="modal" data-target="#addTag" (click)=selectedContent(content)
-                      class="fas fa-plus-square plusCenter"></span>
+                      class="fas fa-plus-square plusCenter" title="Add module"></span>
                   </div>
                   <br>
 
+                  <!-- Maps the subject name to the proper module via the id -->
                   <span *ngFor="let link of content.links"
                     [style.background-color]=ms.subjectIdToModule.get(link.moduleId).color
                     [style.font-weight]="(searchedSubjects.includes(ms.subjectIdToName.get(link.moduleId))) ? 'bold' : 'normal'"
                     class="badge badge-primary" style="color:black; font-size: 16px">
                     {{ms.subjectIdToName.get(link.moduleId)}}
-                    <span data-toggle="modal" data-target="#deleteTag" title="Remove tag"
-                      (click)="selectedLinkForRemoval(content, link)" class="fas fa-trash"></span>
+                    <span data-toggle="modal" data-target="#deleteTag" title="Remove module"
+                      (click)="selectedTagForRemoval(content, link)" class="fas fa-trash"></span>
                   </span>
                 </td>
               </tr>
@@ -102,12 +115,17 @@
   </div>
 </div>
 
+
+
+<!-- 
+  Here is a pop up the occurs when adding modules to content
+ -->
 <div id="addTag" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Add Tags</h4>
+        <h4 class="modal-title">Add Modules</h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
       <div class="modal-body">
@@ -117,7 +135,7 @@
         </ng-select>
         <div class="row btn mb-3">
           <button type="button" class="btn btn-primary addATag" id="submitButton" (click)="updateTags()"
-            data-dismiss="modal">Add Tags</button>
+            data-dismiss="modal">Add Modules</button>
         </div>
       </div>
     </div>
@@ -125,21 +143,50 @@
   </div>
 </div>
 
+
+<!-- 
+  Here is a pop up the occurs when removing a module from a content
+ -->
 <div id="deleteTag" class="modal fade" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Delete Tags</h4>
+        <h4 class="modal-title">Remove Module</h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
       <div class="modal-body">
-        <h4>Are you sure you want to delete this tag?</h4>
+        <h6>Are you sure you want to remove this module from {{selCon.title}}?</h6>
         <div class="row btn mb-3">
           <button type="button" class="btn btn-primary addATag" id="submitButton" (click)="removeTag()"
-            data-dismiss="modal" name = "confirmDeleteTag">Confirm Delete</button>
+            data-dismiss="modal" name = "confirmDeleteTag">Confirm Remove</button>
         </div>
       </div>
     </div>
 
   </div>
 </div>
+
+
+<!-- 
+  Here is a pop up the occurs when deleting content.
+  To be finalized once back-end functionality is present
+ -->
+ <div id="deleteContent" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Deleting Content</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <h6>Are you sure you want to delete {{selCon.title}}?</h6>
+          <div class="row btn mb-3">
+  
+            <button type="button" class="btn btn-primary" id="submitButton" 
+            (click)="removeContent()"  data-dismiss="modal">Confirm Delete</button>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  </div>

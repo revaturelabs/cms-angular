@@ -1,23 +1,81 @@
+<!-- 
+  This document represents the Module Index Page. Simply put, this page lists all 
+  the existing modules and arranges them in order based on name, if the name begins
+  with a number, the page displays it first from least to most, then alphabetically.
+-->
+
+<!-- 
+  For representation, the data is disaplyed in a card container, where the Revature
+  logo is displayed at the top by default, even in the case of no modules.  
+-->
 <div class="card " style="margin-bottom: 10px">
     <div class="container">
         <div class="col">
             <div id="content">
+                <!-- The source file for the Revature logo -->
                 <img src="/assets/img/logo.png" alt="revature" class="logo">
             </div>
         </div>
+        <!-- As modules load, a spinner of diamter 30 is displayed -->
         <div *ngIf="ms.isLoading" class="btn spinner">
             <mat-spinner [diameter]="30"></mat-spinner>
         </div>
+
+        <!-- 
+      Here lies the directives for dispaying existing modules. For starters, an *ngIf 
+      is used with the intent that when the modules is finished loading, it will 
+      display a bubble representing a module. 
+    -->
         <form *ngIf="!ms.isLoading" style="margin-bottom: 20px">
+
+            <!-- 
+        In order to display all modules, however, we utilize an *ngFor directive to go
+        through and display all existing modules in the form of tag-bubbles. Id's are 
+        assigned in accordance to the module's already existing id and for both clarity
+        and aesthetic, the color of each bubble is alternated with lite blue and gray. 
+      -->
             <div *ngFor="let module of ms.response" name="modules" id="{{module.id}}" class="tag-bubble" style="margin-bottom: 5px" [style.background-color]=module.color>
+
+                <!-- 
+          With the creation of bubbles, these are clickable, so simply assigning an 
+          event binding using click will help in revealing content using the listContent()
+          function on the .ts end. In this div, a flag is included to indicate that the 
+          module is empty and has a title of No Content. Also included is the module's name
+          as well as a delete button. 
+         -->
                 <div (click)="listContent(module)">
-                    <span class="fas fa-flag" *ngIf="checkFlag(modlue)" title="No Content"></span> {{module.subject}}
+                    <!-- Flag behaves purely as an indicator, which if module.links is empty = flag -->
+                    <span class="fas fa-flag" *ngIf="checkFlag(module)" title="No Content"></span> {{module.subject}}
+
+                    <!-- 
+            This trash icon indicates a remove module button. This works off of logic 
+            defined in both the .ts file and java using the selectedLinkForRemoval() 
+            function.
+          -->
+                    <span data-toggle="modal" data-target="#deleteModule" title="Delete Module" style="float: right;" (click)="selectedModuleForRemoval(module)" class="fas fa-trash"></span>
                 </div>
+
+                <!-- 
+          Here is the presentation of the content inside every given module upon request
+          (a click). In the listContent(module) function, a boolean is triggered to turn
+          contentVisible.get(module) from False to True. Doing so triggers the creation 
+          of a form which lists the available fields:
+          - Content ID
+          - Title
+          - Format
+          - Description
+          - URL
+          These are all represented through a table, similar to what is found on the Content
+          Finder page. 
+         -->
                 <div *ngIf="contentVisible.get(module)">
+                    <!-- Start of form to show dynamic table. -->
                     <form>
                         <div class="form-row mb-5">
                             <div class="table-responsive">
+                                <!-- Table start -->
                                 <table style="width: 99%; margin: 0px auto" class="table table-striped">
+                                    <!-- Creation of table headers -->
                                     <thead>
                                         <tr>
                                             <th scope="col"></th>
@@ -28,10 +86,28 @@
                                             <th scope="col">URL</th>
                                         </tr>
                                     </thead>
+
+                                    <!-- 
+                    Here lies the data of each content to each associated module. To do this,
+                    an *ngFor directive is utilized which takes each content in 
+                    moduleContents.get(module) and displayes the data in each by using String
+                    Interpolation {{}}.
+                   -->
                                     <tbody>
                                         <tr *ngFor="let content of moduleContents.get(module)">
+                                            <!-- 
+                        The first data to exist for row in a table is a Remove Content button. 
+                        This works in the same way the remove button works in the content finder
+                        page. Using .ts logic and a Spring JDBC backend, one can delete the 
+                        content from the database, and hence the fron-end. When this button is 
+                        clicked, a data-target is used to call upon the deleteContent div using 
+                        data-target="#deleteContent", where deleteContent is a modal used to 
+                        create a pop up that asks for delete confirmation. 
+                        
+                        This is further explained below. 
+                       -->
                                             <td>
-                                                <em title="Remove from module " (click)="selectedLinkForRemoval(content, module)" class="fas fa-trash" data-toggle="modal" data-target="#deleteContent" title="Remove Content"></em>
+                                                <em title="Remove from module " (click)="selectedLinkForRemoval(content, module)" class="fas fa-trash" data-toggle="modal" data-target="#deleteContent" title="Remove Content from Module"></em>
                                             </td>
                                             <td>{{content.id}}</td>
                                             <td>{{content.title}}</td>
@@ -49,22 +125,61 @@
             </div>
         </form>
     </div>
-</div>
 
-<div id="deleteContent" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Removing Content</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <h6>Are you sure you want to delete this {{selCon.title}} from the {{selModule.subject}}?</h6>
-                <div class="row btn mb-3">
-                    <button type="button" class="btn btn-primary" id="submitButton" (click)="removeContentFromModuleIndex()" data-dismiss="modal">Confirm Removal</button>
+    <!-- 
+  Here is a pop up the occurs when deleting content. Simply put, this creates a pop
+  up box, titled "Removing Content", and asks for confirmation of removal. To do this, 
+  String Interpolation is used to say what subject is being deleted from what title, 
+  and a button is used to confirm. 
+ -->
+    <div id="deleteContent" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Removing Content</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <h6>Are you sure you want to delete {{selCon.title}} from {{selModule.subject}}?</h6>
+                    <div class="row btn mb-3">
+                        <!-- 
+            Here is the confirm button which utilizes the removeContentFromModuleIndex() 
+            function.
+           -->
+                        <button type="button" class="btn btn-primary" id="submitButton" (click)="removeContentFromModuleIndex()" data-dismiss="modal">Confirm Removal</button>
+                    </div>
                 </div>
             </div>
-        </div>
 
+        </div>
+    </div>
+
+    <!-- 
+  Here is a pop up the occurs when deleting a module. Simply put, this creates a pop
+  up box, titled "Removing Module", and asks for confirmation of removal. To do this, 
+  String Interpolation is used to say what module is being deleted, 
+  and a button is used to confirm.
+ -->
+    <div id="deleteModule" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Deleting Module</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <h6>Are you sure you want to delete the {{selModule.subject}} module?</h6>
+                    <h6><small>Content within this module will not be deleted.</small></h6>
+                    <div class="row btn mb-3">
+                        <!-- 
+            Here is the confirm button which utilizes the removeContentFromModuleIndex() 
+            function.
+           -->
+                        <button type="button" class="btn btn-primary" id="submitButton" (click)="removeModule()" data-dismiss="modal">Confirm Removal</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>
