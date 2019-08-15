@@ -81,7 +81,7 @@
                     title="Remove Content"></em>
                 </td>
                 <td name="flag">
-                  {{content.id}} 
+                  {{content.id}}
                   <!-- Flags the modules that do not have content -->
                   <span *ngIf="content.links.length === 0" class="fas fa-flag" title="No Module"></span>
                 </td> 
@@ -100,7 +100,7 @@
                   <span *ngFor="let link of content.links"
                     [style.background-color]=ms.subjectIdToModule.get(link.moduleId).color
                     [style.font-weight]="(searchedSubjects.includes(ms.subjectIdToName.get(link.moduleId))) ? 'bold' : 'normal'"
-                    class="badge badge-primary" style="color:black; font-size: 16px" name="{{ms.subjectIdToName.get(link.moduleId)}}">
+                    class="badge badge-primary" style="color:black; font-size: 16px" id="{{DoThis(content.id,link.id)}}-{{ms.subjectIdToName.get(link.moduleId)}}">
                     {{ms.subjectIdToName.get(link.moduleId)}}
 
                     <span data-toggle="modal" data-target="#deleteTag" title="Remove tag"
