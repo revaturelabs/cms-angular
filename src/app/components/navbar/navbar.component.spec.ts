@@ -22,4 +22,17 @@ describe('NavbarComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('Should have a navbar', () => {
+    expect(document.getElementsByClassName('navbar')).toBeTruthy();
+  });
+
+  it('Should have a navbar toggle button', () => {
+    expect(document.getElementsByClassName('navbar-toggler')).toBeTruthy();
+  });
+
+  it('Should have a collapsible navbar depending on screen size', () => {
+    expect(document.getElementById('navbarSupportedContent')).toBeTruthy();
+  });
+
 });
