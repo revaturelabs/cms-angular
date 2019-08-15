@@ -106,6 +106,28 @@ describe('ModuleIndexPageComponent', () => {
     expect(component.selModule.id).toEqual(2);
   });
 
+  
+  it('should set moduleContents with parseContentResponse()', () =>{
+    let Mod1: Module = new Module(1, "", 1, []);
+    let Mod2: Module = new Module(2, "", 1, []);
+
+    component.parseContentResponse([],Mod1)
+
+    expect(component.moduleContents.has(Mod1)).toBeTruthy
+    expect(component.moduleContents.has(Mod2)).toBeFalsy
+  });
+
+
+  it('should sort content with parseContentResponse()', () =>{
+    let Mod1: Module = new Module(1, "", 1, []);
+    let Con1: Content = new Content(1, "B", "", "", "", []);
+    let Con2: Content = new Content(2, "A", "", "", "", []);
+
+    component.parseContentResponse([Con1,Con2],Mod1)
+
+    expect(component.moduleContents.get(Mod1)).toEqual([Con2,Con1])
+  });
+
 
 
 
