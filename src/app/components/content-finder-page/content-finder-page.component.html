@@ -91,7 +91,7 @@
                 <td name="url"><a href="{{content.url}}">{{content.url}}</a></td>
                 <td name="modules" class="tag-bubble-cell">
                   <div class="addTag">
-                    <span data-toggle="modal" data-target="#addTag" (click)=selectedContent(content)
+                    <span data-toggle="modal" name="plus" data-target="#addTag" (click)=selectedContent(content)
                       class="fas fa-plus-square plusCenter" title="Add module"></span>
                   </div>
                   <br>
@@ -100,7 +100,7 @@
                   <span *ngFor="let link of content.links"
                     [style.background-color]=ms.subjectIdToModule.get(link.moduleId).color
                     [style.font-weight]="(searchedSubjects.includes(ms.subjectIdToName.get(link.moduleId))) ? 'bold' : 'normal'"
-                    class="badge badge-primary" style="color:black; font-size: 16px">
+                    class="badge badge-primary" style="color:black; font-size: 16px" name="{{ms.subjectIdToName.get(link.moduleId)}}">
                     {{ms.subjectIdToName.get(link.moduleId)}}
 
                     <span data-toggle="modal" data-target="#deleteTag" title="Remove tag"
