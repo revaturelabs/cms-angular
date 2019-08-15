@@ -16,7 +16,7 @@ describe('workspace-project App', () => {
   });
 
   beforeEach(() => {
-    browser.manage().timeouts().implicitlyWait(5000);
+    browser.manage().timeouts().implicitlyWait(1000);
   });
 
   it('should accept title input', () => {
@@ -44,19 +44,19 @@ describe('workspace-project App', () => {
   }); 
 
   it('should click submit button', () => {
-    browser.sleep(1000);
+    browser.sleep(500);
     findContent.clickSearchButton();
   });
 
   it('should click trash can icon', () => {
-    browser.sleep(10000);
+    // browser.sleep(10000);
     // findContent.clickDeleteTag();
-    browser.sleep(1000);
+    browser.sleep(500);
     findContent.clickDeleteTagConfirmButton();
   });
 
   it('should click add tags button', () =>{
-    browser.sleep(1000);
+    browser.sleep(500);
     findContent.enterAddTag(selectedSubjects);
   });
   

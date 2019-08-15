@@ -9,12 +9,12 @@ import { ContentFinderPageComponent } from '../../../src/app/components/content-
 import { link } from 'fs';
 
 export class SearchPage {
-  private title: ElementFinder;
-  private codeRadio: ElementFinder;
-  private documentRadio: ElementFinder;
-  private allRadio: ElementFinder;
-  private selectedSubjects: ElementFinder;
-  private addTagsSelector: ElementFinder;
+  private title                 : ElementFinder;
+  private codeRadio             : ElementFinder;
+  private documentRadio         : ElementFinder;
+  private allRadio              : ElementFinder;
+  private selectedSubjects      : ElementFinder;
+  private addTagsSelector       : ElementFinder;
   private deleteTagConfirmButton: ElementFinder;
 
   constructor() {
@@ -184,5 +184,52 @@ export class SearchPage {
 
   refresh() {
     return browser.refresh();
+  }
+
+  async confirmContentExists(title: string, url: string, description: string): Promise<boolean> {
+    let found: boolean[] = [false, false, false];
+
+    let rows = element.all(by.tagName("tr"));
+
+    await rows.count().then(async function(length) {
+
+      // Search through every row, looking for given inputs
+      // Default behavior is that new content is last, so we search from back to front
+      for(let i = length - 1; i >= 1; i--) {
+
+        await rows.get(i).element(by.name("title")).getText().then(function(text: string) {
+          if(text === title) {
+            found[0] = true;
+          }
+        });
+
+        await rows.get(i).element(by.name("url")).getText().then(function(text: string) {
+          if(text === url) {
+            found[1] = true;
+          }
+        });
+
+        await rows.get(i).element(by.name("description")).getText().then(function(text: string) {
+          if(text === description) {
+            found[2] = true;
+          }
+        });
+
+        // If everything has been found, stop searching
+        if(!found.includes(false)) {
+          break;
+        }
+      }
+    });
+
+    // Return false if any of the parameters was not found
+    for(let i = 0; i < 3; i++) {
+      if(!found[i]) {
+        return false;
+      }
+    }
+
+    // Return true if all 3 were found
+    return true;
   }
 }
