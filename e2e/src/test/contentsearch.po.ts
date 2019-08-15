@@ -12,6 +12,8 @@ export class SearchPage {
   private title                 : ElementFinder;
   private codeRadio             : ElementFinder;
   private documentRadio         : ElementFinder;
+  private powerpointRadio       : ElementFinder;
+  private flaggedRadio          : ElementFinder;
   private allRadio              : ElementFinder;
   private selectedSubjects      : ElementFinder;
   private addTagsSelector       : ElementFinder;
@@ -21,6 +23,8 @@ export class SearchPage {
     this.title = this.getTitleInput();
     this.codeRadio = this.getCodeRadio();
     this.documentRadio = this.getDocumentRadio();
+    this.powerpointRadio = this.getPowerpointRadio();
+    this.flaggedRadio = this.getFlaggedRadio();
     this.allRadio = this.getAllRadio();
     this.selectedSubjects = this.getSelectedSubjectsSelect();
     this.addTagsSelector = this.getAddTagsSelector();
@@ -43,6 +47,7 @@ export class SearchPage {
    * @param input
    */
   inputTitle(input: string) {
+    this.title.clear();
     this.title.sendKeys(input);
   }
 
@@ -79,7 +84,6 @@ export class SearchPage {
     });
     addSelectedTagsButton.click();
   }
-
 
   /**
    * Returns the element for deleting tags
@@ -141,6 +145,34 @@ export class SearchPage {
   }
 
   /**
+   * Returns the powerpoint radio button element in the DOM
+   */
+  private getPowerpointRadio() {
+    return element(by.css('[id="Powerpoint"]'));
+  }
+
+  /**
+   * Clicks the powerpoint radio button element in the DOM
+   */
+  clickPowerpointRadio(){
+    browser.actions().mouseMove(this.powerpointRadio).click().perform();
+  }
+
+  /**
+   * Returns the flagged radio button element in the DOM
+   */
+  private getFlaggedRadio(){
+    return element(by.css('[id="Flagged"]'));
+  }
+
+  /**
+   * Clicks the flagged radio button element in the DOM
+   */
+  clickFlaggedRadio(){
+    browser.actions().mouseMove(this.flaggedRadio).click().perform();
+  }
+
+  /**
    * Returns the all radio button element in the DOM
    */
   private getAllRadio() {
@@ -154,6 +186,25 @@ export class SearchPage {
     browser.actions().mouseMove(this.allRadio).click().perform();
   }
 
+  clickRadio(index : number) {
+    switch(index) {
+      case 0:
+        this.clickCodeRadio();
+        break;
+      case 1:
+        this.clickDocumentRadio();
+        break;
+      case 2:
+        this.clickPowerpointRadio();
+        break;
+      case 3:
+        this.clickFlaggedRadio();
+        break;
+      default:
+        this.clickAllRadio();
+        break;
+    }
+  }
 
   /**
    * Returns the checked radio element if one a radio element is checked
@@ -175,7 +226,6 @@ export class SearchPage {
   }
 
   acceptAlert() {
-
     browser.wait(() => element(by.css('.toast-message')).isPresent(), 5000, "Alert is not getting present :(");
 
     if (element(by.css('.toast-message')).isPresent())
@@ -200,6 +250,67 @@ export class SearchPage {
         await rows.get(i).element(by.name("title")).getText().then(function(text: string) {
           if(text === title) {
             found[0] = true;
+          }
+        });
+
+        await rows.get(i).element(by.name("url")).getText().then(function(text: string) {
+          if(text === url) {
+            found[1] = true;
+          }
+        });
+
+        await rows.get(i).element(by.name("description")).getText().then(function(text: string) {
+          if(text === description) {
+            found[2] = true;
+          }
+        });
+
+        // If everything has been found, stop searching
+        if(!found.includes(false)) {
+          break;
+        }
+      }
+    });
+
+    // Return false if any of the parameters was not found
+    for(let i = 0; i < 3; i++) {
+      if(!found[i]) {
+        return false;
+      }
+    }
+
+    // Return true if all 3 were found
+    return true;
+  }
+
+  async confirmSingleContent(title: string, url: string, description: string, subject?: string): Promise<boolean> {
+    let found: boolean[] = [false, false, false];
+
+    let rows = element.all(by.tagName("tr"));
+
+    expect(rows.count()).toEqual(2);
+
+    await rows.count().then(async function(length) {
+
+      // Search through every row, looking for given inputs
+      // Default behavior is that new content is last, so we search from back to front
+      for(let i = length - 1; i >= 1; i--) {
+
+        await rows.get(i).element(by.name("title")).getText().then(async function(text: string) {
+          if(text === title) {
+            found[0] = true;
+
+            rows.get(i).element(by.css(".plusCenter")).click();
+            browser.sleep(500);
+
+            let popup: ElementFinder = element(by.css('#addTagPopup'));
+            let addSelectedTags: ElementFinder = popup.element(by.css('[name=addTags]'));
+            let addSelectedTagsButton: ElementFinder = popup.element(by.css('.addATag'));
+            addSelectedTags.click();
+            
+            browser.actions().sendKeys(subject).perform();
+            browser.actions().sendKeys(protractor.Key.ENTER).perform();
+            addSelectedTagsButton.click();
           }
         });
 
