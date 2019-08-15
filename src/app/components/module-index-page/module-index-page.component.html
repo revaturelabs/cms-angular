@@ -45,8 +45,8 @@
           as well as a delete button. 
          -->
         <div (click)="listContent(module)">
-          <!-- Flag behaves purely as an indicator, which if module.links is empty = flag -->
-          <span class="fas fa-flag" *ngIf="module.links.length === 0" title="No Content"></span>
+          <!-- Flag behaves purely as an indicator, which if module.links is empty it will show the flag -->
+          <span id="flag-{{module.id}}" class="fas fa-flag" *ngIf="module.links.length === 0" title="No Content"></span>
           
           {{module.subject}}
 
