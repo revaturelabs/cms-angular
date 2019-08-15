@@ -37,6 +37,7 @@ describe('ReportsTimeGraphComponent', () => {
     expect(component).toBeTruthy();
   });
 
+//Test that elements exist
   it('should have Dropdown button', () =>{
     expect(document.getElementById('dropdownMenuButton')).toBeTruthy;
   });
@@ -60,6 +61,8 @@ describe('ReportsTimeGraphComponent', () => {
     expect(document.getElementById('selectedViewText')).toBeTruthy;
   });
 
+
+//Test that milliseconds variables are set
   it('should have Milliseconds per year defined', () => {
     expect(component.MILLIS_PER_YEAR).toEqual(3.154e+10)
   });
@@ -72,10 +75,12 @@ describe('ReportsTimeGraphComponent', () => {
     expect(component.MILLIS_PER_DAY).toEqual(8.64e+7)
   });
 
+//test that time range has defualt value
   it('should have Time Range default to Milliseconds per month', () => {
     expect(component.selectedTimeRange).toEqual(component.MILLIS_PER_MONTH);
   });
 
+//tests for updateGraph()
   it('should update graph with updateGraph()', () => {
     let TGD1: TimeGraphData = {numContents:1,returnedLongs:[]}
     component.updateGraph(TGD1);
@@ -94,6 +99,7 @@ describe('ReportsTimeGraphComponent', () => {
     expect(component.requestTime).toBeUndefined;
   });
 
+//tests for setGraphResult()
   it('should update time frame with setGraphResults()', () => {
     component.setGraphResults(6 * component.MILLIS_PER_MONTH);
     expect(component.selectedTimeRange).toEqual(6 * component.MILLIS_PER_MONTH)
