@@ -62,25 +62,30 @@ describe('ReportsPageComponent', () => {
   expect(document.getElementById('All')).toBeTruthy;
   });
 
+  it('should have Different Modules card', () => {
+    expect(document.getElementById('dif_Mods')).toBeTruthy;
+  });
+
+  it('should have Code Examples card', () => {
+    expect(document.getElementById('code_Ex')).toBeTruthy;
+  });
+
+  it('should have Lecture Notes card', () => {
+    expect(document.getElementById('lect_Notes')).toBeTruthy;
+  });
+
+  it('should have Powerpoints card', () => {
+    expect(document.getElementById('powerpoints')).toBeTruthy;
+  });
+
+  it('should have Average Resources card', () => {
+    expect(document.getElementById('avg_Res')).toBeTruthy;
+  });
+
   it('should have All selected by default', () => {
     expect(document.getElementById('All').getAttribute('ng-reflect-model')).toEqual('All');
     expect(component.selFormat).toEqual('All');
   }); 
-
-  it('should have Dropdown button', () =>{
-    expect(document.getElementById('dropdownMenuButton')).toBeTruthy;
-  });
-  it('should have Past Year dropdown', () => {
-    expect(document.getElementById('selectPastYear')).toBeTruthy;
-  });
-
-  it('should have Past Six Months dropdown', () => {
-    expect(document.getElementById('selectPastSixMonths')).toBeTruthy;
-  });
-
-  it('should have Past Month dropdown', () => {
-    expect(document.getElementById('selectPastMonth')).toBeTruthy;
-  });
 
   it('should have filter button', () =>{
     expect(document.getElementById('filterButton')).toBeTruthy;
