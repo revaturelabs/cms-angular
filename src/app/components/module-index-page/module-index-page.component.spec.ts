@@ -50,15 +50,14 @@ describe('ModuleIndexPageComponent', () => {
 //test that the table populates
   it('should populate table based on Modules Service Response', () =>{
 
-  let Mod1: Module = new Module(1, "", 1, []);
-  let Mod2: Module = new Module(2, "", 1, []);
+    let Mod1: Module = new Module(1, "", 1, []);
+    let Mod2: Module = new Module(2, "", 1, []);
 
-  component.ms.response = [Mod1,Mod2];
+    component.ms.response = [Mod1,Mod2];
 
-  expect(document.getElementById('1')).toBeTruthy;
-  expect(document.getElementById('2')).toBeTruthy;
-  expect(document.getElementById('3')).toBeFalsy;
-
+    expect(document.getElementById('1')).toBeTruthy;
+    expect(document.getElementById('2')).toBeTruthy;
+    expect(document.getElementById('3')).toBeFalsy;
   });
 
 //tests that flags show when expected
@@ -75,7 +74,6 @@ describe('ModuleIndexPageComponent', () => {
   
     component.ms.response = [Mod1];
     expect(document.getElementById('flag-1')).toBeFalsy;
-
   })
 
 //tests for setting selCon and selModule
@@ -149,11 +147,6 @@ describe('ModuleIndexPageComponent', () => {
     component.listContent(Mod1);
     component.listContent(Mod1);
     expect(component.contentVisible.get(Mod1)).toBeFalsy;
-
   });
-
-
-
-
 
 });
