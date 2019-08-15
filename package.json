@@ -29,6 +29,7 @@
         "@types/jasmine": "^3.3.13",
         "@types/jasminewd2": "^2.0.6",
         "ngx-toastr": "^10.0.4",
+        "node": "^12.8.0",
         "rxjs": "~6.5.2",
         "zone.js": "~0.9.1"
     },
