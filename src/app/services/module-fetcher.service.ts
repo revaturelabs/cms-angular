@@ -46,11 +46,11 @@ export class ModuleFetcherService {
     * Sends HTTP request to return Module by ID
     * @param id; Unique Identifier of Module to be returned
     */
-
+   @Cacheable()
    getModuleByID(id: number): Observable<Module> {
       return this.http.get<Module>(this.endpoints.GET_MODULE_BY_ID.replace('${id}', id.toString()));
    }
-
+   @Cacheable()
    /** Used for debugging, loads Module[] from specified URL */
    getAllFakeModules(url: string): Observable<Module[]> {
       return this.http.get<Module[]>(url);
