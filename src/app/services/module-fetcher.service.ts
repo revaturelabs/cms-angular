@@ -23,8 +23,8 @@ export class ModuleFetcherService {
 
    /**
     * Initialize Service
-    * @param http; the client to send requests to back-end.
-    * @param endpoints; the collection of available endpoints that are needed.
+    * @param http Client to send requests to back-end
+    * @param endpoints Endpoints of back-end to send requests to
     */
 
    constructor(
@@ -34,8 +34,7 @@ export class ModuleFetcherService {
    }
 
    /**
-    * Sends HTTP request to return all Modules using the .GET_ALL_MODULES endpoint to
-    * fetch all the modules. 
+    * Sends HTTP request to return all Modules
     */
    @Cacheable()
    getAllModules(): Observable<Module[]> {
@@ -44,14 +43,19 @@ export class ModuleFetcherService {
 
    /**
     * Sends HTTP request to return Module by ID
-    * @param id; Unique Identifier of Module to be returned
+    * @param id Unique Identifier of Module to be returned
     */
    @Cacheable()
    getModuleByID(id: number): Observable<Module> {
       return this.http.get<Module>(this.endpoints.GET_MODULE_BY_ID.replace('${id}', id.toString()));
    }
+<<<<<<< HEAD
    @Cacheable()
    /** Used for debugging, loads Module[] from specified URL */
+=======
+
+   /** used for debugging, loads Module[] from specified URL */
+>>>>>>> d830f115650ada4f8a595f1aa0c2649d2b9f9d80
    getAllFakeModules(url: string): Observable<Module[]> {
       return this.http.get<Module[]>(url);
    }
