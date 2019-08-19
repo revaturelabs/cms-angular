@@ -100,26 +100,31 @@ describe('workspace-project App', () => {
     expect(findContent.confirmContentExists(title[2], url[2], description[2])).toBeTruthy();
   });
 
-  it('should search for content by name', () => {
+  it('should search for content by name', async () => {
     findContent.clickAllRadio();
     expect(findContent.getCheckedRadioValue()).toEqual('All');
 
     for(let i = 0; i < 3; i++) {
       findContent.inputTitle(title[i])
       findContent.clickSearchButton();
-      expect(findContent.confirmSingleContent(title[i], url[i], description[i], selectedSubjects[1])).toBeTruthy();
+      expect(await findContent.confirmSingleContent(title[i], url[i], description[i], selectedSubjects[1])).toBeTruthy();
     }
   });
 
-  it('should delete modules and content', () => {
+  it('should delete modules and content', async () => {
     moduleIndex.navigateTo();
     for(let i = 0; i < 2; i++) {
-      expect(moduleIndex.getModuleBySubject(selectedSubjects[i])).toBeDefined();
-      moduleIndex.clickModule(selectedSubjects[i]);
+      expect( await moduleIndex.getModuleBySubject(selectedSubjects[i])).toBeDefined();
+      // await moduleIndex.clickModule(selectedSubjects[i]);
+      // browser.sleep(5000);
 
       // For only the first module
       if(i == 0) {
-        moduleIndex.deleteContentFromModule(title[0], url[0], description[0], selectedSubjects[0]);
+        // await browser.getCurrentUrl().then(url => {
+        //   console.log(url);
+        // });
+        await moduleIndex.deleteContentFromModule(title[0], url[0], description[0], selectedSubjects[0]);
+        browser.sleep(1000);
         findContent.navigateTo();
 
         findContent.inputTitle(title[0]);
@@ -129,7 +134,7 @@ describe('workspace-project App', () => {
         moduleIndex.navigateTo();
       }
 
-      moduleIndex.deleteModule(selectedSubjects[i]);
+      await moduleIndex.deleteModule(selectedSubjects[i]);
     }
 
     findContent.navigateTo();
@@ -140,7 +145,7 @@ describe('workspace-project App', () => {
     for(let i = 0; i < 3; i++) {
       expect(findContent.confirmContentExists(title[i], url[i], description[i])).toBeTruthy();
 
-      findContent.deleteContent(title[i], url[i], description[i]);
+      await findContent.deleteContent(title[i], url[i], description[i]);
     }
 
   });
