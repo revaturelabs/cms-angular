@@ -22,7 +22,7 @@ export class ModuleIndexPage {
      * Returns an ElementArrayFinder which represents the list of all modules in the DOM.
      */
     getModules(): ElementArrayFinder {
-        return element.all(by.css('[name=modules]'));
+        return element.all(by.name("modules"));
     }
 
     /**
@@ -44,9 +44,11 @@ export class ModuleIndexPage {
     async getModuleBySubject(subject: string): Promise<ElementFinder> {
 
         let module: ElementFinder = undefined;
-        let modules: ElementArrayFinder = this.modules;
+        let modules: ElementArrayFinder = this.getModules();
         await this.modules.count().then(async function(length) {
+            console.log(length + " modules found.")
             for(let i = 0; i < length; i++) {
+
                 let found: boolean = false;
                 let row: ElementFinder = modules.get(i);
 
@@ -54,6 +56,7 @@ export class ModuleIndexPage {
                 // This is needed due to the structure of the divs in the html page.
                 // The span that we are grabbing is the one which has the subject as the innerHTML
                 await row.element(by.name("module")).getText().then(function(text: string) {
+                    console.log("Found " + text + ", but looking for " + subject);
                     if(text === subject) {
                         found = true;
                         module = row;
@@ -61,6 +64,7 @@ export class ModuleIndexPage {
                 });
 
                 if(found) {
+                    console.log("Subject found!");
                     break;
                 }
             }
@@ -82,6 +86,7 @@ export class ModuleIndexPage {
         if(typeof module === 'number') {
             this.getModuleByIndex(module).element(by.name("module")).click();
         } else if(typeof module === 'string') {
+            browser.sleep(500);
             await this.getModuleBySubject(module).then(function(subject) {
                 subject.element(by.name("module")).click();
             });
@@ -90,35 +95,54 @@ export class ModuleIndexPage {
         }
     }
 
-    async GetRowOfContent(title: string, url: string, description: string, module: string): Promise<ElementFinder> {
+    async getRowOfContent(title: string, url: string, description: string, module: string): Promise<ElementFinder> {
         let table: ElementFinder;
+
+        console.log("Looking for title: " + title + ", url: " + url + ", description: " + description + " in module " + module);
+
+        await this.clickModule(module);
+        browser.sleep(3500);
+
+        // This is here to access the class inside of the anonymous function.
+        // TypeScript's 'this' keyword refers to the anonymous function when inside of one.
+        // We still need access to the class, so we get another reference to the class to use inside
         let that = this;
-        await this.getModuleBySubject(module).then(function(subject: ElementFinder) {
+        await this.getModuleBySubject(module).then(async function(subject: ElementFinder) {
+            console.log("subject is: " + subject);
+            
             table = that.getTable(subject);
         });
+
+        console.log("table is: " + table);
 
         let row: ElementFinder;
         let rows: ElementArrayFinder = table.element(by.tagName("tbody")).all(by.tagName("tr"));
         await rows.count().then(async function(length) {
+            console.log("Found " + length + " rows of content for the module.");
             for(let i = 0; i < length; i++) {
                 let found: boolean[] = [false, false, false];
 
                 row = rows.get(i);
 
+                console.log("The row is: " + row);
+
                 await row.element(by.name("title")).getText().then(function(text) {
                     if(text === title) {
+                        console.log("Title found!");
                         found[0] = true;
                     }
                 });
 
                 await row.element(by.name("url")).element(by.tagName("a")).getText().then(function(text) {
                     if(text === url) {
+                        console.log("url found!");
                         found[1] = true;
                     }
                 });
 
                 await row.element(by.name("description")).getText().then(function(text) {
                     if(text === description) {
+                        console.log("description found!");
                         found[2] = true;
                     }
                 });
@@ -134,6 +158,9 @@ export class ModuleIndexPage {
             }
         });
 
+        expect(row).toBeDefined();
+
+
         return row;
     }
 
@@ -142,25 +169,38 @@ export class ModuleIndexPage {
             this.getModuleByIndex(module).element(by.css('.fa-trash')).click();
         } else if(typeof module === 'string') {
             await this.getModuleBySubject(module).then(function(subject) {
+                browser.sleep(750);
                 subject.element(by.css('.fa-trash')).click();
             });
         } else if(typeof module === 'object' && module instanceof ElementFinder) {
             module.element(by.css('.fa-trash')).click();
         }
 
-        browser.sleep(500);
+        browser.sleep(750);
         element(by.id("deleteModuleButton")).click();
     }
 
     async deleteContentFromModule(title: string, url: string, description: string, module: string) {
-        this.clickModule(module);
-        browser.sleep(3000);
-        await this.GetRowOfContent(title, url, description, module).then(function(row) {
-            row.element(by.css(".fa-trash")).click();
+        // this.clickModule(module);
+        // browser.sleep(3000);
+        let row: ElementFinder = await this.getRowOfContent(title, url, description, module);
 
-            browser.sleep(500);
-            row.element(by.id("deleteContentButton")).click();
-        });
+        expect(row).toBeDefined();
+        expect(row instanceof ElementFinder).toBeTruthy();
+        // expect(rowPr instanceof Promise).toBeTruthy();
+
+        // await rowPr.then(function(row) {
+        //     row.element(by.name("trash")).element(by.css(".fa-trash")).click();
+
+        //     browser.sleep(500);
+        //     element(by.id("deleteContentButton")).click();
+        // });
+
+        // browser.sleep(3000);
+        row.element(by.name("trash")).element(by.css(".fa-trash")).click();
+
+        browser.sleep(500);
+        element(by.id("deleteContentButton")).click();
     }
 
     /**

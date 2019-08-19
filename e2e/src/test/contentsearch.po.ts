@@ -244,7 +244,7 @@ export class SearchPage {
     let rows = element.all(by.tagName("tr"));
 
     expect(rows.count()).toEqual(2);
-    expect(!rows.get(1).element(by.name("links")).element(by.name(subject)).isPresent()).toBeTruthy();
+    expect(rows.get(1).element(by.name("links")).element(by.name(subject)).isPresent()).toBeFalsy();
   }
 
   /**
