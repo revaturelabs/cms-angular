@@ -116,7 +116,7 @@ export class AppPage {
         inputs.forEach( (input) => {
             browser.actions().sendKeys(input).perform();
             browser.actions().sendKeys(protractor.Key.ENTER).perform();
-            browser.sleep(500);
+            // browser.sleep(500);
         });
     }
 
@@ -208,8 +208,6 @@ export class AppPage {
                 this.clickAllRadio();
                 break;
         }
-        
-
     }
 
     /**
@@ -234,7 +232,6 @@ export class AppPage {
     }
 
     acceptAlert() {
-
         browser.wait(() => element(by.css('.toast-message')).isPresent(), 5000, "Alert is not getting present :(");
 
         if(element(by.css('.toast-message')).isPresent())
