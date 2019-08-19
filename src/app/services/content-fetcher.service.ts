@@ -5,7 +5,7 @@ import { HttpClient, HttpHeaders, HttpHeaderResponse } from '@angular/common/htt
 import { EndpointsService } from '../constants/endpoints.service';
 import { Content } from '../models/Content';
 import { Filter } from '../models/Filter';
-import { Cacheable, CacheBuster,globalCacheBusterNotifier } from 'ngx-cacheable';
+// import { Cacheable, CacheBuster,globalCacheBusterNotifier } from 'ngx-cacheable';
 
 
 /**
@@ -35,7 +35,7 @@ export class ContentFetcherService {
    
    createNewContent(content: Content): Observable<HttpHeaderResponse> {
       let body: string = JSON.stringify(content);
-      globalCacheBusterNotifier.next();
+      // globalCacheBusterNotifier.next();
       return this.http.post<HttpHeaderResponse>(this.endpoints.CREATE_NEW_CONTENT, body, { headers: this.HEADERS });
    }
 
@@ -62,7 +62,7 @@ export class ContentFetcherService {
    
    updateContentById(id: number, content: Content): Observable<HttpHeaderResponse> {
       let body: string = JSON.stringify(content);
-      globalCacheBusterNotifier.next();
+      // globalCacheBusterNotifier.next();
       return this.http.put<HttpHeaderResponse>(this.endpoints.UPDATE_CONTENT_BY_ID.replace('${id}', id.toString()), body, { headers: this.HEADERS });
    }
   
@@ -73,7 +73,7 @@ export class ContentFetcherService {
    
    updateContentByContent(newContent: Content) {
       let body: string = JSON.stringify(newContent);
-      globalCacheBusterNotifier.next();
+      // globalCacheBusterNotifier.next();
       return this.http.put(this.endpoints.UPDATE_CONTENT, body, { headers: this.HEADERS });
    }
    /** Not yet implemented, Untested 
@@ -83,7 +83,7 @@ export class ContentFetcherService {
   
    updateContentModulesById(id: number, modules: Module[]): Observable<HttpHeaderResponse> {
       let body: string = JSON.stringify(modules);
-      globalCacheBusterNotifier.next();
+      // globalCacheBusterNotifier.next();
       return this.http.put<HttpHeaderResponse>(this.endpoints.UPDATE_CONTENT_MODULES_BY_ID.replace('${id}', id.toString()), body, { headers: this.HEADERS });
    }
 
@@ -93,7 +93,7 @@ export class ContentFetcherService {
     */
    
    deleteContentByID(id: number): Observable<HttpHeaderResponse> {
-      globalCacheBusterNotifier.next();
+      // globalCacheBusterNotifier.next();
       return this.http.delete<HttpHeaderResponse>(this.endpoints.DELETE_CONTENT_BY_ID.replace('${id}', id.toString()));
    }
 
@@ -101,7 +101,7 @@ export class ContentFetcherService {
     * Sends HTTP request to return filtered Content
     * @param filter What to filter returned content by
     */
-   @Cacheable()
+   // @Cacheable()
    filterContent(filter: Filter): Observable<Content[]> {
       let body: string = JSON.stringify(filter);
       return this.http.post<Content[]>(this.endpoints.FILTER_CONTENT, body, { headers: this.HEADERS });

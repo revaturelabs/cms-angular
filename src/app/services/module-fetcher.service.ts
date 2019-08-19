@@ -49,13 +49,8 @@ export class ModuleFetcherService {
    getModuleByID(id: number): Observable<Module> {
       return this.http.get<Module>(this.endpoints.GET_MODULE_BY_ID.replace('${id}', id.toString()));
    }
-<<<<<<< HEAD
    @Cacheable()
    /** Used for debugging, loads Module[] from specified URL */
-=======
-
-   /** used for debugging, loads Module[] from specified URL */
->>>>>>> d830f115650ada4f8a595f1aa0c2649d2b9f9d80
    getAllFakeModules(url: string): Observable<Module[]> {
       return this.http.get<Module[]>(url);
    }
@@ -67,7 +62,7 @@ export class ModuleFetcherService {
    
    createNewModule(module: Module): Observable<HttpHeaderResponse> {
       let body: string = JSON.stringify(module);
-      globalCacheBusterNotifier.next();
+      // globalCacheBusterNotifier.next();
       return this.http.post<HttpHeaderResponse>(this.endpoints.CREATE_NEW_MODULE, body, { headers: this.HEADERS });
    }
 
