@@ -34,7 +34,7 @@ describe('ModuleStoreService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('loadModules should be workng correctly', fakeAsync(() => {
+  it('loadModules should be working correctly', fakeAsync(() => {
     let response = {};
 
     service.loadModules();
@@ -44,8 +44,25 @@ describe('ModuleStoreService', () => {
     tick();
   }));
 
-  it('', () => {
+  it('loadEmptyModules should be working correctly', fakeAsync(() => {
+    let response = {};
 
-  });
+    service.loadEmptyModules();
+    const req = httpTestingController.expectOne(baseURL + '/module');
+    expect(req.request.method).toEqual('GET');
+    req.flush(response);
+    tick();
+  }));
+
+  it('populateCollections should be working properly', fakeAsync(() => {
+    let response = {};
+    let modules: Module[] = [];
+
+    service.populateCollections(modules);
+    const req = httpTestingController.expectOne(baseURL + '/module/');
+    expect(req.request.method).toEqual('UPDATE');
+    req.flush(response);
+    tick();
+  }));
 
 });
