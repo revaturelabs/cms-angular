@@ -223,7 +223,12 @@ export class ContentFinderPageComponent implements OnInit {
    removeTag() {
       let found = this.selCon.links.findIndex(l => this.selLink.id === l.id);
       this.selCon.links.splice(found, 1);
-      this.cs.updateContentByContent(this.selCon).subscribe();
+      this.cs.updateContentByContent(this.selCon).subscribe(
+         data => {
+         
+               window.location.reload();
+         }
+      );
    }
 
    /**
@@ -293,12 +298,24 @@ export class ContentFinderPageComponent implements OnInit {
       this.selCon = content;
    }
 
+
+   /**
+    * This function is simply used to refresh the page when an action is done.
+    */
    removeContent(){
-      this.cs.deleteContentByID(this.selCon.id).subscribe();
+      this.cs.deleteContentByID(this.selCon.id).subscribe(
+         data => {
+               window.location.reload();
+         }
+      );
    }
 
 
-
+/**
+ * The DoThis function is used to ?????
+ * @param contentID 
+ * @param linkID 
+ */
 
    public DoThis(contentID : number, linkID : number) {
       return ContentFinderPageComponent.generateLinkId (contentID, linkID);

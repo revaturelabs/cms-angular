@@ -16,68 +16,50 @@ describe('ModuleFetcherService', () => {
   let service: ModuleFetcherService;
   let httpTestingController: HttpTestingController;
   let baseURL;
-  
+
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [HttpClientTestingModule],
-    providers: [ModuleFetcherService]
+      imports: [HttpClientTestingModule],
+      providers: [ModuleFetcherService]
+    });
+    service = TestBed.get(ModuleFetcherService);
+    httpTestingController = TestBed.get(HttpTestingController);
+
+    baseURL = environment.cms_url;
   });
-  service = TestBed.get(ModuleFetcherService);
-  httpTestingController = TestBed.get(HttpTestingController);
 
-  baseURL = environment.cms_url;
-});
-
+  // Initial test for service creation
   it('should be created', () => {
     const service: ModuleFetcherService = TestBed.get(ModuleFetcherService);
     expect(service).toBeTruthy();
   });
 
+  // Using mocking, this should return an Observable<Module[]>
+  /** 
+    * First stipulate the fakeAsync() 
+    * function to generate an empty resposne that one will manually 
+    * populate. Using service.getAllModules().subscribe() will give a 
+    * mocked response. Lastly do a test as necessary to test if the method
+    * is indeed a "GET" method, and use req.flush(response) and tick() to 
+    * finalize mock.
+    */
   it('should return an Observable<Module[]> Get all', fakeAsync(() => {
     let url: string = baseURL + '/module';
     let response = {
       resaultCount: 1,
-      response:[
+      response: [
         {
           id: 5,
           subject: 'Java',
           created: 14454,
-          links: [{id: 12, contentId: 12, moduleId: 5, affiliation: 'Java'}]
+          links: [{ id: 12, contentId: 12, moduleId: 5, affiliation: 'Java' }]
         }
       ]
     };
 
     let output: Module[];
     service.getAllModules().subscribe(
-        response => {
-          output = response;
-        }
-    );
-    const req = httpTestingController.expectOne(url);
-    expect(req.request.method).toEqual("GET");
-    req.flush(response);
-    tick();
-    httpTestingController.verify();
-  })
-  );
-
-  it('should return an Observable<Module> get by id', fakeAsync(() => {
-    let url: string = baseURL + '/module/5'
-    let response = {
-      resaultCount: 1,
-      response:[
-        {
-          id: 5,
-          subject: 'Java',
-          created: 14454,
-          links: [{id: 12, contentId: 12, moduleId: 5, affiliation: 'Java'}]
-        }
-      ]
-    };
-    
-    let output: Module;
-    service.getModuleByID(5).subscribe(
       response => {
         output = response;
       }
@@ -89,16 +71,47 @@ describe('ModuleFetcherService', () => {
     httpTestingController.verify();
   })
   );
-  it('should return an Observable<HttpHeaderResponse> Create', fakeAsync(() => {
-    let url: string = baseURL + '/module';
+
+  // A similar process as above is used to retrieve an
+  // Observable from getById
+  it('should return an Observable<Module> get by id', fakeAsync(() => {
+    let url: string = baseURL + '/module/5'
     let response = {
       resaultCount: 1,
-      response:[
+      response: [
         {
           id: 5,
           subject: 'Java',
           created: 14454,
-          links: [{id: 12, contentId: 12, moduleId: 5, affiliation: 'Java'}]
+          links: [{ id: 12, contentId: 12, moduleId: 5, affiliation: 'Java' }]
+        }
+      ]
+    };
+
+    let output: Module;
+    service.getModuleByID(5).subscribe(
+      response => {
+        output = response;
+      }
+    );
+    const req = httpTestingController.expectOne(url);
+    expect(req.request.method).toEqual("GET");
+    req.flush(response);
+    tick();
+    httpTestingController.verify();
+  }));
+
+  // Similar mocking done for createNewModule()
+  it('should return an Observable<HttpHeaderResponse> Create', fakeAsync(() => {
+    let url: string = baseURL + '/module';
+    let response = {
+      resaultCount: 1,
+      response: [
+        {
+          id: 5,
+          subject: 'Java',
+          created: 14454,
+          links: [{ id: 12, contentId: 12, moduleId: 5, affiliation: 'Java' }]
         }
       ]
     };
@@ -107,9 +120,9 @@ describe('ModuleFetcherService', () => {
     let input: Module = new Module(null, "CSS", null, links)
     let output: HttpHeaderResponse;
     service.createNewModule(input).subscribe(
-        response => {
-          output = response;
-        }
+      response => {
+        output = response;
+      }
     );
     const req = httpTestingController.expectOne(url);
     expect(req.request.method).toEqual("POST");
@@ -123,9 +136,9 @@ describe('ModuleFetcherService', () => {
     let url: string = baseURL + '/module/5'
     let response = {
       resaultCount: 0,
-      response:[]
+      response: []
     };
-    
+
     let output: HttpHeaderResponse;
     service.deleteModuleByID(5).subscribe(
       response => {
@@ -140,25 +153,27 @@ describe('ModuleFetcherService', () => {
   })
   );
 
+  // A getAllFakeData method is needed in the project, so mocking is needed
+  // once again.
   it('should return an Observable<Module[]> Get all fake data', fakeAsync(() => {
     let url: string = 'radomhtml:1515/module';
     let response = {
       resaultCount: 1,
-      response:[
+      response: [
         {
           id: 5,
           subject: 'Java',
           created: 14454,
-          links: [{id: 12, contentId: 12, moduleId: 5, affiliation: 'Java'}]
+          links: [{ id: 12, contentId: 12, moduleId: 5, affiliation: 'Java' }]
         }
       ]
     };
 
     let output: Module[];
     service.getAllFakeModules(url).subscribe(
-        response => {
-          output = response;
-        }
+      response => {
+        output = response;
+      }
     );
     const req = httpTestingController.expectOne(url);
     expect(req.request.method).toEqual("GET");
