@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Content } from '../../models/Content';
-import { Module } from 'src/app/models/Module';
+import { Module } from '../../models/Module';
 import { Filter } from '../../models/Filter';
-import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
-import { ModuleStoreService } from 'src/app/services/module-store.service';
+import { ContentFetcherService } from '../../services/content-fetcher.service';
+import { ModuleStoreService } from '../../services/module-store.service';
 import { ToastrService } from 'ngx-toastr';
-import { Link } from 'src/app/models/Link';
+import { Link } from '../../models/Link';
 import { SelectControlValueAccessor } from '@angular/forms';
 /** Typescript component for Content Finder page */
 @Component({
@@ -253,7 +253,7 @@ export class ContentFinderPageComponent implements OnInit {
     * @param content - content being worked upon
     * @param link - the link that will be removed from the content
     */
-   selectedTagForRemoval(content: Content, link: Link) {
+   selectedLinkForRemoval(content: Content, link: Link) {
       this.selCon = content;
       this.selLink = link;
    }
@@ -307,5 +307,14 @@ export class ContentFinderPageComponent implements OnInit {
    }
 
 
+
+
+   public DoThis(contentID : number, linkID : number) {
+      return ContentFinderPageComponent.generateLinkId (contentID, linkID);
+   }
+
+   public static generateLinkId (contentID : number, linkID : number) {
+      return "contentID-" + contentID + "-linkID-" + linkID;
+   }
 
 }

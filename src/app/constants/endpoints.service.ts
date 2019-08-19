@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment'
 
+/** Accessible back-end endpoints */
 /** 
  * For simplicity and abstraction, this service is used to call the
  * accessible back-end endpoints.

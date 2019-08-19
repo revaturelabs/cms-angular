@@ -5,13 +5,7 @@ import { HttpClient, HttpHeaderResponse, HttpHeaders } from '@angular/common/htt
 import { EndpointsService } from '../constants/endpoints.service';
 import { Cacheable, CacheBuster, globalCacheBusterNotifier } from 'ngx-cacheable';
 
-/** 
- * Manages Modules between Angular and spring-boot back-end. To do this, the 
- * endpoints service is utilized to fetch the endpoints that need to be used. 
- * With them in hand, an instance of HttpClient is used to use the required
- * HttpMethod.  
- */
-
+/** Manages Modules between Angular and back-end */
 @Injectable({
    providedIn: 'root'
 })
@@ -23,8 +17,8 @@ export class ModuleFetcherService {
 
    /**
     * Initialize Service
-    * @param http; the client to send requests to back-end.
-    * @param endpoints; the collection of available endpoints that are needed.
+    * @param http Client to send requests to back-end
+    * @param endpoints Endpoints of back-end to send requests to
     */
 
    constructor(
@@ -34,8 +28,7 @@ export class ModuleFetcherService {
    }
 
    /**
-    * Sends HTTP request to return all Modules using the .GET_ALL_MODULES endpoint to
-    * fetch all the modules. 
+    * Sends HTTP request to return all Modules
     */
    @Cacheable()
    getAllModules(): Observable<Module[]> {
@@ -44,14 +37,14 @@ export class ModuleFetcherService {
 
    /**
     * Sends HTTP request to return Module by ID
-    * @param id; Unique Identifier of Module to be returned
+    * @param id Unique Identifier of Module to be returned
     */
    @Cacheable()
    getModuleByID(id: number): Observable<Module> {
       return this.http.get<Module>(this.endpoints.GET_MODULE_BY_ID.replace('${id}', id.toString()));
    }
-   @Cacheable()
-   /** Used for debugging, loads Module[] from specified URL */
+
+   /** used for debugging, loads Module[] from specified URL */
    getAllFakeModules(url: string): Observable<Module[]> {
       return this.http.get<Module[]>(url);
    }

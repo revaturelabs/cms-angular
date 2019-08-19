@@ -12,7 +12,7 @@ describe('workspace-project App', () => {
   });
 
   beforeEach(() => {
-    browser.manage().timeouts().implicitlyWait(5000);
+    browser.manage().timeouts().implicitlyWait(1000);
   });
 
   it('should accept subject input', () => {
@@ -21,7 +21,7 @@ describe('workspace-project App', () => {
   });
 
   it('should click submit button', () => {
-    browser.sleep(1000);
+    browser.sleep(500);
     moduleCreate.clickSubmitButton();
     moduleCreate.acceptAlert();
   });

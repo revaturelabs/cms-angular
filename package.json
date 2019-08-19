@@ -28,14 +28,12 @@
         "@swimlane/ngx-charts": "^12.0.1",
         "@types/jasmine": "^3.3.13",
         "@types/jasminewd2": "^2.0.6",
-        "ngx-cacheable": "^1.2.5",
         "ngx-toastr": "^10.0.4",
-        "node": "^12.8.0",
         "rxjs": "~6.5.2",
         "zone.js": "~0.9.1"
     },
     "devDependencies": {
-        "@angular-devkit/build-angular": "~0.802.1",
+        "@angular-devkit/build-angular": "^0.802.1",
         "@angular/cli": "~8.2.1",
         "codelyzer": "^5.0.1",
         "jasmine-core": "~2.99.1",
