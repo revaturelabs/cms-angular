@@ -7,9 +7,11 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { ToastrModule } from 'ngx-toastr';
 
 describe('ModuleStoreService', () => {
+  let fixture: ComponentFixture<ModuleStoreService>;
+
   let service: ModuleStoreService;
   let httpTestingController: HttpTestingController;
-  let baseURL;
+  let baseURL = environment.cms_url;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -20,8 +22,11 @@ describe('ModuleStoreService', () => {
     });
     service = TestBed.get(ModuleStoreService);
     httpTestingController = TestBed.get(HttpTestingController);
+    
+  });
 
-    baseURL = environment.cms_url;
+  afterEach(() => {
+    httpTestingController.verify();
   });
 
   // First test that the service is created
@@ -37,12 +42,35 @@ describe('ModuleStoreService', () => {
    * function to generate an empty response that one will manually 
    * populate. 
    */
-  it('should return an Observable<Module[]> Load Modules', fakeAsync(() => {
-    let subject: string = baseURL + '/module';
+  it('loadModules should be working correctly', fakeAsync(() => {
+    let response = {};
+
+    service.loadModules();
+    const req = httpTestingController.expectOne(baseURL + '/module');
+    expect(req.request.method).toEqual('GET');
+    req.flush(response);
+    tick();
   }));
 
-  it('', () => {
+  it('loadEmptyModules should be working correctly', fakeAsync(() => {
+    let response = {};
 
-  });
+    service.loadEmptyModules();
+    const req = httpTestingController.expectOne(baseURL + '/module');
+    expect(req.request.method).toEqual('GET');
+    req.flush(response);
+    tick();
+  }));
+
+  it('populateCollections should be working properly', fakeAsync(() => {
+    let response = {};
+    let modules: Module[] = [];
+
+    service.populateCollections(modules);
+    const req = httpTestingController.expectOne(baseURL + '/module/');
+    expect(req.request.method).toEqual('UPDATE');
+    req.flush(response);
+    tick();
+  }));
 
 });

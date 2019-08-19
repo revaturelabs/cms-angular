@@ -45,7 +45,7 @@ export class ReportsService {
   /**
    * sends the http request to the server to get the reports metrics data
    */
-  getMetrics(filter: Filter) {
+  getMetrics(filter: Filter){
     
     this.loading = true;
 
@@ -74,6 +74,6 @@ export class ReportsService {
       },
       () => {
         this.loading = false;
-      });
+      }); 
   }
 }
