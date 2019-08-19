@@ -63,7 +63,7 @@ export class ReportsService {
       }
       ).subscribe((result: MetricsData) => {
         this.globalReports.metricsData = result;
-        this.reportsPage.updateMetrics(result);
+        //this.reportsPage.updateMetrics(result);
         this.reportsTimeGraph.updateGraph(result.timeGraphData);
         return true;
       },
