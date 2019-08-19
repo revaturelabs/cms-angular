@@ -107,7 +107,7 @@ export class ModuleIndexPage {
         await this.getModuleBySubject(module).then(function(subject: ElementFinder) {
             console.log("subject is: " + subject);
             that.clickModule(subject);
-            browser.sleep(500);
+            browser.sleep(1000);
             table = that.getTable(subject);
         });
 
@@ -115,6 +115,7 @@ export class ModuleIndexPage {
 
         let row: ElementFinder;
         let rows: ElementArrayFinder = table.element(by.tagName("tbody")).all(by.tagName("tr"));
+        console.log("Rows is" + rows);
         await rows.count().then(async function(length) {
             console.log("Found " + length + " rows of content for the module.");
             for(let i = 0; i < length; i++) {
