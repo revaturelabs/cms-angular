@@ -100,14 +100,16 @@ export class ModuleIndexPage {
 
         console.log("Looking for title: " + title + ", url: " + url + ", description: " + description + " in module " + module);
 
+        await this.clickModule(module);
+        browser.sleep(3500);
+
         // This is here to access the class inside of the anonymous function.
         // TypeScript's 'this' keyword refers to the anonymous function when inside of one.
         // We still need access to the class, so we get another reference to the class to use inside
         let that = this;
-        await this.getModuleBySubject(module).then(function(subject: ElementFinder) {
+        await this.getModuleBySubject(module).then(async function(subject: ElementFinder) {
             console.log("subject is: " + subject);
-            that.clickModule(subject);
-            browser.sleep(500);
+            
             table = that.getTable(subject);
         });
 
@@ -179,22 +181,22 @@ export class ModuleIndexPage {
     }
 
     async deleteContentFromModule(title: string, url: string, description: string, module: string) {
-        this.clickModule(module);
-        browser.sleep(3000);
-        let row = await this.getRowOfContent(title, url, description, module);
+        // this.clickModule(module);
+        // browser.sleep(3000);
+        let row: ElementFinder = await this.getRowOfContent(title, url, description, module);
 
         expect(row).toBeDefined();
         expect(row instanceof ElementFinder).toBeTruthy();
-        // expect(rowPromise instanceof Promise).toBeTruthy();
+        // expect(rowPr instanceof Promise).toBeTruthy();
 
-        // await rowPromise.then(function(row) {
-        //     row.element(by.css(".fa-trash")).click();
+        // await rowPr.then(function(row) {
+        //     row.element(by.name("trash")).element(by.css(".fa-trash")).click();
 
         //     browser.sleep(500);
         //     element(by.id("deleteContentButton")).click();
         // });
 
-        browser.sleep(3000);
+        // browser.sleep(3000);
         row.element(by.name("trash")).element(by.css(".fa-trash")).click();
 
         browser.sleep(500);
