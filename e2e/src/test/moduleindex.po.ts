@@ -202,7 +202,6 @@ export class ModuleIndexPage {
         browser.sleep(1000);
         element(by.id("deleteContentButton")).click();
         this.modules = this.getModules();
-        browser.sleep(500);
     }
 
     /**
