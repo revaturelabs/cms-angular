@@ -7,11 +7,14 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { ToastrModule } from 'ngx-toastr';
 
 describe('ModuleStoreService', () => {
+  let fixture: ComponentFixture<ModuleStoreService>;
+
   let service: ModuleStoreService;
   let httpTestingController: HttpTestingController;
-  let baseURL;
+  let baseURL = environment.cms_url;
 
   beforeEach(() => { 
+    
     TestBed.configureTestingModule({
     imports: [
       HttpClientTestingModule,
@@ -19,8 +22,11 @@ describe('ModuleStoreService', () => {
     ]});
     service = TestBed.get(ModuleStoreService);
     httpTestingController = TestBed.get(HttpTestingController);
+    
+  });
 
-    baseURL = environment.cms_url;
+  afterEach(() => {
+    httpTestingController.verify();
   });
 
   it('should be created', () => {
@@ -28,8 +34,14 @@ describe('ModuleStoreService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should return an Observable<Module[]> Load Modules', fakeAsync(() => {
-    let subject: string = baseURL + '/module';
+  it('loadModules should be workng correctly', fakeAsync(() => {
+    let response = {};
+
+    service.loadModules();
+    const req = httpTestingController.expectOne(baseURL + '/module');
+    expect(req.request.method).toEqual('GET');
+    req.flush(response);
+    tick();
   }));
 
   it('', () => {
