@@ -45,7 +45,7 @@ export class ReportsService {
   /**
    * sends the http request to the server to get the reports metrics data
    */
-  getMetrics(filter: Filter) {
+  getMetrics(filter: Filter): boolean {
     
     this.loading = true;
 
@@ -65,15 +65,18 @@ export class ReportsService {
         this.globalReports.metricsData = result;
         this.reportsPage.updateMetrics(result);
         this.reportsTimeGraph.updateGraph(result.timeGraphData);
+        return true;
       },
       (err) => {
         this.globalReports.metricsData = null;
         this.toastr.error("Failed to load reports metrics.");
         this.reportsTimeGraph.updateGraph(null);
         this.loading = false;
+        return false;
       },
       () => {
         this.loading = false;
       });
+    return false;
   }
 }

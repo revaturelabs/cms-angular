@@ -9,6 +9,7 @@ describe('ContentFetcherService', () => {
   let httpTestingController: HttpTestingController;
   let service: ContentFetcherService;
   let baseURL = environment.cms_url;
+  
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
