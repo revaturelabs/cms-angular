@@ -75,35 +75,37 @@
 
             <tbody>
               <tr *ngFor="let content of contents"> <!-- Section that removes content and links from modules -->
-                <td>
+                <td name="trash">
                     <em title="Remove from module " (click)="selectedContentForRemoval(content)"
                     class="fas fa-trash" data-toggle="modal" data-target="#deleteContent"
                     title="Remove Content"></em>
                 </td>
-                <td>
-                  {{content.id}} 
+                <td name="flag">
+                  {{content.id}}
                   <!-- Flags the modules that do not have content -->
                   <span *ngIf="content.links.length === 0" class="fas fa-flag" title="No Module"></span>
                 </td> 
-                <td>{{content.title}}</td>
-                <td>{{content.format}}</td>
-                <td>{{content.description}}</td>
-                <td><a href="{{content.url}}">{{content.url}}</a></td>
-                <td class="tag-bubble-cell">
+                <td name="title">{{content.title}}</td>
+                <td name="format">{{content.format}}</td>
+                <td name="description">{{content.description}}</td>
+                <td name="url"><a href="{{content.url}}">{{content.url}}</a></td>
+                <td name="modules" class="tag-bubble-cell">
                   <div class="addTag">
-                    <span data-toggle="modal" data-target="#addTag" (click)=selectedContent(content)
+                    <span data-toggle="modal" name="plus" data-target="#addTag" (click)=selectedContent(content)
                       class="fas fa-plus-square plusCenter" title="Add module"></span>
                   </div>
                   <br>
 
                   <!-- Maps the subject name to the proper module via the id -->
-                  <span *ngFor="let link of content.links"
+                  <span *ngFor="let link of content.links" [attr.name]="ms.subjectIdToName.get(link.moduleId)"
                     [style.background-color]=ms.subjectIdToModule.get(link.moduleId).color
                     [style.font-weight]="(searchedSubjects.includes(ms.subjectIdToName.get(link.moduleId))) ? 'bold' : 'normal'"
-                    class="badge badge-primary" style="color:black; font-size: 16px">
+                    class="badge badge-primary" style="color:black; font-size: 16px" id="{{DoThis(content.id,link.id)}}-{{ms.subjectIdToName.get(link.moduleId)}}">
                     {{ms.subjectIdToName.get(link.moduleId)}}
-                    <span data-toggle="modal" data-target="#deleteTag" title="Remove module"
-                      (click)="selectedTagForRemoval(content, link)" class="fas fa-trash"></span>
+
+                    <span data-toggle="modal" data-target="#deleteTag" title="Remove tag"
+                      (click)="selectedLinkForRemoval(content, link)" class="fas fa-trash"
+                      id="{{DoThis(content.id,link.id)}}{{'-trash'}}"></span>
                   </span>
                 </td>
               </tr>
@@ -123,7 +125,7 @@
 <div id="addTag" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
-    <div class="modal-content">
+    <div class="modal-content" id="addTagPopup">
       <div class="modal-header">
         <h4 class="modal-title">Add Modules</h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -134,7 +136,7 @@
           [loading]="ms.isLoading" [placeholder]="ms.loadingText" [(ngModel)]="selectedTags" name="addTags">
         </ng-select>
         <div class="row btn mb-3">
-          <button type="button" class="btn btn-primary addATag" id="submitButton" (click)="updateTags()"
+          <button type="button" class="btn btn-primary addATag" id="submitTagButton" (click)="updateTags()"
             data-dismiss="modal">Add Modules</button>
         </div>
       </div>
@@ -157,8 +159,8 @@
       <div class="modal-body">
         <h6>Are you sure you want to remove this module from {{selCon.title}}?</h6>
         <div class="row btn mb-3">
-          <button type="button" class="btn btn-primary addATag" id="submitButton" (click)="removeTag()"
-            data-dismiss="modal" name = "confirmDeleteTag">Confirm Remove</button>
+          <button type="button" class="btn btn-primary addATag" id="deleteTagButton" (click)="removeTag()"
+            data-dismiss="modal" name="confirmDeleteTag">Confirm Delete</button>
         </div>
       </div>
     </div>
@@ -182,7 +184,7 @@
           <h6>Are you sure you want to delete {{selCon.title}}?</h6>
           <div class="row btn mb-3">
   
-            <button type="button" class="btn btn-primary" id="submitButton" 
+            <button type="button" class="btn btn-primary" id="deleteContentButton" 
             (click)="removeContent()"  data-dismiss="modal">Confirm Delete</button>
           </div>
         </div>

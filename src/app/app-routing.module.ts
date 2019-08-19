@@ -8,36 +8,13 @@ import { ReportsPageComponent } from './components/reports-page/reports-page.com
 
 /** @ignore */
 const routes: Routes = [
-   { 
-      path: '', 
-      redirectTo: '/content-creator', 
-      pathMatch: 'full' 
-   },
-   { 
-      path: 'content-creator', 
-      component: ContentCreatorPageComponent
-   },
-   { 
-      path: 'finder', 
-      component: ContentFinderPageComponent
-   },
-   { 
-      path: 'module-creator', 
-      component: ModuleCreatorPageComponent
-   },
-   { 
-      path: 'module-index', 
-      component: ModuleIndexPageComponent
-   },
-   { 
-      path: 'reports', 
-      component: ReportsPageComponent
-   },
-   { 
-      path: '**', 
-      redirectTo: '/content-creator', 
-      pathMatch: 'full' 
-   }
+   { path: '', redirectTo: '/content-creator', pathMatch: 'full' },
+   { path: 'content-creator', component: ContentCreatorPageComponent, pathMatch: 'full' },
+   { path: 'finder', component: ContentFinderPageComponent, pathMatch: 'full' },
+   { path: 'module-creator', component: ModuleCreatorPageComponent, pathMatch: 'full' },
+   { path: 'module-index', component: ModuleIndexPageComponent, pathMatch: 'full' },
+   { path: 'reports', component: ReportsPageComponent},
+   { path: '**', redirectTo: '/content-creator', pathMatch: 'full' }
 ];
 
 /** @ignore */
