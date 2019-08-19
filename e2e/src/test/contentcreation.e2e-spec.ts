@@ -1,5 +1,6 @@
 import { AppPage } from './contentcreation.po';
 import { ModuleCreatePage } from './modulecreation.po';
+import { ModuleIndexPage } from './moduleindex.po';
 import { SearchPage } from './contentsearch.po';
 import { browser, logging } from 'protractor';
 
@@ -11,12 +12,14 @@ describe('workspace-project App', () => {
   let description           : string[] = [];
   let findContent           : SearchPage;
   let moduleCreate          : ModuleCreatePage;
+  let moduleIndex           : ModuleIndexPage;
 
   beforeAll(() => {
     browser.waitForAngularEnabled(true);
     createContent = new AppPage();
     findContent = new SearchPage();
     moduleCreate = new ModuleCreatePage();
+    moduleIndex = new ModuleIndexPage();
     selectedSubjects = [Math.random().toString(36).substring(7), Math.random().toString(36).substring(7)];
     moduleCreate.navigateTo();
     for (let i = 0; i < 2; i++) {
@@ -106,6 +109,40 @@ describe('workspace-project App', () => {
       findContent.clickSearchButton();
       expect(findContent.confirmSingleContent(title[i], url[i], description[i], selectedSubjects[1])).toBeTruthy();
     }
+  });
+
+  it('should delete modules and content', () => {
+    moduleIndex.navigateTo();
+    for(let i = 0; i < 2; i++) {
+      expect(moduleIndex.getModuleBySubject(selectedSubjects[i])).toBeDefined();
+      moduleIndex.clickModule(selectedSubjects[i]);
+
+      // For only the first module
+      if(i == 0) {
+        moduleIndex.deleteContentFromModule(title[0], url[0], description[0], selectedSubjects[0]);
+        findContent.navigateTo();
+
+        findContent.inputTitle(title[0]);
+        findContent.clickAllRadio();
+        findContent.clickSearchButton();
+        findContent.confirmTagNotListed(selectedSubjects[0]);
+        moduleIndex.navigateTo();
+      }
+
+      moduleIndex.deleteModule(selectedSubjects[i]);
+    }
+
+    findContent.navigateTo();
+
+    findContent.clickFlaggedRadio();
+    findContent.clickSearchButton();
+
+    for(let i = 0; i < 3; i++) {
+      expect(findContent.confirmContentExists(title[i], url[i], description[i])).toBeTruthy();
+
+      findContent.deleteContent(title[i], url[i], description[i]);
+    }
+
   });
   
   afterEach(async () => {

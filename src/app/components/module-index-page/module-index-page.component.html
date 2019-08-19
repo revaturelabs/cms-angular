@@ -44,7 +44,7 @@
           module is empty and has a title of No Content. Also included is the module's name
           as well as a delete button. 
          -->
-        <div (click)="listContent(module)">
+        <div (click)="listContent(module)" name="module">
           <!-- Flag behaves purely as an indicator, which if module.links is empty = flag -->
           <span class="fas fa-flag" *ngIf="module.links.length === 0" title="No Content"></span>
           
@@ -99,7 +99,7 @@
                     Interpolation {{}}.
                    -->
                   <tbody>
-                    <tr *ngFor="let content of moduleContents.get(module)">
+                    <tr *ngFor="let content of moduleContents.get(module)" [attr.id]="'row' + content.id">
                       <!-- 
                         The first data to exist for row in a table is a Remove Content button. 
                         This works in the same way the remove button works in the content finder
@@ -111,15 +111,15 @@
                         
                         This is further explained below. 
                        -->
-                      <td>
+                      <td name="trash">
                         <em title="Remove from module " (click)="selectedLinkForRemoval(content, module)" class="fas fa-trash" data-toggle="modal"
                           data-target="#deleteContent" title="Remove Content from Module"></em>
                       </td>
-                      <td>{{content.id}}</td>
-                      <td>{{content.title}}</td>
-                      <td>{{content.format}}</td>
-                      <td>{{content.description}}</td>
-                      <td><a target="_blank" href="{{content.url}}">{{content.url}}</a>
+                      <td name="contentId">{{content.id}}</td>
+                      <td name="title">{{content.title}}</td>
+                      <td name="format">{{content.format}}</td>
+                      <td name="description">{{content.description}}</td>
+                      <td name="url"><a target="_blank" href="{{content.url}}">{{content.url}}</a>
                       </td>
                     </tr>
                   </tbody>
@@ -153,7 +153,7 @@
             Here is the confirm button which utilizes the removeContentFromModuleIndex() 
             function.
            -->
-            <button type="button" class="btn btn-primary" id="submitButton"
+            <button type="button" class="btn btn-primary" id="deleteContentButton"
               (click)="removeContentFromModuleIndex()" data-dismiss="modal">Confirm Removal</button>
           </div>
       </div>
@@ -183,7 +183,7 @@
             Here is the confirm button which utilizes the removeContentFromModuleIndex() 
             function.
            -->
-            <button type="button" class="btn btn-primary" id="submitButton"
+            <button type="button" class="btn btn-primary" id="deleteModuleButton"
               (click)="removeModule()" data-dismiss="modal">Confirm Removal</button>
           </div>
       </div>
