@@ -199,8 +199,10 @@ export class ModuleIndexPage {
         // browser.sleep(3000);
         row.element(by.name("trash")).element(by.css(".fa-trash")).click();
 
-        browser.sleep(500);
+        browser.sleep(1000);
         element(by.id("deleteContentButton")).click();
+        this.modules = this.getModules();
+        browser.sleep(500);
     }
 
     /**

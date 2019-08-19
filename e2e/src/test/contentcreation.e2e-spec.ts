@@ -132,6 +132,7 @@ describe('workspace-project App', () => {
         findContent.clickSearchButton();
         findContent.confirmTagNotListed(selectedSubjects[0]);
         moduleIndex.navigateTo();
+        browser.sleep(500);
       }
 
       await moduleIndex.deleteModule(selectedSubjects[i]);
