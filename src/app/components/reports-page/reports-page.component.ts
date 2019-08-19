@@ -58,11 +58,9 @@ export class ReportsPageComponent implements OnInit {
     this.reportsService.reportsPage = this;
 
     if(this.globalReports.metricsData ) {
-
       this.updateMetrics(this.globalReports.metricsData);
 
     } else {
-
       this.getMetrics();
     }
   }
@@ -77,8 +75,8 @@ export class ReportsPageComponent implements OnInit {
     this.codeExamples = null;
     this.lectureNotes = null;
     this.powerpoints = null;
-    this.difModules = null;
-    this.avgResources = null;
+    // this.difModules = null;
+    // this.avgResources = null;
 
   }
 
@@ -90,8 +88,11 @@ export class ReportsPageComponent implements OnInit {
     this.codeExamples = data.codeCount;
     this.lectureNotes = data.documentCount;
     this.powerpoints = data.pptCount;
-    this.difModules = data.numDiffModsCount;
-    this.avgResources = data.avgResources;
+
+    if(this.difModules == null){
+      this.difModules = data.numDiffModsCount;
+      this.avgResources = data.avgResources;
+    }
   }
 
   

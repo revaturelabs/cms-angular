@@ -18,15 +18,7 @@ describe('ReportsPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ReportsPageComponent, ReportsTimeGraphComponent],
-      imports: [
-        NgSelectModule,
-        FormsModule,
-        NgxChartsModule,
-        HttpClientTestingModule,
-        ToastrModule.forRoot()
-      ],
-      providers: [GlobalReports]
+      declarations: [ ReportsPageComponent ]
     })
     .compileComponents();
   }));
@@ -42,6 +34,7 @@ describe('ReportsPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
+//Test that Format buttons exist
   it('should have Code button', () => {
     expect(document.getElementById('Code')).toBeTruthy;
    });
@@ -62,6 +55,7 @@ describe('ReportsPageComponent', () => {
   expect(document.getElementById('All')).toBeTruthy;
   });
 
+//Test that cards exist
   it('should have Different Modules card', () => {
     expect(document.getElementById('dif_Mods')).toBeTruthy;
   });
@@ -82,6 +76,7 @@ describe('ReportsPageComponent', () => {
     expect(document.getElementById('avg_Res')).toBeTruthy;
   });
 
+//---------------
   it('should have All selected by default', () => {
     expect(document.getElementById('All').getAttribute('ng-reflect-model')).toEqual('All');
     expect(component.selFormat).toEqual('All');
@@ -95,7 +90,7 @@ describe('ReportsPageComponent', () => {
     expect(component.formats).toEqual(["Code", "Document", "Powerpoint", "All"]);
   });
 
-
+//Test that metrics functions work
   it('should have metrics defined after ngOnInit()', () => {
     component.ngOnInit();
     expect(component.codeExamples).toBeDefined;

@@ -36,6 +36,7 @@ describe('ModuleIndexPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
+//tests that popups exist
   it('should have delete content popup', () =>{
     expect(document.getElementById('deleteContent')).toBeTruthy;
   });
@@ -45,19 +46,21 @@ describe('ModuleIndexPageComponent', () => {
     expect(document.getElementById('deleteModule')).toBeTruthy;
   });
 
+
+//test that the table populates
   it('should populate table based on Modules Service Response', () =>{
 
-  let Mod1: Module = new Module(1, "", 1, []);
-  let Mod2: Module = new Module(2, "", 1, []);
+    let Mod1: Module = new Module(1, "", 1, []);
+    let Mod2: Module = new Module(2, "", 1, []);
 
-  component.ms.response = [Mod1,Mod2];
+    component.ms.response = [Mod1,Mod2];
 
-  expect(document.getElementById('1')).toBeTruthy;
-  expect(document.getElementById('2')).toBeTruthy;
-  expect(document.getElementById('3')).toBeFalsy;
-
+    expect(document.getElementById('1')).toBeTruthy;
+    expect(document.getElementById('2')).toBeTruthy;
+    expect(document.getElementById('3')).toBeFalsy;
   });
 
+//tests that flags show when expected
   it('should show flag on modules with no links', () =>{
     let Mod1: Module = new Module(1, "", 1, []);
 
@@ -71,9 +74,9 @@ describe('ModuleIndexPageComponent', () => {
   
     component.ms.response = [Mod1];
     expect(document.getElementById('flag-1')).toBeFalsy;
-
   })
 
+//tests for setting selCon and selModule
   it('should have default values for selCon and selModule', () =>{
     expect(component.selCon.id).toEqual(0);
     expect(component.selModule.id).toEqual(0);
@@ -106,7 +109,7 @@ describe('ModuleIndexPageComponent', () => {
     expect(component.selModule.id).toEqual(2);
   });
 
-  
+//tests for parseContentResponse()
   it('should set moduleContents with parseContentResponse()', () =>{
     let Mod1: Module = new Module(1, "", 1, []);
     let Mod2: Module = new Module(2, "", 1, []);
@@ -128,8 +131,22 @@ describe('ModuleIndexPageComponent', () => {
     expect(component.moduleContents.get(Mod1)).toEqual([Con2,Con1])
   });
 
+//tests for listContent()
+  it('should set Module to visible with listContent()', () =>{
+    let Mod1: Module = new Module(1, "", 1, []);
+    expect(component.contentVisible.get(Mod1)).toBeFalsy;
 
+    component.listContent(Mod1);
+    expect(component.contentVisible.get(Mod1)).toBeTruthy;
+  });
 
+  it('should set Module to not visible if listContent() is called twice', () =>{
+    let Mod1: Module = new Module(1, "", 1, []);
+    expect(component.contentVisible.get(Mod1)).toBeFalsy;
 
+    component.listContent(Mod1);
+    component.listContent(Mod1);
+    expect(component.contentVisible.get(Mod1)).toBeFalsy;
+  });
 
 });

@@ -38,17 +38,29 @@
         <div class="col-4">
 
           <div 
-          class="card" style="width: 18rem;" style="margin-bottom: 15px">
+          class="card" style="width: 18rem; margin-bottom: 15px;">
             <ul class="list-group list-group-flush">
               <li class="list-group-item">
-                <span class="font-weight-bold">Different Modules</span> 
-                <span id="dif_Mods" class="float-right">{{difModules}}</span>
+                <span class="font-weight-bold">Total Modules</span> 
+                <span id="dif_Mods" class="float-right font-weight-bold ">{{difModules}}</span>
+              </li>
+            </ul>
+          </div>
+          
+          <div 
+          class="card" style="width: 18rem; margin-bottom: 15px;">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                <div class="row">
+                  <span class="font-weight-bold col-8">Avg. Content per Module</span> 
+                  <span id="avg_Res" class="text-right font-weight-bold col-4">{{avgResources | number : "1.0-2"}}</span>
+                </div>
               </li>
             </ul>
           </div>
 
           <div *ngIf="selFormatFilter == 'Code' || selFormatFilter == 'All'"
-          class="card d-flex" style="width: 18rem;" style="margin-bottom: 15px">
+          class="card d-flex" style="width: 18rem; margin-bottom: 15px">
             <ul class="list-group list-group-flush">
               <li class="list-group-item"> 
                 <span class="font-weight-bold">Code Examples</span> 
@@ -58,7 +70,7 @@
           </div>
 
           <div *ngIf="selFormatFilter == 'Document' || selFormatFilter == 'All'"
-          class="card" style="width: 18rem;" style="margin-bottom: 15px">
+          class="card" style="width: 18rem; margin-bottom: 15px">
             <ul class="list-group list-group-flush">
               <li class="list-group-item">
                 <span class="font-weight-bold">Lecture Notes</span> 
@@ -68,23 +80,11 @@
           </div>
 
           <div *ngIf="selFormatFilter == 'Powerpoint'|| selFormatFilter == 'All'"
-           class="card" style="width: 18rem;" style="margin-bottom: 15px">
+           class="card" style="width: 18rem; margin-bottom: 15px">
             <ul class="list-group list-group-flush">
               <li class="list-group-item">
                 <span class="font-weight-bold">Powerpoints</span> 
                 <span id="powerpoints" class="float-right">{{powerpoints}}</span>
-              </li>
-            </ul>
-          </div>
-
-          <div 
-          class="card" style="width: 18rem;" style="margin-bottom: 15px; height:auto;">
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">
-                <div class="row">
-                  <span class="font-weight-bold col-8">Avg. Resources per Module</span> 
-                  <span id="avg_Res" class="text-right col-4">{{avgResources | number : "1.0-2"}}</span>
-                </div>
               </li>
             </ul>
           </div>
