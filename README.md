@@ -25,3 +25,11 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+## Caching
+
+Caching is done using the annotations within the @ngx-cachable package. This package will need to be imported using the 'npm install @ngx-cacheable' command. You can find more information via [Ngx-Cachable README](https://github.com/angelnikolov/ngx-cacheable/blob/master/README.md)
+
+## Tutorial
+
+For more information regarding how to use use this project check out the [CMS Tutorial](https://github.com/revaturelabs/cms-meta/wiki/CMS-Tutorial)
