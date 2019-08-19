@@ -21,8 +21,8 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 ## Running end-to-end tests
 
 If the webdriver version has a conflict with Chrome v74 than run the following commands:
-* npx webdriver-manager clean
-* npx webdriver-manager update --versions.chrome=76.0.3809.100
+* `npx webdriver-manager clean`
+* `npx webdriver-manager update --versions.chrome=76.0.3809.100`
 
 Run `npm run e2e` or `ng e2e --webdriver-update=false` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
