@@ -118,7 +118,14 @@ export class ModuleIndexPageComponent implements OnInit {
       let foundContent = this.moduleContents.get(this.selModule).findIndex(l => this.selCon.id === l.id);
       this.moduleContents.get(this.selModule).splice(foundContent, 1);
 
-      this.cs.updateContentByContent(this.selCon).subscribe();
+      this.cs.updateContentByContent(this.selCon).subscribe(
+         data =>{
+            console.log(data);
+            if(data !=null){
+               this.ngOnInit();///////////////////////
+            }
+         }
+      );
    }
    /**
     * Description - assigns the content and the module that the content resides into variables for this component to utilize.
@@ -135,6 +142,13 @@ export class ModuleIndexPageComponent implements OnInit {
    }
 
    removeModule() {
-      this.mfs.deleteModuleByID(this.selModule.id).subscribe();
+      this.mfs.deleteModuleByID(this.selModule.id).subscribe(
+         data =>{
+            console.log("remove module: " + data);
+            if(data !=null){
+               this.ngOnInit();///////////////////////
+            }
+         }
+      );
    }
 }

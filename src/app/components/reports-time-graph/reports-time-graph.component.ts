@@ -49,7 +49,7 @@ export class ReportsTimeGraphComponent implements OnInit {
   /** Line chart option to show the y axis label */
   showYAxisLabel = true;
   /** Declaring the y axis label */
-  yAxisLabel = 'Total Number of Content Records';
+  yAxisLabel = 'Total Content Records';
   /** Line chart option for timeline */
   timeline = true;
 

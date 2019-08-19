@@ -1,42 +1,62 @@
+<!-- 
+   This page functions to create a new module, simply by utilizing a single card with a
+   subejct input box and a "Submit Module" button which pings the backend using [(ngModel)]
+   in order to add a new instance of a module to a database. 
+  -->
 <div class="card">
 
-  <div class="container">
-     
-     <div class="col">
-        <div id="content">
-           <img src="/assets/img/logo.png"
-              alt="revature" class="logo">
-        </div>
+   <div class="container">
 
-        <form>
+      <div class="col">
+         <!-- Per usual, the Revature logo is displayed. -->
+         <div id="content">
+            <img src="/assets/img/logo.png" alt="revature" class="logo">
+         </div>
 
-           <div class="form-row mb-5">
-              <div class="col-1"></div>
+         <form>
 
-              <div class="col">
-                 <input [(ngModel)]="subject"
-                    required
-                    name="subject"
-                    type="text"
-                    class="form-control"
-                    placeholder="Subject"
-                    id="inputText"
-                    maxlength="254">
-              </div>
-              <div class="col-1"></div>
-           </div>
-           <div class="row btn mb-3">
-              <button type="button"
-                 class="btn btn-primary"
-                 id="submitButton"
-                 (click)="submit()" *ngIf="!this.isSubmitting">Submit Module</button>
-                 <mat-spinner [diameter]="30" *ngIf="this.isSubmitting"></mat-spinner>
-           </div>
+            <div class="form-row mb-5">
+               <div class="col-1"></div>
 
-        </form>
+               <!-- 
+                 Here is the actual input box. It is made to be required and works off of using
+                 two-way databinding using [(ngModel)]="subject" to call it in the .ts file
+               -->
+               <div class="col">
+                  <input [(ngModel)]="subject" 
+                  required 
+                  name="subject" 
+                  type="text" 
+                  class="form-control"
+                  placeholder="Subject" 
+                  id="inputText" 
+                  maxlength="254">
+               </div>
+               <div class="col-1"></div>
+            </div>
+            <!-- 
+               Here is the Submit Module button which is event binded using
+               (click)="submit()"
+             -->
+            <div class="row btn mb-3">
+               <button type="button" 
+               class="btn btn-primary" 
+               id="submitButton" 
+               (click)="submit()"
+               *ngIf="!this.isSubmitting">Submit Module</button>
 
-     </div>
+               <!-- 
+                  Using a directive tied to a boolean, *ngIf controls the appearance of 
+                  a spinner from bootstrap. 
+                -->
+               <mat-spinner [diameter]="30" 
+               *ngIf="this.isSubmitting"></mat-spinner>
+            </div>
 
-  </div>
+         </form>
+
+      </div>
+
+   </div>
 
 </div>
