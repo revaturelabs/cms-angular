@@ -15,4 +15,9 @@ describe('EndpointsService', () => {
     const service: EndpointsService = TestBed.get(EndpointsService);
     expect(service).toBeTruthy();
   });
+
+  it('', () => {
+    
+  })
+
 });
