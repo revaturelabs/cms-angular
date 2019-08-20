@@ -56,6 +56,14 @@ describe('ModuleStoreService', () => {
 
   }));
 
+
+  /**
+   * Note: the below test fails saying the expected url was undefined.
+   * Running both of these tests will make the second one fail, depending
+   * on which order you put them in the first will pass and the second will fail. 
+   * We were unable to resolve this issue 
+   */
+
   // it('loadEmptyModules should be working correctly', fakeAsync(() => {
   //   let response = {};
 
