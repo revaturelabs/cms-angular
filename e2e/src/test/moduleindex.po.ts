@@ -170,14 +170,14 @@ export class ModuleIndexPage {
             this.getModuleByIndex(module).element(by.css('.fa-trash')).click();
         } else if(typeof module === 'string') {
             await this.getModuleBySubject(module).then(function(subject) {
-                browser.sleep(750);
+                browser.sleep(1000);
                 subject.element(by.css('.fa-trash')).click();
             });
         } else if(typeof module === 'object' && module instanceof ElementFinder) {
             module.element(by.css('.fa-trash')).click();
         }
 
-        browser.sleep(750);
+        browser.sleep(1000);
         element(by.id("deleteModuleButton")).click();
     }
 
