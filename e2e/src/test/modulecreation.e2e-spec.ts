@@ -136,57 +136,69 @@ describe('workspace-project App', () => {
   });
   
   it('should search for content by name', async () => {
+    //search by entering the title
     findContent.clickAllRadio();
     expect(findContent.getCheckedRadioValue()).toEqual('All');
 
+    //loop through all the title we created
     for(let i = 0; i < 3; i++) {
       findContent.inputTitle(title[i])
       findContent.clickSearchButton();
+      // This time we used a new method, that additionally confirms that there was only a single result found
+      // in the search. If there is any amount other than 1 result, this method's internal expect will fail
+      // The last parameter is an optional parameter to add another tag via the plus button to the single content
+      // that was found
       expect(await findContent.confirmSingleContent(title[i], url[i], description[i], selectedSubjects[1])).toBeTruthy();
     }
   });
 
+
+  //clean up the mess... deleteing the modules and content that we created to complete the e2e test
   it('should go back to Module Index page again, and expends modules again, should have 3 content for "Module1" and "module2"', async () => {
+    //navigate back to the module index page
     moduleIndex.navigateTo();
     for(let i = 0; i < 2; i++) {
-      console.log("In module #" + (i + 1));
-      console.log("Confirming that getModuleBySubject works");
+      // Make sure that we are able to access specific rows of the page, by the name of the module
       expect( await moduleIndex.getModuleBySubject(selectedSubjects[i])).toBeDefined();
-      console.log("Confirmed...");
-      // await moduleIndex.clickModule(selectedSubjects[i]);
-      // browser.sleep(5000);
 
-      // For only the first module
       if(i == 0) {
-        console.log("Preparing to delete content from module.");
+        //deleting first content from the first module we created
         await moduleIndex.deleteContentFromModule(title[0], url[0], description[0], selectedSubjects[0]);
-        console.log("Deleted content from module...");
         browser.sleep(2000);
+        //go back to the content finder page
         findContent.navigateTo();
 
+        //this is checking that first tag/module is removed from the content with that title
         findContent.inputTitle(title[0]);
         findContent.clickAllRadio();
         findContent.clickSearchButton();
+        //make sure that in the module column, we have only one tag, which is not the first module we created
         findContent.confirmTagNotListed(selectedSubjects[0]);
         browser.sleep(2000);
+        //and then naviage to the module index page
         moduleIndex.navigateTo();
         browser.sleep(500);
       }
 
-      console.log("Deleting module");
-
+      // Delete both module
       await moduleIndex.deleteModule(selectedSubjects[i]);
-      console.log("Module deleted...");
     }
 
+    //go back to the content finder page
     findContent.navigateTo();
     
+    //now we can search by the flagged, because modules we created are removed
+    //so all the content should be flagged, if we created with these two modules
     for(let i = 0; i < 3; i++) {
+      //so, click on the flagged radio and click search button
       findContent.clickFlaggedRadio();
       await browser.sleep(1000);
       findContent.clickSearchButton();
+
+      //confirm that the content was listed
       expect(await findContent.confirmContentExists(title[i], url[i], description[i])).toBeTruthy();
 
+      //then delete the content overall
       await findContent.deleteContent(title[i], url[i], description[i]);
     }
 
