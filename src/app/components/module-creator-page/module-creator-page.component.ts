@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Module } from 'src/app/models/Module';
+import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { ModuleFetcherService } from 'src/app/services/module-fetcher.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -37,6 +38,17 @@ export class ModuleCreatorPageComponent implements OnInit {
 
    /**@ignore */
    ngOnInit() {
+   }
+
+   /**
+    * checks if the input field in the Module Creator is filled in
+    */
+
+   validInput(): boolean {
+      let cantBeNull = [this.subject];
+      if (cantBeNull.includes(null) || cantBeNull.includes(undefined)) return false;
+      if (this.subject.length == 0) return false;
+      return true;
    }
 
    /**
@@ -89,7 +101,7 @@ export class ModuleCreatorPageComponent implements OnInit {
     * Resets subject field by simply turning subject back into an empty string and making
     * isSubmitting false.
     */
-   private resetVariables() {
+   resetVariables() {
       this.subject = "";
       this.isSubmitting = false;
    }
