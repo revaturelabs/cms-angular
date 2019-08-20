@@ -1,32 +1,16 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../tsconfig.json",
   "compilerOptions": {
-<<<<<<< HEAD
-<<<<<<< HEAD:e2e/cfg/tsconfig.e2e.json
     "outDir": "../../out-tsc/app",
-=======
-    "outDir": "../dist/out-tsc-e2e",
->>>>>>> 3ac66958d1c691da07d881bcde3814d8a75a31a0:e2e/tsconfig.e2e.json
     "module": "commonjs",
     "target": "es6",
-=======
-    "outDir": "../../out-tsc/app",
-    "module": "commonjs",
-    "target": "es5",
->>>>>>> 4781321c9879cabad79aee25ac83587533676346
     "types": [
       "jasmine",
       "jasminewd2",
       "node"
-<<<<<<< HEAD
     ],
     "typeRoots": [
       "../node_modules/@types"
     ]
   }
  }
-=======
-    ]
-  }
-}
->>>>>>> 4781321c9879cabad79aee25ac83587533676346

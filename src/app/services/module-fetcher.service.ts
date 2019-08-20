@@ -5,7 +5,13 @@ import { HttpClient, HttpHeaderResponse, HttpHeaders } from '@angular/common/htt
 import { EndpointsService } from '../constants/endpoints.service';
 import { Cacheable, CacheBuster, globalCacheBusterNotifier } from 'ngx-cacheable';
 
-/** Manages Modules between Angular and back-end */
+/** 
+ * Manages Modules between Angular and spring-boot back-end. To do this, the 
+ * endpoints service is utilized to fetch the endpoints that need to be used. 
+ * With them in hand, an instance of HttpClient is used to use the required
+ * HttpMethod.  
+ */
+
 @Injectable({
    providedIn: 'root'
 })
@@ -43,8 +49,8 @@ export class ModuleFetcherService {
    getModuleByID(id: number): Observable<Module> {
       return this.http.get<Module>(this.endpoints.GET_MODULE_BY_ID.replace('${id}', id.toString()));
    }
-
-   /** used for debugging, loads Module[] from specified URL */
+   @Cacheable()
+   /** Used for debugging, loads Module[] from specified URL */
    getAllFakeModules(url: string): Observable<Module[]> {
       return this.http.get<Module[]>(url);
    }
@@ -56,7 +62,7 @@ export class ModuleFetcherService {
    
    createNewModule(module: Module): Observable<HttpHeaderResponse> {
       let body: string = JSON.stringify(module);
-      globalCacheBusterNotifier.next();
+      // globalCacheBusterNotifier.next();
       return this.http.post<HttpHeaderResponse>(this.endpoints.CREATE_NEW_MODULE, body, { headers: this.HEADERS });
    }
 

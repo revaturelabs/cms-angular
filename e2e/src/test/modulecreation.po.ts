@@ -7,8 +7,9 @@ export class ModuleCreatePage {
         this.subject = this.getSubjectInput();
     }
 
+    // Navigates site to module-creator location
     navigateTo() {
-        return browser.get(browser.baseUrl+"module-creator") as Promise<any>;
+        return browser.get(browser.baseUrl + "module-creator") as Promise<any>;
     }
 
     /**
@@ -40,22 +41,27 @@ export class ModuleCreatePage {
         return this.subject.getAttribute('value');
     }
 
+    // Used to fetch submit button
     private getSubmitButton() {
         return element(by.id("submitButton"));
     }
 
+    // Clicks submit button
     clickSubmitButton() {
         this.getSubmitButton().click();
     }
 
+    // Accepts toaster alert by waiting for the alert to pop up and testing if it is present
+    // , if so, clicks it
     acceptAlert() {
 
         browser.wait(() => element(by.css('.toast-message')).isPresent(), 5000, "Alert is not getting present :(");
-        
-        if(element(by.css('.toast-message')).isPresent())
-            element(by.css('.toast-message')).click();
-      }
 
+        if (element(by.css('.toast-message')).isPresent())
+            element(by.css('.toast-message')).click();
+    }
+
+    // Used to automatically refresh page upon being called
     refresh() {
         return browser.refresh();
     }

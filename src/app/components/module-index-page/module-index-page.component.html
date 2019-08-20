@@ -45,7 +45,7 @@
          -->
                 <div (click)="listContent(module)" name="module">
                     <!-- Flag behaves purely as an indicator, which if module.links is empty = flag -->
-                    <span class="fas fa-flag" *ngIf="module.links.length === 0" title="No Content"></span> {{module.subject}}
+                    <span class="fas fa-flag" *ngIf="checkFlag(module)" title="No Content"></span> {{module.subject}}
 
                     <!-- 
             This trash icon indicates a remove module button. This works off of logic 
@@ -86,7 +86,6 @@
                                             <th scope="col">URL</th>
                                         </tr>
                                     </thead>
-
                                     <!-- 
                     Here lies the data of each content to each associated module. To do this,
                     an *ngFor directive is utilized which takes each content in 
@@ -96,16 +95,16 @@
                                     <tbody>
                                         <tr *ngFor="let content of moduleContents.get(module)" [attr.id]="'row' + content.id">
                                             <!-- 
-                        The first data to exist for row in a table is a Remove Content button. 
-                        This works in the same way the remove button works in the content finder
-                        page. Using .ts logic and a Spring JDBC backend, one can delete the 
-                        content from the database, and hence the fron-end. When this button is 
-                        clicked, a data-target is used to call upon the deleteContent div using 
-                        data-target="#deleteContent", where deleteContent is a modal used to 
-                        create a pop up that asks for delete confirmation. 
-                        
-                        This is further explained below. 
-                       -->
+                    The first data to exist for row in a table is a Remove Content button. 
+                    This works in the same way the remove button works in the content finder
+                    page. Using .ts logic and a Spring JDBC backend, one can delete the 
+                    content from the database, and hence the fron-end. When this button is 
+                    clicked, a data-target is used to call upon the deleteContent div using 
+                    data-target="#deleteContent", where deleteContent is a modal used to 
+                    create a pop up that asks for delete confirmation. 
+                    
+                    This is further explained below. 
+                    -->
                                             <td name="trash">
                                                 <em title="Remove from module " (click)="selectedLinkForRemoval(content, module)" class="fas fa-trash" data-toggle="modal" data-target="#deleteContent" title="Remove Content from Module"></em>
                                             </td>
@@ -122,61 +121,65 @@
                         </div>
                     </form>
                 </div>
+            </div>
+        </form>
+    </div>
+</div>
 
-                <!-- 
+<!-- 
   Here is a pop up the occurs when deleting content. Simply put, this creates a pop
   up box, titled "Removing Content", and asks for confirmation of removal. To do this, 
   String Interpolation is used to say what subject is being deleted from what title, 
   and a button is used to confirm. 
  -->
-                <div id="deleteContent" class="modal fade" role="dialog">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title">Removing Content</h4>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-                            <div class="modal-body">
-                                <h6>Are you sure you want to delete {{selCon.title}} from {{selModule.subject}}?</h6>
-                                <div class="row btn mb-3">
-                                    <!-- 
+<div id="deleteContent" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Removing Content</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h6>Are you sure you want to remove {{selCon.title}} from {{selModule.subject}}?</h6>
+                <h6><small>This content will not be deleted, only removed for {{selModule.subject}}.</small></h6>
+                <div class="row btn mb-3">
+                    <!-- 
             Here is the confirm button which utilizes the removeContentFromModuleIndex() 
             function.
            -->
-                                    <button type="button" class="btn btn-primary" id="deleteContentButton" (click)="removeContentFromModuleIndex()" data-dismiss="modal">Confirm Removal</button>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
+                    <button type="button" class="btn btn-primary" id="deleteContentButton" (click)="removeContentFromModuleIndex()" data-dismiss="modal">Confirm Removal</button>
                 </div>
+            </div>
+        </div>
 
-                <!-- 
+    </div>
+</div>
+
+<!-- 
   Here is a pop up the occurs when deleting a module. Simply put, this creates a pop
   up box, titled "Removing Module", and asks for confirmation of removal. To do this, 
   String Interpolation is used to say what module is being deleted, 
   and a button is used to confirm.
  -->
-                <div id="deleteModule" class="modal fade" role="dialog">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title">Deleting Module</h4>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-                            <div class="modal-body">
-                                <h6>Are you sure you want to delete the {{selModule.subject}} module?</h6>
-                                <h6><small>Content within this module will not be deleted.</small></h6>
-                                <div class="row btn mb-3">
-                                    <!-- 
+<div id="deleteModule" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Deleting Module</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h6>Are you sure you want to delete the {{selModule.subject}} module?</h6>
+                <h6><small>Content within this module will not be deleted.</small></h6>
+                <div class="row btn mb-3">
+                    <!-- 
             Here is the confirm button which utilizes the removeContentFromModuleIndex() 
             function.
            -->
-                                    <button type="button" class="btn btn-primary" id="deleteModuleButton" (click)="removeModule()" data-dismiss="modal">Confirm Removal</button>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
+                    <button type="button" class="btn btn-primary" id="deleteModuleButton" (click)="removeModule()" data-dismiss="modal">Confirm Removal</button>
                 </div>
             </div>
+        </div>
+
+    </div>
+</div>

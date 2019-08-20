@@ -13,39 +13,25 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ContentCreatorPageComponent implements OnInit {
 
-   /**
-    * Each format string automatically generates button 
-    */
+   /** Each format string automatically generates button */
    readonly formats: string[] = ["Code", "Document", "Powerpoint"];
 
-   /**
-    * Title of content
-    */
+   /** Title of content */
    title: string;
 
-   /**
-    * Url of content
-    */
+   /** Url of content */
    url: string;
 
-   /**
-    * Used for radio selection for content (Ex. Powerpoint, code, etc)
-    */
+   /** Used for radio selection for content (Ex. Powerpoint, code, etc) */
    selFormat: string = "Code";
 
-   /**
-    * Description of content
-    */
+   /** Description of content */
    description: string;
 
-   /**
-    * Description - boolean to display a spinner for submitting in progress
-    */
+   /** Description - boolean to display a spinner for submitting in progress */
    isSubmitting: boolean = false;
 
-   /**
-    * Stores selected subjects
-    */
+   /** Stores selected subjects */
    selectedSubjects: string[] = [];  
 
    /**
@@ -60,17 +46,12 @@ export class ContentCreatorPageComponent implements OnInit {
       ) {
    }
 
-   /** On page initialization load the modules to list on the dropdown menu 
-   */
+   /** On page initialization load the modules to list on the dropdown menu */
    ngOnInit() {
       this.ms.loadModules();
    }
 
-
-
-   /**
-    * Check if the input fields are all valid - all filled in
-    */
+   /** Check if the input fields are all valid - i.e. all fields are filled in */
    validInput(): boolean {
       let cantBeNull = [this.title, this.selFormat, this.url, this.selectedSubjects.length];
 
@@ -85,24 +66,34 @@ export class ContentCreatorPageComponent implements OnInit {
     */
    submit() {
       this.isSubmitting = true;
+
+      //if the input was not valid display a toastr message and return
       if (!this.validInput()) {
          this.toastr.error('Please fill in all input fields!');
          this.isSubmitting = false;
          return;
+
+      //if the url was not a valid url display a toaster message and return
       } else if (!this.validURL(this.url)) {
          this.toastr.error('Invalid URL. e.g. "http://example.com", "ftp://www.example.com", "http://192.168.0.0"');
          this.isSubmitting = false;
          return;
       }
 
+      //If the input was valid continue
+
+      //create a content object with the data inputed by the user
       let content: Content = new Content(
          null, this.title, this.selFormat,
          this.description, this.url,
          this.getLinksFromSubjects(this.selectedSubjects));
 
+      //call the ContentFetcherService to create a new content
       this.cs.createNewContent(content).subscribe(
          (response) => {
             if (response != null) {
+
+               //on success, display a toastr message and reset the variables on this page
                this.toastr.success('Successfully sent content.');
                this.resetVariables();
             } else {
@@ -117,9 +108,7 @@ export class ContentCreatorPageComponent implements OnInit {
       )
    }
 
-   /**
-    * Clears the input fields after successful content submit
-    */
+   /** Clears the input fields after successful content submit */
    resetVariables() {
       this.title = null;
       this.url = null;

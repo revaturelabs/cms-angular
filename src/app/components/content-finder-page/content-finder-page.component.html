@@ -7,7 +7,7 @@
   <div class="container">
     <div class="col">
       <div id="content">
-        <img src="/assets/img/logo.png" alt="revature" class="logo">
+        <img src="/assets/img/logo.png" alt="revature" class="logo" id='logo'>
       </div>
     </div>
     <form>
@@ -103,7 +103,7 @@
                     class="badge badge-primary" style="color:black; font-size: 16px" id="{{DoThis(content.id,link.id)}}-{{ms.subjectIdToName.get(link.moduleId)}}">
                     {{ms.subjectIdToName.get(link.moduleId)}}
 
-                    <span data-toggle="modal" data-target="#deleteTag" title="Remove tag"
+                    <span data-toggle="modal" data-target="#deleteTag" title="Remove Module"
                       (click)="selectedLinkForRemoval(content, link)" class="fas fa-trash"
                       id="{{DoThis(content.id,link.id)}}{{'-trash'}}"></span>
                   </span>
