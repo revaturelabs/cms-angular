@@ -148,6 +148,7 @@ describe('workspace-project App', () => {
     
     for(let i = 0; i < 3; i++) {
       findContent.clickFlaggedRadio();
+      await browser.sleep(1000);
       findContent.clickSearchButton();
       expect(await findContent.confirmContentExists(title[i], url[i], description[i])).toBeTruthy();
 
