@@ -5,7 +5,7 @@ import { browser, logging } from 'protractor';
 import { ModuleIndexPage } from './moduleindex.po';
 
 describe('workspace-project App', () => {
-  let moduleCreate           : ModuleCreatePage;
+  let moduleCreate          : ModuleCreatePage;
   let selectedSubjects      : string[];
   let createContent         : AppPage;
   let title                 : string[] = [];
@@ -14,22 +14,33 @@ describe('workspace-project App', () => {
   let findContent           : SearchPage;
   let moduleIndex           : ModuleIndexPage;
 
+  //beforeAll will have the page ready to to test, in other words, the preparation
+  //that we need to perform this test
+  //in this case, we have to .....
   beforeAll(() => {
-    
+
+    //creating obejcts of pages that will involved in this test
     moduleCreate = new ModuleCreatePage();
     createContent = new AppPage();
     findContent = new SearchPage();
     moduleIndex = new ModuleIndexPage();
 
+    //subjects is an array consisted with two random strings
     selectedSubjects = [Math.random().toString(36).substring(7), Math.random().toString(36).substring(7)];
+
+    //naviagting to modulw creation page
     moduleCreate.navigateTo();
+
+    //creating two modules from the module creator page
     for (let i = 0; i < 2; i++) {
       //this will accept 2 subject inputs/modules
       moduleCreate.inputSubject(selectedSubjects[i]);
+      //make sure current value of the subject field in the DOM is equals to two modules created
       expect(moduleCreate.getSubjectValue()).toEqual(selectedSubjects[i]);
       //and then click the submit button
       browser.sleep(500);
       moduleCreate.clickSubmitButton();
+      //and the alert will say: Successfully sent module
       moduleCreate.acceptAlert();
     }
   });
@@ -39,13 +50,17 @@ describe('workspace-project App', () => {
   });
 
   it('should expand each modules in the Module Index page', () => {
-    
+
     //this navigate to module index page
     moduleIndex.navigateTo();
+
     //and expand each modules and show contents for the apporiate modules and flags for the empty ones
     for(let i = 0; i < 2; i++) {
+      //make sure that the module we created should be showed and we able to find it in the Module Index page
       expect(moduleIndex.getModuleBySubject(selectedSubjects[i])).toBeDefined();
+      //if the module is found click on those modules to expand the table
       moduleIndex.clickModule(selectedSubjects[i]);
+      //it should be able empty right now, and flagged
     }
     //the one with flag will have empty content, in this case two modules just created wil be flagged
   });
@@ -80,6 +95,7 @@ describe('workspace-project App', () => {
       browser.sleep(1000);
       //click the submit button to submit the content. should show alert of "Successfully sent content"
       createContent.clickSubmitButton();
+      //showing alert Successfully sent every time you created the content
       createContent.acceptAlert();
     }
 
@@ -94,19 +110,27 @@ describe('workspace-project App', () => {
       //the one with flag will have empty content
       //It will show 3 contents for the "Module1"
       expect(moduleIndex.getModuleBySubject(selectedSubjects[i])).toBeDefined();
+      //click on the modules to expande; should click on the two we just created
       moduleIndex.clickModule(selectedSubjects[i]);
     }
   });
 
   it('should search for content by tag', () => {
+    //navigate to the content finder page
     findContent.navigateTo();
+    //this will click on the radio button, where it is 'All', which will return all types of content
     findContent.clickAllRadio();
     expect(findContent.getCheckedRadioValue()).toEqual('All');
 
+    //enterSekectedSubjects is a funtion that takes a string
+    //In this case, it will be the first module we created
     findContent.enterSelectedSubjects([selectedSubjects[0]]);
+    //click on the Search button
     findContent.clickSearchButton();
 
     for(let i = 2; i >= 0; i--) {
+      //make sure that table is showed after clicking search button
+      //in other words: there will be content with tag (module just created) appear in the table
       expect(findContent.confirmContentExists(title[i], url[i], description[i])).toBeTruthy();
     }
   });
