@@ -444,9 +444,9 @@ export class SearchPage {
 
     expect(row).toBeDefined();
 
-    row.element(by.css("fa-trash")).click();
-    browser.sleep(500);
+    await row.element(by.css("fa-trash")).click();
+    await browser.sleep(2500);
 
-    element(by.id("confirmDeleteButton")).click();
+    await element(by.id("confirmDeleteButton")).click();
   }
 }

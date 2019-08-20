@@ -114,37 +114,42 @@ describe('workspace-project App', () => {
   it('should delete modules and content', async () => {
     moduleIndex.navigateTo();
     for(let i = 0; i < 2; i++) {
+      console.log("In module #" + (i + 1));
+      console.log("Confirming that getModuleBySubject works");
       expect( await moduleIndex.getModuleBySubject(selectedSubjects[i])).toBeDefined();
+      console.log("Confirmed...");
       // await moduleIndex.clickModule(selectedSubjects[i]);
       // browser.sleep(5000);
 
       // For only the first module
       if(i == 0) {
-        // await browser.getCurrentUrl().then(url => {
-        //   console.log(url);
-        // });
+        console.log("Preparing to delete content from module.");
         await moduleIndex.deleteContentFromModule(title[0], url[0], description[0], selectedSubjects[0]);
-        browser.sleep(1000);
+        console.log("Deleted content from module...");
+        browser.sleep(3000);
         findContent.navigateTo();
 
         findContent.inputTitle(title[0]);
         findContent.clickAllRadio();
         findContent.clickSearchButton();
         findContent.confirmTagNotListed(selectedSubjects[0]);
+        browser.sleep(3000);
         moduleIndex.navigateTo();
         browser.sleep(500);
       }
 
+      console.log("Deleting module");
+
       await moduleIndex.deleteModule(selectedSubjects[i]);
+      console.log("Module deleted...");
     }
 
     findContent.navigateTo();
-
-    findContent.clickFlaggedRadio();
-    findContent.clickSearchButton();
-
+    
     for(let i = 0; i < 3; i++) {
-      expect(findContent.confirmContentExists(title[i], url[i], description[i])).toBeTruthy();
+      findContent.clickFlaggedRadio();
+      findContent.clickSearchButton();
+      expect(await findContent.confirmContentExists(title[i], url[i], description[i])).toBeTruthy();
 
       await findContent.deleteContent(title[i], url[i], description[i]);
     }
