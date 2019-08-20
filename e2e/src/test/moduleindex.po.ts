@@ -84,14 +84,14 @@ export class ModuleIndexPage {
      */
     async clickModule(module: number | string | ElementFinder) {
         if(typeof module === 'number') {
-            this.getModuleByIndex(module).element(by.name("module")).click();
+            await this.getModuleByIndex(module).element(by.name("module")).click();
         } else if(typeof module === 'string') {
             browser.sleep(500);
-            await this.getModuleBySubject(module).then(function(subject) {
-                subject.element(by.name("module")).click();
+            await this.getModuleBySubject(module).then(async function(subject) {
+                await subject.element(by.name("module")).click();
             });
         } else if(typeof module === 'object' && module instanceof ElementFinder) {
-            module.element(by.name("module")).click();
+            await module.element(by.name("module")).click();
         }
     }
 
@@ -117,6 +117,7 @@ export class ModuleIndexPage {
 
         let row: ElementFinder;
         let rows: ElementArrayFinder = table.element(by.tagName("tbody")).all(by.tagName("tr"));
+        console.log("Rows is" + rows);
         await rows.count().then(async function(length) {
             console.log("Found " + length + " rows of content for the module.");
             for(let i = 0; i < length; i++) {
@@ -178,6 +179,8 @@ export class ModuleIndexPage {
 
         //await browser.sleep(500);
         await element(by.id("deleteModuleButton")).click();
+
+        this.modules = this.getModules();
     }
 
     async deleteContentFromModule(title: string, url: string, description: string, module: string) {

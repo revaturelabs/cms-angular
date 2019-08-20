@@ -92,8 +92,8 @@ export class ContentCreatorPageComponent implements OnInit {
       this.cs.createNewContent(content).subscribe(
          (response) => {
             if (response != null) {
-               
-               //on success display a toastr message and reset the variables on this page
+
+               //on success, display a toastr message and reset the variables on this page
                this.toastr.success('Successfully sent content.');
                this.resetVariables();
             } else {

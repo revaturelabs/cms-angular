@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 import { Module } from 'src/app/models/Module';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { ModuleFetcherService } from 'src/app/services/module-fetcher.service'
@@ -6,6 +6,8 @@ import { ContentFetcherService } from 'src/app/services/content-fetcher.service'
 import { Content } from 'src/app/models/Content';
 import { Filter } from 'src/app/models/Filter';
 import { ToastrService } from 'ngx-toastr';
+import { PagesService } from 'src/app/services/pages.service';
+import { globalCacheBusterNotifier } from 'ngx-cacheable';
 
 /** Typescript Component for Module Index Page */
 @Component({
@@ -48,7 +50,8 @@ export class ModuleIndexPageComponent implements OnInit {
       private cs: ContentFetcherService,
       public ms: ModuleStoreService,
       private toastr: ToastrService,
-      private mfs: ModuleFetcherService
+      private mfs: ModuleFetcherService,
+      private pageService: PagesService
    ) { }
 
    /** On page initialization load the modules to list on the dropdown menu */
@@ -78,7 +81,7 @@ export class ModuleIndexPageComponent implements OnInit {
             },
             (response) => {
                this.toastr.error('Failed to request contents');
-               
+
             },
             () => { this.contentVisible.set(module, true); }
          )
@@ -110,6 +113,7 @@ export class ModuleIndexPageComponent implements OnInit {
     * @param module - the module the content is being removed from
     */
    removeContentFromModuleIndex() {
+      globalCacheBusterNotifier.next();
       let found = this.selCon.links.findIndex(l => this.selModule.id === l.moduleId);
       this.selCon.links.splice(found, 1);
 
@@ -117,11 +121,13 @@ export class ModuleIndexPageComponent implements OnInit {
       this.moduleContents.get(this.selModule).splice(foundContent, 1);
 
       this.cs.updateContentByContent(this.selCon).subscribe(
-         data =>{
-            console.log(data);
-            if(data !=null){
-               this.ngOnInit();///////////////////////
-            }
+         /**
+          * Below is used to refresh this component when content has been removed from a module
+          */
+         data => {
+               if (data != null) {
+                     this.ngOnInit();
+               }
          }
       );
    }
@@ -135,18 +141,38 @@ export class ModuleIndexPageComponent implements OnInit {
       this.selModule = module;
    }
 
+   /** 
+      This method checks whether the flag should be displayed for the current module.
+      @param module - the module that is selected.
+   */
+   checkFlag(module: Module) {
+      if (module.links.length === 0) {
+         return true;
+      }
+      else {
+         return false;
+      }
+   }
+
+   /**
+    * 
+    * @param module 
+    */
    selectedModuleForRemoval(module: Module) {
       this.selModule = module;
    }
 
    removeModule() {
       this.mfs.deleteModuleByID(this.selModule.id).subscribe(
-         data =>{
-            console.log("remove module: " + data);
-            if(data !=null){
-               this.ngOnInit();///////////////////////
+         /**
+          * Below is used to refresh this component when a module has been removed
+          */
+         data => {
+            if (data != null) {
+               this.ngOnInit();
             }
          }
       );
    }
+
 }

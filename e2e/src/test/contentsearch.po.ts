@@ -444,6 +444,7 @@ export class SearchPage {
 
     expect(row).toBeDefined();
 
+    //await browser.sleep(1000);
     await row.element(by.name("trash")).element(by.css(".fa-trash")).click();
     await browser.sleep(2500);
 
