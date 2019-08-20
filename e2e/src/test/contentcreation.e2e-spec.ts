@@ -126,14 +126,14 @@ describe('workspace-project App', () => {
         console.log("Preparing to delete content from module.");
         await moduleIndex.deleteContentFromModule(title[0], url[0], description[0], selectedSubjects[0]);
         console.log("Deleted content from module...");
-        browser.sleep(3000);
+        browser.sleep(2000);
         findContent.navigateTo();
 
         findContent.inputTitle(title[0]);
         findContent.clickAllRadio();
         findContent.clickSearchButton();
         findContent.confirmTagNotListed(selectedSubjects[0]);
-        browser.sleep(3000);
+        browser.sleep(2000);
         moduleIndex.navigateTo();
         browser.sleep(500);
       }

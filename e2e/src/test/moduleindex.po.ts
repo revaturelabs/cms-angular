@@ -176,7 +176,7 @@ export class ModuleIndexPage {
             await module.element(by.css('.fa-trash')).click();
         }
 
-        await browser.sleep(5000);
+        //await browser.sleep(500);
         await element(by.id("deleteModuleButton")).click();
     }
 
