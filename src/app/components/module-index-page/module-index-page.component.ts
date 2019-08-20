@@ -26,18 +26,17 @@ export class ModuleIndexPageComponent implements OnInit {
     * Variable that will reference selected content for removal. Pre-initialized as it would 
     * cause errors upon loading the component.
     */
-   //Note that this needs defualt values so the bindings {{}} in html will work on page load
+   //Note that this needs defualt values so the bindings {{ }} in html will work on page load
    selCon: Content = new Content(0, "", "", "", "", []);
 
    /**
-    * Variable that will reference the module of the selected content for removal. Pre-initialized as it would cause errors upon loading the component.
+    * Variable that will reference the module of the selected content for removal. 
+    * Pre-initialized as it would cause errors upon loading the component.
     */
-   //Note that this needs defualt values so the bindings {{}} in html will work on page load
+   //Note that this needs defualt values so the bindings {{ }} in html will work on page load
    selModule: Module = new Module(0, "", 0, []);
 
-   /**
-    * Used to display a spinner when modules are loading.
-    */
+   /** Used to display a spinner when modules are loading.*/
    isLoading: boolean = false;
 
    /**
@@ -52,8 +51,7 @@ export class ModuleIndexPageComponent implements OnInit {
       private mfs: ModuleFetcherService
    ) { }
 
-   /** On page initialization load the modules to list on the dropdown menu
-    */
+   /** On page initialization load the modules to list on the dropdown menu */
    ngOnInit() {
       this.ms.loadModules();
    }
@@ -95,7 +93,7 @@ export class ModuleIndexPageComponent implements OnInit {
     * Sort the content list order by title
     * Insert into Module->List<Content> Map
     * @param response Available content
-    * @param module Tags/modules for content
+    * @param module Modules for content
     */
    parseContentResponse(response: Content[], module: Module) {
 

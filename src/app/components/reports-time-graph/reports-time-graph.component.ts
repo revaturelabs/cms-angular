@@ -105,7 +105,7 @@ export class ReportsTimeGraphComponent implements OnInit {
 
   /**
    * Method to set the graph's displaying data to match the timeGraphData variable
-   * @param timeRange 
+   * @param timeRange Search by 'Past Month', 'Past Six Months' or 'Past Year'
    */
   setGraphResults(timeRange: number) {
 
@@ -117,6 +117,7 @@ export class ReportsTimeGraphComponent implements OnInit {
     else
       this.selectedView = "Past Year";
     
+    //if there is no data to display return an empty array to display
     if (this.timeGraphData.returnedLongs.length === 0) {
       this.graphResults = [
         {
@@ -132,39 +133,39 @@ export class ReportsTimeGraphComponent implements OnInit {
     let total = this.timeGraphData.numContents;
     let startTime = this.requestTime - timeRange;
 
+    //loops through all data returned
     for (let datum of this.timeGraphData.returnedLongs) {
-
       total++;
-
+      
+      //if the data is in the selected timeframe
       if (datum > startTime) {
 
+        //if the data was created in the current day
         if ((datum - this.MILLIS_PER_DAY) > currentDay) {
-          
           currentDay = Math.floor(datum / this.MILLIS_PER_DAY) * this.MILLIS_PER_DAY;
           dataEntries.push({
             name: new Date(currentDay),
             value: total
           })
-
         } else {
-
           dataEntries[dataEntries.length - 1].value = total;
         }
-
       }
     }
 
+    //set the graph results to the returned content in the correct timeframe
     this.graphResults = [
       {
         name: 'content',
         series: dataEntries
       }
     ]
+    
   }
 
 /**
  * Method to resize the window
- * @param event 
+ * @param event on window resize
  */
   @HostListener('window:resize', ['$event'])
   onResize(event) {

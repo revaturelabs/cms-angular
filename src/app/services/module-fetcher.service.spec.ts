@@ -20,19 +20,30 @@ describe('ModuleFetcherService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [ModuleFetcherService]
+      imports: [
+        HttpClientTestingModule
+      ],
+      providers: [
+        ModuleFetcherService
+      ]
     });
+
     service = TestBed.get(ModuleFetcherService);
     httpTestingController = TestBed.get(HttpTestingController);
-
     baseURL = environment.cms_url;
+
+  });
+
+  afterEach(() => {
+    httpTestingController.verify();
+    
   });
 
   // Initial test for service creation
   it('should be created', () => {
     const service: ModuleFetcherService = TestBed.get(ModuleFetcherService);
     expect(service).toBeTruthy();
+
   });
 
   // Using mocking, this should return an Observable<Module[]>
@@ -68,9 +79,8 @@ describe('ModuleFetcherService', () => {
     expect(req.request.method).toEqual("GET");
     req.flush(response);
     tick();
-    httpTestingController.verify();
-  })
-  );
+
+  }));
 
   // A similar process as above is used to retrieve an
   // Observable from getById
@@ -98,7 +108,7 @@ describe('ModuleFetcherService', () => {
     expect(req.request.method).toEqual("GET");
     req.flush(response);
     tick();
-    httpTestingController.verify();
+
   }));
 
   // Similar mocking done for createNewModule()
@@ -115,10 +125,10 @@ describe('ModuleFetcherService', () => {
         }
       ]
     };
-
     let links: Link[] = [];
     let input: Module = new Module(null, "CSS", null, links)
     let output: HttpHeaderResponse;
+
     service.createNewModule(input).subscribe(
       response => {
         output = response;
@@ -128,18 +138,18 @@ describe('ModuleFetcherService', () => {
     expect(req.request.method).toEqual("POST");
     req.flush(response);
     tick();
-    httpTestingController.verify();
-  })
-  );
 
+  }));
+
+  //Used to mock delete a module by id
   it('should return an Observable<Module> delete by id', fakeAsync(() => {
     let url: string = baseURL + '/module/5'
     let response = {
       resaultCount: 0,
       response: []
     };
-
     let output: HttpHeaderResponse;
+
     service.deleteModuleByID(5).subscribe(
       response => {
         output = response;
@@ -149,9 +159,8 @@ describe('ModuleFetcherService', () => {
     expect(req.request.method).toEqual("DELETE");
     req.flush(response);
     tick();
-    httpTestingController.verify();
-  })
-  );
+
+  }));
 
   // A getAllFakeData method is needed in the project, so mocking is needed
   // once again.
@@ -168,8 +177,8 @@ describe('ModuleFetcherService', () => {
         }
       ]
     };
-
     let output: Module[];
+    
     service.getAllFakeModules(url).subscribe(
       response => {
         output = response;
@@ -179,8 +188,7 @@ describe('ModuleFetcherService', () => {
     expect(req.request.method).toEqual("GET");
     req.flush(response);
     tick();
-    httpTestingController.verify();
-  })
-  );
+
+  }));
 
 });

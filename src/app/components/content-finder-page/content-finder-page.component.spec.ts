@@ -23,7 +23,6 @@ describe('ContentFinderPageComponent', () => {
         HttpClientTestingModule,
         ToastrModule.forRoot(),
       ]
-
     })
     .compileComponents();
   }));
@@ -89,21 +88,12 @@ describe('ContentFinderPageComponent', () => {
 
   // Now test methods
 
-  // Reset Function
+  // Test the Reset Function
   it('Should reset page to empty string Title, "Code" string selFormat, and empty array', () => {
     component.reset();
     expect(component.title).toEqual('')
     expect(component.selFormat).toEqual('Code')
     expect(component.selectedSubjects).toEqual([])
-
   })
-
-  // // notEmpty() Function, needs mocking
-  // it('Should give a boolean to indicate whether the resulting query of content is empty or not',
-  // () => {
-  //   expect(component.notEmpty()).toBeFalsy();
-  // })
-
-
 
 });

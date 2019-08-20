@@ -25,10 +25,8 @@ describe('ModuleCreatorPageComponent', () => {
         MatProgressSpinnerModule,
         HttpClientTestingModule,
         ToastrModule.forRoot()
-        
       ]
-    })
-    .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -76,7 +74,5 @@ describe('ModuleCreatorPageComponent', () => {
     expect(component.subject.length).toEqual(0);
     expect(component.isSubmitting).toBeFalsy();
   })
-
-  
 
 });

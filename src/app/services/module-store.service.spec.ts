@@ -27,12 +27,15 @@ describe('ModuleStoreService', () => {
 
   afterEach(() => {
     httpTestingController.verify();
+
   });
 
   // First test that the service is created
   it('should be created', () => {
     const service: ModuleStoreService = TestBed.get(ModuleStoreService);
+
     expect(service).toBeTruthy();
+    
   });
 
   // Next we test the methods that ping our deployed backend 
@@ -50,6 +53,7 @@ describe('ModuleStoreService', () => {
     expect(req.request.method).toEqual('GET');
     req.flush(response);
     tick();
+
   }));
 
   it('loadEmptyModules should be working correctly', fakeAsync(() => {
@@ -60,16 +64,7 @@ describe('ModuleStoreService', () => {
     expect(req.request.method).toEqual('GET');
     req.flush(response);
     tick();
-  }));
-
-  // it('populateCollections should be working properly', fakeAsync(() => {
-  //   let response = {};
-  //   let modules: Module[] = [];
-
-  //   service.populateCollections(modules);
     
-  //   expect(service.populateCollections.length).toEqual(0);
-   
-  // }));
+  }));
 
 });
