@@ -166,23 +166,21 @@ export class ModuleIndexPage {
 
     async deleteModule(module: number | string | ElementFinder) {
         if(typeof module === 'number') {
-            this.getModuleByIndex(module).element(by.css('.fa-trash')).click();
+            await this.getModuleByIndex(module).element(by.css('.fa-trash')).click();
         } else if(typeof module === 'string') {
-            await this.getModuleBySubject(module).then(function(subject) {
-                browser.sleep(750);
-                subject.element(by.css('.fa-trash')).click();
+            await this.getModuleBySubject(module).then(async function(subject) {
+                // await browser.sleep(2750);
+                await subject.element(by.css('.fa-trash')).click();
             });
         } else if(typeof module === 'object' && module instanceof ElementFinder) {
-            module.element(by.css('.fa-trash')).click();
+            await module.element(by.css('.fa-trash')).click();
         }
 
-        browser.sleep(750);
-        element(by.id("deleteModuleButton")).click();
+        //await browser.sleep(500);
+        await element(by.id("deleteModuleButton")).click();
     }
 
     async deleteContentFromModule(title: string, url: string, description: string, module: string) {
-        // this.clickModule(module);
-        // browser.sleep(3000);
         let row: ElementFinder = await this.getRowOfContent(title, url, description, module);
 
         expect(row).toBeDefined();
@@ -197,10 +195,12 @@ export class ModuleIndexPage {
         // });
 
         // browser.sleep(3000);
-        row.element(by.name("trash")).element(by.css(".fa-trash")).click();
+        await row.element(by.name("trash")).element(by.css(".fa-trash")).click();
 
-        browser.sleep(500);
-        element(by.id("deleteContentButton")).click();
+        await browser.sleep(2000);
+        await element(by.id("deleteContentButton")).click();
+        await browser.sleep(2000);
+        this.modules = this.getModules();
     }
 
     /**
