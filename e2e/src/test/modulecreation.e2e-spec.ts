@@ -111,55 +111,59 @@ describe('workspace-project App', () => {
     }
   });
   
-  it('should search for content by name', () => {
+  it('should search for content by name', async () => {
     findContent.clickAllRadio();
     expect(findContent.getCheckedRadioValue()).toEqual('All');
 
     for(let i = 0; i < 3; i++) {
       findContent.inputTitle(title[i])
       findContent.clickSearchButton();
-      expect(findContent.confirmSingleContent(title[i], url[i], description[i], selectedSubjects[1])).toBeTruthy();
+      expect(await findContent.confirmSingleContent(title[i], url[i], description[i], selectedSubjects[1])).toBeTruthy();
     }
   });
 
-  it('should go back to Module Index page again, and expends modules again, should have 3 content for "Module1" and "module2"', () => {
+  it('should go back to Module Index page again, and expends modules again, should have 3 content for "Module1" and "module2"', async () => {
     
-    //this navigate back to module index page
     moduleIndex.navigateTo();
-    //and expand each modules and show contents for the apporiate modules and flags for the empty ones
     for(let i = 0; i < 2; i++) {
-      //the one with flag will have empty content
-      //It will show 3 contents for the "Module1"
-      expect(moduleIndex.getModuleBySubject(selectedSubjects[i])).toBeDefined();
-      moduleIndex.clickModule(selectedSubjects[i]);
+      console.log("In module #" + (i + 1));
+      console.log("Confirming that getModuleBySubject works");
+      expect( await moduleIndex.getModuleBySubject(selectedSubjects[i])).toBeDefined();
+      console.log("Confirmed...");
+      // await moduleIndex.clickModule(selectedSubjects[i]);
+      // browser.sleep(5000);
 
+      // For only the first module
       if(i == 0) {
-        for (let j = 0; j < 3; j++){
-          moduleIndex.deleteContentFromModule(title[j], url[j], description[j], selectedSubjects[0]);
-        }
-        
+        console.log("Preparing to delete content from module.");
+        await moduleIndex.deleteContentFromModule(title[0], url[0], description[0], selectedSubjects[0]);
+        console.log("Deleted content from module...");
+        browser.sleep(2000);
         findContent.navigateTo();
 
         findContent.inputTitle(title[0]);
         findContent.clickAllRadio();
         findContent.clickSearchButton();
         findContent.confirmTagNotListed(selectedSubjects[0]);
-        
+        browser.sleep(2000);
         moduleIndex.navigateTo();
+        browser.sleep(500);
       }
 
-      moduleIndex.deleteModule(selectedSubjects[i]);
+      console.log("Deleting module");
+
+      await moduleIndex.deleteModule(selectedSubjects[i]);
+      console.log("Module deleted...");
     }
 
     findContent.navigateTo();
-
-    findContent.clickFlaggedRadio();
-    findContent.clickSearchButton();
-
+    
     for(let i = 0; i < 3; i++) {
-      expect(findContent.confirmContentExists(title[i], url[i], description[i])).toBeTruthy();
+      findContent.clickFlaggedRadio();
+      findContent.clickSearchButton();
+      expect(await findContent.confirmContentExists(title[i], url[i], description[i])).toBeTruthy();
 
-      findContent.deleteContent(title[i], url[i], description[i]);
+      await findContent.deleteContent(title[i], url[i], description[i]);
     }
   });
 
