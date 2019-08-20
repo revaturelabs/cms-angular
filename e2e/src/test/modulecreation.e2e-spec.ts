@@ -123,7 +123,6 @@ describe('workspace-project App', () => {
   });
 
   it('should go back to Module Index page again, and expends modules again, should have 3 content for "Module1" and "module2"', async () => {
-    
     moduleIndex.navigateTo();
     for(let i = 0; i < 2; i++) {
       console.log("In module #" + (i + 1));
@@ -165,6 +164,7 @@ describe('workspace-project App', () => {
 
       await findContent.deleteContent(title[i], url[i], description[i]);
     }
+
   });
 
 
