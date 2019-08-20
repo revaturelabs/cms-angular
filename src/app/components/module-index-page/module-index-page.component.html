@@ -43,9 +43,9 @@
           module is empty and has a title of No Content. Also included is the module's name
           as well as a delete button. 
          -->
-                <div (click)="listContent(module)" name="module">
+                <div (click)="listContent(module)">
                     <!-- Flag behaves purely as an indicator, which if module.links is empty = flag -->
-                    <span class="fas fa-flag" *ngIf="module.links.length === 0" title="No Content"></span> {{module.subject}}
+                    <span class="fas fa-flag" *ngIf="checkFlag(module)" title="No Content"></span> {{module.subject}}
 
                     <!-- 
             This trash icon indicates a remove module button. This works off of logic 
@@ -69,7 +69,6 @@
           Finder page. 
          -->
                 <div *ngIf="contentVisible.get(module)">
-
                     <!-- Start of form to show dynamic table. -->
                     <form>
                         <div class="form-row mb-5">
@@ -128,7 +127,7 @@
     </div>
 </div>
 
-<!-- 
+    <!-- 
   Here is a pop up the occurs when deleting content. Simply put, this creates a pop
   up box, titled "Removing Content", and asks for confirmation of removal. To do this, 
   String Interpolation is used to say what subject is being deleted from what title, 
@@ -156,7 +155,7 @@
     </div>
 </div>
 
-<!-- 
+    <!-- 
   Here is a pop up the occurs when deleting a module. Simply put, this creates a pop
   up box, titled "Removing Module", and asks for confirmation of removal. To do this, 
   String Interpolation is used to say what module is being deleted, 

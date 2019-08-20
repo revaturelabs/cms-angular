@@ -30,7 +30,7 @@
     "@types/jasminewd2": "^2.0.6",
     "async": "^3.1.0",
     "ngx-cacheable": "^1.2.5",
-    "ngx-toastr": "^10.0.4",
+    "ngx-toastr": "^10.1.0",
     "rxjs": "~6.5.2",
     "webdriver-manager": "^12.1.6",
     "zone.js": "~0.9.1"

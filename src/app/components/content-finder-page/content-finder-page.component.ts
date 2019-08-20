@@ -46,7 +46,7 @@ export class ContentFinderPageComponent implements OnInit {
     */
    moduleIDs: number[];
 
-   
+
    /** Map of Visibility status of each Module */
    contentVisible: Map<Module, boolean> = new Map<Module, boolean>();
 
@@ -96,7 +96,7 @@ export class ContentFinderPageComponent implements OnInit {
       private cs: ContentFetcherService,
       public ms: ModuleStoreService,
       private toastr: ToastrService
-      ) { }
+   ) { }
 
    /**
     * On page initialization load the modules to list on the dropdown menu 
@@ -171,8 +171,8 @@ export class ContentFinderPageComponent implements OnInit {
       * Filter the contents by content with no links (not attached to a modules) 
       * if 'flagged' is the selected format
       */
-      if( this.selFormat === "Flagged"){
-         this.contents = this.contents.filter(function(flaggedContent){
+      if (this.selFormat === "Flagged") {
+         this.contents = this.contents.filter(function (flaggedContent) {
             return flaggedContent.links.length === 0;
          });
       }
@@ -216,7 +216,7 @@ export class ContentFinderPageComponent implements OnInit {
          }, this
       )
    }
-   
+
    /**
     * Description - This method deletes a link between a content and a module
     */
@@ -264,11 +264,11 @@ export class ContentFinderPageComponent implements OnInit {
    }
 
 
-/**
- * Description - Adds tags to a specific content
- * Grabs the inputted tags and pushes them into the content.links array
- * Then sends a request to the database to update the content.
- */
+   /**
+    * Description - Adds tags to a specific content
+    * Grabs the inputted tags and pushes them into the content.links array
+    * Then sends a request to the database to update the content.
+    */
    updateTags() {
       let links = [];
       if (this.selectedTags.length > 0) {
@@ -281,7 +281,7 @@ export class ContentFinderPageComponent implements OnInit {
          for (let l of links) {
             this.selCon.links.push(l);
          }
-         
+
          this.cs.updateContentByContent(this.selCon).subscribe((response: Content) => {
             this.selCon.links = response.links;
          });
@@ -298,14 +298,15 @@ export class ContentFinderPageComponent implements OnInit {
       this.selCon = content;
    }
 
-
-   /**
-    * This function is simply used to refresh the page when an action is done.
-    */
-   removeContent(){
+   removeContent() {
       this.cs.deleteContentByID(this.selCon.id).subscribe(
+         /**
+          * Below is used to refresh this component when a module has been removed 
+          */
          data => {
-               window.location.reload();
+            if (data != null) {
+               this.ngOnInit();
+            }
          }
       );
    }
