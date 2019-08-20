@@ -18,17 +18,21 @@ describe('ContentFetcherService', () => {
       imports: [HttpClientTestingModule],
       providers: [ContentFetcherService]
     });
+    
     service = TestBed.get(ContentFetcherService);
     httpTestingController = TestBed.get(HttpTestingController);
+
   });
 
   afterEach(() => {
     httpTestingController.verify();
+
   });
 
   // Tests creation of fetcher
   it('should be created', () => {
     expect(service).toBeTruthy();
+
   });
 
   // Here begins testing of methods in .ts file
@@ -56,11 +60,9 @@ describe('ContentFetcherService', () => {
 
   }));
 
-
   // Similar work is done using getContentById. Must be mocked
   it('getContentByID is working', fakeAsync(() => {
     let response = {};
-
 
     service.getContentByID(1).subscribe(
       (receivedResponse: any) => { },
@@ -105,7 +107,6 @@ describe('ContentFetcherService', () => {
 
   }));
 
-
   // Test for failure of updateContentByContent(content)
   it('updateContentByContent is working', fakeAsync(() => {
     let response = {};
@@ -141,6 +142,7 @@ describe('ContentFetcherService', () => {
   // Test to deleteContentByID
   it('deleteContentByID is working', fakeAsync(() => {
     let response = {};
+
     service.deleteContentByID(1).subscribe(
       (receivedResponse: any) => { },
       (error: any) => { }
@@ -156,6 +158,7 @@ describe('ContentFetcherService', () => {
   it('filterContent is working', fakeAsync(() => {
     let response = {};
     let filter: Filter = new Filter(null, null, null);
+    
     service.filterContent(filter).subscribe(
       (receivedResponse: any) => { },
       (error: any) => { }
@@ -166,6 +169,5 @@ describe('ContentFetcherService', () => {
     tick();
 
   }));
-
 
 });

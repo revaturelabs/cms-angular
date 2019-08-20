@@ -86,8 +86,7 @@
                                             <th scope="col">URL</th>
                                         </tr>
                                     </thead>
-
-                                    <!-- 
+                    <!-- 
                     Here lies the data of each content to each associated module. To do this,
                     an *ngFor directive is utilized which takes each content in 
                     moduleContents.get(module) and displayes the data in each by using String
@@ -95,17 +94,17 @@
                    -->
                                     <tbody>
                                         <tr *ngFor="let content of moduleContents.get(module)" [attr.id]="'row' + content.id">
-                                            <!-- 
-                        The first data to exist for row in a table is a Remove Content button. 
-                        This works in the same way the remove button works in the content finder
-                        page. Using .ts logic and a Spring JDBC backend, one can delete the 
-                        content from the database, and hence the fron-end. When this button is 
-                        clicked, a data-target is used to call upon the deleteContent div using 
-                        data-target="#deleteContent", where deleteContent is a modal used to 
-                        create a pop up that asks for delete confirmation. 
-                        
-                        This is further explained below. 
-                       -->
+                    <!-- 
+                    The first data to exist for row in a table is a Remove Content button. 
+                    This works in the same way the remove button works in the content finder
+                    page. Using .ts logic and a Spring JDBC backend, one can delete the 
+                    content from the database, and hence the fron-end. When this button is 
+                    clicked, a data-target is used to call upon the deleteContent div using 
+                    data-target="#deleteContent", where deleteContent is a modal used to 
+                    create a pop up that asks for delete confirmation. 
+                    
+                    This is further explained below. 
+                    -->
                                             <td name="trash">
                                                 <em title="Remove from module " (click)="selectedLinkForRemoval(content, module)" class="fas fa-trash" data-toggle="modal" data-target="#deleteContent" title="Remove Content from Module"></em>
                                             </td>
@@ -141,7 +140,8 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <h6>Are you sure you want to delete {{selCon.title}} from {{selModule.subject}}?</h6>
+                <h6>Are you sure you want to remove {{selCon.title}} from {{selModule.subject}}?</h6>
+                <h6><small>This content will not be deleted, only removed for {{selModule.subject}}.</small></h6>
                 <div class="row btn mb-3">
                     <!-- 
             Here is the confirm button which utilizes the removeContentFromModuleIndex() 
@@ -172,7 +172,7 @@
                 <h6>Are you sure you want to delete the {{selModule.subject}} module?</h6>
                 <h6><small>Content within this module will not be deleted.</small></h6>
                 <div class="row btn mb-3">
-                    <!-- 
+           <!-- 
             Here is the confirm button which utilizes the removeContentFromModuleIndex() 
             function.
            -->

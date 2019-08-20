@@ -13,29 +13,13 @@ import { Link } from 'src/app/models/Link';
 
 import { ContentCreatorPageComponent } from './content-creator-page.component';
 
-// class MockedContentCreatorPageComponent extends ContentCreatorPageComponent {
-//   // For mocking purposes
-//   getLinksFromSubjects(subjects: string[]): Link[] {
-//     let links = [];
-//     subjects.forEach(
-//       (subject) => {
-//         links.push(new Link(null, null,
-//           Math.floor((Math.random() * 10) + 1), null));
-//       }, this
-//     )
-//     return links;
-//   }
-// }
-
 describe('ContentCreatorPageComponent', () => {
   let component: ContentCreatorPageComponent;
   let fixture: ComponentFixture<ContentCreatorPageComponent>;
   let content: Content;
   let links: Link[];
 
-
   beforeEach(async(() => {
-
     TestBed.configureTestingModule({
       declarations: [ContentCreatorPageComponent],
       imports: [
@@ -47,9 +31,7 @@ describe('ContentCreatorPageComponent', () => {
         ToastrModule.forRoot(),
       ]
     })
-      .compileComponents();
-
-
+    .compileComponents();
   }));
 
   beforeEach(() => {

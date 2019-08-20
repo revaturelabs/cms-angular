@@ -27,12 +27,15 @@ describe('ModuleStoreService', () => {
 
   afterEach(() => {
     httpTestingController.verify();
+
   });
 
   // First test that the service is created
   it('should be created', () => {
     const service: ModuleStoreService = TestBed.get(ModuleStoreService);
+
     expect(service).toBeTruthy();
+    
   });
 
   // Next we test the methods that ping our deployed backend 
@@ -50,7 +53,16 @@ describe('ModuleStoreService', () => {
     expect(req.request.method).toEqual('GET');
     req.flush(response);
     tick();
+
   }));
+
+
+  /**
+   * Note: the below test fails saying the expected url was undefined.
+   * Running both of these tests will make the second one fail, depending
+   * on which order you put them in the first will pass and the second will fail. 
+   * We were unable to resolve this issue 
+   */
 
   // it('loadEmptyModules should be working correctly', fakeAsync(() => {
   //   let response = {};
@@ -60,16 +72,7 @@ describe('ModuleStoreService', () => {
   //   expect(req.request.method).toEqual('GET');
   //   req.flush(response);
   //   tick();
-  // }));
-
-  // it('populateCollections should be working properly', fakeAsync(() => {
-  //   let response = {};
-  //   let modules: Module[] = [];
-
-  //   service.populateCollections(modules);
     
-  //   expect(service.populateCollections.length).toEqual(0);
-   
   // }));
 
 });

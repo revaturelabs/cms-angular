@@ -18,23 +18,35 @@ describe('ReportsService', () => {
       HttpClientTestingModule,
       ToastrModule.forRoot()
     ],
-    providers: [GlobalReports, ReportsService]
+    providers: [
+      GlobalReports, 
+      ReportsService
+    ]
     });
+
     service = TestBed.get(ReportsService);
     httpTestingController = TestBed.get(HttpTestingController);
-  
     baseURL = environment.cms_url;
+
   });
 
   afterEach(() => {
     httpTestingController.verify();
+
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
+
   });
 
-
-
+  /**
+   * There was an attempt to test the getMetrics() method here, however we were unable
+   * to figure out how to define reportsPage.updateMetrics() and reportsTimeGraph.updateGraph()
+   * in this spec.ts file. When running a test on that method it would fail saying reportsPage and 
+   * reportsTimeGraph were undefined. We unfortunately were unable to properly test this function in 
+   * the time we had. 
+   */
+  
 
 });

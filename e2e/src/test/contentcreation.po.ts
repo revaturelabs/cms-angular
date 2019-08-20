@@ -1,6 +1,7 @@
 import { browser, by, element, ElementFinder, protractor } from 'protractor';
 
 export class AppPage {
+    // Needed variables
     private title                : ElementFinder;
     private url                  : ElementFinder;
     private selectedSubjects     : ElementFinder;
@@ -12,6 +13,7 @@ export class AppPage {
     private allRadio             : ElementFinder;
 
     constructor() {
+        // Creation of setters given e2e-spec file
          this.title = this.getTitleInput();
          this.url = this.getUrlInput();
          this.selectedSubjects = this.getSelectedSubjectsSelect();
@@ -23,6 +25,7 @@ export class AppPage {
          this.allRadio = this.getAllRadio();
     }
 
+    // Obtain url as promise
     navigateTo() {
       return browser.get(browser.baseUrl) as Promise<any>;
     }
@@ -116,7 +119,7 @@ export class AppPage {
         inputs.forEach( (input) => {
             browser.actions().sendKeys(input).perform();
             browser.actions().sendKeys(protractor.Key.ENTER).perform();
-            // browser.sleep(500);
+            
         });
     }
 
@@ -190,6 +193,8 @@ export class AppPage {
         browser.actions().mouseMove(this.allRadio).click().perform();
     }
 
+    // To click radio buttons, iterate through each element in e2e-spec file and use
+    // this function to click the operand given index number.
     clickRadio(index : number ){
         switch(index) {
             case 0: 
@@ -222,15 +227,17 @@ export class AppPage {
         }
     }
 
+    // Gets element for submit button
     private getSubmitButton(){
-      // return element(by.xpath('/html/body/app-component/div/app-create-user/form/button'));
       return element(by.id("submitButton"));
     }
 
+    // Given submit button element returned, click method
     clickSubmitButton(){
       this.getSubmitButton().click();
     }
 
+    // Method to be used to test toaster popup alerts
     acceptAlert() {
         browser.wait(() => element(by.css('.toast-message')).isPresent(), 5000, "Alert is not getting present :(");
 
@@ -238,6 +245,7 @@ export class AppPage {
             element(by.css('.toast-message')).click();
     }
 
+    // Method used to refresh browser automatically to delete modules or content.
     refresh(){
       return browser.refresh();
     }

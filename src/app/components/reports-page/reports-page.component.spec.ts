@@ -26,7 +26,9 @@ describe('ReportsPageComponent', () => {
         HttpClientTestingModule,
         ToastrModule.forRoot()
       ],
-      providers: [GlobalReports]
+      providers: [
+        GlobalReports
+      ]
     })
     .compileComponents();
   }));
@@ -84,16 +86,18 @@ describe('ReportsPageComponent', () => {
     expect(document.getElementById('avg_Res')).toBeTruthy;
   });
 
-//---------------
+//Test that 'All' format is selected on page load
   it('should have All selected by default', () => {
     expect(document.getElementById('All').getAttribute('ng-reflect-model')).toEqual('All');
     expect(component.selFormat).toEqual('All');
   }); 
 
+//Test that filter button exists
   it('should have filter button', () =>{
     expect(document.getElementById('filterButton')).toBeTruthy;
   });
 
+//Test that formats are defined as expected
   it('should have defualt formats defined', () =>{
     expect(component.formats).toEqual(["Code", "Document", "Powerpoint", "All"]);
   });

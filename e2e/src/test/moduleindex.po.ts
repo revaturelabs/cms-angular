@@ -170,7 +170,7 @@ export class ModuleIndexPage {
             await this.getModuleByIndex(module).element(by.css('.fa-trash')).click();
         } else if(typeof module === 'string') {
             await this.getModuleBySubject(module).then(async function(subject) {
-                // await browser.sleep(2750);
+                await browser.sleep(1000);
                 await subject.element(by.css('.fa-trash')).click();
             });
         } else if(typeof module === 'object' && module instanceof ElementFinder) {

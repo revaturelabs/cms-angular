@@ -11,18 +11,30 @@ describe('EndpointsService', () => {
     imports: [
       HttpClientTestingModule,
     ]
+
   }));
 
   //Test to make sure the service exists
   it('should be created', () => {
     const service: EndpointsService = TestBed.get(EndpointsService);
+
     expect(service).toBeTruthy();
+
+  });
+
+  //Test that baseURL exists
+  it('should have baseURL defined', () => {
+    const service: EndpointsService = TestBed.get(EndpointsService);
+
+    expect(service.baseURL).toBeDefined();
+
   });
 
   //Test to make sure all endpoints are valid/exist
   it('getAllEndpoints works correctly and all endpoints are valid', () => {
     let endpoints: string[] = [];
     const service: EndpointsService = TestBed.get(EndpointsService);
+
     endpoints = service.getAllEndpoints();
     expect(endpoints[0]).toEqual(baseURL + '/content');
     expect(endpoints[1]).toEqual(baseURL + '/content');
@@ -36,6 +48,7 @@ describe('EndpointsService', () => {
     expect(endpoints[9]).toEqual(baseURL + '/module/${id}');
     expect(endpoints[10]).toEqual(baseURL + '/search');
     expect(endpoints[11]).toEqual(baseURL + '/metrics/${timeFrame}');
+    
   });
 
 });

@@ -22,7 +22,9 @@ describe('ReportsTimeGraphComponent', () => {
         ToastrModule.forRoot(),
         BrowserAnimationsModule
       ],
-      providers: [GlobalReports]
+      providers: [
+        GlobalReports
+      ]
     })
     .compileComponents();
   }));
@@ -83,10 +85,12 @@ describe('ReportsTimeGraphComponent', () => {
 //tests for updateGraph()
   it('should update graph with updateGraph()', () => {
     let TGD1: TimeGraphData = {numContents:1,returnedLongs:[]}
+
     component.updateGraph(TGD1);
     expect(component.timeGraphData).toEqual(TGD1);
 
     let TGD2: TimeGraphData = {numContents:2,returnedLongs:[]}
+    
     component.updateGraph(TGD2);
     expect(component.timeGraphData).toEqual(TGD2);
   });
@@ -95,6 +99,7 @@ describe('ReportsTimeGraphComponent', () => {
     expect(component.requestTime).toBeNull;
 
     let TGD1: TimeGraphData = {numContents:1,returnedLongs:[]}
+
     component.updateGraph(TGD1);
     expect(component.requestTime).toBeUndefined;
   });

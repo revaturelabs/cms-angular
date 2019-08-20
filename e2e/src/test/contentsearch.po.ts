@@ -9,6 +9,7 @@ import { ContentFinderPageComponent } from '../../../src/app/components/content-
 import { link } from 'fs';
 
 export class SearchPage {
+  // Declaration of needed ElementFinder variables
   private title                 : ElementFinder;
   private codeRadio             : ElementFinder;
   private documentRadio         : ElementFinder;
@@ -20,6 +21,7 @@ export class SearchPage {
   private deleteTagConfirmButton: ElementFinder;
 
   constructor() {
+    // Fetching and setting of ElementFinder variables 
     this.title = this.getTitleInput();
     this.codeRadio = this.getCodeRadio();
     this.documentRadio = this.getDocumentRadio();
@@ -32,6 +34,7 @@ export class SearchPage {
   }
 
   navigateTo() {
+    // Specifies '/finder' location to go to
     return browser.get(browser.baseUrl + "/finder") as Promise < any > ;
   }
 
@@ -72,6 +75,7 @@ export class SearchPage {
     return element(by.css('.plusCenter'));
   }
 
+  // Click add tags selector, names tag arbitrary name and confirms addition
   enterAddTag(inputs: string[]) {
     this.addTagsSelector.click();
     browser.sleep(1000);
@@ -92,14 +96,17 @@ export class SearchPage {
     return element(by.id (ContentFinderPageComponent.generateLinkId (contentId, linkId)));
   }
 
+  // Clicks fetched delete tag element
   clickDeleteTag(contentId : number, linkId : number) {
     this.getDeleteTagsSelector(contentId, linkId).click();
   }
 
+  // Fetches confirmation for deletion button
   private getDeleteTagConfirmButton() {
     return element(by.css('[name=confirmDeleteTag]'))
   }
 
+  // Clicks confirm delete button
   clickDeleteTagConfirmButton() {
     this.deleteTagConfirmButton.click();
   }
@@ -186,6 +193,7 @@ export class SearchPage {
     browser.actions().mouseMove(this.allRadio).click().perform();
   }
 
+  // Clicks radio buttons given index number of forms array
   clickRadio(index : number) {
     switch(index) {
       case 0:
@@ -217,14 +225,17 @@ export class SearchPage {
     }
   }
 
+  // Finds content button
   private getFindContentButton() {
     return element(by.id("submitButton"));
   }
 
+  // Clicks search button
   clickSearchButton() {
     this.getFindContentButton().click();
   }
 
+  // Tests as to whether Toast pop-up appears and clicks it if so.
   acceptAlert() {
     browser.wait(() => element(by.css('.toast-message')).isPresent(), 5000, "Alert is not getting present :(");
 
@@ -232,14 +243,17 @@ export class SearchPage {
       element(by.css('.toast-message')).click();
   }
 
+  // Method to automatically refresh page
   refresh() {
     return browser.refresh();
   }
 
+  // async used to test table
   async getNumOfRows(): Promise<number> {
     return element.all(by.tagName("tr")).count();
   }
 
+  // Used to confirm tag is listed
   confirmTagNotListed(subject: string): void {
     let rows = element.all(by.tagName("tr"));
 

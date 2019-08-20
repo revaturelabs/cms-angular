@@ -154,19 +154,23 @@ export class PopulateContentPage {
       }
    }
 
+   // Gets submission button element
    private getSubmitButton() {
       // return element(by.xpath('/html/body/app-component/div/app-create-user/form/button'));
       return element(by.id("submitButton"));
    }
 
+   // Clicks fetched element of submit button
    clickSubmitButton() {
       this.getSubmitButton().click();
    }
 
+   // Presses enter button
    pressEnter() {
       browser.actions().sendKeys(protractor.Key.ENTER).perform();
    }
 
+   // Tests toastr pop up box 
    acceptAlert() {
 
       browser.wait(() => element(by.css('.toast-message')).isPresent(), 5000, "Alert is not getting present :(");
@@ -175,6 +179,7 @@ export class PopulateContentPage {
           element(by.css('.toast-message')).click();
    }
 
+   // Funciton used to refresh page when called
    refresh() {
       return browser.refresh();
    }
