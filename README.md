@@ -26,6 +26,10 @@ If the webdriver version has a conflict with Chrome v74 than run the following c
 
 Run `npm run e2e` or `ng e2e --webdriver-update=false` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
+## Toaster Pop-ups
+
+Toaster pop-ups are utilized for deletion confirmation of content and module deletion. For more information see the [ngx-toastr README](https://github.com/scttcper/ngx-toastr/blob/master/README.md)
+
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
