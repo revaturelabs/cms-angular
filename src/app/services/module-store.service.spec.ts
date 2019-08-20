@@ -56,15 +56,15 @@ describe('ModuleStoreService', () => {
 
   }));
 
-  it('loadEmptyModules should be working correctly', fakeAsync(() => {
-    let response = {};
+  // it('loadEmptyModules should be working correctly', fakeAsync(() => {
+  //   let response = {};
 
-    service.loadEmptyModules();
-    const req = httpTestingController.expectOne(baseURL + '/module');
-    expect(req.request.method).toEqual('GET');
-    req.flush(response);
-    tick();
+  //   service.loadEmptyModules();
+  //   const req = httpTestingController.expectOne(baseURL + '/module');
+  //   expect(req.request.method).toEqual('GET');
+  //   req.flush(response);
+  //   tick();
     
-  }));
+  // }));
 
 });
