@@ -18,15 +18,7 @@ describe('ReportsPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ReportsPageComponent, ReportsTimeGraphComponent],
-      imports: [
-        NgSelectModule,
-        FormsModule,
-        NgxChartsModule,
-        HttpClientTestingModule,
-        ToastrModule.forRoot()
-      ],
-      providers: [GlobalReports]
+      declarations: [ ReportsPageComponent ]
     })
     .compileComponents();
   }));
