@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 import { Module } from 'src/app/models/Module';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
+import { ModuleFetcherService } from 'src/app/services/module-fetcher.service'
 import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
 import { Content } from 'src/app/models/Content';
 import { Filter } from 'src/app/models/Filter';
 import { ToastrService } from 'ngx-toastr';
+import { PagesService } from 'src/app/services/pages.service';
+import { globalCacheBusterNotifier } from 'ngx-cacheable';
 
 /** Typescript Component for Module Index Page */
 @Component({
@@ -22,18 +25,20 @@ export class ModuleIndexPageComponent implements OnInit {
    moduleContents: Map<Module, Content[]> = new Map<Module, Content[]>();
 
    /**
-    * Variable that will reference selected content for removal. Pre-initialized as it would cause errors upon loading the component.
+    * Variable that will reference selected content for removal. Pre-initialized as it would 
+    * cause errors upon loading the component.
     */
+   //Note that this needs defualt values so the bindings {{ }} in html will work on page load
    selCon: Content = new Content(0, "", "", "", "", []);
 
    /**
-    * Variable that will reference the module of the selected content for removal. Pre-initialized as it would cause errors upon loading the component.
+    * Variable that will reference the module of the selected content for removal. 
+    * Pre-initialized as it would cause errors upon loading the component.
     */
+   //Note that this needs defualt values so the bindings {{ }} in html will work on page load
    selModule: Module = new Module(0, "", 0, []);
 
-   /**
-    * Used to display a spinner when modules are loading.
-    */
+   /** Used to display a spinner when modules are loading.*/
    isLoading: boolean = false;
 
    /**
@@ -44,11 +49,12 @@ export class ModuleIndexPageComponent implements OnInit {
    constructor(
       private cs: ContentFetcherService,
       public ms: ModuleStoreService,
-      private toastr: ToastrService
+      private toastr: ToastrService,
+      private mfs: ModuleFetcherService,
+      private pageService: PagesService
    ) { }
 
-   /** On page initialization load the modules to list on the dropdown menu
-    */
+   /** On page initialization load the modules to list on the dropdown menu */
    ngOnInit() {
       this.ms.loadModules();
    }
@@ -75,7 +81,7 @@ export class ModuleIndexPageComponent implements OnInit {
             },
             (response) => {
                this.toastr.error('Failed to request contents');
-               
+
             },
             () => { this.contentVisible.set(module, true); }
          )
@@ -90,7 +96,7 @@ export class ModuleIndexPageComponent implements OnInit {
     * Sort the content list order by title
     * Insert into Module->List<Content> Map
     * @param response Available content
-    * @param module Tags/modules for content
+    * @param module Modules for content
     */
    parseContentResponse(response: Content[], module: Module) {
 
@@ -107,13 +113,23 @@ export class ModuleIndexPageComponent implements OnInit {
     * @param module - the module the content is being removed from
     */
    removeContentFromModuleIndex() {
+      globalCacheBusterNotifier.next();
       let found = this.selCon.links.findIndex(l => this.selModule.id === l.moduleId);
       this.selCon.links.splice(found, 1);
 
       let foundContent = this.moduleContents.get(this.selModule).findIndex(l => this.selCon.id === l.id);
       this.moduleContents.get(this.selModule).splice(foundContent, 1);
 
-      this.cs.updateContentByContent(this.selCon).subscribe();
+      this.cs.updateContentByContent(this.selCon).subscribe(
+         /**
+          * Below is used to refresh this component when content has been removed from a module
+          */
+         data => {
+               if (data != null) {
+                     this.ngOnInit();
+               }
+         }
+      );
    }
    /**
     * Description - assigns the content and the module that the content resides into variables for this component to utilize.
@@ -124,4 +140,39 @@ export class ModuleIndexPageComponent implements OnInit {
       this.selCon = content;
       this.selModule = module;
    }
+
+   /** 
+      This method checks whether the flag should be displayed for the current module.
+      @param module - the module that is selected.
+   */
+   checkFlag(module: Module) {
+      if (module.links.length === 0) {
+         return true;
+      }
+      else {
+         return false;
+      }
+   }
+
+   /**
+    * 
+    * @param module 
+    */
+   selectedModuleForRemoval(module: Module) {
+      this.selModule = module;
+   }
+
+   removeModule() {
+      this.mfs.deleteModuleByID(this.selModule.id).subscribe(
+         /**
+          * Below is used to refresh this component when a module has been removed
+          */
+         data => {
+            if (data != null) {
+               this.ngOnInit();
+            }
+         }
+      );
+   }
+
 }

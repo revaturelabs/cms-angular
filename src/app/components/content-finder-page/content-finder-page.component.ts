@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Content } from '../../models/Content';
+import { Module } from '../../models/Module';
 import { Filter } from '../../models/Filter';
-import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
-import { ModuleStoreService } from 'src/app/services/module-store.service';
+import { ContentFetcherService } from '../../services/content-fetcher.service';
+import { ModuleStoreService } from '../../services/module-store.service';
 import { ToastrService } from 'ngx-toastr';
-import { Link } from 'src/app/models/Link';
-
+import { Link } from '../../models/Link';
+import { SelectControlValueAccessor } from '@angular/forms';
 /** Typescript component for Content Finder page */
 @Component({
    selector: 'app-content-finder-page',
@@ -14,10 +15,11 @@ import { Link } from 'src/app/models/Link';
 })
 export class ContentFinderPageComponent implements OnInit {
 
+
    /**
     * Selection of formats to choose betwwen
     */
-   readonly formats: string[] = ["Code", "Document", "Powerpoint", "All"];
+   readonly formats: string[] = ["Code", "Document", "Powerpoint", "Flagged", "All"];
 
    /**
     * Title of content
@@ -44,6 +46,11 @@ export class ContentFinderPageComponent implements OnInit {
     */
    moduleIDs: number[];
 
+
+   /** Map of Visibility status of each Module */
+   contentVisible: Map<Module, boolean> = new Map<Module, boolean>();
+
+
    /**
     * Selected from subject list
     */
@@ -57,7 +64,8 @@ export class ContentFinderPageComponent implements OnInit {
    /**
     * Holds a reference of a content being worked upon
     */
-   selCon: Content;
+   //Note that this needs defualt values so the bindings {{}} in html will work on page load
+   selCon: Content = new Content(0, "", "", "", "", []);
 
    /**
     * Takes selected subjects and used for searching
@@ -88,7 +96,7 @@ export class ContentFinderPageComponent implements OnInit {
       private cs: ContentFetcherService,
       public ms: ModuleStoreService,
       private toastr: ToastrService
-      ) { }
+   ) { }
 
    /**
     * On page initialization load the modules to list on the dropdown menu 
@@ -105,7 +113,9 @@ export class ContentFinderPageComponent implements OnInit {
    submit() {
       this.isSearching = true;
       let format: string = this.selFormat;
-      if (format === "All") {
+
+      //if 'all' or 'flagged' was selected return all content
+      if (format === "All" || format === "Flagged") {
          format = "";
       }
       this.getIDsFromSubjects(this.selectedSubjects);
@@ -116,6 +126,8 @@ export class ContentFinderPageComponent implements OnInit {
       this.cs.filterContent(filter).subscribe(
          (response) => {
             if (response != null) {
+
+               //populate the contents array with the response with the parseContentResponse function
                this.parseContentResponse(response);
                if (this.notEmpty()) { }
                else
@@ -154,6 +166,17 @@ export class ContentFinderPageComponent implements OnInit {
             );
          }, this
       )
+
+      /**
+      * Filter the contents by content with no links (not attached to a modules) 
+      * if 'flagged' is the selected format
+      */
+      if (this.selFormat === "Flagged") {
+         this.contents = this.contents.filter(function (flaggedContent) {
+            return flaggedContent.links.length === 0;
+         });
+      }
+
    }
 
    /**
@@ -193,14 +216,19 @@ export class ContentFinderPageComponent implements OnInit {
          }, this
       )
    }
-   
+
    /**
     * Description - This method deletes a link between a content and a module
     */
    removeTag() {
       let found = this.selCon.links.findIndex(l => this.selLink.id === l.id);
       this.selCon.links.splice(found, 1);
-      this.cs.updateContentByContent(this.selCon).subscribe();
+      this.cs.updateContentByContent(this.selCon).subscribe(
+         data => {
+         
+               window.location.reload();
+         }
+      );
    }
 
    /**
@@ -236,11 +264,11 @@ export class ContentFinderPageComponent implements OnInit {
    }
 
 
-/**
- * Description - Adds tags to a specific content
- * Grabs the inputted tags and pushes them into the content.links array
- * Then sends a request to the database to update the content.
- */
+   /**
+    * Description - Adds tags to a specific content
+    * Grabs the inputted tags and pushes them into the content.links array
+    * Then sends a request to the database to update the content.
+    */
    updateTags() {
       let links = [];
       if (this.selectedTags.length > 0) {
@@ -253,7 +281,7 @@ export class ContentFinderPageComponent implements OnInit {
          for (let l of links) {
             this.selCon.links.push(l);
          }
-         
+
          this.cs.updateContentByContent(this.selCon).subscribe((response: Content) => {
             this.selCon.links = response.links;
          });
@@ -261,6 +289,41 @@ export class ContentFinderPageComponent implements OnInit {
 
       this.selectedTags = [];
 
+   }
+
+   /**
+    * Description - set selCon to the content selected for removal, to show title on popup
+    */
+   selectedContentForRemoval(content: Content) {
+      this.selCon = content;
+   }
+
+   removeContent() {
+      this.cs.deleteContentByID(this.selCon.id).subscribe(
+         /**
+          * Below is used to refresh this component when a module has been removed 
+          */
+         data => {
+            if (data != null) {
+               this.ngOnInit();
+            }
+         }
+      );
+   }
+
+
+/**
+ * The DoThis function is used to ?????
+ * @param contentID 
+ * @param linkID 
+ */
+
+   public DoThis(contentID : number, linkID : number) {
+      return ContentFinderPageComponent.generateLinkId (contentID, linkID);
+   }
+
+   public static generateLinkId (contentID : number, linkID : number) {
+      return "contentID-" + contentID + "-linkID-" + linkID;
    }
 
 }

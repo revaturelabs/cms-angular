@@ -34,10 +34,14 @@ export class ModuleStoreService {
 
    /** All Modules being returned */
    response: Module[];
+
+   /** All Modules that have no conten */
+   emptyresponse: Module[] = [];
+
    /** Whether or not the Modules are still being loaded from back-end */
    isLoading: boolean = true;
    /** String representing the status of module-store-service */
-   loadingText: string = "Loading Subjects...";
+   loadingText: string = "Loading modules...";
    /** BehaviorSubject for buffer */
    buffer:BehaviorSubject<boolean> = new BehaviorSubject(true);
 
@@ -55,7 +59,7 @@ export class ModuleStoreService {
    /** load Modules once from backend on program start */
    loadModules() {
       this.isLoading = true;
-      this.loadingText = "Loading Subjects...";
+      this.loadingText = "Loading modules...";
       this.ms.getAllModules().subscribe(
          (response) => {
             if (response != null) {
@@ -73,6 +77,36 @@ export class ModuleStoreService {
          }, () => this.populateCollections(this.response)
       )
    }
+
+     /** load Modules that have no content */
+     loadEmptyModules() {
+
+      this.emptyresponse = []
+      this.isLoading = true;
+      this.loadingText = "Loading modules...";
+      this.ms.getAllModules().subscribe(
+         (response) => {
+            if (response != null) {
+               for (let i = 0; i < response.length; i++) {
+                  if(response[i].links.length == 0){
+                     this.emptyresponse.push(response[i]);
+                  }
+                }
+               
+            }
+            else { 
+               // this.failedRetrieve = true;
+               this.toastr.error('failed to retrieve modules');
+               this.isLoading = false;
+            }
+         }, (response) => {
+            this.toastr.error('failed to retrieve modules');
+            this.isLoading = false;
+
+         }, () => this.populateCollections(this.emptyresponse)
+      )
+   }
+
 
    /**
     * fills collections defined using all available module info for quick,
@@ -107,7 +141,7 @@ export class ModuleStoreService {
       }
       this.isLoading = false;
       this.buffer.next(false);
-      this.loadingText = "Select relevant subjects";
+      this.loadingText = "Select relevant modules";
    }
 
    /**

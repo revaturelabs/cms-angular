@@ -21,6 +21,7 @@ export class ReportsPageComponent implements OnInit {
 
   readonly formats: string[] = ["Code", "Document", "Powerpoint", "All"];
   selFormat: string = "All";
+  selFormatFilter = "All";
   contents: Content[];
   moduleIDs: number[];
   selectedSubjects: string[] = [];
@@ -50,53 +51,62 @@ export class ReportsPageComponent implements OnInit {
 
   /** 
     * Call in ngOnInit to happen immediately upon page visitation
+    * If metricsData exists in the globalReports it will use updateMetrics() on this page
+    * to set the data to display. Otherwise it will call getMetrics() on this page to call
+    * the reports service.
     */
   ngOnInit() {
     this.ms.loadModules();
-
     this.reportsService.reportsPage = this;
 
-    if(this.globalReports.metricsData) {
-
+    if(this.globalReports.metricsData ) {
       this.updateMetrics(this.globalReports.metricsData);
 
     } else {
-
       this.getMetrics();
     }
   }
   
-  /** Method for getting the metrics and setting them to null */
+  /** Method for getting the metrics from the reportsService, this triggers
+   * when the user clicks the filter/search button 
+  */
   getMetrics() {
     this.getIDsFromSubjects(this.selectedSubjects);
+    this.selFormatFilter = this.selFormat;
 
+    //filter to get content by the selected format and moduleIDs from the reportsService
     this.reportsService.getMetrics(new Filter("", this.selFormat, this.moduleIDs));
+
     this.codeExamples = null;
     this.lectureNotes = null;
     this.powerpoints = null;
-    this.difModules = null;
-    this.avgResources = null;
+    //difModules and avgResources are not set again on filtering/searching
   }
 
   /**
-   * Method for updating the metrics using the data from MetricsData
-   * @param data 
+   * Method for updating the metrics using the data from globalReports.metricsData
+   * 
+   * difModules and avgResources are static variables
+   * that refrence the total number of existing modules and the content per module
+   * in the system overall. They will not change on filtering results. 
+   * 
+   * @param data the metricsData returned from globalReports
    */
   updateMetrics(data: MetricsData) {
     this.codeExamples = data.codeCount;
     this.lectureNotes = data.documentCount;
     this.powerpoints = data.pptCount;
-    this.difModules = data.numDiffModsCount;
-    this.avgResources = data.avgResources;
+
+    if(this.difModules == null){
+      this.difModules = data.numDiffModsCount;
+      this.avgResources = data.avgResources;
+    }
   }
 
   
   /**
-    * Took this from another container
-    * Gets the string array of selected subjects and populates
-    * the number array of subject id (or model or tag or whatever the team never really settled on the name 
-    * like it was tag at first then prerequisite then modules then affiliation then subjects like come on)
-    * @param subjects
+    * Method that takes a string array of selected subjects and populates the number array of subject id 
+    * @param subjects an array of strings sent to this function
     */
    getIDsFromSubjects(subjects: string[]) {
     this.moduleIDs = [];
@@ -108,6 +118,7 @@ export class ReportsPageComponent implements OnInit {
       )
     }
   }
+
 }
 
 

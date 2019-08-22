@@ -3,6 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment'
 
 /** Accessible back-end endpoints */
+/** 
+ * For simplicity and abstraction, this service is used to call the
+ * accessible back-end endpoints.
+ */
 @Injectable({
    providedIn: 'root'
 })
@@ -24,6 +28,8 @@ export class EndpointsService {
    public readonly UPDATE_CONTENT_MODULES_BY_ID: string = this.baseURL + '/content/${id}/modules';
    /** Delete Content Endpoint */
    public readonly DELETE_CONTENT_BY_ID: string = this.baseURL + '/content/${id}';
+   /** Delete Module Endpoint */
+   public readonly DELETE_MODULE_BY_ID: string = this.baseURL + '/module/${id}';
    /** Create Module Endpoint */
    public readonly CREATE_NEW_MODULE: string = this.baseURL + '/module';
    /** Get All Modules Endpoint */
@@ -41,18 +47,18 @@ export class EndpointsService {
    /** Returns string array containing all endpoints */
    public getAllEndpoints(): string[] {
       let endpoints: string[] = new Array(
-         this.CREATE_NEW_CONTENT,
-         this.UPDATE_CONTENT,
-         this.GET_ALL_CONTENT,
-         this.GET_CONTENT_BY_ID,
-         this.UPDATE_CONTENT_BY_ID,
-         this.UPDATE_CONTENT_MODULES_BY_ID,
-         this.DELETE_CONTENT_BY_ID,
-         this.CREATE_NEW_MODULE,
-         this.GET_ALL_MODULES,
-         this.GET_MODULE_BY_ID,
-         this.FILTER_CONTENT,
-         this.GET_METRICS);
+         this.CREATE_NEW_CONTENT,//0
+         this.UPDATE_CONTENT,//1
+         this.GET_ALL_CONTENT,//2
+         this.GET_CONTENT_BY_ID,//3
+         this.UPDATE_CONTENT_BY_ID,//4
+         this.UPDATE_CONTENT_MODULES_BY_ID,//5
+         this.DELETE_CONTENT_BY_ID,//6
+         this.CREATE_NEW_MODULE,//7
+         this.GET_ALL_MODULES,//8
+         this.GET_MODULE_BY_ID,//9
+         this.FILTER_CONTENT,//10
+         this.GET_METRICS);//11
 
       return endpoints;
    }

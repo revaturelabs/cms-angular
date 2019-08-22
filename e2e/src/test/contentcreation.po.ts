@@ -1,22 +1,31 @@
 import { browser, by, element, ElementFinder, protractor } from 'protractor';
 
 export class AppPage {
+    // Needed variables
     private title                : ElementFinder;
     private url                  : ElementFinder;
     private selectedSubjects     : ElementFinder;
     private description          : ElementFinder;
     private codeRadio            : ElementFinder;
     private documentRadio        : ElementFinder;
+    private powerpointRadio      : ElementFinder;
+    private flaggedRadio         : ElementFinder;
+    private allRadio             : ElementFinder;
 
     constructor() {
+        // Creation of setters given e2e-spec file
          this.title = this.getTitleInput();
          this.url = this.getUrlInput();
          this.selectedSubjects = this.getSelectedSubjectsSelect();
          this.description = this.getDescriptionInput();
          this.codeRadio = this.getCodeRadio();
          this.documentRadio = this.getDocumentRadio();
+         this.powerpointRadio = this.getPowerpointRadio();
+         this.flaggedRadio = this.getFlaggedRadio();
+         this.allRadio = this.getAllRadio();
     }
 
+    // Obtain url as promise
     navigateTo() {
       return browser.get(browser.baseUrl) as Promise<any>;
     }
@@ -110,6 +119,7 @@ export class AppPage {
         inputs.forEach( (input) => {
             browser.actions().sendKeys(input).perform();
             browser.actions().sendKeys(protractor.Key.ENTER).perform();
+            
         });
     }
 
@@ -142,6 +152,70 @@ export class AppPage {
     }
 
     /**
+     * Returns the powerpoint radio button element in the DOM
+     */
+    private getPowerpointRadio(){
+        return element(by.css('[id="Powerpoint"]'));
+    }
+
+    /**
+     * Clicks the powerpoint radio button element in the DOM
+     */
+    clickPowerpointRadio(){
+        browser.actions().mouseMove(this.powerpointRadio).click().perform();
+    }
+
+    /**
+     * Returns the flagged radio button element in the DOM
+     */
+    private getFlaggedRadio(){
+        return element(by.css('[id="Flagged"]'));
+    }
+
+    /**
+     * Clicks the flagged radio button element in the DOM
+     */
+    clickFlaggedRadio(){
+        browser.actions().mouseMove(this.flaggedRadio).click().perform();
+    }
+
+    /**
+     * Returns the all radio button element in the DOM
+     */
+    private getAllRadio(){
+        return element(by.css('[id="All"]'));
+    }
+
+    /**
+     * Clicks the all radio button element in the DOM
+     */
+    clickAllRadio(){
+        browser.actions().mouseMove(this.allRadio).click().perform();
+    }
+
+    // To click radio buttons, iterate through each element in e2e-spec file and use
+    // this function to click the operand given index number.
+    clickRadio(index : number ){
+        switch(index) {
+            case 0: 
+                this.clickCodeRadio();
+                break;
+            case 1:
+                this.clickDocumentRadio();
+                break;
+            case 2:
+                this.clickPowerpointRadio();
+                break;
+            case 3: 
+                this.clickFlaggedRadio();
+                break;
+            default:
+                this.clickAllRadio();
+                break;
+        }
+    }
+
+    /**
      * Returns the checked radio element if a radio element is checked
      */
     getCheckedRadioValue(){
@@ -153,23 +227,25 @@ export class AppPage {
         }
     }
 
+    // Gets element for submit button
     private getSubmitButton(){
-      // return element(by.xpath('/html/body/app-component/div/app-create-user/form/button'));
       return element(by.id("submitButton"));
     }
 
+    // Given submit button element returned, click method
     clickSubmitButton(){
       this.getSubmitButton().click();
     }
 
+    // Method to be used to test toaster popup alerts
     acceptAlert() {
-
         browser.wait(() => element(by.css('.toast-message')).isPresent(), 5000, "Alert is not getting present :(");
 
         if(element(by.css('.toast-message')).isPresent())
             element(by.css('.toast-message')).click();
     }
 
+    // Method used to refresh browser automatically to delete modules or content.
     refresh(){
       return browser.refresh();
     }
