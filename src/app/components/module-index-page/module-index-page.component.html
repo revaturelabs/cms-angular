@@ -143,6 +143,7 @@
                 <h6>Are you sure you want to remove {{selCon.title}} from {{selModule.subject}}?</h6>
                 <h6><small>This content will not be deleted, only removed for {{selModule.subject}}.</small></h6>
                 <div class="row btn mb-3">
+                        
                     <!-- 
             Here is the confirm button which utilizes the removeContentFromModuleIndex() 
             function.
@@ -170,14 +171,26 @@
             </div>
             <div class="modal-body">
                 <h6>Are you sure you want to delete the {{selModule.subject}} module?</h6>
-                <h6><small>Content within this module will not be deleted.</small></h6>
                 <div class="row btn mb-3">
+
+                        <form>
+                                <h5><small>Delete module and
+                                <select id = "selDelmethod">
+                                 <option value = "1">Delete everything in module</option>
+                                 <option value = "2">Delete everything related only to module</option>
+                                 <option value = "3">Delete relation to module but keep objects</option>
+                                </select>
+                            </small></h5> 
+                        <button type="button" class="btn btn-primary" id="deleteModuleButton" (click)="removeModule()" data-dismiss="modal">Confirm Removal</button>
+ 
+                               </form>
+                                
                     <!-- 
             Here is the confirm button which utilizes the removeContentFromModuleIndex() 
             function.
-           -->
                     <button type="button" class="btn btn-primary" id="deleteModuleButton" (click)="removeModule()" data-dismiss="modal">Confirm Removal</button>
-                </div>
+           -->
+        </div>
             </div>
         </div>
 

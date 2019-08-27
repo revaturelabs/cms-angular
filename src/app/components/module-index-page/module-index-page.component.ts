@@ -59,6 +59,8 @@ export class ModuleIndexPageComponent implements OnInit {
       this.ms.loadModules();
    }
 
+
+   
    /**
     * Lists the available content for module input
     * @param {Module} module 
@@ -160,17 +162,24 @@ export class ModuleIndexPageComponent implements OnInit {
     */
    selectedModuleForRemoval(module: Module) {
       this.selModule = module;
+      let selMethod = document.getElementById("selDelMethod");
+      var Method = selMethod.nodeValue;
+      alert("value is " + Method);
+
    }
 
+   
    removeModule() {
       this.mfs.deleteModuleByID(this.selModule.id).subscribe(
          /**
           * Below is used to refresh this component when a module has been removed
           */
          data => {
-            if (data != null) {
+            if (data != null) {   
                this.ngOnInit();
             }
+            else{
+               this.ms.loadModules();}
          }
       );
    }
