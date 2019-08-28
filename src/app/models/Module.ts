@@ -12,6 +12,10 @@ export class Module {
    links: Link[] = [];
    /** Display background color in HEX */
    color: string;
+   // Array containing the IDs of parent modules
+   parents: Array<number>;
+   // Array containing the IDs of child modules
+   children: Array<number>;
 
    /**
     * Create a new Module to describe and sort Content
@@ -20,11 +24,13 @@ export class Module {
     * @param created Date created
     * @param links Links to Content
     */
-   constructor(id: number, subject: string, created: number, links: Link[]) {
+   constructor(id: number, subject: string, created: number, links: Link[], parents: Array<number>, children: Array<number>) {
       if (id != null) this.id = id;
       if (subject != null) this.subject = subject;
       if (created != null) this.created = created;
       if (links != null) this.links = links;
+      if (parents != null) this.parents = parents;
+      if (children != null) this.children = children;
    }
 
    /**
@@ -39,6 +45,16 @@ export class Module {
     */
    public getSubject(): string {
       return this.subject;
+   }
+
+   // Get parents array
+   public getParents(): Array<number>{
+      return this.parents;
+   }
+
+   // Get children array
+   public getChildren(): Array<number>{
+      return this.children;
    }
 
    /**
@@ -92,6 +108,16 @@ export class Module {
     */
    public setLinks(links: Link[]) {
       this.links = links;
+   }
+
+   // set parents array for module
+   public setParents(parents: Array<number>){
+      this.parents = parents;
+   }
+
+   // set children array for module
+   public setChildren(children: Array<number>){
+      this.children = children;
    }
    
    /**

@@ -36,7 +36,7 @@ export class ModuleIndexPageComponent implements OnInit {
     * Pre-initialized as it would cause errors upon loading the component.
     */
    //Note that this needs defualt values so the bindings {{ }} in html will work on page load
-   selModule: Module = new Module(0, "", 0, []);
+   selModule: Module = new Module(0, "", 0, [], null, null);
 
    /** Used to display a spinner when modules are loading.*/
    isLoading: boolean = false;

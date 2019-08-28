@@ -71,7 +71,7 @@ export class ModuleCreatorPageComponent implements OnInit {
 
       // Next create an instance of a Module  for storing, using the Module model.
       let module: Module = new Module(
-         null, this.subject, null, null
+         null, this.subject, null, null, null, null
       )
 
       /**

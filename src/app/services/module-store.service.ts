@@ -123,6 +123,7 @@ export class ModuleStoreService {
          this.subjectIdToName = new Map<number, string>();
          this.subjectIdToSortedIndex = new Map<number, number>();
          this.subjectNames = [];
+         // this.subjectIDtoData = new Map<Number, 
 
          modules.sort(
             (a, b) => {
