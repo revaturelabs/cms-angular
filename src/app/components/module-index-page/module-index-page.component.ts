@@ -162,10 +162,6 @@ export class ModuleIndexPageComponent implements OnInit {
     */
    selectedModuleForRemoval(module: Module) {
       this.selModule = module;
-      let selMethod = document.getElementById("selDelMethod");
-      var Method = selMethod.nodeValue;
-      alert("value is " + Method);
-
    }
 
    
@@ -175,6 +171,15 @@ export class ModuleIndexPageComponent implements OnInit {
           * Below is used to refresh this component when a module has been removed
           */
          data => {
+            var selMethod = (<HTMLInputElement>document.getElementById("Seldelmethod")).value;
+            switch(selMethod){
+               case '1': console.log("value is 1");
+               break;
+               case '2': console.log("value is 2");
+               break;
+               case '3': console.log("value is 3");
+               break;
+            }
             if (data != null) {   
                this.ngOnInit();
             }
