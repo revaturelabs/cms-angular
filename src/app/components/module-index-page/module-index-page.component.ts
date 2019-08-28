@@ -60,7 +60,7 @@ export class ModuleIndexPageComponent implements OnInit {
    }
 
 
-   
+
    /**
     * Lists the available content for module input
     * @param {Module} module 
@@ -127,9 +127,9 @@ export class ModuleIndexPageComponent implements OnInit {
           * Below is used to refresh this component when content has been removed from a module
           */
          data => {
-               if (data != null) {
-                     this.ngOnInit();
-               }
+            if (data != null) {
+               this.ngOnInit();
+            }
          }
       );
    }
@@ -164,29 +164,20 @@ export class ModuleIndexPageComponent implements OnInit {
       this.selModule = module;
    }
 
-   
+
    removeModule() {
-      this.mfs.deleteModuleByID(this.selModule.id).subscribe(
-         /**
-          * Below is used to refresh this component when a module has been removed
-          */
-         data => {
-            var selMethod = (<HTMLInputElement>document.getElementById("Seldelmethod")).value;
-            switch(selMethod){
-               case '1': console.log("value is 1");
-               break;
-               case '2': console.log("value is 2");
-               break;
-               case '3': console.log("value is 3");
-               break;
-            }
-            if (data != null) {   
-               this.ngOnInit();
-            }
-            else{
-               this.ms.loadModules();}
-         }
-      );
+      /**
+       * Below is used to refresh this component when a module has been removed
+       */
+      var selMethod = (<HTMLInputElement>document.getElementById("Seldelmethod")).value;
+      switch (selMethod) {
+         case '1': this.mfs.deleteModuleByID(this.selModule.id).subscribe(() => this.ms.loadModules());
+            break;
+         case '2': this.mfs.deleteModuleWithSpecificContent(this.selModule.id).subscribe(() => this.ms.loadModules());
+            break;
+         case '3': this.mfs.deleteModuleWithContent(this.selModule.id).subscribe(() => this.ms.loadModules());
+            break;
+      }
    }
 
 }
