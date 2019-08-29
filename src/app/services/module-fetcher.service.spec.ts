@@ -126,7 +126,7 @@ describe('ModuleFetcherService', () => {
       ]
     };
     let links: Link[] = [];
-    let input: Module = new Module(null, "CSS", null, links)
+    let input: Module = new Module(null, "CSS", null, links, [], [])
     let output: HttpHeaderResponse;
 
     service.createNewModule(input).subscribe(
