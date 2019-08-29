@@ -49,6 +49,11 @@ export class ModuleFetcherService {
    getModuleByID(id: number): Observable<Module> {
       return this.http.get<Module>(this.endpoints.GET_MODULE_BY_ID.replace('${id}', id.toString()));
    }
+   // Sends HTTP request for root modules, modules that have no parents... like batman
+   @Cacheable()
+   batman(): Observable<Module>{
+      return this.http.get<Module>(this.endpoints.GET_ROOT_MODULES);
+   }
    @Cacheable()
    /** Used for debugging, loads Module[] from specified URL */
    getAllFakeModules(url: string): Observable<Module[]> {

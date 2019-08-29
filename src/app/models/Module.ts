@@ -13,9 +13,9 @@ export class Module {
    /** Display background color in HEX */
    color: string;
    // Array containing the IDs of parent modules
-   parents: Array<number>;
+   parentModules: Array<number>;
    // Array containing the IDs of child modules
-   children: Array<number>;
+   childrenModules: Array<number>;
 
    /**
     * Create a new Module to describe and sort Content
@@ -24,13 +24,13 @@ export class Module {
     * @param created Date created
     * @param links Links to Content
     */
-   constructor(id: number, subject: string, created: number, links: Link[], parents: Array<number>, children: Array<number>) {
+   constructor(id: number, subject: string, created: number, links: Link[], parentModules: Array<number>, childrenModules: Array<number>) {
       if (id != null) this.id = id;
       if (subject != null) this.subject = subject;
       if (created != null) this.created = created;
       if (links != null) this.links = links;
-      if (parents != null) this.parents = parents;
-      if (children != null) this.children = children;
+      if (parentModules != null) this.parentModules = parentModules;
+      if (childrenModules != null) this.childrenModules = childrenModules;
    }
 
    /**
@@ -47,14 +47,14 @@ export class Module {
       return this.subject;
    }
 
-   // Get parents array
+   // Get parentModules array
    public getParents(): Array<number>{
-      return this.parents;
+      return this.parentModules;
    }
 
-   // Get children array
+   // Get childrenModules array
    public getChildren(): Array<number>{
-      return this.children;
+      return this.childrenModules;
    }
 
    /**
@@ -110,14 +110,14 @@ export class Module {
       this.links = links;
    }
 
-   // set parents array for module
-   public setParents(parents: Array<number>){
-      this.parents = parents;
+   // set parentModules array for module
+   public setParents(parentModules: Array<number>){
+      this.parentModules = parentModules;
    }
 
-   // set children array for module
-   public setChildren(children: Array<number>){
-      this.children = children;
+   // set childrenModules array for module
+   public setChildren(childrenModules: Array<number>){
+      this.childrenModules = childrenModules;
    }
    
    /**

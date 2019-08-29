@@ -20,7 +20,8 @@ export class ModuleStoreService {
    subjectIdToModule: Map<number, Module>;
    /** Mapping of Subject ID to Subject Name */
    subjectIdToName: Map<number, string>;
-
+   // Populates a collection of Root modules
+   subjectIDToRootModule: Map<number, Module>;
    /** all subject names in alphabetical order */
    subjectNames: string[];
 
@@ -122,6 +123,7 @@ export class ModuleStoreService {
          this.subjectIdToModule = new Map<number, Module>();
          this.subjectIdToName = new Map<number, string>();
          this.subjectIdToSortedIndex = new Map<number, number>();
+         this.subjectIDToRootModule = new Map<number, Module>();
          this.subjectNames = [];
          // this.subjectIDtoData = new Map<Number, 
 
@@ -137,6 +139,7 @@ export class ModuleStoreService {
                this.subjectIdToName.set(module.id, module.subject);
                this.subjectIdToSortedIndex.set(module.id, i++);
                this.subjectNames.push(module.subject);
+               this.subjectIDToRootModule.set(module.id, module);
             }, this
          )
       }
