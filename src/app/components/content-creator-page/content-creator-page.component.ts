@@ -5,6 +5,8 @@ import { Link } from 'src/app/models/Link';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { ToastrService } from 'ngx-toastr';
 import { ITreeOptions } from 'angular-tree-component';
+import { IStorageStrategy } from 'ngx-cacheable';
+import { Module } from 'src/app/models/Module';
 
 /** Typescript component for the Content Creator page */
 @Component({
@@ -37,6 +39,7 @@ export class ContentCreatorPageComponent implements OnInit {
 
    // Called in nodeCreation() for tree nodes
    nodes: string[] = [];
+   tempChildren: Module[] = [];
 
    /**
     *  Content creater constructor 
@@ -154,13 +157,9 @@ export class ContentCreatorPageComponent implements OnInit {
    }
 
    nodeCreation(){
-      this.ms.subjectIDToRootModule.forEach(function(element){
-         this.nodes.push(this.ms.subjectIDToModule.get(element, null));
-         this.nodes.childrenModules.forEach()
-      });
-      
-
+      this.ms.populateModuleChildObjects(this.ms.subjectRootArray);
    }
+
 
    // custom options for ITree that allows for nodes to be formatted like module
    options: ITreeOptions = {

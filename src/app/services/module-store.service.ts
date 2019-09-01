@@ -22,6 +22,7 @@ export class ModuleStoreService {
    subjectIdToName: Map<number, string>;
    // Populates a collection of Root modules
    subjectIDToRootModule: Map<number, Module>;
+   subjectRootArray: Module[];
    /** all subject names in alphabetical order */
    subjectNames: string[];
 
@@ -44,7 +45,7 @@ export class ModuleStoreService {
    /** String representing the status of module-store-service */
    loadingText: string = "Loading modules...";
    /** BehaviorSubject for buffer */
-   buffer:BehaviorSubject<boolean> = new BehaviorSubject(true);
+   buffer: BehaviorSubject<boolean> = new BehaviorSubject(true);
 
 
 
@@ -66,7 +67,7 @@ export class ModuleStoreService {
             if (response != null) {
                this.response = response;
             }
-            else { 
+            else {
                // this.failedRetrieve = true;
                this.toastr.error('failed to retrieve modules');
                this.isLoading = false;
@@ -79,8 +80,8 @@ export class ModuleStoreService {
       )
    }
 
-     /** load Modules that have no content */
-     loadEmptyModules() {
+   /** load Modules that have no content */
+   loadEmptyModules() {
 
       this.emptyresponse = []
       this.isLoading = true;
@@ -89,13 +90,13 @@ export class ModuleStoreService {
          (response) => {
             if (response != null) {
                for (let i = 0; i < response.length; i++) {
-                  if(response[i].links.length == 0){
+                  if (response[i].links.length == 0) {
                      this.emptyresponse.push(response[i]);
                   }
-                }
-               
+               }
+
             }
-            else { 
+            else {
                // this.failedRetrieve = true;
                this.toastr.error('failed to retrieve modules');
                this.isLoading = false;
@@ -140,8 +141,9 @@ export class ModuleStoreService {
                this.subjectIdToSortedIndex.set(module.id, i++);
                this.subjectNames.push(module.subject);
                // populates a collection of root modules
-               if(module.parentModules == []){
+               if (module.parentModules == []) {
                   this.subjectIDToRootModule.set(module.id, module);
+                  this.subjectRootArray.push(module);
                }
             }, this
          )
@@ -151,27 +153,31 @@ export class ModuleStoreService {
       this.loadingText = "Select relevant modules";
    }
 
-   populateModuleChildObjects(modules: Module[]){
+   // takes the array of child ids and populates an array of module objects
+   populateModuleChildObjects(modules: Module[]) {
       modules.forEach(
          (module) => {
-            module.childrenModules.forEach(
-               (element) => {
-                  module.childrenModulesObject.push(this.subjectIdToModule.get(element));
-               }
-            )
+            if (module.childrenModules != []) {
+               module.childrenModules.forEach(
+                  (element) => {
+                     module.childrenModulesObject.push(this.subjectIdToModule.get(element));
+                  }
+               );
+               this.populateModuleChildObjects(module.childrenModulesObject);
+            }
          }
-      )
+      );
    }
 
    /**
     * Choose color based on module index
     * @param index Index of Module, used to determine color
     */
-   private getColor(index : number): string {
-      if(index%2 == 0){
+   private getColor(index: number): string {
+      if (index % 2 == 0) {
          return "#72A4C2";
       }
-      else{
+      else {
          return "#B9B9BA";
       }
    }
