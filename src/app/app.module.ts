@@ -20,6 +20,7 @@ import { CommonModule } from '@angular/common';
 
 import { ToastrModule } from 'ngx-toastr';
 import { MatProgressSpinnerModule} from '@angular/material';
+import { TreeModule } from 'angular-tree-component';
 
 /** @ignore */
 @NgModule({
@@ -44,7 +45,8 @@ import { MatProgressSpinnerModule} from '@angular/material';
       CommonModule,
       BrowserAnimationsModule,
       ToastrModule.forRoot(),
-      MatProgressSpinnerModule
+      MatProgressSpinnerModule,
+      TreeModule.forRoot()
    ],
    providers: [
       GlobalReports

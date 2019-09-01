@@ -8,6 +8,8 @@
 /* import styles for spinner module from @angular/module*/
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
+@import "~angular-tree-component/dist/angular-tree-component.css";
+
 body {
     background-color: rgb(	255, 136, 0)
 }

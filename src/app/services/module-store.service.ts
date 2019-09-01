@@ -139,13 +139,28 @@ export class ModuleStoreService {
                this.subjectIdToName.set(module.id, module.subject);
                this.subjectIdToSortedIndex.set(module.id, i++);
                this.subjectNames.push(module.subject);
-               this.subjectIDToRootModule.set(module.id, module);
+               // populates a collection of root modules
+               if(module.parentModules == []){
+                  this.subjectIDToRootModule.set(module.id, module);
+               }
             }, this
          )
       }
       this.isLoading = false;
       this.buffer.next(false);
       this.loadingText = "Select relevant modules";
+   }
+
+   populateModuleChildObjects(modules: Module[]){
+      modules.forEach(
+         (module) => {
+            module.childrenModules.forEach(
+               (element) => {
+                  module.childrenModulesObject.push(this.subjectIdToModule.get(element));
+               }
+            )
+         }
+      )
    }
 
    /**

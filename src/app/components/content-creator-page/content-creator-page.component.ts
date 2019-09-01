@@ -4,6 +4,7 @@ import { ContentFetcherService } from 'src/app/services/content-fetcher.service'
 import { Link } from 'src/app/models/Link';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { ToastrService } from 'ngx-toastr';
+import { ITreeOptions } from 'angular-tree-component';
 
 /** Typescript component for the Content Creator page */
 @Component({
@@ -34,6 +35,9 @@ export class ContentCreatorPageComponent implements OnInit {
    /** Stores selected subjects */
    selectedSubjects: string[] = [];  
 
+   // Called in nodeCreation() for tree nodes
+   nodes: string[] = [];
+
    /**
     *  Content creater constructor 
     * @param cs Content Fetcher
@@ -49,6 +53,7 @@ export class ContentCreatorPageComponent implements OnInit {
    /** On page initialization load the modules to list on the dropdown menu */
    ngOnInit() {
       this.ms.loadModules();
+      this.nodeCreation();
    }
 
    /** Check if the input fields are all valid - i.e. all fields are filled in */
@@ -146,5 +151,20 @@ export class ContentCreatorPageComponent implements OnInit {
    validURL(url: string): boolean {
       let regexp: RegExp = /^((http[s]?|ftp):\/\/)(((\w+\.)?\w+\.\w{2,})|(\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}))(\/[\w-._~:/?#[\]@!$&'()*+,;=]+(\.[\w-._~:/?#[\]@!$&'()*+,;=]+)?)*(\?|\?[\w-._~:/?#[\]@!$&'()*+,;=]+=[\w-._~:/?#[\]@!$&'()*+,;=]*(&[\w-._~:/?#[\]@!$&'()*+,;=]+=[\w-._~:/?#[\]@!$&'()*+,;=]*)*)?(#[\w-._~:/?#[\]@!$&'()*+,;=]*)?\/?$/;
       return regexp.test(url);
+   }
+
+   nodeCreation(){
+      this.ms.subjectIDToRootModule.forEach(function(element){
+         this.nodes.push(this.ms.subjectIDToModule.get(element, null));
+         this.nodes.childrenModules.forEach()
+      });
+      
+
+   }
+
+   // custom options for ITree that allows for nodes to be formatted like module
+   options: ITreeOptions = {
+      displayField: 'subject',
+      childrenField: 'childrenModules'
    }
 }

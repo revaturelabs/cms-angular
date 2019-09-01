@@ -14,8 +14,11 @@ export class Module {
    color: string;
    // Array containing the IDs of parent modules
    parentModules: Array<number>;
+   parentModulesObject: Module[];
    // Array containing the IDs of child modules
    childrenModules: Array<number>;
+   childrenModulesObject: Module[];
+   module: Module;
 
    /**
     * Create a new Module to describe and sort Content
@@ -31,6 +34,9 @@ export class Module {
       if (links != null) this.links = links;
       if (parentModules != null) this.parentModules = parentModules;
       if (childrenModules != null) this.childrenModules = childrenModules;
+      this.childrenModulesObject = [];
+      this.parentModulesObject = [];
+
    }
 
    /**
@@ -114,10 +120,16 @@ export class Module {
    public setParents(parentModules: Array<number>){
       this.parentModules = parentModules;
    }
+   public setParentsObjects(parentModulesObject: Module[]){
+      this.parentModulesObject = parentModulesObject;
+   }
 
    // set childrenModules array for module
    public setChildren(childrenModules: Array<number>){
       this.childrenModules = childrenModules;
+   }
+   public setChildrenObjects(childrenModulesObject: Module[]){
+      this.childrenModulesObject = childrenModulesObject;
    }
    
    /**
