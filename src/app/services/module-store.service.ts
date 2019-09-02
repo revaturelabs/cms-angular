@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Module } from '../models/Module';
 import { ModuleFetcherService } from './module-fetcher.service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, from } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { ContentFetcherService } from './content-fetcher.service';
 
@@ -13,6 +13,8 @@ import { ContentFetcherService } from './content-fetcher.service';
    providedIn: 'root'
 })
 export class ModuleStoreService {
+
+   nodes: any[] = [];
 
    /** Mapping of Subject Name to Module */
    subjectNameToModule: Map<string, Module>;
@@ -76,8 +78,17 @@ export class ModuleStoreService {
             this.toastr.error('failed to retrieve modules');
             this.isLoading = false;
 
-         }, () => this.populateCollections(this.response)
-         )
+         }, () => {
+            this.populateCollections(this.response);
+            this.subjectIDToRootModule.forEach(
+               (modules) => {
+                  this.nodes = [];
+                  this.nodes.push(modules);
+               }
+            );
+         }
+      )
+      
    }
 
    /** load Modules that have no content */

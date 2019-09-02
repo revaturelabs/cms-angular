@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { Content } from 'src/app/models/Content';
 import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
 import { Link } from 'src/app/models/Link';
@@ -38,7 +38,7 @@ export class ContentCreatorPageComponent implements OnInit {
    selectedSubjects: string[] = [];  
 
    // Called in nodeCreation() for tree nodes
-   nodes: any[] = [];
+   nodes: any[] = this.ms.nodes;
    tempChildren: Module[] = [];
 
    /**
@@ -50,14 +50,23 @@ export class ContentCreatorPageComponent implements OnInit {
       private cs: ContentFetcherService,
       public ms: ModuleStoreService,
       private toastr: ToastrService
-      ) {
+   ) {
+      
    }
 
    /** On page initialization load the modules to list on the dropdown menu */
    ngOnInit() {
       this.ms.loadModules();
-      this.nodeCreation();
+      
    }
+
+   ngDoCheck() {
+      if (this.nodes.length == 0) {
+         this.nodes = this.ms.nodes;
+         this.tree.treeModel.update();
+      }
+   }
+   
 
    /** Check if the input fields are all valid - i.e. all fields are filled in */
    validInput(): boolean {
@@ -161,15 +170,17 @@ export class ContentCreatorPageComponent implements OnInit {
    private tree: TreeComponent;
 
    // Node creation for the tree component
-   nodeCreation(){
-      this.ms.subjectIDToRootModule.forEach(
-         (modules) => {
-            this.nodes.push(modules);
-         }
-      );
-      // updates the treemodel after nodes have been pushed
+   nodeCreation() {
+      // this.ms.subjectIDToRootModule.forEach(
+      //    (modules) => {
+      //       this.nodes.push(modules);
+      //    }
+      // );
+      //updates the treemodel after nodes have been pushed
       this.tree.treeModel.update();
+      console.log("Updated!");
    }
+   
 
 
    // custom options for ITree that allows for nodes to be formatted like module
