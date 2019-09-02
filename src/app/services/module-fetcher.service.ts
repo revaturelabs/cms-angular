@@ -54,6 +54,20 @@ export class ModuleFetcherService {
    batman(): Observable<Module>{
       return this.http.get<Module>(this.endpoints.GET_ROOT_MODULES);
    }
+
+   // Sends HTTP request to update the parent-child relationship of a module
+   updateModuleRelationship(parentId: number, childId: number) {
+      let urlink = this.endpoints.UPDATE_MODULE_RELATIONSHIP_BY_IDS.replace('${parentId}', parentId.toString());
+      urlink = this.endpoints.UPDATE_MODULE_RELATIONSHIP_BY_IDS.replace('${childId}', childId.toString());
+      this.http.post(urlink, null, { headers: this.HEADERS });
+   }
+
+   // Sends HTTP request to get all children of a module, as an array of module JSON objects
+   @Cacheable()
+   getChildrenById(id: number): Observable<Module[]> {
+      return this.http.get <Module[]>(this.endpoints.GET_CHILDREN_BY_ID.replace('${id}', id.toString()));
+   }
+
    @Cacheable()
    /** Used for debugging, loads Module[] from specified URL */
    getAllFakeModules(url: string): Observable<Module[]> {
