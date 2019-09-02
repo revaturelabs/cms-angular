@@ -39,7 +39,7 @@
                   <!-- In this dropdown, the subjects are being accessed through a Module Store ms. 
                        Using ngModel binding, the subjects are displayed.
                   -->
-
+                  <input id="filter" #filter (keyup)="tree.treeModel.filterNodes(filter.value)" placeholder="filter nodes" />
                   <tree-root id="tree" [nodes]="nodes" [options]="options"></tree-root>
                   <ng-select id="subjectDropDown" [items]="ms.subjectNames" multiple="true" closeOnSelect="true"
                      hideSelected="true" clearOnBackspace="true" bindLabel="name" spellcheck="false"

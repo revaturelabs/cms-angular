@@ -61,6 +61,7 @@ export class ContentCreatorPageComponent implements OnInit {
    }
 
    ngDoCheck() {
+      console.log("hello!");
       if (this.nodes.length == 0) {
          this.nodes = this.ms.nodes;
          this.tree.treeModel.update();
