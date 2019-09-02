@@ -40,8 +40,12 @@ export class EndpointsService {
    public readonly FILTER_CONTENT: string = this.baseURL + '/search';
    /** Get metrics for information in DB */
    public readonly GET_METRICS: string = this.baseURL + '/metrics/${timeFrame}';
-
+   //Get all root modules (modules with no parents)
    public readonly GET_ROOT_MODULES: string = this.baseURL + '/module/roots';
+   //Set one parent-child relationship
+   public readonly UPDATE_MODULE_RELATIONSHIP_BY_IDS: string = this.baseURL + '/childrenmodules/set/${parentId}/${childId}';
+   //Get all child modules of an individual module
+   public readonly GET_CHILDREN_BY_ID: string = this.baseURL + '/childrenmodules/${id}';
    
    /** Initialization of Endpoints */
    constructor(private http: HttpClient) { }
@@ -60,8 +64,10 @@ export class EndpointsService {
          this.GET_ALL_MODULES,//8
          this.GET_MODULE_BY_ID,//9
          this.FILTER_CONTENT,//10
-         this.GET_METRICS,
-         this.GET_ROOT_MODULES);//11
+         this.GET_METRICS,//11
+         this.GET_ROOT_MODULES,//12
+         this.UPDATE_MODULE_RELATIONSHIP_BY_IDS,//13
+         this.GET_CHILDREN_BY_ID);//14
 
       return endpoints;
    }
