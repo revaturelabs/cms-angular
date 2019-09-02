@@ -80,9 +80,9 @@ export class ModuleStoreService {
 
          }, () => {
             this.populateCollections(this.response);
+            this.nodes = [];
             this.subjectIDToRootModule.forEach(
                (modules) => {
-                  this.nodes = [];
                   this.nodes.push(modules);
                }
             );

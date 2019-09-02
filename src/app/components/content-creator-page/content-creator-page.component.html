@@ -40,12 +40,12 @@
                        Using ngModel binding, the subjects are displayed.
                   -->
                   <input id="filter" #filter (keyup)="tree.treeModel.filterNodes(filter.value)" placeholder="filter nodes" />
-                  <tree-root id="tree" [nodes]="nodes" [options]="options"></tree-root>
-                  <ng-select id="subjectDropDown" [items]="ms.subjectNames" multiple="true" closeOnSelect="true"
+                  <tree-root id="tree" [nodes]="nodes" [options]="options" bindLabel="name" spellcheck="false"></tree-root>
+                  <!-- <ng-select id="subjectDropDown" [items]="ms.subjectNames" multiple="true" closeOnSelect="true"
                      hideSelected="true" clearOnBackspace="true" bindLabel="name" spellcheck="false"
                      notFoundText="(no such subject found)" [loading]="ms.isLoading" [placeholder]="ms.loadingText"
                      [(ngModel)]="selectedSubjects" name="selectedSubjects">
-                  </ng-select>
+                  </ng-select> -->
                </div>
                <div class="col-1"></div>
             </div>

@@ -4,7 +4,7 @@ import { ContentFetcherService } from 'src/app/services/content-fetcher.service'
 import { Link } from 'src/app/models/Link';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { ToastrService } from 'ngx-toastr';
-import { ITreeOptions, TreeComponent } from 'angular-tree-component';
+import { ITreeOptions, TreeComponent, IActionMapping, TREE_ACTIONS } from 'angular-tree-component';
 import { IStorageStrategy } from 'ngx-cacheable';
 import { Module } from 'src/app/models/Module';
 
@@ -61,7 +61,6 @@ export class ContentCreatorPageComponent implements OnInit {
    }
 
    ngDoCheck() {
-      console.log("hello!");
       if (this.nodes.length == 0) {
          this.nodes = this.ms.nodes;
          this.tree.treeModel.update();
@@ -187,6 +186,13 @@ export class ContentCreatorPageComponent implements OnInit {
    // custom options for ITree that allows for nodes to be formatted like module
    options: ITreeOptions = {
       displayField: 'subject',
-      childrenField: 'childrenModulesObject'
+      childrenField: 'childrenModulesObject',
+      actionMapping
+   }
+}
+// Allows for mutliselect within ngTree
+const actionMapping : IActionMapping = {
+   mouse: {
+      click: TREE_ACTIONS.TOGGLE_ACTIVE_MULTI
    }
 }
