@@ -65,6 +65,10 @@ export class Module {
       return this.childrenModules;
    }
 
+   public getChildrenObjects() : Module[] {
+      return this.childrenModulesObject;
+   }
+
    /**
     * Get date Module was created
     */

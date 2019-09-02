@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Module } from '../models/Module';
 import { ModuleFetcherService } from './module-fetcher.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { ContentFetcherService } from './content-fetcher.service';
 
@@ -22,7 +22,7 @@ export class ModuleStoreService {
    subjectIdToName: Map<number, string>;
    // Populates a collection of Root modules
    subjectIDToRootModule: Map<number, Module>;
-   subjectRootArray: Module[];
+   subjectRootArray: Module[] = [];
    /** all subject names in alphabetical order */
    subjectNames: string[];
 
@@ -77,7 +77,7 @@ export class ModuleStoreService {
             this.isLoading = false;
 
          }, () => this.populateCollections(this.response)
-      )
+         )
    }
 
    /** load Modules that have no content */
@@ -126,6 +126,7 @@ export class ModuleStoreService {
          this.subjectIdToSortedIndex = new Map<number, number>();
          this.subjectIDToRootModule = new Map<number, Module>();
          this.subjectNames = [];
+         this.subjectRootArray = [];
          // this.subjectIDtoData = new Map<Number, 
 
          modules.sort(
@@ -141,13 +142,13 @@ export class ModuleStoreService {
                this.subjectIdToSortedIndex.set(module.id, i++);
                this.subjectNames.push(module.subject);
                // populates a collection of root modules
-               if (module.parentModules == []) {
+               if (module.parentModules.length == 0) {
                   this.subjectIDToRootModule.set(module.id, module);
                   this.subjectRootArray.push(module);
                }
             }, this
          );
-         // this.populateModuleChildObjects(this.subjectRootArray);
+         this.populateModuleChildObjects(this.subjectRootArray);
       }
       this.isLoading = false;
       this.buffer.next(false);
@@ -156,10 +157,10 @@ export class ModuleStoreService {
 
    // takes the array of child ids and populates an array of module objects
    populateModuleChildObjects(modules: Module[]) {
-      if (modules.length > 0) {
          modules.forEach(
             (module) => {
-               if (module.childrenModules != []) {
+               module.childrenModulesObject = [];
+               if (module.childrenModules.length != 0) {
                   module.childrenModules.forEach(
                      (element) => {
                         module.childrenModulesObject.push(this.subjectIdToModule.get(element));
@@ -171,7 +172,7 @@ export class ModuleStoreService {
                }
             }
          );
-      }
+   
    }
 
    /**

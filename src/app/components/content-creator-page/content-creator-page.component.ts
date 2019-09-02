@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Content } from 'src/app/models/Content';
 import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
 import { Link } from 'src/app/models/Link';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { ToastrService } from 'ngx-toastr';
-import { ITreeOptions } from 'angular-tree-component';
+import { ITreeOptions, TreeComponent } from 'angular-tree-component';
 import { IStorageStrategy } from 'ngx-cacheable';
 import { Module } from 'src/app/models/Module';
 
@@ -38,7 +38,7 @@ export class ContentCreatorPageComponent implements OnInit {
    selectedSubjects: string[] = [];  
 
    // Called in nodeCreation() for tree nodes
-   nodes: string[] = [];
+   nodes: any[] = [];
    tempChildren: Module[] = [];
 
    /**
@@ -156,13 +156,25 @@ export class ContentCreatorPageComponent implements OnInit {
       return regexp.test(url);
    }
 
+   // Creates the view for the tree component
+   @ViewChild(TreeComponent, null)
+   private tree: TreeComponent;
+
+   // Node creation for the tree component
    nodeCreation(){
+      this.ms.subjectIDToRootModule.forEach(
+         (modules) => {
+            this.nodes.push(modules);
+         }
+      );
+      // updates the treemodel after nodes have been pushed
+      this.tree.treeModel.update();
    }
 
 
    // custom options for ITree that allows for nodes to be formatted like module
    options: ITreeOptions = {
       displayField: 'subject',
-      childrenField: 'childrenModules'
+      childrenField: 'childrenModulesObject'
    }
 }
