@@ -146,7 +146,8 @@ export class ModuleStoreService {
                   this.subjectRootArray.push(module);
                }
             }, this
-         )
+         );
+         // this.populateModuleChildObjects(this.subjectRootArray);
       }
       this.isLoading = false;
       this.buffer.next(false);
@@ -155,18 +156,22 @@ export class ModuleStoreService {
 
    // takes the array of child ids and populates an array of module objects
    populateModuleChildObjects(modules: Module[]) {
-      modules.forEach(
-         (module) => {
-            if (module.childrenModules != []) {
-               module.childrenModules.forEach(
-                  (element) => {
-                     module.childrenModulesObject.push(this.subjectIdToModule.get(element));
-                  }
-               );
-               this.populateModuleChildObjects(module.childrenModulesObject);
+      if (modules.length > 0) {
+         modules.forEach(
+            (module) => {
+               if (module.childrenModules != []) {
+                  module.childrenModules.forEach(
+                     (element) => {
+                        module.childrenModulesObject.push(this.subjectIdToModule.get(element));
+                     }
+                  );
+                  // recursive for each layer of children
+                  // beware memory leaks
+                  this.populateModuleChildObjects(module.childrenModulesObject);
+               }
             }
-         }
-      );
+         );
+      }
    }
 
    /**

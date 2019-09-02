@@ -33,7 +33,9 @@ export class Module {
       if (created != null) this.created = created;
       if (links != null) this.links = links;
       if (parentModules != null) this.parentModules = parentModules;
+      else this.parentModules = [];
       if (childrenModules != null) this.childrenModules = childrenModules;
+      else this.parentModules = [];
       this.childrenModulesObject = [];
       this.parentModulesObject = [];
 

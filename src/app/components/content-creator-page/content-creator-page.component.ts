@@ -157,7 +157,6 @@ export class ContentCreatorPageComponent implements OnInit {
    }
 
    nodeCreation(){
-      this.ms.populateModuleChildObjects(this.ms.subjectRootArray);
    }
 
 
