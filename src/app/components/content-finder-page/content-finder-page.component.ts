@@ -255,10 +255,7 @@ export class ContentFinderPageComponent implements OnInit {
       let found = this.selCon.links.findIndex(l => this.selLink.id === l.id);
       this.selCon.links.splice(found, 1);
       this.cs.updateContentByContent(this.selCon).subscribe(
-         data => {
-
-            window.location.reload();
-         }
+         data => {}
       );
    }
 
