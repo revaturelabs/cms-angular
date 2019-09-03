@@ -1,4 +1,4 @@
-import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
+import { Component, OnInit, ComponentFactoryResolver, ViewChild } from '@angular/core';
 import { Module } from 'src/app/models/Module';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { ModuleFetcherService } from 'src/app/services/module-fetcher.service'
@@ -8,6 +8,8 @@ import { Filter } from 'src/app/models/Filter';
 import { ToastrService } from 'ngx-toastr';
 import { PagesService } from 'src/app/services/pages.service';
 import { globalCacheBusterNotifier } from 'ngx-cacheable';
+import {NestedTreeControl} from '@angular/cdk/tree';
+import { ITreeOptions, TreeComponent, IActionMapping, TREE_ACTIONS, TreeModel } from 'angular-tree-component';
 
 /** Typescript Component for Module Index Page */
 @Component({
@@ -40,6 +42,10 @@ export class ModuleIndexPageComponent implements OnInit {
 
    /** Used to display a spinner when modules are loading.*/
    isLoading: boolean = false;
+
+   /** Create nodes to load child modules as objects */
+   nodes: any[] = this.ms.nodes;
+   
 
    /**
     * Constructor for Module Index Component
@@ -91,6 +97,23 @@ export class ModuleIndexPageComponent implements OnInit {
          this.contentVisible.set(module, !this.contentVisible.get(module));
       }
    }
+
+   // ngDoCheck() {
+   //    if (this.nodes.length == 0) {
+   //       this.nodes = this.ms.nodes;
+   //       this.tree.treeModel.update();
+   //    }
+   // }
+
+   // @ViewChild(TreeComponent, null)
+   // private tree: TreeComponent;
+
+   // // custom options for ITree that allows for nodes to be formatted like module
+   // options: ITreeOptions = {
+   //    displayField: 'subject',
+   //    childrenField: 'childrenModulesObject',
+   //    idField: 'id'
+   // }
 
    /**
     * Sort the content list order by title
@@ -175,4 +198,4 @@ export class ModuleIndexPageComponent implements OnInit {
       );
    }
 
-}
+  }
