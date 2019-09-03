@@ -4,7 +4,7 @@ import { ContentFetcherService } from 'src/app/services/content-fetcher.service'
 import { Link } from 'src/app/models/Link';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { ToastrService } from 'ngx-toastr';
-import { ITreeOptions, TreeComponent, IActionMapping, TREE_ACTIONS } from 'angular-tree-component';
+import { ITreeOptions, TreeComponent, IActionMapping, TREE_ACTIONS, TreeModel } from 'angular-tree-component';
 import { IStorageStrategy } from 'ngx-cacheable';
 import { Module } from 'src/app/models/Module';
 
@@ -35,7 +35,7 @@ export class ContentCreatorPageComponent implements OnInit {
    isSubmitting: boolean = false;
 
    /** Stores selected subjects */
-   selectedSubjects: string[] = [];  
+   selectedSubjects: number[] = [];
 
    // Called in nodeCreation() for tree nodes
    nodes: any[] = this.ms.nodes;
@@ -51,13 +51,13 @@ export class ContentCreatorPageComponent implements OnInit {
       public ms: ModuleStoreService,
       private toastr: ToastrService
    ) {
-      
+
    }
 
    /** On page initialization load the modules to list on the dropdown menu */
    ngOnInit() {
       this.ms.loadModules();
-      
+
    }
 
    ngDoCheck() {
@@ -66,14 +66,13 @@ export class ContentCreatorPageComponent implements OnInit {
          this.tree.treeModel.update();
       }
    }
-   
+
 
    /** Check if the input fields are all valid - i.e. all fields are filled in */
    validInput(): boolean {
-      let cantBeNull = [this.title, this.selFormat, this.url, this.selectedSubjects.length];
+      let cantBeNull = [this.title, this.selFormat, this.url];
 
       if (cantBeNull.includes(null) || cantBeNull.includes(undefined)) return false;
-      if (this.selectedSubjects.length == 0) return false;
       return true;
    }
 
@@ -90,7 +89,7 @@ export class ContentCreatorPageComponent implements OnInit {
          this.isSubmitting = false;
          return;
 
-      //if the url was not a valid url display a toaster message and return
+         //if the url was not a valid url display a toaster message and return
       } else if (!this.validURL(this.url)) {
          this.toastr.error('Invalid URL. e.g. "http://example.com", "ftp://www.example.com", "http://192.168.0.0"');
          this.isSubmitting = false;
@@ -103,7 +102,7 @@ export class ContentCreatorPageComponent implements OnInit {
       let content: Content = new Content(
          null, this.title, this.selFormat,
          this.description, this.url,
-         this.getLinksFromSubjects(this.selectedSubjects));
+         this.getLinksFromSubjects(Object.entries(this.tree.treeModel.activeNodeIds)));
 
       //call the ContentFetcherService to create a new content
       this.cs.createNewContent(content).subscribe(
@@ -135,19 +134,19 @@ export class ContentCreatorPageComponent implements OnInit {
       this.isSubmitting = false;
    }
 
-   
+
    /**
     * Creates a new set of links from selected subject names
     * 
-    * @param {string[]} subjects List/array of selected subjects subjects
+    * @param {number[]} subjects List/array of selected subjects subjects
     * @returns A new set of links.
     */
-   getLinksFromSubjects(subjects: string[]): Link[] {
+   getLinksFromSubjects(subjects: any): Link[] {
       let links = [];
       subjects.forEach(
          (subject) => {
             links.push(new Link(null, null,
-               this.ms.subjectNameToModule.get(subject).id, null));
+               subject[0], null));
          }, this
       )
       return links;
@@ -169,29 +168,16 @@ export class ContentCreatorPageComponent implements OnInit {
    @ViewChild(TreeComponent, null)
    private tree: TreeComponent;
 
-   // Node creation for the tree component
-   nodeCreation() {
-      // this.ms.subjectIDToRootModule.forEach(
-      //    (modules) => {
-      //       this.nodes.push(modules);
-      //    }
-      // );
-      //updates the treemodel after nodes have been pushed
-      this.tree.treeModel.update();
-      console.log("Updated!");
-   }
-   
-
-
    // custom options for ITree that allows for nodes to be formatted like module
    options: ITreeOptions = {
       displayField: 'subject',
       childrenField: 'childrenModulesObject',
-      actionMapping
+      actionMapping,
+      idField: 'id'
    }
 }
 // Allows for mutliselect within ngTree
-const actionMapping : IActionMapping = {
+const actionMapping: IActionMapping = {
    mouse: {
       click: TREE_ACTIONS.TOGGLE_ACTIVE_MULTI
    }
