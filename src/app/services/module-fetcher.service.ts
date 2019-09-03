@@ -95,5 +95,16 @@ export class ModuleFetcherService {
       return this.http.delete<HttpHeaderResponse>(this.endpoints.DELETE_MODULE_BY_ID.replace('${id}', id.toString()));
    }
 
+   deleteModuleWithSpecificContent(id: number): Observable<HttpHeaderResponse> {
+      globalCacheBusterNotifier.next();
+      return this.http.delete<HttpHeaderResponse>(this.endpoints.DELETE_MODULE_BY_SPECIFIC_CONTENT.replace('${id}', id.toString()));
+   }
+
+   deleteModuleWithContent(id: number): Observable<HttpHeaderResponse> {
+      globalCacheBusterNotifier.next();
+      return this.http.delete<HttpHeaderResponse>(this.endpoints.DELETE_MODULE_WITH_CONTENT.replace('${id}', id.toString()));
+   }
+
+
 }
 

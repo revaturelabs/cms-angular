@@ -143,6 +143,37 @@ export class ContentFinderPageComponent implements OnInit {
       )
    }
 
+   submitForDelete(){
+      this.isSearching = true;
+      let format: string = this.selFormat;
+
+      //if 'all' or 'flagged' was selected return all content
+      if (format === "All" || format === "Flagged") {
+         format = "";
+      }
+      this.getIDsFromSubjects(this.selectedSubjects);
+      let filter: Filter = new Filter(
+         this.title, format, this.moduleIDs
+      );
+      this.searchedSubjects = this.selectedSubjects;
+      this.cs.filterContent(filter).subscribe(
+         (response) => {
+            if (response != null) {
+
+               //populate the contents array with the response with the parseContentResponse function
+               this.parseContentResponse(response);
+               if (this.notEmpty()) { }
+            } else {
+               this.toastr.error('Response was null');
+            }
+         },
+         (response) => {
+            this.toastr.error('Failed to send filter');
+            this.isSearching = false;
+         }
+      )
+   }
+
    /**
     * Sorts the content's order and then the content's link's order
     * @param response
@@ -225,8 +256,8 @@ export class ContentFinderPageComponent implements OnInit {
       this.selCon.links.splice(found, 1);
       this.cs.updateContentByContent(this.selCon).subscribe(
          data => {
-         
-               window.location.reload();
+
+            window.location.reload();
          }
       );
    }
@@ -304,25 +335,27 @@ export class ContentFinderPageComponent implements OnInit {
           * Below is used to refresh this component when a module has been removed 
           */
          data => {
-            if (data != null) {
+            //this.tablebool = false;
+            
                this.ngOnInit();
-            }
+            this.submitForDelete();
          }
       );
+     // this.ngOnInit();
    }
 
 
-/**
- * The DoThis function is used to ?????
- * @param contentID 
- * @param linkID 
- */
+   /**
+    * The DoThis function is used to ?????
+    * @param contentID 
+    * @param linkID 
+    */
 
-   public DoThis(contentID : number, linkID : number) {
-      return ContentFinderPageComponent.generateLinkId (contentID, linkID);
+   public DoThis(contentID: number, linkID: number) {
+      return ContentFinderPageComponent.generateLinkId(contentID, linkID);
    }
 
-   public static generateLinkId (contentID : number, linkID : number) {
+   public static generateLinkId(contentID: number, linkID: number) {
       return "contentID-" + contentID + "-linkID-" + linkID;
    }
 
