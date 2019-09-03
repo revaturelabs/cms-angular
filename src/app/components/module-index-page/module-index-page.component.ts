@@ -65,6 +65,17 @@ export class ModuleIndexPageComponent implements OnInit {
       this.ms.loadModules();
    }
 
+   ngDoCheck() {
+      if (this.nodes.length == 0) {
+         this.nodes = this.ms.nodes;
+         this.tree.treeModel.update();
+      }
+   }
+
+   getChildren(id: number){
+
+   }
+
    /**
     * Lists the available content for module input
     * @param {Module} module 
@@ -97,23 +108,6 @@ export class ModuleIndexPageComponent implements OnInit {
          this.contentVisible.set(module, !this.contentVisible.get(module));
       }
    }
-
-   // ngDoCheck() {
-   //    if (this.nodes.length == 0) {
-   //       this.nodes = this.ms.nodes;
-   //       this.tree.treeModel.update();
-   //    }
-   // }
-
-   // @ViewChild(TreeComponent, null)
-   // private tree: TreeComponent;
-
-   // // custom options for ITree that allows for nodes to be formatted like module
-   // options: ITreeOptions = {
-   //    displayField: 'subject',
-   //    childrenField: 'childrenModulesObject',
-   //    idField: 'id'
-   // }
 
    /**
     * Sort the content list order by title
@@ -196,6 +190,16 @@ export class ModuleIndexPageComponent implements OnInit {
             }
          }
       );
+   }
+
+   @ViewChild(TreeComponent, null)
+   private tree: TreeComponent;
+
+   // custom options for ITree that allows for nodes to be formatted like module
+   options: ITreeOptions = {
+      displayField: 'subject',
+      childrenField: 'childrenModulesObject',
+      idField: 'id'
    }
 
   }
