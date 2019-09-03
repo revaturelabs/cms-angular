@@ -336,7 +336,7 @@ export class ContentFinderPageComponent implements OnInit {
          data => {
             //this.tablebool = false;
             
-               this.ngOnInit();
+            this.ngOnInit();
             this.submitForDelete();
          }
       );
