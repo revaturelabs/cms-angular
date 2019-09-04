@@ -255,7 +255,9 @@ export class ContentFinderPageComponent implements OnInit {
       let found = this.selCon.links.findIndex(l => this.selLink.id === l.id);
       this.selCon.links.splice(found, 1);
       this.cs.updateContentByContent(this.selCon).subscribe(
-         data => {}
+         data => {
+         this.updateTags();
+         }
       );
    }
 
@@ -334,7 +336,7 @@ export class ContentFinderPageComponent implements OnInit {
          data => {
             //this.tablebool = false;
             
-               this.ngOnInit();
+            this.ngOnInit();
             this.submitForDelete();
          }
       );
