@@ -4,6 +4,7 @@ import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { ModuleFetcherService } from 'src/app/services/module-fetcher.service';
 import { ToastrService } from 'ngx-toastr';
 import { ITreeOptions, TreeComponent, IActionMapping, TREE_ACTIONS, TreeModel, TreeNode } from 'angular-tree-component';
+import { Link } from 'src/app/models/Link';
 
 
 
@@ -45,18 +46,17 @@ export class ModuleCreatorPageComponent implements OnInit {
       private toastr: ToastrService
    ) { }
 
-   /**@ignore */
    ngOnInit() {
       this.ms.loadModules();
       this.tree.treeModel.update();
-
+      this.tree.sizeChanged();
    }
 
    ngDoCheck() {
       if (this.nodes.length == 0) {
          this.nodes = this.ms.nodes;
          this.tree.treeModel.update();
-         this.tree.treeModel.getActiveNode().id;
+         this.tree.sizeChanged();
       }
    }
 
@@ -93,12 +93,11 @@ export class ModuleCreatorPageComponent implements OnInit {
          this.resetVariables();
          return;
       }
-
       // Next create an instance of a Module  for storing, using the Module model.
       let module: Module = new Module(
-         null, this.subject, null, null, [this.tree.treeModel.getActiveNode().id], null
+         null, this.subject, null, null, this.tree.treeModel.getActiveNode().id, null
       )
-
+      
       /**
        * This sends the module data to the backend and then stores it if successful.
        */
@@ -121,7 +120,7 @@ export class ModuleCreatorPageComponent implements OnInit {
          () => this.resetVariables()
       )
       
-   
+      //location.reload();
    }
 
    /**
@@ -144,10 +143,23 @@ export class ModuleCreatorPageComponent implements OnInit {
       actionMapping,
       idField: 'id'
    }
+   getLinksFromSubjects(subjects: any): Link[] {
+      let links = [];
+      subjects.forEach(
+         (subject) => {
+            links.push(new Link(null, null,
+               subject[0], null));
+         }, this
+      )
+
+      console.log(links);
+      return links;
+   }
 }
 // Allows for mutliselect within ngTree
 const actionMapping: IActionMapping = {
    mouse: {
-      click: TREE_ACTIONS.TOGGLE_ACTIVE_MULTI
+      click: TREE_ACTIONS.TOGGLE_SELECTED
    }
 }
+
