@@ -80,9 +80,9 @@ export class ModuleFetcherService {
     */
    
    createNewModule(module: Module): Observable<HttpHeaderResponse> {
-      let body: string = JSON.stringify(module);
+      // let body: string = JSON.stringify(module);
       globalCacheBusterNotifier.next();
-      return this.http.post<HttpHeaderResponse>(this.endpoints.CREATE_NEW_MODULE, body, { headers: this.HEADERS });
+      return this.http.post<HttpHeaderResponse>(this.endpoints.CREATE_NEW_MODULE, module, { headers: this.HEADERS });
    }
 
    /**

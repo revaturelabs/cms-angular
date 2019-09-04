@@ -70,7 +70,6 @@ export class ContentCreatorPageComponent implements OnInit {
       if (this.nodes.length == 0) {
          this.nodes = this.ms.nodes;
          this.tree.treeModel.update();
-         this.tree.treeModel.getActiveNode().id;
       }
    }
 

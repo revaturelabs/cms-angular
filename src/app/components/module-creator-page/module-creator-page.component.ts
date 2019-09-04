@@ -93,9 +93,10 @@ export class ModuleCreatorPageComponent implements OnInit {
          this.resetVariables();
          return;
       }
+
       // Next create an instance of a Module  for storing, using the Module model.
       let module: Module = new Module(
-         null, this.subject, null, null, this.tree.treeModel.getActiveNode().id, null
+         null, this.subject, null, null, this.getLinksFromSubjects(Object.entries(this.tree.treeModel.activeNodeIds)), null
       )
       
       /**
@@ -143,12 +144,12 @@ export class ModuleCreatorPageComponent implements OnInit {
       actionMapping,
       idField: 'id'
    }
-   getLinksFromSubjects(subjects: any): Link[] {
+   getLinksFromSubjects(subjects: any) : number[]{
       let links = [];
       subjects.forEach(
          (subject) => {
-            links.push(new Link(null, null,
-               subject[0], null));
+            links.push(Number.parseInt(subject[0]));
+            console.log(subject[0])
          }, this
       )
 
@@ -159,7 +160,7 @@ export class ModuleCreatorPageComponent implements OnInit {
 // Allows for mutliselect within ngTree
 const actionMapping: IActionMapping = {
    mouse: {
-      click: TREE_ACTIONS.TOGGLE_SELECTED
+      click: TREE_ACTIONS.TOGGLE_ACTIVE
    }
 }
 
