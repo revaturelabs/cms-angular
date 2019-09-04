@@ -104,8 +104,11 @@ export class ModuleCreatorPageComponent implements OnInit {
        */
       this.mf.createNewModule(module).subscribe(
          (response) => {
-            if (response != null)
+            if (response != null){
                this.toastr.success('Successfully sent module.');
+               location.reload();
+            }
+               
             else
                this.toastr.error('There was a problem creating a subject');
             this.isSubmitting = false;
@@ -120,8 +123,8 @@ export class ModuleCreatorPageComponent implements OnInit {
          // Lastly, reset field.
          () => this.resetVariables()
       )
-      
-      //location.reload();
+      //this.nodes.push(module);
+      //this.tree.treeModel.update();
    }
 
    /**
