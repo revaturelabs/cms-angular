@@ -1,4 +1,4 @@
-import { Component, OnInit, ComponentFactoryResolver, ViewChild } from '@angular/core';
+import { Component, OnInit, ComponentFactoryResolver} from '@angular/core';
 import { Module } from 'src/app/models/Module';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { ModuleFetcherService } from 'src/app/services/module-fetcher.service'
@@ -8,9 +8,6 @@ import { Filter } from 'src/app/models/Filter';
 import { ToastrService } from 'ngx-toastr';
 import { PagesService } from 'src/app/services/pages.service';
 import { globalCacheBusterNotifier } from 'ngx-cacheable';
-import {NestedTreeControl} from '@angular/cdk/tree';
-import { CloseScrollStrategy } from '@angular/cdk/overlay';
-// import { ITreeOptions, TreeComponent, IActionMapping, TREE_ACTIONS, TreeModel } from 'angular-tree-component';
 
 /** Typescript Component for Module Index Page */
 @Component({
@@ -74,11 +71,8 @@ export class ModuleIndexPageComponent implements OnInit {
    ngDoCheck() {
       if (this.nodes.length == 0) {
          this.nodes = this.ms.nodes;
-         // this.tree.treeModel.update();
       }
    }
-
-
 
    /**
     * Lists the available content for module input

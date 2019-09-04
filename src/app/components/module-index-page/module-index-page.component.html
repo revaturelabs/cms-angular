@@ -97,25 +97,25 @@
                                             </tr>
                                         </thead>
                                         <!-- 
-                    Here lies the data of each content to each associated module. To do this,
-                    an *ngFor directive is utilized which takes each content in 
-                    moduleContents.get(module) and displayes the data in each by using String
-                    Interpolation {{}}.
-                   -->
+                                            Here lies the data of each content to each associated module. To do this,
+                                            an *ngFor directive is utilized which takes each content in 
+                                            moduleContents.get(module) and displayes the data in each by using String
+                                            Interpolation {{}}.
+                                        -->
                                         <tbody>
                                             <tr *ngFor="let content of moduleContents.get(module)"
                                                 [attr.id]="'row' + content.id">
                                                 <!-- 
-                    The first data to exist for row in a table is a Remove Content button. 
-                    This works in the same way the remove button works in the content finder
-                    page. Using .ts logic and a Spring JDBC backend, one can delete the 
-                    content from the database, and hence the fron-end. When this button is 
-                    clicked, a data-target is used to call upon the deleteContent div using 
-                    data-target="#deleteContent", where deleteContent is a modal used to 
-                    create a pop up that asks for delete confirmation. 
-                    
-                    This is further explained below. 
-                    -->
+                                                    The first data to exist for row in a table is a Remove Content button. 
+                                                    This works in the same way the remove button works in the content finder
+                                                    page. Using .ts logic and a Spring JDBC backend, one can delete the 
+                                                    content from the database, and hence the fron-end. When this button is 
+                                                    clicked, a data-target is used to call upon the deleteContent div using 
+                                                    data-target="#deleteContent", where deleteContent is a modal used to 
+                                                    create a pop up that asks for delete confirmation. 
+                                                    
+                                                    This is further explained below. 
+                                                -->
                                                 <td name="trash">
                                                     <em title="Remove from module "
                                                         (click)="selectedLinkForRemoval(content, module)"
@@ -167,7 +167,7 @@
                 <h6>Are you sure you want to remove {{selCon.title}} from {{selModule.subject}}?</h6>
                 <h6><small>This content will not be deleted, only removed for {{selModule.subject}}.</small></h6>
                 <div class="row btn mb-3">
-                        
+
                     <!-- 
             Here is the confirm button which utilizes the removeContentFromModuleIndex() 
             function.
@@ -187,7 +187,7 @@
   String Interpolation is used to say what module is being deleted, 
   and a button is used to confirm.
  -->
- <div id="deleteModule" class="modal fade" role="dialog">
+<div id="deleteModule" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -207,7 +207,8 @@
                             </small></h5>
                         <button type="button" class="btn btn-primary" id="deleteModuleButton" (click)="removeModule()"
                             data-dismiss="modal">Confirm Removal</button>
-                    </form>                <!-- 
+                    </form>
+                    <!-- 
             Here is the confirm button which utilizes the removeContentFromModuleIndex() 
             function.
            -->
