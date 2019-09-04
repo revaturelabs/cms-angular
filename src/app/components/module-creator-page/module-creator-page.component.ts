@@ -120,8 +120,6 @@ export class ModuleCreatorPageComponent implements OnInit {
          // Lastly, reset field.
          () => this.resetVariables()
       )
-      
-      //location.reload();
    }
 
    /**
