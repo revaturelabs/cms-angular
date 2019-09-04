@@ -30,6 +30,10 @@ export class EndpointsService {
    public readonly DELETE_CONTENT_BY_ID: string = this.baseURL + '/content/${id}';
    /** Delete Module Endpoint */
    public readonly DELETE_MODULE_BY_ID: string = this.baseURL + '/module/${id}';
+      /** Delete Module By Specific Content Endpoint */
+   public readonly DELETE_MODULE_BY_SPECIFIC_CONTENT: string = this.baseURL + '/module/speccontent/${id}';
+      /** Delete Module With Content Endpoint */
+   public readonly DELETE_MODULE_WITH_CONTENT: string = this.baseURL + '/module/withcontent/${id}';
    /** Create Module Endpoint */
    public readonly CREATE_NEW_MODULE: string = this.baseURL + '/module';
    /** Get All Modules Endpoint */

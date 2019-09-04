@@ -31,6 +31,9 @@ export class ContentCreatorPageComponent implements OnInit {
    /** Description of content */
    description: string;
 
+   test: string;
+   listURLS=['http://example.com'];
+   urlFlag='';
    /** Description - boolean to display a spinner for submitting in progress */
    isSubmitting: boolean = false;
 
@@ -57,6 +60,8 @@ export class ContentCreatorPageComponent implements OnInit {
    /** On page initialization load the modules to list on the dropdown menu */
    ngOnInit() {
       this.ms.loadModules();
+      this.getListOfURLS();
+      this.tree.treeModel.update();
 
    }
 
@@ -67,6 +72,25 @@ export class ContentCreatorPageComponent implements OnInit {
       }
    }
 
+   ngAfterViewInit() {
+      this.tree.treeModel.update();
+      this.tree.sizeChanged();
+   }
+
+   /** On page initialization load the modules to list on the dropdown menu */ 
+  getListOfURLS(){
+      let handle=this;
+      handle.cs.getAllContent().subscribe(
+      data => data.forEach(
+         function(item){
+            
+            handle.listURLS.push(item.url);
+            
+            
+            
+         } )
+      );
+  }
 
    /** Check if the input fields are all valid - i.e. all fields are filled in */
    validInput(): boolean {
@@ -81,7 +105,16 @@ export class ContentCreatorPageComponent implements OnInit {
     * where the link has its subject id populated and the rest are set to default values
     */
    submit() {
+      
       this.isSubmitting = true;
+
+      if(this.listURLS.indexOf(this.url)>=0){
+         
+         this.toastr.error('The URL already exsists in database.');
+         this.isSubmitting = false;
+         return;
+      }
+
 
       //if the input was not valid display a toastr message and return
       if (!this.validInput()) {
@@ -97,7 +130,7 @@ export class ContentCreatorPageComponent implements OnInit {
       }
 
       //If the input was valid continue
-
+      let save_url=this.url;
       //create a content object with the data inputed by the user
       let content: Content = new Content(
          null, this.title, this.selFormat,
@@ -112,6 +145,7 @@ export class ContentCreatorPageComponent implements OnInit {
                //on success, display a toastr message and reset the variables on this page
                this.toastr.success('Successfully sent content.');
                this.resetVariables();
+               this.listURLS.push(save_url); //
             } else {
                this.toastr.error('Response was null.');
                this.isSubmitting = false;
@@ -149,6 +183,8 @@ export class ContentCreatorPageComponent implements OnInit {
                subject[0], null));
          }, this
       )
+
+      console.log(links);
       return links;
    }
 

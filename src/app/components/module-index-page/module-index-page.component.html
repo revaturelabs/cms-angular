@@ -167,6 +167,7 @@
                 <h6>Are you sure you want to remove {{selCon.title}} from {{selModule.subject}}?</h6>
                 <h6><small>This content will not be deleted, only removed for {{selModule.subject}}.</small></h6>
                 <div class="row btn mb-3">
+                        
                     <!-- 
             Here is the confirm button which utilizes the removeContentFromModuleIndex() 
             function.
@@ -186,7 +187,7 @@
   String Interpolation is used to say what module is being deleted, 
   and a button is used to confirm.
  -->
-<div id="deleteModule" class="modal fade" role="dialog">
+ <div id="deleteModule" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -195,9 +196,18 @@
             </div>
             <div class="modal-body">
                 <h6>Are you sure you want to delete the {{selModule.subject}} module?</h6>
-                <h6><small>Content within this module will not be deleted.</small></h6>
                 <div class="row btn mb-3">
-                    <!-- 
+                    <form>
+                        <h5><small>Delete module and
+                                <select id="Seldelmethod">
+                                    <option value="1">Keep all content</option>
+                                    <option value="2">Associated content to this module</option>
+                                    <option value="3">All content related to this module</option>
+                                </select>
+                            </small></h5>
+                        <button type="button" class="btn btn-primary" id="deleteModuleButton" (click)="removeModule()"
+                            data-dismiss="modal">Confirm Removal</button>
+                    </form>                <!-- 
             Here is the confirm button which utilizes the removeContentFromModuleIndex() 
             function.
            -->
