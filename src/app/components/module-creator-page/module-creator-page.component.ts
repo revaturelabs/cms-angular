@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Module } from 'src/app/models/Module';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { ModuleFetcherService } from 'src/app/services/module-fetcher.service';
 import { ToastrService } from 'ngx-toastr';
+import { ITreeOptions, TreeComponent, IActionMapping, TREE_ACTIONS, TreeModel, TreeNode } from 'angular-tree-component';
+
+
 
 /**
  * Description - Typescript component for module creator page
@@ -13,6 +16,7 @@ import { ToastrService } from 'ngx-toastr';
    styleUrls: ['./module-creator-page.component.css']
 })
 export class ModuleCreatorPageComponent implements OnInit {
+   [x: string]: any;
 
    /**
     * Tag name/subject. This will be used for the actual storing of a module.
@@ -25,6 +29,10 @@ export class ModuleCreatorPageComponent implements OnInit {
     */
    isSubmitting: boolean = false;
 
+
+   nodes: any[] = this.ms.nodes;
+   tempChildren: Module[] = [];
+
    /**
     * Constructor for Module Crator
     * @param mf; Grabs links/tag, specific to Modules. 
@@ -32,12 +40,29 @@ export class ModuleCreatorPageComponent implements OnInit {
     * error in input, or a success.
     */
    constructor(
+      public ms: ModuleStoreService,
       private mf: ModuleFetcherService,
       private toastr: ToastrService
    ) { }
 
    /**@ignore */
    ngOnInit() {
+      this.ms.loadModules();
+      this.tree.treeModel.update();
+
+   }
+
+   ngDoCheck() {
+      if (this.nodes.length == 0) {
+         this.nodes = this.ms.nodes;
+         this.tree.treeModel.update();
+         this.tree.treeModel.getActiveNode().id;
+      }
+   }
+
+   ngAfterViewInit() {
+      this.tree.treeModel.update();
+      this.tree.sizeChanged();
    }
 
    /**
@@ -71,7 +96,7 @@ export class ModuleCreatorPageComponent implements OnInit {
 
       // Next create an instance of a Module  for storing, using the Module model.
       let module: Module = new Module(
-         null, this.subject, null, null, null, null
+         null, this.subject, null, null, [this.tree.treeModel.getActiveNode().id], null
       )
 
       /**
@@ -95,6 +120,8 @@ export class ModuleCreatorPageComponent implements OnInit {
          // Lastly, reset field.
          () => this.resetVariables()
       )
+      
+   
    }
 
    /**
@@ -104,5 +131,23 @@ export class ModuleCreatorPageComponent implements OnInit {
    resetVariables() {
       this.subject = "";
       this.isSubmitting = false;
+   }
+   
+   // Creates the view for the tree component
+   @ViewChild(TreeComponent, null)
+   public tree: TreeComponent;
+
+   // custom options for ITree that allows for nodes to be formatted like module
+   options: ITreeOptions = {
+      displayField: 'subject',
+      childrenField: 'childrenModulesObject',
+      actionMapping,
+      idField: 'id'
+   }
+}
+// Allows for mutliselect within ngTree
+const actionMapping: IActionMapping = {
+   mouse: {
+      click: TREE_ACTIONS.TOGGLE_ACTIVE_MULTI
    }
 }

@@ -35,7 +35,7 @@ export class Module {
       if (parentModules != null) this.parentModules = parentModules;
       else this.parentModules = [];
       if (childrenModules != null) this.childrenModules = childrenModules;
-      else this.parentModules = [];
+      else this.childrenModules = [];
       this.childrenModulesObject = [];
       this.parentModulesObject = [];
 

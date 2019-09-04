@@ -10,6 +10,7 @@ import { ModuleStoreService } from 'src/app/services/module-store.service';
 
 import { Content } from 'src/app/models/Content';
 import { Link } from 'src/app/models/Link';
+import { ITreeOptions, TreeComponent, IActionMapping, TREE_ACTIONS, TreeModel, TreeNode } from 'angular-tree-component';
 
 import { ContentCreatorPageComponent } from './content-creator-page.component';
 
@@ -44,8 +45,32 @@ describe('ContentCreatorPageComponent', () => {
     component.selFormat = 'Code'
     component.url = 'http://www.test.com'
     component.description = 'I am a code'
-    component.selectedSubjects = ['Java', 'CSS']
-  });
+    //component.selectedSubjects = ['Java', 'CSS']
+    component.nodes = [
+      {
+        id: 1,
+        subject: 'root1',
+        children: [
+          { id: 2, name: 'child1' },
+          { id: 3, name: 'child2' }
+        ]
+      },
+      {
+        id: 4,
+        subject: 'root2',
+        childrenModules: [
+          { id: 5, subject: 'child2.1' },
+          {
+            id: 6,
+            subject: 'child2.2',
+            children: [
+              { id: 7, subject: 'subsub' }
+            ]
+          }
+        ]
+      }
+    ];
+  
 
 
   // First let's test general creation of the current component
@@ -116,9 +141,35 @@ describe('ContentCreatorPageComponent', () => {
       component.url = 'http://www.test.com'
 
       // Test Subjects
-      component.selectedSubjects = [];
-      expect(component.validInput()).toBeFalsy();
-      component.selectedSubjects = ['Java', 'CSS']
+      //component.selectedSubjects = [];
+      component.nodes = [];
+      //expect(component.validInput()).toBeFalsy();
+      //component.selectedSubjects = ['Java', 'CSS']
+      component.nodes = [
+        {
+          id: 1,
+          subject: 'root1',
+          children: [
+            { id: 2, name: 'child1' },
+            { id: 3, name: 'child2' }
+          ]
+        },
+        {
+          id: 4,
+          subject: 'root2',
+          childrenModules: [
+            { id: 5, subject: 'child2.1' },
+            {
+              id: 6,
+              subject: 'child2.2',
+              children: [
+                { id: 7, subject: 'subsub' }
+              ]
+            }
+          ]
+        }
+      ];
+    });
 
       // Test radio selformat
       component.selFormat = null
@@ -138,7 +189,8 @@ describe('ContentCreatorPageComponent', () => {
     expect(component.url).toBeNull();
     expect(component.selFormat).toEqual("Code")
     expect(component.description).toBeNull();
-    expect(component.selectedSubjects.length).toEqual(0);
+    //expect(component.selectedSubjects.length).toEqual(0);
+    expect(component.nodes.length).toEqual(0);
     expect(component.isSubmitting).toBeFalsy();
   })
 

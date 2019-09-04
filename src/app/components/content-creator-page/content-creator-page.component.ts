@@ -4,7 +4,7 @@ import { ContentFetcherService } from 'src/app/services/content-fetcher.service'
 import { Link } from 'src/app/models/Link';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { ToastrService } from 'ngx-toastr';
-import { ITreeOptions, TreeComponent, IActionMapping, TREE_ACTIONS, TreeModel } from 'angular-tree-component';
+import { ITreeOptions, TreeComponent, IActionMapping, TREE_ACTIONS, TreeModel, TreeNode } from 'angular-tree-component';
 import { IStorageStrategy } from 'ngx-cacheable';
 import { Module } from 'src/app/models/Module';
 
@@ -15,6 +15,7 @@ import { Module } from 'src/app/models/Module';
    styleUrls: ['./content-creator-page.component.css']
 })
 export class ContentCreatorPageComponent implements OnInit {
+
 
    /** Each format string automatically generates button */
    readonly formats: string[] = ["Code", "Document", "Powerpoint"];
@@ -69,6 +70,7 @@ export class ContentCreatorPageComponent implements OnInit {
       if (this.nodes.length == 0) {
          this.nodes = this.ms.nodes;
          this.tree.treeModel.update();
+         this.tree.treeModel.getActiveNode().id;
       }
    }
 
@@ -202,7 +204,7 @@ export class ContentCreatorPageComponent implements OnInit {
 
    // Creates the view for the tree component
    @ViewChild(TreeComponent, null)
-   private tree: TreeComponent;
+   public tree: TreeComponent;
 
    // custom options for ITree that allows for nodes to be formatted like module
    options: ITreeOptions = {
