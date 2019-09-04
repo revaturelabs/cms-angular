@@ -22,39 +22,33 @@
         </div>
 
         <!-- 
-      Here lies the directives for dispaying existing modules. For starters, an *ngIf 
-      is used with the intent that when the modules is finished loading, it will 
-      display a bubble representing a module. 
-    -->
+            Here lies the directives for dispaying existing modules. For starters, an *ngIf 
+            is used with the intent that when the modules is finished loading, it will 
+            display a bubble representing a module. 
+        -->
         <form *ngIf="!ms.isLoading" style="margin-bottom: 20px">
 
             <!-- 
-        In order to display all modules, however, we utilize an *ngFor directive to go
-        through and display all existing modules in the form of tag-bubbles. Id's are 
-        assigned in accordance to the module's already existing id and for both clarity
-        and aesthetic, the color of each bubble is alternated with lite blue and gray. 
-      -->
-            <div *ngFor="let module of ms.response" name="modules" id="{{module.id}}" class="tag-bubble"
-                style="margin-bottom: 5px" [style.background-color]=module.color>
+                In order to display all modules, however, we utilize an *ngFor directive to go
+                through and display all existing modules in the form of tag-bubbles. Id's are 
+                assigned in accordance to the module's already existing id and for both clarity
+                and aesthetic, the color of each bubble is alternated with lite blue and gray. 
+            -->
 
-                <div *ngFor="let node of ms.nodes" name="modules" id="{{module.id}}" class="tag-bubble"
-                style="margin-bottom: 5px" [style.background-color]=module.color>>
-                <!-- 
-          With the creation of bubbles, these are clickable, so simply assigning an 
-          event binding using click will help in revealing content using the listContent()
-          function on the .ts end. In this div, a flag is included to indicate that the 
-          module is empty and has a title of No Content. Also included is the module's name
-          as well as a delete button. 
-         -->
+            <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: ms.nodes }">
+            </ng-container>
 
-                <!--
-              Display all children modules and give option to expand them. Then display the content for
-              the current module's content. 
-         
-        -->
+            <ng-template #recursiveList let-list>
+                <div *ngFor="let module of list" name="modules" id="{{module.id}}" class="tag-bubble"
+                    style="margin-bottom: 5px" [style.background-color]=module.color>
 
-                <!-- <tree-node *ngFor="let node of ms.nodes" name="modules" id="{{module.id}}" class="tag-bubble"
-                    style="margin-bottom: 5px" [style.background-color]=module.color> -->
+                    <!-- 
+                    With the creation of bubbles, these are clickable, so simply assigning an 
+                    event binding using click will help in revealing content using the listContent()
+                    function on the .ts end. In this div, a flag is included to indicate that the 
+                    module is empty and has a title of No Content. Also included is the module's name
+                    as well as a delete button. 
+                -->
 
                     <div (click)="listContent(module)" name="module">
                         <!-- Flag behaves purely as an indicator, which if module.links is empty = flag -->
@@ -62,28 +56,28 @@
                         {{module.subject}}
 
                         <!-- 
-            This trash icon indicates a remove module button. This works off of logic 
-            defined in both the .ts file and java using the selectedLinkForRemoval() 
-            function.
-          -->
+                            This trash icon indicates a remove module button. This works off of logic 
+                            defined in both the .ts file and java using the selectedLinkForRemoval() 
+                            function.
+                        -->
                         <span data-toggle="modal" data-target="#deleteModule" title="Delete Module"
                             style="float: right;" (click)="selectedModuleForRemoval(module)"
                             class="fas fa-trash"></span>
                     </div>
 
                     <!-- 
-          Here is the presentation of the content inside every given module upon request
-          (a click). In the listContent(module) function, a boolean is triggered to turn
-          contentVisible.get(module) from False to True. Doing so triggers the creation 
-          of a form which lists the available fields:
-          - Content ID
-          - Title
-          - Format
-          - Description
-          - URL
-          These are all represented through a table, similar to what is found on the Content
-          Finder page. 
-         -->
+                        Here is the presentation of the content inside every given module upon request
+                        (a click). In the listContent(module) function, a boolean is triggered to turn
+                        contentVisible.get(module) from False to True. Doing so triggers the creation 
+                        of a form which lists the available fields:
+                        - Content ID
+                        - Title
+                        - Format
+                        - Description
+                        - URL
+                        These are all represented through a table, similar to what is found on the Content
+                        Finder page. 
+                    -->
                     <div *ngIf="contentVisible.get(module)">
                         <!-- Start of form to show dynamic table. -->
                         <form>
@@ -143,8 +137,15 @@
                             </div>
                         </form>
                     </div>
-                <!-- </tree-node> -->
-            </div>
+
+                    <!-- Needs explenation for recursion -->
+                    <ul *ngIf="module.childrenModulesObject.length > 0">
+                        <ng-container
+                            *ngTemplateOutlet="recursiveList; context:{ $implicit: module.childrenModulesObject }">
+                        </ng-container>
+                    </ul>
+                </div>
+            </ng-template>
         </form>
     </div>
 </div>

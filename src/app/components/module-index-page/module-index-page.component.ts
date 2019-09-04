@@ -9,7 +9,8 @@ import { ToastrService } from 'ngx-toastr';
 import { PagesService } from 'src/app/services/pages.service';
 import { globalCacheBusterNotifier } from 'ngx-cacheable';
 import {NestedTreeControl} from '@angular/cdk/tree';
-import { ITreeOptions, TreeComponent, IActionMapping, TREE_ACTIONS, TreeModel } from 'angular-tree-component';
+import { CloseScrollStrategy } from '@angular/cdk/overlay';
+// import { ITreeOptions, TreeComponent, IActionMapping, TREE_ACTIONS, TreeModel } from 'angular-tree-component';
 
 /** Typescript Component for Module Index Page */
 @Component({
@@ -45,6 +46,7 @@ export class ModuleIndexPageComponent implements OnInit {
 
    /** Create nodes to load child modules as objects */
    nodes: any[] = this.ms.nodes;
+
    
 
    /**
@@ -63,17 +65,17 @@ export class ModuleIndexPageComponent implements OnInit {
    /** On page initialization load the modules to list on the dropdown menu */
    ngOnInit() {
       this.ms.loadModules();
+      this.ms.nodes.forEach(element => {
+         console.log(element.childrenModulesObject);
+      });
+      
    }
 
    ngDoCheck() {
       if (this.nodes.length == 0) {
          this.nodes = this.ms.nodes;
-         this.tree.treeModel.update();
+         // this.tree.treeModel.update();
       }
-   }
-
-   getChildren(id: number){
-
    }
 
    /**
@@ -191,15 +193,4 @@ export class ModuleIndexPageComponent implements OnInit {
          }
       );
    }
-
-   @ViewChild(TreeComponent, null)
-   private tree: TreeComponent;
-
-   // custom options for ITree that allows for nodes to be formatted like module
-   options: ITreeOptions = {
-      displayField: 'subject',
-      childrenField: 'childrenModulesObject',
-      idField: 'id'
-   }
-
-  }
+}
