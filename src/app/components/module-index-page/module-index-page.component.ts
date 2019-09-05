@@ -62,10 +62,6 @@ export class ModuleIndexPageComponent implements OnInit {
    /** On page initialization load the modules to list on the dropdown menu */
    ngOnInit() {
       this.ms.loadModules();
-      this.ms.nodes.forEach(element => {
-         console.log(element.childrenModulesObject);
-      });
-      
    }
 
    ngDoCheck() {

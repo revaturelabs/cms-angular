@@ -4,7 +4,7 @@ import { ContentFetcherService } from 'src/app/services/content-fetcher.service'
 import { Link } from 'src/app/models/Link';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { ToastrService } from 'ngx-toastr';
-import { ITreeOptions, TreeComponent, IActionMapping, TREE_ACTIONS, TreeModel, TreeNode } from 'angular-tree-component';
+import { ITreeOptions, TreeComponent, IActionMapping, TREE_ACTIONS, TreeModel, TreeNode, ITreeState } from 'angular-tree-component';
 import { IStorageStrategy } from 'ngx-cacheable';
 import { Module } from 'src/app/models/Module';
 
@@ -33,8 +33,8 @@ export class ContentCreatorPageComponent implements OnInit {
    description: string;
 
    test: string;
-   listURLS=['http://example.com'];
-   urlFlag='';
+   listURLS = ['http://example.com'];
+   urlFlag = '';
    /** Description - boolean to display a spinner for submitting in progress */
    isSubmitting: boolean = false;
 
@@ -44,6 +44,10 @@ export class ContentCreatorPageComponent implements OnInit {
    // Called in nodeCreation() for tree nodes
    nodes: any[] = this.ms.nodes;
    tempChildren: Module[] = [];
+
+   state: ITreeState = {
+      activeNodeIds: {}
+   };
 
    /**
     *  Content creater constructor 
@@ -78,20 +82,20 @@ export class ContentCreatorPageComponent implements OnInit {
       this.tree.sizeChanged();
    }
 
-   /** On page initialization load the modules to list on the dropdown menu */ 
-  getListOfURLS(){
-      let handle=this;
+   /** On page initialization load the modules to list on the dropdown menu */
+   getListOfURLS() {
+      let handle = this;
       handle.cs.getAllContent().subscribe(
-      data => data.forEach(
-         function(item){
-            
-            handle.listURLS.push(item.url);
-            
-            
-            
-         } )
+         data => data.forEach(
+            function (item) {
+
+               handle.listURLS.push(item.url);
+
+
+
+            })
       );
-  }
+   }
 
    /** Check if the input fields are all valid - i.e. all fields are filled in */
    validInput(): boolean {
@@ -106,11 +110,11 @@ export class ContentCreatorPageComponent implements OnInit {
     * where the link has its subject id populated and the rest are set to default values
     */
    submit() {
-      
+
       this.isSubmitting = true;
 
-      if(this.listURLS.indexOf(this.url)>=0){
-         
+      if (this.listURLS.indexOf(this.url) >= 0) {
+
          this.toastr.error('The URL already exsists in database.');
          this.isSubmitting = false;
          return;
@@ -131,7 +135,7 @@ export class ContentCreatorPageComponent implements OnInit {
       }
 
       //If the input was valid continue
-      let save_url=this.url;
+      let save_url = this.url;
       //create a content object with the data inputed by the user
       let content: Content = new Content(
          null, this.title, this.selFormat,
@@ -157,6 +161,9 @@ export class ContentCreatorPageComponent implements OnInit {
             this.isSubmitting = false;
          }
       )
+
+      this.tree.treeModel.setState(this.state);
+      this.tree.treeModel.update();
    }
 
    /** Clears the input fields after successful content submit */
@@ -184,8 +191,6 @@ export class ContentCreatorPageComponent implements OnInit {
                subject[0], null));
          }, this
       )
-
-      console.log(links);
       return links;
    }
 
