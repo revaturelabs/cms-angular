@@ -1,4 +1,4 @@
-import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
+import { Component, OnInit, ComponentFactoryResolver} from '@angular/core';
 import { Module } from 'src/app/models/Module';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { ModuleFetcherService } from 'src/app/services/module-fetcher.service'
@@ -36,10 +36,15 @@ export class ModuleIndexPageComponent implements OnInit {
     * Pre-initialized as it would cause errors upon loading the component.
     */
    //Note that this needs defualt values so the bindings {{ }} in html will work on page load
-   selModule: Module = new Module(0, "", 0, []);
+   selModule: Module = new Module(0, "", 0, [], null, null);
 
    /** Used to display a spinner when modules are loading.*/
    isLoading: boolean = false;
+
+   /** Create nodes to load child modules as objects */
+   nodes: any[] = this.ms.nodes;
+
+   
 
    /**
     * Constructor for Module Index Component
@@ -59,7 +64,11 @@ export class ModuleIndexPageComponent implements OnInit {
       this.ms.loadModules();
    }
 
-
+   ngDoCheck() {
+      if (this.nodes.length == 0) {
+         this.nodes = this.ms.nodes;
+      }
+   }
 
    /**
     * Lists the available content for module input
@@ -179,5 +188,4 @@ export class ModuleIndexPageComponent implements OnInit {
             break;
       }
    }
-
 }

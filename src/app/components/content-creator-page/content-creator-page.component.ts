@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { Content } from 'src/app/models/Content';
 import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
 import { Link } from 'src/app/models/Link';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { ToastrService } from 'ngx-toastr';
+import { ITreeOptions, TreeComponent, IActionMapping, TREE_ACTIONS, TreeModel, TreeNode, ITreeState } from 'angular-tree-component';
+import { IStorageStrategy } from 'ngx-cacheable';
+import { Module } from 'src/app/models/Module';
 
 /** Typescript component for the Content Creator page */
 @Component({
@@ -12,6 +15,7 @@ import { ToastrService } from 'ngx-toastr';
    styleUrls: ['./content-creator-page.component.css']
 })
 export class ContentCreatorPageComponent implements OnInit {
+
 
    /** Each format string automatically generates button */
    readonly formats: string[] = ["Code", "Document", "Powerpoint"];
@@ -29,13 +33,21 @@ export class ContentCreatorPageComponent implements OnInit {
    description: string;
 
    test: string;
-   listURLS=['http://example.com'];
-   urlFlag='';
+   listURLS = ['http://example.com'];
+   urlFlag = '';
    /** Description - boolean to display a spinner for submitting in progress */
    isSubmitting: boolean = false;
 
    /** Stores selected subjects */
-   selectedSubjects: string[] = [];  
+   selectedSubjects: number[] = [];
+
+   // Called in nodeCreation() for tree nodes
+   nodes: any[] = this.ms.nodes;
+   tempChildren: Module[] = [];
+
+   state: ITreeState = {
+      activeNodeIds: {}
+   };
 
    /**
     *  Content creater constructor 
@@ -46,39 +58,50 @@ export class ContentCreatorPageComponent implements OnInit {
       private cs: ContentFetcherService,
       public ms: ModuleStoreService,
       private toastr: ToastrService
-      ) {
+   ) {
+
    }
 
    /** On page initialization load the modules to list on the dropdown menu */
    ngOnInit() {
       this.ms.loadModules();
-
       this.getListOfURLS();
-            
-      
+      this.tree.treeModel.update();
+
    }
 
-   /** On page initialization load the modules to list on the dropdown menu */ 
-  getListOfURLS(){
-      let handle=this;
+   ngDoCheck() {
+      if (this.nodes.length == 0) {
+         this.nodes = this.ms.nodes;
+         this.tree.treeModel.update();
+      }
+   }
+
+   ngAfterViewInit() {
+      this.tree.treeModel.update();
+      this.tree.sizeChanged();
+   }
+
+   /** On page initialization load the modules to list on the dropdown menu */
+   getListOfURLS() {
+      let handle = this;
       handle.cs.getAllContent().subscribe(
-      data => data.forEach(
-         function(item){
-            
-            handle.listURLS.push(item.url);
-            
-            
-            
-         } )
+         data => data.forEach(
+            function (item) {
+
+               handle.listURLS.push(item.url);
+
+
+
+            })
       );
-  }
+   }
 
    /** Check if the input fields are all valid - i.e. all fields are filled in */
    validInput(): boolean {
-      let cantBeNull = [this.title, this.selFormat, this.url, this.selectedSubjects.length];
+      let cantBeNull = [this.title, this.selFormat, this.url];
 
       if (cantBeNull.includes(null) || cantBeNull.includes(undefined)) return false;
-      if (this.selectedSubjects.length == 0) return false;
       return true;
    }
 
@@ -87,11 +110,11 @@ export class ContentCreatorPageComponent implements OnInit {
     * where the link has its subject id populated and the rest are set to default values
     */
    submit() {
-      
+
       this.isSubmitting = true;
 
-      if(this.listURLS.indexOf(this.url)>=0){
-         
+      if (this.listURLS.indexOf(this.url) >= 0) {
+
          this.toastr.error('The URL already exsists in database.');
          this.isSubmitting = false;
          return;
@@ -104,7 +127,7 @@ export class ContentCreatorPageComponent implements OnInit {
          this.isSubmitting = false;
          return;
 
-      //if the url was not a valid url display a toaster message and return
+         //if the url was not a valid url display a toaster message and return
       } else if (!this.validURL(this.url)) {
          this.toastr.error('Invalid URL. e.g. "http://example.com", "ftp://www.example.com", "http://192.168.0.0"');
          this.isSubmitting = false;
@@ -112,12 +135,12 @@ export class ContentCreatorPageComponent implements OnInit {
       }
 
       //If the input was valid continue
-      let save_url=this.url;
+      let save_url = this.url;
       //create a content object with the data inputed by the user
       let content: Content = new Content(
          null, this.title, this.selFormat,
          this.description, this.url,
-         this.getLinksFromSubjects(this.selectedSubjects));
+         this.getLinksFromSubjects(Object.entries(this.tree.treeModel.activeNodeIds)));
 
       //call the ContentFetcherService to create a new content
       this.cs.createNewContent(content).subscribe(
@@ -138,6 +161,9 @@ export class ContentCreatorPageComponent implements OnInit {
             this.isSubmitting = false;
          }
       )
+
+      this.tree.treeModel.setState(this.state);
+      this.tree.treeModel.update();
    }
 
    /** Clears the input fields after successful content submit */
@@ -150,23 +176,21 @@ export class ContentCreatorPageComponent implements OnInit {
       this.isSubmitting = false;
    }
 
-   
+
    /**
     * Creates a new set of links from selected subject names
     * 
-    * @param {string[]} subjects List/array of selected subjects subjects
+    * @param {number[]} subjects List/array of selected subjects subjects
     * @returns A new set of links.
     */
-   getLinksFromSubjects(subjects: string[]): Link[] {
+   getLinksFromSubjects(subjects: any): Link[] {
       let links = [];
       subjects.forEach(
          (subject) => {
             links.push(new Link(null, null,
-               this.ms.subjectNameToModule.get(subject).id, null));
+               subject[0], null));
          }, this
       )
-
-      console.log(links);
       return links;
    }
 
@@ -181,4 +205,22 @@ export class ContentCreatorPageComponent implements OnInit {
       let regexp: RegExp = /^((http[s]?|ftp):\/\/)(((\w+\.)?\w+\.\w{2,})|(\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}))(\/[\w-._~:/?#[\]@!$&'()*+,;=]+(\.[\w-._~:/?#[\]@!$&'()*+,;=]+)?)*(\?|\?[\w-._~:/?#[\]@!$&'()*+,;=]+=[\w-._~:/?#[\]@!$&'()*+,;=]*(&[\w-._~:/?#[\]@!$&'()*+,;=]+=[\w-._~:/?#[\]@!$&'()*+,;=]*)*)?(#[\w-._~:/?#[\]@!$&'()*+,;=]*)?\/?$/;
       return regexp.test(url);
    }
-} 
+
+   // Creates the view for the tree component
+   @ViewChild(TreeComponent, null)
+   public tree: TreeComponent;
+
+   // custom options for ITree that allows for nodes to be formatted like module
+   options: ITreeOptions = {
+      displayField: 'subject',
+      childrenField: 'childrenModulesObject',
+      actionMapping,
+      idField: 'id'
+   }
+}
+// Allows for mutliselect within ngTree
+const actionMapping: IActionMapping = {
+   mouse: {
+      click: TREE_ACTIONS.TOGGLE_ACTIVE_MULTI
+   }
+}

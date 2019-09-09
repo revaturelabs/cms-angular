@@ -12,6 +12,13 @@ export class Module {
    links: Link[] = [];
    /** Display background color in HEX */
    color: string;
+   // Array containing the IDs of parent modules
+   parentModules: Array<number>;
+   parentModulesObject: Module[];
+   // Array containing the IDs of child modules
+   childrenModules: Array<number>;
+   childrenModulesObject: Module[];
+   module: Module;
 
    /**
     * Create a new Module to describe and sort Content
@@ -20,11 +27,18 @@ export class Module {
     * @param created Date created
     * @param links Links to Content
     */
-   constructor(id: number, subject: string, created: number, links: Link[]) {
+   constructor(id: number, subject: string, created: number, links: Link[], parentModules: Array<number>, childrenModules: Array<number>) {
       if (id != null) this.id = id;
       if (subject != null) this.subject = subject;
       if (created != null) this.created = created;
       if (links != null) this.links = links;
+      if (parentModules != null) this.parentModules = parentModules;
+      else this.parentModules = [];
+      if (childrenModules != null) this.childrenModules = childrenModules;
+      else this.childrenModules = [];
+      this.childrenModulesObject = [];
+      this.parentModulesObject = [];
+
    }
 
    /**
@@ -39,6 +53,20 @@ export class Module {
     */
    public getSubject(): string {
       return this.subject;
+   }
+
+   // Get parentModules array
+   public getParents(): Array<number>{
+      return this.parentModules;
+   }
+
+   // Get childrenModules array
+   public getChildren(): Array<number>{
+      return this.childrenModules;
+   }
+
+   public getChildrenObjects() : Module[] {
+      return this.childrenModulesObject;
    }
 
    /**
@@ -92,6 +120,22 @@ export class Module {
     */
    public setLinks(links: Link[]) {
       this.links = links;
+   }
+
+   // set parentModules array for module
+   public setParents(parentModules: Array<number>){
+      this.parentModules = parentModules;
+   }
+   public setParentsObjects(parentModulesObject: Module[]){
+      this.parentModulesObject = parentModulesObject;
+   }
+
+   // set childrenModules array for module
+   public setChildren(childrenModules: Array<number>){
+      this.childrenModules = childrenModules;
+   }
+   public setChildrenObjects(childrenModulesObject: Module[]){
+      this.childrenModulesObject = childrenModulesObject;
    }
    
    /**

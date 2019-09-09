@@ -50,8 +50,8 @@ describe('ModuleIndexPageComponent', () => {
 //test that the table populates
   it('should populate table based on Modules Service Response', () =>{
 
-    let Mod1: Module = new Module(1, "", 1, []);
-    let Mod2: Module = new Module(2, "", 1, []);
+    let Mod1: Module = new Module(1, "", 1, [], [], []);
+    let Mod2: Module = new Module(2, "", 1, [], [], []);
 
     component.ms.response = [Mod1,Mod2];
 
@@ -62,7 +62,7 @@ describe('ModuleIndexPageComponent', () => {
 
 //tests that flags show when expected
   it('should show flag on modules with no links', () =>{
-    let Mod1: Module = new Module(1, "", 1, []);
+    let Mod1: Module = new Module(1, "", 1, [], [], []);
 
     component.ms.response = [Mod1];
     expect(document.getElementById('flag-1')).toBeTruthy;
@@ -70,7 +70,7 @@ describe('ModuleIndexPageComponent', () => {
 
   it('should not show flag on modules with links', () =>{
     let Link1: Link = new Link(1, 0, 0, '')
-    let Mod1: Module = new Module(1, "", 1, [Link1]);
+    let Mod1: Module = new Module(1, "", 1, [Link1], [], []);
   
     component.ms.response = [Mod1];
     expect(document.getElementById('flag-1')).toBeFalsy;
@@ -85,14 +85,14 @@ describe('ModuleIndexPageComponent', () => {
   
   it('should update selCon and selMod with selectedLinkForRemoval()', () =>{
     let Con1: Content = new Content(1, "", "", "", "", []);
-    let Mod1: Module = new Module(1, "", 1, []);
+    let Mod1: Module = new Module(1, "", 1, [], [], []);
 
     component.selectedLinkForRemoval(Con1,Mod1)
     expect(component.selCon.id).toEqual(1);
     expect(component.selModule.id).toEqual(1);
     
     let Con2: Content = new Content(2, "", "", "", "", []);
-    let Mod2: Module = new Module(2, "", 1, []);
+    let Mod2: Module = new Module(2, "", 1, [], [], []);
   
     component.selectedLinkForRemoval(Con2,Mod2)
     expect(component.selCon.id).toEqual(2);
@@ -100,19 +100,19 @@ describe('ModuleIndexPageComponent', () => {
   });
 
   it('should update selMod with selectedModuleForRemoval()', () =>{
-    let Mod1: Module = new Module(1, "", 1, []);
+    let Mod1: Module = new Module(1, "", 1, [], [], []);
     component.selectedModuleForRemoval(Mod1)
     expect(component.selModule.id).toEqual(1);
     
-    let Mod2: Module = new Module(2, "", 1, []);
+    let Mod2: Module = new Module(2, "", 1, [], [], []);
     component.selectedModuleForRemoval(Mod2)
     expect(component.selModule.id).toEqual(2);
   });
 
 //tests for parseContentResponse()
   it('should set moduleContents with parseContentResponse()', () =>{
-    let Mod1: Module = new Module(1, "", 1, []);
-    let Mod2: Module = new Module(2, "", 1, []);
+    let Mod1: Module = new Module(1, "", 1, [], [], []);
+    let Mod2: Module = new Module(2, "", 1, [], [], []);
 
     component.parseContentResponse([],Mod1)
 
@@ -122,7 +122,7 @@ describe('ModuleIndexPageComponent', () => {
 
 
   it('should sort content with parseContentResponse()', () =>{
-    let Mod1: Module = new Module(1, "", 1, []);
+    let Mod1: Module = new Module(1, "", 1, [], [], []);
     let Con1: Content = new Content(1, "B", "", "", "", []);
     let Con2: Content = new Content(2, "A", "", "", "", []);
 
@@ -133,7 +133,7 @@ describe('ModuleIndexPageComponent', () => {
 
 //tests for listContent()
   it('should set Module to visible with listContent()', () =>{
-    let Mod1: Module = new Module(1, "", 1, []);
+    let Mod1: Module = new Module(1, "", 1, [], [], []);
     expect(component.contentVisible.get(Mod1)).toBeFalsy;
 
     component.listContent(Mod1);
@@ -141,7 +141,7 @@ describe('ModuleIndexPageComponent', () => {
   });
 
   it('should set Module to not visible if listContent() is called twice', () =>{
-    let Mod1: Module = new Module(1, "", 1, []);
+    let Mod1: Module = new Module(1, "", 1, [], [], []);
     expect(component.contentVisible.get(Mod1)).toBeFalsy;
 
     component.listContent(Mod1);

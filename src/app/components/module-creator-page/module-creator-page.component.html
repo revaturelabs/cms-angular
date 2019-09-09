@@ -14,7 +14,11 @@
          </div>
 
          <form>
-
+            <div class="form-row mb-5">
+               <input id="filter" #filter class="form-control" (keyup)="tree.treeModel.filterNodes(filter.value)"
+                  placeholder="Search for Module Parent" />
+               <tree-root id="tree" [nodes]="nodes" [options]="options" bindLabel="name" spellcheck="false"></tree-root>
+            </div>
             <div class="form-row mb-5">
                <div class="col-1"></div>
 

@@ -32,17 +32,20 @@
                <div class="col-1"></div>
             </div>
 
+            <!-- TODO Create new module heirarchy display -->
             <div class="row subject mb-3"> <!-- Dropdown section for the subjects you want to tie the links to -->
                <div class="col-1"></div>
                <div class="col rele">
                   <!-- In this dropdown, the subjects are being accessed through a Module Store ms. 
                        Using ngModel binding, the subjects are displayed.
                   -->
-                  <ng-select id="subjectDropDown" [items]="ms.subjectNames" multiple="true" closeOnSelect="true"
+                  <input id="filter" #filter class="form-control" (keyup)="tree.treeModel.filterNodes(filter.value)" placeholder="Search for Module" />
+                  <tree-root id="tree" [nodes]="nodes" [options]="options" bindLabel="name" spellcheck="false"></tree-root>
+                  <!-- <ng-select id="subjectDropDown" [items]="ms.subjectNames" multiple="true" closeOnSelect="true"
                      hideSelected="true" clearOnBackspace="true" bindLabel="name" spellcheck="false"
                      notFoundText="(no such subject found)" [loading]="ms.isLoading" [placeholder]="ms.loadingText"
                      [(ngModel)]="selectedSubjects" name="selectedSubjects">
-                  </ng-select>
+                  </ng-select> -->
                </div>
                <div class="col-1"></div>
             </div>
