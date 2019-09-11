@@ -5,6 +5,7 @@ import { ContentFinderPageComponent } from './components/content-finder-page/con
 import { ModuleCreatorPageComponent } from './components/module-creator-page/module-creator-page.component';
 import { ModuleIndexPageComponent } from './components/module-index-page/module-index-page.component';
 import { ReportsPageComponent } from './components/reports-page/reports-page.component';
+import { SubmitRequestsPage } from './components/submit-requests-page/submit-requests-page.component';
 
 /** @ignore */
 const routes: Routes = [
@@ -14,6 +15,7 @@ const routes: Routes = [
    { path: 'module-creator', component: ModuleCreatorPageComponent, pathMatch: 'full' },
    { path: 'module-index', component: ModuleIndexPageComponent, pathMatch: 'full' },
    { path: 'reports', component: ReportsPageComponent},
+   { path: 'submit-request', component: SubmitRequestsPage},
    { path: '**', redirectTo: '/content-creator', pathMatch: 'full' }
 ];
 
