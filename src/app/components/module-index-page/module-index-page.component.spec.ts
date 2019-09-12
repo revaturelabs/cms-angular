@@ -64,7 +64,7 @@ describe('ModuleIndexPageComponent', () => {
 
 // tests that flags show when expected
   it('should show flag on modules with no links', () => {
-    let Mod1: Module = new Module(1, "", 1, [], [], []);
+    let Mod1: Module = new Module(1, '', 1, [], [], []);
 
     component.ms.response = [Mod1];
     expect(document.getElementById('flag-1')).toBeTruthy();
@@ -72,7 +72,7 @@ describe('ModuleIndexPageComponent', () => {
 
   it('should not show flag on modules with links', () => {
     let Link1: Link = new Link(1, 0, 0, '');
-    let Mod1: Module = new Module(1, "", 1, [Link1], [], []);
+    let Mod1: Module = new Module(1, '', 1, [Link1], [], []);
 
     component.ms.response = [Mod1];
     expect(document.getElementById('flag-1')).toBeFalsy();
