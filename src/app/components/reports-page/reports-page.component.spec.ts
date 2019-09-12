@@ -57,9 +57,10 @@ describe('ReportsPageComponent', () => {
    expect(document.getElementById('Powerpoint')).toBeTruthy();
   });
 
-  it('should have Flagged button', () => {
-    expect(document.getElementById('Flagged')).toBeTruthy();
-   });
+  // REmoved this test becuse the flag button was removed from the html page
+  // it('should have Flagged button', () => {
+  //   expect(document.getElementById('Flagged')).toBeTruthy();
+  //  });
 
   it('should have All button', () => {
   expect(document.getElementById('All')).toBeTruthy();

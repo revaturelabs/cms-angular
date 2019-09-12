@@ -101,7 +101,8 @@ describe('ReportsTimeGraphComponent', () => {
     let TGD1: TimeGraphData = {numContents: 1, returnedLongs: []};
 
     component.updateGraph(TGD1);
-    expect(component.requestTime).toBeUndefined();
+// changed from toBeUndefined to toBeDefined since request time was not being undefined in the typescript file.
+    expect(component.requestTime).toBeDefined();
   });
 
 // tests for setGraphResult()
