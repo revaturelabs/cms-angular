@@ -102,17 +102,6 @@ export class ContentFetcherService {
     * Sends HTTP request to return filtered Content
     * @param filter What to filter returned content by
     */
-
-/**
-    * Sends HTTP request to return filtered Content
-    * @param filter What to filter returned content by
-    */
-   // @Cacheable()
-   // filterContent(filter: Filter): Observable<Content[]> {
-   //    let body: string = JSON.stringify(filter);
-   //    return this.http.post<Content[]>(this.endpoints.FILTER_CONTENT, body, { headers: this.HEADERS });
-   // }
-
    @Cacheable()
    filterContent(filter: Filter): Observable<Content[]> {
       let modules: string = JSON.stringify(filter.modules);
