@@ -8,7 +8,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ToastrModule } from 'ngx-toastr';
 import { GlobalReports } from 'src/app/providers/GlobalReports';
-import { MetricsData } from 'src/app/models/MetricsData'
+import { MetricsData } from 'src/app/models/MetricsData';
 
 import { ReportsPageComponent } from './reports-page.component';
 
@@ -44,88 +44,89 @@ describe('ReportsPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-//Test that Format buttons exist
+// Test that Format buttons exist
   it('should have Code button', () => {
-    expect(document.getElementById('Code')).toBeTruthy;
+    expect(document.getElementById('Code')).toBeTruthy();
    });
 
   it('should have Document button', () => {
-  expect(document.getElementById('Document')).toBeTruthy;
+  expect(document.getElementById('Document')).toBeTruthy();
   });
 
   it('should have Powerpoint button', () => {
-   expect(document.getElementById('Powerpoint')).toBeTruthy;
+   expect(document.getElementById('Powerpoint')).toBeTruthy();
   });
 
-  it('should have Flagged button', () => {
-    expect(document.getElementById('Flagged')).toBeTruthy;
-   });
+  // REmoved this test becuse the flag button was removed from the html page
+  // it('should have Flagged button', () => {
+  //   expect(document.getElementById('Flagged')).toBeTruthy();
+  //  });
 
   it('should have All button', () => {
-  expect(document.getElementById('All')).toBeTruthy;
+  expect(document.getElementById('All')).toBeTruthy();
   });
 
-//Test that cards exist
+// Test that cards exist
   it('should have Different Modules card', () => {
-    expect(document.getElementById('dif_Mods')).toBeTruthy;
+    expect(document.getElementById('dif_Mods')).toBeTruthy();
   });
 
   it('should have Code Examples card', () => {
-    expect(document.getElementById('code_Ex')).toBeTruthy;
+    expect(document.getElementById('code_Ex')).toBeTruthy();
   });
 
   it('should have Lecture Notes card', () => {
-    expect(document.getElementById('lect_Notes')).toBeTruthy;
+    expect(document.getElementById('lect_Notes')).toBeTruthy();
   });
 
   it('should have Powerpoints card', () => {
-    expect(document.getElementById('powerpoints')).toBeTruthy;
+    expect(document.getElementById('powerpoints')).toBeTruthy();
   });
 
   it('should have Average Resources card', () => {
-    expect(document.getElementById('avg_Res')).toBeTruthy;
+    expect(document.getElementById('avg_Res')).toBeTruthy();
   });
 
-//Test that 'All' format is selected on page load
+// Test that 'All' format is selected on page load
   it('should have All selected by default', () => {
     expect(document.getElementById('All').getAttribute('ng-reflect-model')).toEqual('All');
     expect(component.selFormat).toEqual('All');
-  }); 
-
-//Test that filter button exists
-  it('should have filter button', () =>{
-    expect(document.getElementById('filterButton')).toBeTruthy;
   });
 
-//Test that formats are defined as expected
-  it('should have defualt formats defined', () =>{
+// Test that filter button exists
+  it('should have filter button', () => {
+    expect(document.getElementById('filterButton')).toBeTruthy();
+  });
+
+// Test that formats are defined as expected
+  it('should have defualt formats defined', () => {
     expect(component.formats).toEqual(["Code", "Document", "Powerpoint", "All"]);
   });
 
-//Test that metrics functions work
+// Test that metrics functions work
   it('should have metrics defined after ngOnInit()', () => {
     component.ngOnInit();
-    expect(component.codeExamples).toBeDefined;
-    expect(component.lectureNotes).toBeDefined;
-    expect(component.powerpoints).toBeDefined;
-    expect(component.difModules).toBeDefined;
-    expect(component.avgResources).toBeDefined;
+    expect(component.codeExamples).toBeDefined();
+    expect(component.lectureNotes).toBeDefined();
+    expect(component.powerpoints).toBeDefined();
+    expect(component.difModules).toBeDefined();
+    expect(component.avgResources).toBeDefined();
   });
 
-  
+
   it('should have metrics defined after getMetrics()', () => {
     component.getMetrics();
-    expect(component.codeExamples).toBeDefined;
-    expect(component.lectureNotes).toBeDefined;
-    expect(component.powerpoints).toBeDefined;
-    expect(component.difModules).toBeDefined;
-    expect(component.avgResources).toBeDefined;
+    expect(component.codeExamples).toBeDefined();
+    expect(component.lectureNotes).toBeDefined();
+    expect(component.powerpoints).toBeDefined();
+    expect(component.difModules).toBeDefined();
+    expect(component.avgResources).toBeDefined();
   });
 
-    
+
   it('should have metrics defined after updateMetrics()', () => {
-    let MD: MetricsData = {codeCount:1,documentCount:1,pptCount:1,numDiffModsCount:1,avgResources:1, 
-      timeGraphData:null}
+    let MD: MetricsData = {codeCount: 1, documentCount: 1, pptCount: 1, numDiffModsCount: 1, avgResources: 1,
+      timeGraphData: null};
 
     component.updateMetrics(MD);
     expect(component.codeExamples).toEqual(1);
@@ -134,6 +135,6 @@ describe('ReportsPageComponent', () => {
     expect(component.difModules).toEqual(1);
     expect(component.avgResources).toEqual(1);
   });
-  
+
 
 });

@@ -22,7 +22,7 @@ describe('ModuleStoreService', () => {
     });
     service = TestBed.get(ModuleStoreService);
     httpTestingController = TestBed.get(HttpTestingController);
-    
+
   });
 
   afterEach(() => {
@@ -35,15 +35,15 @@ describe('ModuleStoreService', () => {
     const service: ModuleStoreService = TestBed.get(ModuleStoreService);
 
     expect(service).toBeTruthy();
-    
+
   });
 
-  // Next we test the methods that ping our deployed backend 
+  // Next we test the methods that ping our deployed backend
   /**
-   * First, we test the LoadModules functiong. To do so, mocking is needed. 
-   * First stipulate the fakeAsync() 
-   * function to generate an empty response that one will manually 
-   * populate. 
+   * First, we test the LoadModules functiong. To do so, mocking is needed.
+   * First stipulate the fakeAsync()
+   * function to generate an empty response that one will manually
+   * populate.
    */
   it('loadModules should be working correctly', fakeAsync(() => {
     let response = {};
@@ -60,8 +60,8 @@ describe('ModuleStoreService', () => {
   /**
    * Note: the below test fails saying the expected url was undefined.
    * Running both of these tests will make the second one fail, depending
-   * on which order you put them in the first will pass and the second will fail. 
-   * We were unable to resolve this issue 
+   * on which order you put them in the first will pass and the second will fail.
+   * We were unable to resolve this issue
    */
 
   // it('loadEmptyModules should be working correctly', fakeAsync(() => {
@@ -72,7 +72,6 @@ describe('ModuleStoreService', () => {
   //   expect(req.request.method).toEqual('GET');
   //   req.flush(response);
   //   tick();
-    
   // }));
 
 });

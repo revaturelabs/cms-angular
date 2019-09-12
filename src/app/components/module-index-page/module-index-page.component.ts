@@ -95,10 +95,8 @@ export class ModuleIndexPageComponent implements OnInit {
 
             },
             () => { this.contentVisible.set(module, true); }
-         )
-      }
-
-      else {
+         );
+      } else {
          this.contentVisible.set(module, !this.contentVisible.get(module));
       }
    }
