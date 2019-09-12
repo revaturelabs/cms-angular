@@ -40,10 +40,6 @@ export class EndpointsService {
    public readonly GET_ALL_MODULES: string = this.baseURL + '/modules';
    /** Get Module by ID Endpoint */
    public readonly GET_MODULE_BY_ID: string = this.baseURL + '/modules/${id}';
-
-   // /** Filter Content Endpoint */
-   // public readonly FILTER_CONTENT: string = this.baseURL + '/search';
-   
    /** Filter Content Endpoint */
    public readonly FILTER_CONTENT: string = this.baseURL + '/search?title=${title}&format=${format}&modules=${modules}';
    /** Get metrics for information in DB */
