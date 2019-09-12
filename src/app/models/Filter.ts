@@ -1,8 +1,6 @@
 /** Filter class for filtering on reports page */
 export class Filter {
-
-    //If these properties are going to have getters and setters, then they should be private
-
+    
     /** String variable for title */
     title: string = "";
     /** String variable for format */

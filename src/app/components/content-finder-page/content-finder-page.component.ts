@@ -130,34 +130,12 @@ export class ContentFinderPageComponent implements OnInit {
             moduleIdNumbers.push(parseInt(moduleIds[i]))
          }
 
-         //set relevent class fields
-         //this.selFormat = format;
-        // this.title = title;
-         //this.selectedSubjects = modules.split(',');
-
          //populate a filter object with the params we just extracted
          let filter: Filter = new Filter(
             title, format, moduleIdNumbers
          );
 
-         this.cs.filterContent(filter).subscribe(
-            (response) => {
-               if (response != null) {
-
-                  //populate the contents array with the response with the parseContentResponse function
-                  this.parseContentResponse(response);
-                  if (this.notEmpty()) { }
-                  else
-                     this.toastr.error('No Results Found');
-               } else {
-                  this.toastr.error('Response was null');
-               }
-            },
-            (response) => {
-               this.toastr.error('Failed to send filter');
-               this.isSearching = false;
-            }
-         )
+         this.sendSearch(filter);
       }
    }
 
@@ -182,7 +160,10 @@ export class ContentFinderPageComponent implements OnInit {
       this.updateURL(filter);
 
       this.searchedSubjects = this.selectedSubjects;
-      console.log("SelectedSubjects: " + this.selectedSubjects);
+      this.sendSearch(filter);
+   }
+
+   sendSearch(filter: Filter) {
       this.cs.filterContent(filter).subscribe(
          (response) => {
             if (response != null) {
