@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./submit-request-page.component.css']
 })
 export class SubmitRequestPageComponent implements OnInit {
-
+  readonly formats: string[] = ["Code", "Document", "Powerpoint"];
   constructor() { }
 
   ngOnInit() {
