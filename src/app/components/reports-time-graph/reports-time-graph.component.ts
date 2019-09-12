@@ -25,7 +25,7 @@ export class ReportsTimeGraphComponent implements OnInit {
     returnedLongs: []
   };
   /** The time at which the data was retrieved */
-  requestTime: number;
+  requestTime: number = null;
 
   /** Displaying the results of the graph in an array */
   graphResults: any[] = null;
@@ -94,7 +94,7 @@ export class ReportsTimeGraphComponent implements OnInit {
    */
   updateGraph(timeGraphData: TimeGraphData) {
     this.timeGraphData = timeGraphData;
-    if(this.timeGraphData == null) {
+    if (this.timeGraphData == null) {
       this.graphResults = null;
       return;
     }
