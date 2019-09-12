@@ -87,8 +87,7 @@ export class ModuleStoreService {
                }
             );
          }
-      )
-      
+      );
    }
 
    /** load Modules that have no content */

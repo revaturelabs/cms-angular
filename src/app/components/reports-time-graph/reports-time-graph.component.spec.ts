@@ -39,90 +39,90 @@ describe('ReportsTimeGraphComponent', () => {
     expect(component).toBeTruthy();
   });
 
-//Test that elements exist
-  it('should have Dropdown button', () =>{
-    expect(document.getElementById('dropdownMenuButton')).toBeTruthy;
+// Test that elements exist
+  it('should have Dropdown button', () => {
+    expect(document.getElementById('dropdownMenuButton')).toBeTruthy();
   });
   it('should have Past Year dropdown', () => {
-    expect(document.getElementById('selectPastYear')).toBeTruthy;
+    expect(document.getElementById('selectPastYear')).toBeTruthy();
   });
 
   it('should have Past Six Months dropdown', () => {
-    expect(document.getElementById('selectPastSixMonths')).toBeTruthy;
+    expect(document.getElementById('selectPastSixMonths')).toBeTruthy();
   });
 
   it('should have Past Month dropdown', () => {
-    expect(document.getElementById('selectPastMonth')).toBeTruthy;
+    expect(document.getElementById('selectPastMonth')).toBeTruthy();
   });
 
   it('should have Line Chart', () => {
-    expect(document.getElementById('lineChart')).toBeTruthy;
+    expect(document.getElementById('lineChart')).toBeTruthy();
   });
 
   it('should have Selected View Text', () => {
-    expect(document.getElementById('selectedViewText')).toBeTruthy;
+    expect(document.getElementById('selectedViewText')).toBeTruthy();
   });
 
 
-//Test that milliseconds variables are set
+// Test that milliseconds variables are set
   it('should have Milliseconds per year defined', () => {
-    expect(component.MILLIS_PER_YEAR).toEqual(3.154e+10)
+    expect(component.MILLIS_PER_YEAR).toEqual(3.154e+10);
   });
 
   it('should have Milliseconds per month defined', () => {
-    expect(component.MILLIS_PER_MONTH).toEqual(2.628e+9)
+    expect(component.MILLIS_PER_MONTH).toEqual(2.628e+9);
   });
 
   it('should have Milliseconds per day defined', () => {
-    expect(component.MILLIS_PER_DAY).toEqual(8.64e+7)
+    expect(component.MILLIS_PER_DAY).toEqual(8.64e+7);
   });
 
-//test that time range has defualt value
+// test that time range has defualt value
   it('should have Time Range default to Milliseconds per month', () => {
     expect(component.selectedTimeRange).toEqual(component.MILLIS_PER_MONTH);
   });
 
-//tests for updateGraph()
+// tests for updateGraph()
   it('should update graph with updateGraph()', () => {
-    let TGD1: TimeGraphData = {numContents:1,returnedLongs:[]}
+    let TGD1: TimeGraphData = {numContents: 1, returnedLongs: []};
 
     component.updateGraph(TGD1);
     expect(component.timeGraphData).toEqual(TGD1);
 
-    let TGD2: TimeGraphData = {numContents:2,returnedLongs:[]}
-    
+    let TGD2: TimeGraphData = {numContents: 2, returnedLongs: []};
+
     component.updateGraph(TGD2);
     expect(component.timeGraphData).toEqual(TGD2);
   });
 
   it('should update requestTime with updateGraph()', () => {
-    expect(component.requestTime).toBeNull;
+    expect(component.requestTime).toBeNull();
 
-    let TGD1: TimeGraphData = {numContents:1,returnedLongs:[]}
+    let TGD1: TimeGraphData = {numContents: 1, returnedLongs: []};
 
     component.updateGraph(TGD1);
-    expect(component.requestTime).toBeUndefined;
+    expect(component.requestTime).toBeUndefined();
   });
 
-//tests for setGraphResult()
+// tests for setGraphResult()
   it('should update time frame with setGraphResults()', () => {
     component.setGraphResults(6 * component.MILLIS_PER_MONTH);
-    expect(component.selectedTimeRange).toEqual(6 * component.MILLIS_PER_MONTH)
+    expect(component.selectedTimeRange).toEqual(6 * component.MILLIS_PER_MONTH);
   });
 
   it('should select Past Month timeframe', () => {
     component.setGraphResults(component.MILLIS_PER_MONTH);
-    expect(component.selectedView).toEqual("Past Month")
+    expect(component.selectedView).toEqual("Past Month");
   });
 
   it('should select Past Six Months timeframe', () => {
     component.setGraphResults(6 * component.MILLIS_PER_MONTH);
-    expect(component.selectedView).toEqual("Past Six Months")
+    expect(component.selectedView).toEqual("Past Six Months");
   });
 
   it('should select Past Year timeframe', () => {
     component.setGraphResults(component.MILLIS_PER_YEAR);
-    expect(component.selectedView).toEqual("Past Year")
+    expect(component.selectedView).toEqual("Past Year");
   });
 
 });
