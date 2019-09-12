@@ -6,6 +6,7 @@ import { EndpointsService } from '../constants/endpoints.service';
 import { Content } from '../models/Content';
 import { Filter } from '../models/Filter';
 import { Cacheable, CacheBuster,globalCacheBusterNotifier } from 'ngx-cacheable';
+import { map } from 'rxjs/operators';
 
 
 /**
@@ -103,7 +104,9 @@ export class ContentFetcherService {
     */
    @Cacheable()
    filterContent(filter: Filter): Observable<Content[]> {
-      let body: string = JSON.stringify(filter);
-      return this.http.post<Content[]>(this.endpoints.FILTER_CONTENT, body, { headers: this.HEADERS });
+      let modules: string = JSON.stringify(filter.modules);
+      return this.http.get<Content[]>(this.endpoints.FILTER_CONTENT.replace('${title}',filter.title).replace('${format}', filter.format).replace('${modules}', modules), {withCredentials: true}).pipe(
+         map( resp => resp as Content[])
+       );
    }
 }
