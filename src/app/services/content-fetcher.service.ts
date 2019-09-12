@@ -61,6 +61,7 @@ export class ContentFetcherService {
     * @param content Content containing new values to persist
     */
    
+    //these three update methods can be combined into one
    updateContentById(id: number, content: Content): Observable<HttpHeaderResponse> {
       let body: string = JSON.stringify(content);
       globalCacheBusterNotifier.next();
@@ -71,7 +72,7 @@ export class ContentFetcherService {
     * Method for updating content by content
     * @param newContent 
     */
-   
+
    updateContentByContent(newContent: Content) {
       let body: string = JSON.stringify(newContent);
       globalCacheBusterNotifier.next();
