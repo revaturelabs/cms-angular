@@ -7,6 +7,9 @@ import { ModuleStoreService } from '../../services/module-store.service';
 import { ToastrService } from 'ngx-toastr';
 import { Link } from '../../models/Link';
 import { SelectControlValueAccessor } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+
 /** Typescript component for Content Finder page */
 @Component({
    selector: 'app-content-finder-page',
@@ -95,7 +98,8 @@ export class ContentFinderPageComponent implements OnInit {
    constructor(
       private cs: ContentFetcherService,
       public ms: ModuleStoreService,
-      private toastr: ToastrService
+      private toastr: ToastrService, 
+      private location: Location
    ) { }
 
    /**
@@ -103,6 +107,36 @@ export class ContentFinderPageComponent implements OnInit {
     */
    ngOnInit() {
       this.ms.loadModules();
+
+      //gets search parameters from url if they exhist
+      let url = window.location.href;
+      if (url.indexOf('?') > -1) {
+         //remove non-query part of url
+         let query = url.substring(url.indexOf('?') + 1);
+         //retrieve title param
+         let title = query.substring(query.indexOf('=') + 1, query.indexOf('&'));
+         //remove title param from query string
+         query = query.substring(query.indexOf('&') + 1);
+         //retreive the format param
+         let format = query.substring(query.indexOf('=') + 1, query.indexOf('&'));
+         //remove the format param from the query string
+         query = query.substring(query.indexOf('&') + 1);
+         //retrieve the modules param
+         let modules = query.substring(query.indexOf('=') + 1);
+         //convert modules string into an array of numbers
+         let moduleIds = modules.split(',');
+         let moduleIdNumbers: number[] = new Array;
+         for (let i=0; i<moduleIds.length; i++) {
+            moduleIdNumbers.push(parseInt(moduleIds[i]))
+         }
+
+         //populate a filter object with the params we just extracted
+         let filter: Filter = new Filter(
+            title, format, moduleIdNumbers
+         );
+
+         this.sendSearch(filter);
+      }
    }
 
    /**
@@ -122,7 +156,14 @@ export class ContentFinderPageComponent implements OnInit {
       let filter: Filter = new Filter(
          this.title, format, this.moduleIDs
       );
+
+      this.updateURL(filter);
+
       this.searchedSubjects = this.selectedSubjects;
+      this.sendSearch(filter);
+   }
+
+   sendSearch(filter: Filter) {
       this.cs.filterContent(filter).subscribe(
          (response) => {
             if (response != null) {
@@ -141,6 +182,17 @@ export class ContentFinderPageComponent implements OnInit {
             this.isSearching = false;
          }
       )
+   }
+
+   updateURL(filter: Filter) {
+      let url = window.location.href;
+      if (url.indexOf('?') > -1) {
+         url = url.substring(0, url.indexOf('?'));
+      }
+      let modules: string = JSON.stringify(filter.modules);
+      modules = modules.replace('[','');
+      modules = modules.replace(']','');
+      this.location.replaceState("finder?title=" + filter.title + "&format=" + filter.format + "&modules=" + modules)
    }
 
    submitForDelete(){

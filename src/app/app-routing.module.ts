@@ -11,7 +11,7 @@ import { SubmitRequestPageComponent } from './components/submit-request-page/sub
 const routes: Routes = [
    { path: '', redirectTo: '/content-creator', pathMatch: 'full' },
    { path: 'content-creator', component: ContentCreatorPageComponent, pathMatch: 'full' },
-   { path: 'finder', component: ContentFinderPageComponent, pathMatch: 'full' },
+   { path: 'finder', component: ContentFinderPageComponent },
    { path: 'module-creator', component: ModuleCreatorPageComponent, pathMatch: 'full' },
    { path: 'module-index', component: ModuleIndexPageComponent, pathMatch: 'full' },
    { path: 'reports', component: ReportsPageComponent},
