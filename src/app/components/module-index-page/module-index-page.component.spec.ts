@@ -4,6 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatProgressSpinnerModule} from '@angular/material';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ToastrModule } from 'ngx-toastr';
+import { TreeModule } from 'angular-tree-component';
 
 import { ModuleIndexPageComponent } from './module-index-page.component';
 import { Module } from 'src/app/models/Module';
@@ -20,7 +21,8 @@ describe('ModuleIndexPageComponent', () => {
       imports: [
         MatProgressSpinnerModule,
         HttpClientTestingModule,
-        ToastrModule.forRoot()
+        ToastrModule.forRoot(),
+        TreeModule.forRoot()
       ]
     })
     .compileComponents();
