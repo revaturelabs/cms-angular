@@ -163,7 +163,7 @@ describe('ContentFetcherService', () => {
       (receivedResponse: any) => { },
       (error: any) => { }
     );
-    const req = httpTestingController.expectOne(baseURL + '/search');
+    const req = httpTestingController.expectOne(baseURL + '/search?title=${title}&format=${format}&modules=${modules}');
     expect(req.request.method).toEqual("POST");
     req.flush(response);
     tick();
