@@ -38,9 +38,6 @@ export class ContentCreatorPageComponent implements OnInit {
    /** Description - boolean to display a spinner for submitting in progress */
    isSubmitting: boolean = false;
 
-   /** Stores selected subjects */
-   selectedSubjects: number[] = [];
-
    // Called in nodeCreation() for tree nodes
    nodes: any[] = this.ms.nodes;
    tempChildren: Module[] = [];
@@ -67,7 +64,6 @@ export class ContentCreatorPageComponent implements OnInit {
       this.ms.loadModules();
       this.getListOfURLS();
       this.tree.treeModel.update();
-
    }
 
    ngDoCheck() {
@@ -134,20 +130,20 @@ export class ContentCreatorPageComponent implements OnInit {
          return;
       }
 
-      //If the input was valid continue
+      // If the input was valid continue
       let save_url = this.url;
-      //create a content object with the data inputed by the user
+      // create a content object with the data inputed by the user
       let content: Content = new Content(
          null, this.title, this.selFormat,
          this.description, this.url,
          this.getLinksFromSubjects(Object.entries(this.tree.treeModel.activeNodeIds)));
 
-      //call the ContentFetcherService to create a new content
+      // call the ContentFetcherService to create a new content
       this.cs.createNewContent(content).subscribe(
          (response) => {
             if (response != null) {
 
-               //on success, display a toastr message and reset the variables on this page
+               // on success, display a toastr message and reset the variables on this page
                this.toastr.success('Successfully sent content.');
                this.resetVariables();
                this.listURLS.push(save_url); //
@@ -160,7 +156,7 @@ export class ContentCreatorPageComponent implements OnInit {
             this.toastr.error('Failed to send content.');
             this.isSubmitting = false;
          }
-      )
+      );
 
       this.tree.treeModel.setState(this.state);
       this.tree.treeModel.update();
@@ -170,9 +166,9 @@ export class ContentCreatorPageComponent implements OnInit {
    resetVariables() {
       this.title = null;
       this.url = null;
-      this.selFormat = "Code";
+      this.selFormat = 'Code';
       this.description = null;
-      this.selectedSubjects = [];
+      this.nodes = [];
       this.isSubmitting = false;
    }
 
