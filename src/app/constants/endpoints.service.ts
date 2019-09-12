@@ -46,6 +46,7 @@ export class EndpointsService {
    
    /** Filter Content Endpoint */
    public readonly FILTER_CONTENT: string = this.baseURL + '/search?title=${title}&format=${format}&modules=${modules}';
+   
    /** Get metrics for information in DB */
    public readonly GET_METRICS: string = this.baseURL + '/metrics/${timeFrame}';
    //Get all root modules (modules with no parents)
