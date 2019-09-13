@@ -72,32 +72,39 @@ export class ModuleIndexPageComponent implements OnInit {
 
    /**
     * Lists the available content for module input
-    * @param {Module} module 
+    * @param {Module} module
     */
    listContent(module: Module) {
       if (null == this.moduleContents.get(module)) {
-
+         console.log('if step 1');
          this.contentVisible.set(module, false);
-
+         console.log('if step 1-2');
          let filter: Filter = new Filter(
             null, null, [module.id]
          );
+         console.log(filter);
          this.cs.filterContent(filter).subscribe(
             (response) => {
                if (response != null) {
+                  console.log('before if step 2');
                   this.parseContentResponse(response, module);
+                  console.log('if step 2');
                } else {
                   this.toastr.error('Response was null');
                }
             },
             (response) => {
                this.toastr.error('Failed to request contents');
-
+               console.log('if step 3');
             },
-            () => { this.contentVisible.set(module, true); }
+            () => {
+               this.contentVisible.set(module, true);
+               console.log('if step 4');
+            }
          );
       } else {
          this.contentVisible.set(module, !this.contentVisible.get(module));
+         console.log('else step 1');
       }
    }
 
@@ -111,7 +118,7 @@ export class ModuleIndexPageComponent implements OnInit {
 
       let sortedResponse = response.sort(
          (a, b) => { return a.title < b.title ? -1 : 1 }
-      )
+      );
 
       this.moduleContents.set(module, sortedResponse);
    }
