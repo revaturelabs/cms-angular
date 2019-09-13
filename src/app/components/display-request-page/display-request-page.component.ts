@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { RequestFetcherService } from 'src/app/services/request-fetcher.service';
+import { Request } from 'src/app/models/Request';
 
 @Component({
   selector: 'app-display-request-page',
@@ -7,9 +10,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DisplayRequestPageComponent implements OnInit {
 
-  constructor() { }
+  public id: number;
+  public title: string;
+  public format: string;
+  public description: string;
+  public url: string;
+  public req: Request[];
+
+  constructor(
+    private rs: RequestFetcherService
+  ) { }
 
   ngOnInit() {
+    this.rs.getAllRequests().subscribe((data: Request[]) => {
+      this.req = data ;
+      console.log(this.req);
+    });
   }
 
 }

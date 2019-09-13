@@ -8,9 +8,9 @@
             </div>
         </div>
 
-        <!-- Table for displaying the list of open requests for content -->
+        <!-- Table for displaying the list of requests for content -->
         <div id="requests">
-            <h3>Open Requests</h3>
+            <h3>Requests</h3>
             <br>
             <form>
                 <div class="form-row mb-5">
@@ -22,24 +22,18 @@
                                     <!--Row for trash can icon-->
                                     <th scope="col">Request Id</th>
                                     <th scope="col">Title</th>
-                                    <th scope="col">Content Type</th>
-                                    <th scope="col">Tags</th>
+                                    <th scope="col">Format</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">URL</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Delete</td>
-                                    <td>Java</td>
-                                    <td>Java</td>
-                                    <td>example.com</td>
-                                    <td>Example</td>
-                                </tr>
-                                <tr>
-                                    <td>Icon</td>
-                                    <td>Java</td>
-                                    <td>Example</td>
-                                    <td>Example</td>
-                                    <td>Example</td>
+                                <tr *ngFor="let r of req">
+                                    <td>{{r.id}}</td>
+                                    <td>{{r.title}}</td>
+                                    <td>{{r.format}}</td>
+                                    <td>{{r.description}}</td>
+                                    <td>{{r.content}}</td>
                                 </tr>
                             </tbody>
                         </table>
