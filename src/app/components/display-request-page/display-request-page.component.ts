@@ -10,6 +10,10 @@ import { Request } from 'src/app/models/Request';
 })
 export class DisplayRequestPageComponent implements OnInit {
 
+  poptable: Observable<any[]>;
+  columns: string[];
+  test: string[];
+
   public id: number;
   public title: string;
   public format: string;
@@ -22,9 +26,17 @@ export class DisplayRequestPageComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    // On initialization we pull in all the requests so that they can be populated within a table
     this.rs.getAllRequests().subscribe((data: Request[]) => {
       this.req = data ;
       console.log(this.req);
+    });
+  }
+
+  // Method for deleting a request
+  removeRequest(rid: Request['id'] ): void {
+    this.rs.deleteRequestById(rid).subscribe( data => {
+      this.req.filter( i => i !== rid );
     });
   }
 

@@ -18,7 +18,7 @@
                         <table class="table table-hover table-striped text-center" id="displayrequests">
                             <thead>
                                 <tr>
-                                    <!-- <th scope="col"></th> -->
+                                    <th scope="col"></th>
                                     <!--Row for trash can icon-->
                                     <th scope="col">Request Id</th>
                                     <th scope="col">Title</th>
@@ -29,6 +29,14 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let r of req">
+                                    <td name="trash">
+                                        <em title="Remove request " id="{r.rid}" (click)="removeRequest(req)" class="fas fa-trash" data-toggle="modal" data-target="#deleteRequest" title="Remove request"></em>
+                                    </td>
+                                    <!-- <td name="trash">
+                                        <em title="Remove from module " (click)="selectedContentForRemoval(content)"
+                                            class="fas fa-trash" data-toggle="modal" data-target="#deleteContent"
+                                            title="Remove Content"></em>
+                                    </td> -->
                                     <td>{{r.id}}</td>
                                     <td>{{r.title}}</td>
                                     <td>{{r.format}}</td>
