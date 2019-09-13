@@ -30,7 +30,7 @@
                             <tbody>
                                 <tr *ngFor="let r of req">
                                     <td name="trash">
-                                        <em title="Remove request " id="{r.rid}" (click)="removeRequest(req)" class="fas fa-trash" data-toggle="modal" data-target="#deleteRequest" title="Remove request"></em>
+                                        <em title="Remove request " id="{r.rid}" (click)="removeRequest(id)" class="fas fa-trash" data-toggle="modal" data-target="#deleteRequest" title="Remove request"></em>
                                     </td>
                                     <!-- <td name="trash">
                                         <em title="Remove from module " (click)="selectedContentForRemoval(content)"
