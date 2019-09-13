@@ -40,7 +40,7 @@ export class ContentFetcherService {
       return this.http.post<HttpHeaderResponse>(this.endpoints.CREATE_NEW_CONTENT, body, { headers: this.HEADERS });
    }
 
-   /**
+   /**s
     * Sends HTTP request to return all Content
     */
    getAllContent(): Observable<Content[]> {
