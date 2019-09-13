@@ -49,7 +49,7 @@ describe('ModuleStoreService', () => {
     let response = {};
 
     service.loadModules();
-    const req = httpTestingController.expectOne(baseURL + '/module');
+    const req = httpTestingController.expectOne(baseURL + '/modules');
     expect(req.request.method).toEqual('GET');
     req.flush(response);
     tick();
