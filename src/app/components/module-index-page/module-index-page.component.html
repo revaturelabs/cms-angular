@@ -92,7 +92,7 @@
                                                 <th scope="col">Content ID</th>
                                                 <th scope="col">Title</th>
                                                 <th scope="col">Format</th>
-                                                <th scope="col">Description</th>
+                                                <!-- <th scope="col">Description</th> -->
                                                 <th scope="col">URL</th>
                                             </tr>
                                         </thead>
@@ -102,9 +102,9 @@
                                             moduleContents.get(module) and displayes the data in each by using String
                                             Interpolation {{}}.
                                         -->
-                                        <tbody>
-                                            <tr *ngFor="let content of moduleContents.get(module)"
-                                                [attr.id]="'row' + content.id">
+                                        <tbody *ngFor="let content of moduleContents.get(module)"
+                                        [attr.id]="'row' + content.id">
+                                            <tr >
                                                 <!-- 
                                                     The first data to exist for row in a table is a Remove Content button. 
                                                     This works in the same way the remove button works in the content finder
@@ -126,10 +126,14 @@
                                                 <td name="contentId">{{content.id}}</td>
                                                 <td name="title">{{content.title}}</td>
                                                 <td name="format">{{content.format}}</td>
-                                                <td name="description">{{content.description}}</td>
+                                                <!-- <td name="description">{{content.description}}</td> -->
                                                 <td name="url"><a target="_blank"
                                                         href="{{content.url}}">{{content.url}}</a>
                                                 </td>
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td name="description" colspan="5"><b>Description: </b>{{content.description}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
