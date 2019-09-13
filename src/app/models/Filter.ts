@@ -1,5 +1,6 @@
 /** Filter class for filtering on reports page */
 export class Filter {
+    
     /** String variable for title */
     title: string = "";
     /** String variable for format */
