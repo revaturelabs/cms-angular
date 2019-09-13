@@ -1,12 +1,13 @@
 import { Link } from 'src/app/models/Link';
 import { Content } from 'src/app/models/Content';
+import {Module} from './Module';
 export class Request {
     id = 0;
     title = '[no title]';
     format = '[no format]';
     description = '-';
     content: Content = null;
-    links: Link[] = [];
+    tags: Module[] = [];
 
     /**
      * Constructor for creating content
@@ -17,13 +18,13 @@ export class Request {
      * @param content Url of content already in DB
      * @param links Links (Tags) for this Request
      */
-   constructor(id: number, title: string, format: string, description: string, content: Content, links: Link[]) {
+   constructor(id: number, title: string, format: string, description: string, content: Content, links: Module[]) {
     if (null != id) { this.id = id; }
     if (null != title) { this.title = title; }
     if (null != format) { this.format = format; }
     if (null != description) { this.description = description; }
     if (null != content) { this.content = content; }
-    if (null != links) { this.links = links; }
+    if (null != links) { this.tags = links; }
  }
     /** Getter method for id */
     public getId(): number {
@@ -46,8 +47,8 @@ export class Request {
         return this.content;
     }
     /** Getter method for Links */
-    public getLinks(): Link[] {
-        return this.links;
+    public getLinks(): Module[] {
+        return this.tags;
     }
     /** Setter method for id */
     public setId(id: number) {
@@ -70,8 +71,8 @@ export class Request {
         this.content = content;
     }
     /** Setter method for Links */
-    public setLinks(links: Link[]) {
-        this.links = links;
+    public setLinks(links: Module[]) {
+        this.tags = links;
     }
 
 }
