@@ -20,25 +20,29 @@ export class ModuleIndexPageComponent implements OnInit {
    /** Map of Visibility status of each Module */
    contentVisible: Map<Module, boolean> = new Map<Module, boolean>();
 
-   /** Map of Modules to their list of related Content.
-    * Loaded when user clicks on Module (lazy load) */
+   /**
+    * Map of Modules to their list of related Content.
+    * Loaded when user clicks on Module (lazy load) 
+    */
    moduleContents: Map<Module, Content[]> = new Map<Module, Content[]>();
 
    /**
     * Variable that will reference selected content for removal. Pre-initialized as it would 
     * cause errors upon loading the component.
     */
-   //Note that this needs defualt values so the bindings {{ }} in html will work on page load
+   // Note that this needs defualt values so the bindings {{ }} in html will work on page load
    selCon: Content = new Content(0, "", "", "", "", []);
 
    /**
     * Variable that will reference the module of the selected content for removal. 
     * Pre-initialized as it would cause errors upon loading the component.
     */
-   //Note that this needs defualt values so the bindings {{ }} in html will work on page load
+   // Note that this needs defualt values so the bindings {{ }} in html will work on page load
    selModule: Module = new Module(0, "", 0, [], null, null);
 
-   /** Used to display a spinner when modules are loading.*/
+   /**
+    *  Used to display a spinner when modules are loading.
+    */
    isLoading: boolean = false;
 
    /** Create nodes to load child modules as objects */
@@ -65,7 +69,7 @@ export class ModuleIndexPageComponent implements OnInit {
    }
 
    ngDoCheck() {
-      if (this.nodes.length == 0) {
+      if (this.nodes.length === 0) {
          this.nodes = this.ms.nodes;
       }
    }
@@ -95,10 +99,8 @@ export class ModuleIndexPageComponent implements OnInit {
 
             },
             () => { this.contentVisible.set(module, true); }
-         )
-      }
-
-      else {
+         );
+      } else {
          this.contentVisible.set(module, !this.contentVisible.get(module));
       }
    }
@@ -113,13 +115,14 @@ export class ModuleIndexPageComponent implements OnInit {
 
       let sortedResponse = response.sort(
          (a, b) => { return a.title < b.title ? -1 : 1 }
-      )
+      );
 
       this.moduleContents.set(module, sortedResponse);
    }
 
    /**
-    * Description - removes the content from the specified module. It will also send a request to decouple the link between content and module.
+    * Description - removes the content from the specified module.
+    * It will also send a request to decouple the link between content and module.
     * @param content - the content being removed
     * @param module - the module the content is being removed from
     */
@@ -152,22 +155,21 @@ export class ModuleIndexPageComponent implements OnInit {
       this.selModule = module;
    }
 
-   /** 
-      This method checks whether the flag should be displayed for the current module.
-      @param module - the module that is selected.
-   */
+   /**
+    * This method checks whether the flag should be displayed for the current module.
+    * @param module - the module that is selected.
+    */
    checkFlag(module: Module) {
       if (module.links.length === 0) {
          return true;
-      }
-      else {
+      } else {
          return false;
       }
    }
 
    /**
-    * 
-    * @param module 
+    *
+    * @param module
     */
    selectedModuleForRemoval(module: Module) {
       this.selModule = module;
