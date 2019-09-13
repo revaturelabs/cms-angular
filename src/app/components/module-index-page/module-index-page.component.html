@@ -40,7 +40,7 @@
 
             <ng-template #recursiveList let-list>
                 <div *ngFor="let module of list" name="modules" id="{{module.id}}" class="tag-bubble"
-                    style="margin-bottom: 5px" [style.background-color]=module.color>
+                    style="margin-bottom: 5px">
 
                     <!-- 
                     With the creation of bubbles, these are clickable, so simply assigning an 
@@ -133,7 +133,7 @@
                                             </tr>
                                             
                                             <tr>
-                                                <td name="description" colspan="5"><b>Description: </b>{{content.description}}</td>
+                                                <td name="description" colspan="5x"><b>Description: </b>{{content.description}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
