@@ -6,6 +6,7 @@ import { EndpointsService } from '../constants/endpoints.service';
 import { Content } from '../models/Content';
 import { Filter } from '../models/Filter';
 import { Cacheable, CacheBuster,globalCacheBusterNotifier } from 'ngx-cacheable';
+import { map } from 'rxjs/operators';
 
 
 /**
@@ -39,7 +40,7 @@ export class ContentFetcherService {
       return this.http.post<HttpHeaderResponse>(this.endpoints.CREATE_NEW_CONTENT, body, { headers: this.HEADERS });
    }
 
-   /**
+   /**s
     * Sends HTTP request to return all Content
     */
    getAllContent(): Observable<Content[]> {
@@ -60,6 +61,7 @@ export class ContentFetcherService {
     * @param content Content containing new values to persist
     */
    
+    //these three update methods can be combined into one
    updateContentById(id: number, content: Content): Observable<HttpHeaderResponse> {
       let body: string = JSON.stringify(content);
       globalCacheBusterNotifier.next();
@@ -70,7 +72,7 @@ export class ContentFetcherService {
     * Method for updating content by content
     * @param newContent 
     */
-   
+
    updateContentByContent(newContent: Content) {
       let body: string = JSON.stringify(newContent);
       globalCacheBusterNotifier.next();
@@ -103,7 +105,17 @@ export class ContentFetcherService {
     */
    @Cacheable()
    filterContent(filter: Filter): Observable<Content[]> {
-      let body: string = JSON.stringify(filter);
-      return this.http.post<Content[]>(this.endpoints.FILTER_CONTENT, body, { headers: this.HEADERS });
+      let modules: string = JSON.stringify(filter.modules);
+      if (!modules) {
+         modules = modules.replace('[','');
+         modules = modules.replace(']','');
+      } else {
+         modules = "";
+      }
+      console.log("Modules: " + modules);
+      console.log("URL: " + this.endpoints.FILTER_CONTENT.replace('${title}',filter.title).replace('${format}', filter.format).replace('${modules}', modules))
+      return this.http.get<Content[]>(this.endpoints.FILTER_CONTENT.replace('${title}',filter.title).replace('${format}', filter.format).replace('${modules}', modules), {withCredentials: true}).pipe(
+         map( resp => resp as Content[])
+       );
    }
 }

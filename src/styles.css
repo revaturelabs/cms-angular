@@ -11,5 +11,7 @@
 @import "~angular-tree-component/dist/angular-tree-component.css";
 
 body {
-    background-color: rgb(	255, 136, 0)
+    background-repeat: no-repeat;
+background: rgb(255,136,0);
+background: linear-gradient(135deg, rgba(255,136,0,1) 0%, rgba(255,136,0,1) 66%, rgba(255,255,255,1) 100%);
 }
