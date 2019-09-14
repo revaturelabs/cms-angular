@@ -44,6 +44,8 @@ export class EndpointsService {
    public readonly GET_ROOT_MODULES: string = this.baseURL + '/modules/roots';
    //Get all child modules of an individual module
    public readonly GET_CHILDREN_BY_ID: string = this.baseURL + '/modules/${id}/children/';
+   //update module
+   public readonly UPDATE_MODULE: string = this.baseURL + '/modules/${id}';
    
    /** Initialization of Endpoints */
    constructor(private http: HttpClient) { }
