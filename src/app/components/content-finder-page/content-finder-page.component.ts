@@ -173,6 +173,7 @@ export class ContentFinderPageComponent implements OnInit {
                if (this.notEmpty()) { }
                else
                   this.toastr.error('No Results Found');
+                  // Put link to William and Alex's module here
             } else {
                this.toastr.error('Response was null');
             }
