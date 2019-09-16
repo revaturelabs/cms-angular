@@ -1,7 +1,7 @@
 import { Component, OnInit, ComponentFactoryResolver} from '@angular/core';
 import { Module } from 'src/app/models/Module';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
-import { ModuleFetcherService } from 'src/app/services/module-fetcher.service'
+import { ModuleFetcherService } from 'src/app/services/module-fetcher.service';
 import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
 import { Content } from 'src/app/models/Content';
 import { Filter } from 'src/app/models/Filter';
@@ -52,7 +52,7 @@ export class ModuleIndexPageComponent implements OnInit {
     * @param ms Fetches tags
     */
    constructor(
-      private cs: ContentFetcherService,
+      public cs: ContentFetcherService,
       public ms: ModuleStoreService,
       private toastr: ToastrService,
       private mfs: ModuleFetcherService,
@@ -91,6 +91,7 @@ export class ModuleIndexPageComponent implements OnInit {
                   console.log('if step 2');
                } else {
                   this.toastr.error('Response was null');
+                  console.log('error happend');
                }
             },
             (response) => {

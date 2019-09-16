@@ -1,18 +1,25 @@
 import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 
-
+import { HttpClient} from '@angular/common/http';
+import { EndpointsService } from 'src/app/constants/endpoints.service';
 import { MatProgressSpinnerModule} from '@angular/material';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ToastrModule } from 'ngx-toastr';
 
+import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
 import { ModuleIndexPageComponent } from './module-index-page.component';
 import { Module } from 'src/app/models/Module';
 import { Content } from 'src/app/models/Content';
 import { Link } from 'src/app/models/Link';
+import { Observable, of } from 'rxjs';
 
 describe('ModuleIndexPageComponent', () => {
   let component: ModuleIndexPageComponent;
   let fixture: ComponentFixture<ModuleIndexPageComponent>;
+  let service: ContentFetcherService;
+  let spy: any;
+  let http: HttpClient;
+  let endpoints: EndpointsService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -30,6 +37,7 @@ describe('ModuleIndexPageComponent', () => {
     fixture = TestBed.createComponent(ModuleIndexPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    service = component.cs;
   });
 
   it('should create', () => {
@@ -132,14 +140,17 @@ describe('ModuleIndexPageComponent', () => {
   });
 
 // tests for listContent()
-// method accesses database so it is not suitable for a unit test
-//  it('should set Module to visible with listContent()', () => {
-//    let Mod1: Module = new Module(1, "", 1, [], [], []);
-//    expect(component.contentVisible.get(Mod1)).toBeFalsy();
-//    component.listContent(Mod1);
-//    console.log('it should be visible now');
-//    expect(component.contentVisible.get(Mod1)).toBeTruthy();
-//  });
+  it('should set Module to visible with listContent()', () => {
+    let Mod1: Module = new Module(1, "", 1, [], [], []);
+    let Con1: Content = new Content(1, "B", "", "", "", []);
+    let Con2: Content = new Content(2, "A", "", "", "", []);
+    spy = spyOn(service, 'filterContent').and.returnValue(of([Con1, Con2]));
+    expect(component.contentVisible.get(Mod1)).toBeFalsy();
+    component.listContent(Mod1);
+    console.log('it should be visible now');
+    expect(service.filterContent).toHaveBeenCalled();
+    expect(component.contentVisible.get(Mod1)).toBeTruthy();
+  });
 
   it('should set Module to not visible if listContent() is called twice', () => {
     let Mod1: Module = new Module(1, "", 1, [], [], []);
