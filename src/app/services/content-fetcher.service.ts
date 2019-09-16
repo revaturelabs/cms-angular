@@ -65,7 +65,7 @@ export class ContentFetcherService {
    updateContentById(id: number, content: Content): Observable<HttpHeaderResponse> {
       let body: string = JSON.stringify(content);
       globalCacheBusterNotifier.next();
-      return this.http.put<HttpHeaderResponse>(this.endpoints.UPDATE_CONTENT_BY_ID.replace('${id}', id.toString()), body, { headers: this.HEADERS });
+      return this.http.put<HttpHeaderResponse>(this.endpoints.UPDATE_CONTENT.replace('${id}', id.toString()), body, { headers: this.HEADERS });
    }
   
    /**
@@ -73,20 +73,10 @@ export class ContentFetcherService {
     * @param newContent 
     */
 
-   updateContentByContent(newContent: Content) {
+   updateContent(newContent: Content) {
       let body: string = JSON.stringify(newContent);
       globalCacheBusterNotifier.next();
-      return this.http.put(this.endpoints.UPDATE_CONTENT, body, { headers: this.HEADERS });
-   }
-   /** Not yet implemented, Untested 
-    * @param id
-    * @param modules
-   */
-  
-   updateContentModulesById(id: number, modules: Module[]): Observable<HttpHeaderResponse> {
-      let body: string = JSON.stringify(modules);
-      globalCacheBusterNotifier.next();
-      return this.http.put<HttpHeaderResponse>(this.endpoints.UPDATE_CONTENT_MODULES_BY_ID.replace('${id}', id.toString()), body, { headers: this.HEADERS });
+      return this.http.put(this.endpoints.UPDATE_CONTENT.replace('${id}', newContent.id.toString()), body, { headers: this.HEADERS });
    }
 
    /**
