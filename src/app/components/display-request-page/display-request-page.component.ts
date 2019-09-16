@@ -34,8 +34,11 @@ export class DisplayRequestPageComponent implements OnInit {
   }
 
   // Method for deleting a request
-  removeRequest(id: Request['id'] ): void {
-    this.rs.deleteRequestById(this.id);
+  removeRequest(id: Request['id']): void {
+    this.rs.deleteRequestById(id);
+    // this.rs.deleteRequestById(id).subscribe( data => {
+    //   this.req.filter( i => i !== id );
+    // });
   }
 
 }
