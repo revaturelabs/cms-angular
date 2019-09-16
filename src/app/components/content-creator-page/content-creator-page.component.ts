@@ -187,8 +187,11 @@ export class ContentCreatorPageComponent implements OnInit {
       let links = [];
       subjects.forEach(
          (subject) => {
-            links.push(new Link(null, null,
-               subject[0], null));
+            console.log(subject);
+            if (subject[1]){
+               links.push(new Link(null, null,
+                  subject[0], null));
+            }
          }, this
       )
       return links;
