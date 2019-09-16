@@ -106,7 +106,7 @@ export class ContentFetcherService {
    @Cacheable()
    filterContent(filter: Filter): Observable<Content[]> {
       let modules: string = JSON.stringify(filter.modules);
-      if (!modules) {
+      if (modules) {
          modules = modules.replace('[','');
          modules = modules.replace(']','');
       } else {
