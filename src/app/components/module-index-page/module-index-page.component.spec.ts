@@ -56,7 +56,7 @@ describe('ModuleIndexPageComponent', () => {
 
 // test that the table populates
   it('should populate table based on Modules Service Response', () => {
-
+    pending('Not properly implemented yet.');
     let Mod1: Module = new Module(1, '', 1, [], [], []);
     let Mod2: Module = new Module(2, '', 1, [], [], []);
     spy = spyOn(service2, 'getAllModules').and.returnValue(of([Mod1, Mod2]));
@@ -68,6 +68,7 @@ describe('ModuleIndexPageComponent', () => {
 
 // tests that flags show when expected
   it('should show flag on modules with no links', () => {
+    pending('Not properly implemented yet.');
     let Mod1: Module = new Module(1, '', 1, [], [], []);
 
     component.ms.response = [Mod1];
@@ -75,6 +76,7 @@ describe('ModuleIndexPageComponent', () => {
   });
 
   it('should not show flag on modules with links', () => {
+    pending('Not properly implemented yet.');
     let Link1: Link = new Link(1, 0, 0, '');
     let Mod1: Module = new Module(1, '', 1, [Link1], [], []);
 
@@ -145,15 +147,16 @@ describe('ModuleIndexPageComponent', () => {
     spy = spyOn(service, 'filterContent').and.returnValue(of([Con1, Con2]));
     expect(component.contentVisible.get(Mod1)).toBeFalsy();
     component.listContent(Mod1);
-    console.log('it should be visible now');
     expect(service.filterContent).toHaveBeenCalled();
     expect(component.contentVisible.get(Mod1)).toBeTruthy();
   });
 
   it('should set Module to not visible if listContent() is called twice', () => {
-    let Mod1: Module = new Module(1, "", 1, [], [], []);
+    let Mod1: Module = new Module(2, "", 1, [], [], []);
+    let Con1: Content = new Content(1, "B", "", "", "", []);
+    let Con2: Content = new Content(2, "A", "", "", "", []);
+    spy = spyOn(service, 'filterContent').and.returnValue(of([Con1, Con2]));
     expect(component.contentVisible.get(Mod1)).toBeFalsy();
-    console.log('Checking visibility');
     component.listContent(Mod1);
     component.listContent(Mod1);
     expect(component.contentVisible.get(Mod1)).toBeFalsy();
