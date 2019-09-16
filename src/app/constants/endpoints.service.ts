@@ -40,32 +40,35 @@ export class EndpointsService {
    public readonly FILTER_CONTENT: string = this.baseURL + '/content?title=${title}&format=${format}&modules=${modules}';
    /** Get metrics for information in DB */
    public readonly GET_METRICS: string = this.baseURL + '/metrics/${timeFrame}';
-   //Get all root modules (modules with no parents)
+   // Get all root modules (modules with no parents)
    public readonly GET_ROOT_MODULES: string = this.baseURL + '/modules/roots';
-   //Get all child modules of an individual module
+   // Get all child modules of an individual module
    public readonly GET_CHILDREN_BY_ID: string = this.baseURL + '/modules/${id}/children/';
-   //update module
+   // update module
    public readonly UPDATE_MODULE: string = this.baseURL + '/modules/${id}';
-   
+
    /** Initialization of Endpoints */
    constructor(private http: HttpClient) { }
 
    /** Returns string array containing all endpoints */
    public getAllEndpoints(): string[] {
       let endpoints: string[] = new Array(
-         this.CREATE_NEW_CONTENT,//0
-         this.UPDATE_CONTENT,//1
-         this.GET_ALL_CONTENT,//2
-         this.GET_CONTENT_BY_ID,//3
-         this.DELETE_CONTENT_BY_ID,//6
-         this.CREATE_NEW_MODULE,//7
-         this.GET_ALL_MODULES,//8
-         this.GET_MODULE_BY_ID,//9
-         this.FILTER_CONTENT,//10
-         this.GET_METRICS,//11
-         this.GET_ROOT_MODULES,//12
-
-         this.GET_CHILDREN_BY_ID);//14
+         this.CREATE_NEW_CONTENT, // 0
+         this.UPDATE_CONTENT, // 1
+         this.GET_ALL_CONTENT, // 2
+         this.GET_CONTENT_BY_ID, // 3
+         this.DELETE_CONTENT_BY_ID, // 4
+         this.DELETE_MODULE_BY_ID, // 5
+         this.DELETE_MODULE_BY_SPECIFIC_CONTENT, // 6
+         this.DELETE_MODULE_WITH_CONTENT, // 7
+         this.CREATE_NEW_MODULE, // 8
+         this.GET_ALL_MODULES, // 9
+         this.GET_MODULE_BY_ID, // 10
+         this.FILTER_CONTENT, // 11
+         this.GET_METRICS, // 12
+         this.GET_ROOT_MODULES, // 13
+         this.GET_CHILDREN_BY_ID, // 14
+         this.UPDATE_MODULE); // 15
 
       return endpoints;
    }
