@@ -171,18 +171,15 @@ export class ContentFinderPageComponent implements OnInit {
    sendSearch(filter: Filter) {
       this.searchedSubjects = this.selectedSubjects;
 
-      console.log(this.searchedSubjects);
-
       this.cs.filterContent(filter).subscribe(
          (response) => {
             if (response != null) {
-               
+
                //populate the contents array with the response with the parseContentResponse function
                this.parseContentResponse(response);
                if (this.notEmpty()) { }
-               else{
+               else {
                   this.toastr.error('No Results Found');
-                  
                }
             } else {
                this.toastr.error('Response was null');
@@ -206,7 +203,7 @@ export class ContentFinderPageComponent implements OnInit {
       this.location.replaceState("finder?title=" + filter.title + "&format=" + filter.format + "&modules=" + modules)
    }
    
-   submitForDelete(){
+   submitForDelete() {
       this.isSearching = true;
       let format: string = this.selFormat;
 
@@ -252,8 +249,7 @@ export class ContentFinderPageComponent implements OnInit {
        * subject/module name via lookup Map */
       this.contents.forEach(
          (content) => {
-            console.log(content);
-            
+
             content.links = content.links.sort(
                (a, b) => {
                   let sortedIndexA: number = this.ms.subjectIdToSortedIndex.get(a.moduleId);
@@ -316,7 +312,7 @@ export class ContentFinderPageComponent implements OnInit {
             this.moduleIDs.push(this.ms.subjectNameToModule.get(subject).id);
             console.log(this.moduleIDs);
          }, this
-      )
+      );
    }
 
    /**
@@ -429,4 +425,12 @@ export class ContentFinderPageComponent implements OnInit {
       return "contentID-" + contentID + "-linkID-" + linkID;
    }
 
+   /**
+    * If content for specific module combination cannot
+    * be found then allow user to switch to page
+    */
+
+   gotoRequest() {
+      
+   }
 }
