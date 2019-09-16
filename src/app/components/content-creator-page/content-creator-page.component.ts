@@ -111,7 +111,6 @@ export class ContentCreatorPageComponent implements OnInit {
     * where the link has its subject id populated and the rest are set to default values
     */
    submit() {
-      console.log(this.tree.treeModel.activeNodeIds);
       this.isSubmitting = true;
 
       if (this.listURLS.indexOf(this.url) >= 0) {
