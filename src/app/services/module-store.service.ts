@@ -56,7 +56,7 @@ export class ModuleStoreService {
     * @param ms Service to obtain Modules from back-end
     * @param toastr
     */
-   constructor(private ms: ModuleFetcherService,
+   constructor(public ms: ModuleFetcherService,
       private cs: ContentFetcherService,
       private toastr: ToastrService) { }
 
