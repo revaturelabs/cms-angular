@@ -76,9 +76,7 @@ export class ModuleIndexPageComponent implements OnInit {
     */
    listContent(module: Module) {
       if (null == this.moduleContents.get(module)) {
-         console.log('if step 1');
          this.contentVisible.set(module, false);
-         console.log('if step 1-2');
          let filter: Filter = new Filter(
             null, null, [module.id]
          );
@@ -86,26 +84,20 @@ export class ModuleIndexPageComponent implements OnInit {
          this.cs.filterContent(filter).subscribe(
             (response) => {
                if (response != null) {
-                  console.log('before if step 2');
                   this.parseContentResponse(response, module);
-                  console.log('if step 2');
                } else {
                   this.toastr.error('Response was null');
-                  console.log('error happend');
                }
             },
             (response) => {
                this.toastr.error('Failed to request contents');
-               console.log('if step 3');
             },
             () => {
                this.contentVisible.set(module, true);
-               console.log('if step 4');
             }
          );
       } else {
          this.contentVisible.set(module, !this.contentVisible.get(module));
-         console.log('else step 1');
       }
    }
 
