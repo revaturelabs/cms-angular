@@ -74,22 +74,22 @@ export class EndpointsService {
          this.UPDATE_CONTENT,//1
          this.GET_ALL_CONTENT,//2
          this.GET_CONTENT_BY_ID,//3
-         this.DELETE_CONTENT_BY_ID,//6
-         this.CREATE_NEW_MODULE,//7
-         this.GET_ALL_MODULES,//8
-         this.GET_MODULE_BY_ID,//9
-         this.FILTER_CONTENT,//10
-         this.GET_METRICS,//11
-         this.GET_ROOT_MODULES,//12
+         this.DELETE_CONTENT_BY_ID,//4
+         this.CREATE_NEW_MODULE,//5
+         this.GET_ALL_MODULES,//6
+         this.GET_MODULE_BY_ID,//7
+         this.FILTER_CONTENT,//8
+         this.GET_METRICS,//9
+         this.GET_ROOT_MODULES,//10
 
-         this.GET_CHILDREN_BY_ID, //14
-         this.CREATE_NEW_REQUEST,//15
-         this.UPDATE_REQUEST,//16
-         this.GET_ALL_REQUEST,//17
-         this.GET_REQUEST_BY_ID,//18
-         this.UPDATE_REQUEST_REQMODULES_BY_ID,//19
-         this.DELETE_REQUEST_BY_ID,//20
-         this.FILTER_REQUEST //21
+         this.GET_CHILDREN_BY_ID, //11
+         this.CREATE_NEW_REQUEST,//12
+         this.UPDATE_REQUEST,//13
+         this.GET_ALL_REQUEST,//14
+         this.GET_REQUEST_BY_ID,//15
+         this.UPDATE_REQUEST_REQMODULES_BY_ID,//16
+         this.DELETE_REQUEST_BY_ID,//17
+         this.FILTER_REQUEST //18
       );
 
       return endpoints;
