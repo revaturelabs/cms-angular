@@ -17,23 +17,19 @@ export class EndpointsService {
    /** Create Content Endpoint */
    public readonly CREATE_NEW_CONTENT: string = this.baseURL + '/content';
    /** Update Content */
-   public readonly UPDATE_CONTENT: string = this.baseURL + '/content';
+   public readonly UPDATE_CONTENT: string = this.baseURL + '/content/${id}';
    /** Get All Content Endpoint */
    public readonly GET_ALL_CONTENT: string = this.baseURL + '/content';
    /** Get Content by ID Endpoint */
    public readonly GET_CONTENT_BY_ID: string = this.baseURL + '/content/${id}';
-   /** Update Content Endpoint */
-   public readonly UPDATE_CONTENT_BY_ID: string = this.baseURL + '/content/${id}';
-   /** Unused */
-   public readonly UPDATE_CONTENT_MODULES_BY_ID: string = this.baseURL + '/content/${id}/modules';
    /** Delete Content Endpoint */
    public readonly DELETE_CONTENT_BY_ID: string = this.baseURL + '/content/${id}';
-   /** Delete Module Endpoint */
+   /** Delete Module and preserve content within Endpoint */
    public readonly DELETE_MODULE_BY_ID: string = this.baseURL + '/modules/${id}';
-      /** Delete Module By Specific Content Endpoint */
-   public readonly DELETE_MODULE_BY_SPECIFIC_CONTENT: string = this.baseURL + '/modules/speccontent/${id}';
-      /** Delete Module With Content Endpoint */
-   public readonly DELETE_MODULE_WITH_CONTENT: string = this.baseURL + '/modules/withcontent/${id}';
+   /** Delete Module and content that exists only in said module Endpoint */
+   public readonly DELETE_MODULE_BY_SPECIFIC_CONTENT: string = this.baseURL + '/modules/${id}?type=unique';
+   /** Delete Module and all content associated with said module Endpoint */
+   public readonly DELETE_MODULE_WITH_CONTENT: string = this.baseURL + '/modules/${id}?type=all';
    /** Create Module Endpoint */
    public readonly CREATE_NEW_MODULE: string = this.baseURL + '/modules';
    /** Get All Modules Endpoint */
@@ -41,15 +37,15 @@ export class EndpointsService {
    /** Get Module by ID Endpoint */
    public readonly GET_MODULE_BY_ID: string = this.baseURL + '/modules/${id}';
    /** Filter Content Endpoint */
-   public readonly FILTER_CONTENT: string = this.baseURL + '/search?title=${title}&format=${format}&modules=${modules}';
+   public readonly FILTER_CONTENT: string = this.baseURL + '/content?title=${title}&format=${format}&modules=${modules}';
    /** Get metrics for information in DB */
    public readonly GET_METRICS: string = this.baseURL + '/metrics/${timeFrame}';
    //Get all root modules (modules with no parents)
    public readonly GET_ROOT_MODULES: string = this.baseURL + '/modules/roots';
-   //Set one parent-child relationship
-   public readonly UPDATE_MODULE_RELATIONSHIP_BY_IDS: string = this.baseURL + '/modules/${parentId}/children/${childId}';
    //Get all child modules of an individual module
    public readonly GET_CHILDREN_BY_ID: string = this.baseURL + '/modules/${id}/children/';
+   //update module
+   public readonly UPDATE_MODULE: string = this.baseURL + '/modules/${id}';
    
    /** Initialization of Endpoints */
    constructor(private http: HttpClient) { }
@@ -61,8 +57,6 @@ export class EndpointsService {
          this.UPDATE_CONTENT,//1
          this.GET_ALL_CONTENT,//2
          this.GET_CONTENT_BY_ID,//3
-         this.UPDATE_CONTENT_BY_ID,//4
-         this.UPDATE_CONTENT_MODULES_BY_ID,//5
          this.DELETE_CONTENT_BY_ID,//6
          this.CREATE_NEW_MODULE,//7
          this.GET_ALL_MODULES,//8
@@ -70,7 +64,7 @@ export class EndpointsService {
          this.FILTER_CONTENT,//10
          this.GET_METRICS,//11
          this.GET_ROOT_MODULES,//12
-         this.UPDATE_MODULE_RELATIONSHIP_BY_IDS,//13
+
          this.GET_CHILDREN_BY_ID);//14
 
       return endpoints;

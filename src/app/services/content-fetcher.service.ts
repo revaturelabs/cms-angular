@@ -65,7 +65,7 @@ export class ContentFetcherService {
    updateContentById(id: number, content: Content): Observable<HttpHeaderResponse> {
       let body: string = JSON.stringify(content);
       globalCacheBusterNotifier.next();
-      return this.http.put<HttpHeaderResponse>(this.endpoints.UPDATE_CONTENT_BY_ID.replace('${id}', id.toString()), body, { headers: this.HEADERS });
+      return this.http.put<HttpHeaderResponse>(this.endpoints.UPDATE_CONTENT.replace('${id}', id.toString()), body, { headers: this.HEADERS });
    }
   
    /**
@@ -73,20 +73,10 @@ export class ContentFetcherService {
     * @param newContent 
     */
 
-   updateContentByContent(newContent: Content) {
+   updateContent(newContent: Content) {
       let body: string = JSON.stringify(newContent);
       globalCacheBusterNotifier.next();
-      return this.http.put(this.endpoints.UPDATE_CONTENT, body, { headers: this.HEADERS });
-   }
-   /** Not yet implemented, Untested 
-    * @param id
-    * @param modules
-   */
-  
-   updateContentModulesById(id: number, modules: Module[]): Observable<HttpHeaderResponse> {
-      let body: string = JSON.stringify(modules);
-      globalCacheBusterNotifier.next();
-      return this.http.put<HttpHeaderResponse>(this.endpoints.UPDATE_CONTENT_MODULES_BY_ID.replace('${id}', id.toString()), body, { headers: this.HEADERS });
+      return this.http.put(this.endpoints.UPDATE_CONTENT.replace('${id}', newContent.id.toString()), body, { headers: this.HEADERS });
    }
 
    /**
@@ -105,17 +95,20 @@ export class ContentFetcherService {
     */
    @Cacheable()
    filterContent(filter: Filter): Observable<Content[]> {
+      console.log('filter step 1');
       let modules: string = JSON.stringify(filter.modules);
-      if (!modules) {
+      if (modules) {
          modules = modules.replace('[','');
          modules = modules.replace(']','');
       } else {
-         modules = "";
+         console.log('filter step 1-2b');
+         modules = '';
+         console.log('filter step 1-3b');
       }
       console.log("Modules: " + modules);
       console.log("URL: " + this.endpoints.FILTER_CONTENT.replace('${title}',filter.title).replace('${format}', filter.format).replace('${modules}', modules))
       return this.http.get<Content[]>(this.endpoints.FILTER_CONTENT.replace('${title}',filter.title).replace('${format}', filter.format).replace('${modules}', modules), {withCredentials: true}).pipe(
-         map( resp => resp as Content[])
+         map(resp => resp as Content[])
        );
    }
 }
