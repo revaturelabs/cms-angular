@@ -74,6 +74,7 @@ export class ContentCreatorPageComponent implements OnInit {
       if (this.nodes.length == 0) {
          this.nodes = this.ms.nodes;
          this.tree.treeModel.update();
+
       }
    }
 
@@ -110,7 +111,6 @@ export class ContentCreatorPageComponent implements OnInit {
     * where the link has its subject id populated and the rest are set to default values
     */
    submit() {
-
       this.isSubmitting = true;
 
       if (this.listURLS.indexOf(this.url) >= 0) {
@@ -142,6 +142,7 @@ export class ContentCreatorPageComponent implements OnInit {
          this.description, this.url,
          this.getLinksFromSubjects(Object.entries(this.tree.treeModel.activeNodeIds)));
 
+      
       //call the ContentFetcherService to create a new content
       this.cs.createNewContent(content).subscribe(
          (response) => {
@@ -187,8 +188,9 @@ export class ContentCreatorPageComponent implements OnInit {
       let links = [];
       subjects.forEach(
          (subject) => {
-            links.push(new Link(null, null,
-               subject[0], null));
+            if(subject[1]) {
+               links.push(new Link(null, null, subject[0], null));
+            }
          }, this
       )
       return links;
