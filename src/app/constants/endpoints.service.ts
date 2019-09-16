@@ -46,7 +46,6 @@ export class EndpointsService {
    public readonly GET_CHILDREN_BY_ID: string = this.baseURL + '/modules/${id}/children/';
    //update module
    public readonly UPDATE_MODULE: string = this.baseURL + '/modules/${id}';
-<<<<<<< HEAD
 
    
    //requests
@@ -65,8 +64,6 @@ export class EndpointsService {
    public readonly DELETE_REQUEST_BY_ID: string = this.baseURL + '/request/${id}';
    /** Filter Content Endpoint */
    public readonly FILTER_REQUEST: string = this.baseURL + '/request?title=${title}&format=${format}&modules=${modules}';
-=======
->>>>>>> a6ba6137b11b1bb938c4db1e15b4af2709f4aa25
    
    /** Initialization of Endpoints */
    constructor(private http: HttpClient) { }
