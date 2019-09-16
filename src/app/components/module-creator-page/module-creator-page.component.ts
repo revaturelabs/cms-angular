@@ -5,6 +5,7 @@ import { ModuleFetcherService } from 'src/app/services/module-fetcher.service';
 import { ToastrService } from 'ngx-toastr';
 import { ITreeOptions, TreeComponent, IActionMapping, TREE_ACTIONS, TreeModel, TreeNode } from 'angular-tree-component';
 import { Link } from 'src/app/models/Link';
+import { Router } from '@angular/router';
 
 
 
@@ -43,7 +44,8 @@ export class ModuleCreatorPageComponent implements OnInit {
    constructor(
       public ms: ModuleStoreService,
       private mf: ModuleFetcherService,
-      private toastr: ToastrService
+      private toastr: ToastrService,
+      private router: Router
    ) { }
 
    ngOnInit() {
@@ -94,6 +96,10 @@ export class ModuleCreatorPageComponent implements OnInit {
          return;
       }
 
+
+      //word[0].toUpperCase() + word.substr(1).toLowerCase();
+      this . subject = this.subject.charAt(0).toUpperCase() + this.subject.substr(1);
+
       // Next create an instance of a Module  for storing, using the Module model.
       let module: Module = new Module(
          null, this.subject, null, null, this.getLinksFromSubjects(Object.entries(this.tree.treeModel.activeNodeIds)), null
@@ -106,7 +112,6 @@ export class ModuleCreatorPageComponent implements OnInit {
          (response) => {
             if (response != null){
                this.toastr.success('Successfully sent module.');
-               location.reload();
             }
                
             else
@@ -123,6 +128,9 @@ export class ModuleCreatorPageComponent implements OnInit {
          // Lastly, reset field.
          () => this.resetVariables()
       )
+     
+      this.router.navigate(['module-creator']);
+      
    }
 
    /**
