@@ -119,6 +119,19 @@
 
 
 
+<div class="card " *ngIf="noResultSearch"><!--Appears upon unsuccessful search-->
+  <div class="container" style="text-align: center">
+    <form>
+        <div>Search found no results</div>
+        <div class="row btn mb-3">
+          
+          <button type="button" class="btn btn-primary" id="requestButton"
+          routerLink="/reports">Request Content</button>
+        </div>
+    </form>
+  </div>
+</div>
+
 <!-- 
   Here is a pop up the occurs when adding modules to content
  -->
