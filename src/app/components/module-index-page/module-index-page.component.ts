@@ -137,7 +137,7 @@ export class ModuleIndexPageComponent implements OnInit {
       let foundContent = this.moduleContents.get(this.selModule).findIndex(l => this.selCon.id === l.id);
       this.moduleContents.get(this.selModule).splice(foundContent, 1);
 
-      this.cs.updateContentByContent(this.selCon).subscribe(
+      this.cs.updateContent(this.selCon).subscribe(
          /**
           * Below is used to refresh this component when content has been removed from a module
           */
