@@ -37,18 +37,22 @@ describe('EndpointsService', () => {
 
     endpoints = service.getAllEndpoints();
     expect(endpoints[0]).toEqual(baseURL + '/content');
-    expect(endpoints[1]).toEqual(baseURL + '/content');
+    expect(endpoints[1]).toEqual(baseURL + '/content/${id}');
     expect(endpoints[2]).toEqual(baseURL + '/content');
     expect(endpoints[3]).toEqual(baseURL + '/content/${id}');
     expect(endpoints[4]).toEqual(baseURL + '/content/${id}');
-    expect(endpoints[5]).toEqual(baseURL + '/content/${id}/modules');
-    expect(endpoints[6]).toEqual(baseURL + '/content/${id}');
-    expect(endpoints[7]).toEqual(baseURL + '/modules');
+    expect(endpoints[5]).toEqual(baseURL + '/modules/${id}');
+    expect(endpoints[6]).toEqual(baseURL + '/modules/${id}?type=unique');
+    expect(endpoints[7]).toEqual(baseURL + '/modules/${id}?type=all');
     expect(endpoints[8]).toEqual(baseURL + '/modules');
-    expect(endpoints[9]).toEqual(baseURL + '/modules/${id}');
-    expect(endpoints[10]).toEqual(baseURL + '/search?title=${title}&format=${format}&modules=${modules}');
-    expect(endpoints[11]).toEqual(baseURL + '/metrics/${timeFrame}');
-    
+    expect(endpoints[9]).toEqual(baseURL + '/modules');
+    expect(endpoints[10]).toEqual(baseURL + '/modules/${id}');
+    expect(endpoints[11]).toEqual(baseURL + '/content?title=${title}&format=${format}&modules=${modules}');
+    expect(endpoints[12]).toEqual(baseURL + '/metrics/${timeFrame}');
+    expect(endpoints[13]).toEqual(baseURL + '/modules/roots');
+    expect(endpoints[14]).toEqual(baseURL + '/modules/${id}/children/');
+    expect(endpoints[15]).toEqual(baseURL + '/modules/${id}');
+
   });
 
 });

@@ -1,11 +1,10 @@
 import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 
-import { HttpClient} from '@angular/common/http';
-import { EndpointsService } from 'src/app/constants/endpoints.service';
 import { MatProgressSpinnerModule} from '@angular/material';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ToastrModule } from 'ngx-toastr';
 
+import { ModuleFetcherService } from 'src/app/services/module-fetcher.service';
 import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
 import { ModuleIndexPageComponent } from './module-index-page.component';
 import { Module } from 'src/app/models/Module';
@@ -17,9 +16,8 @@ describe('ModuleIndexPageComponent', () => {
   let component: ModuleIndexPageComponent;
   let fixture: ComponentFixture<ModuleIndexPageComponent>;
   let service: ContentFetcherService;
+  let service2: ModuleFetcherService;
   let spy: any;
-  let http: HttpClient;
-  let endpoints: EndpointsService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -38,6 +36,7 @@ describe('ModuleIndexPageComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     service = component.cs;
+    service2 = component.ms.ms;
   });
 
   it('should create', () => {
@@ -60,9 +59,8 @@ describe('ModuleIndexPageComponent', () => {
 
     let Mod1: Module = new Module(1, '', 1, [], [], []);
     let Mod2: Module = new Module(2, '', 1, [], [], []);
-
-    component.ms.response = [Mod1, Mod2];
-
+    spy = spyOn(service2, 'getAllModules').and.returnValue(of([Mod1, Mod2]));
+    component.ngOnInit();
     expect(document.getElementById('1')).toBeTruthy();
     expect(document.getElementById('2')).toBeTruthy();
     expect(document.getElementById('3')).toBeFalsy();
