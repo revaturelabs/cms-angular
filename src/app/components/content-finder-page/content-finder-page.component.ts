@@ -45,6 +45,11 @@ export class ContentFinderPageComponent implements OnInit {
    tablebool: boolean = false;
 
    /**
+    * If a search shows no results, then it should show a link to make a request for content
+    */
+   noResultSearch: boolean = false;
+
+   /**
     * Stores the tags
     */
    moduleIDs: number[];
@@ -98,7 +103,7 @@ export class ContentFinderPageComponent implements OnInit {
    constructor(
       private cs: ContentFetcherService,
       public ms: ModuleStoreService,
-      private toastr: ToastrService, 
+      private toastr: ToastrService,
       private location: Location
    ) { }
 
@@ -164,16 +169,21 @@ export class ContentFinderPageComponent implements OnInit {
    }
 
    sendSearch(filter: Filter) {
+      this.searchedSubjects = this.selectedSubjects;
+
+      console.log(this.searchedSubjects);
+
       this.cs.filterContent(filter).subscribe(
          (response) => {
             if (response != null) {
-
+               
                //populate the contents array with the response with the parseContentResponse function
                this.parseContentResponse(response);
                if (this.notEmpty()) { }
-               else
+               else{
                   this.toastr.error('No Results Found');
-                  // Put link to William and Alex's module here
+                  
+               }
             } else {
                this.toastr.error('Response was null');
             }
@@ -195,7 +205,7 @@ export class ContentFinderPageComponent implements OnInit {
       modules = modules.replace(']','');
       this.location.replaceState("finder?title=" + filter.title + "&format=" + filter.format + "&modules=" + modules)
    }
-
+   
    submitForDelete(){
       this.isSearching = true;
       let format: string = this.selFormat;
@@ -209,6 +219,7 @@ export class ContentFinderPageComponent implements OnInit {
          this.title, format, this.moduleIDs
       );
       this.searchedSubjects = this.selectedSubjects;
+
       this.cs.filterContent(filter).subscribe(
          (response) => {
             if (response != null) {
@@ -241,6 +252,8 @@ export class ContentFinderPageComponent implements OnInit {
        * subject/module name via lookup Map */
       this.contents.forEach(
          (content) => {
+            console.log(content);
+            
             content.links = content.links.sort(
                (a, b) => {
                   let sortedIndexA: number = this.ms.subjectIdToSortedIndex.get(a.moduleId);
@@ -261,6 +274,8 @@ export class ContentFinderPageComponent implements OnInit {
          });
       }
 
+      
+
    }
 
    /**
@@ -279,10 +294,12 @@ export class ContentFinderPageComponent implements OnInit {
     */
    notEmpty(): boolean {
       if (this.contents.length != 0) {
+         this.noResultSearch = false;
          this.tablebool = true;
          return true;
       } else {
          this.tablebool = false;
+         this.noResultSearch = true;
          return false;
       }
    }
@@ -297,6 +314,7 @@ export class ContentFinderPageComponent implements OnInit {
       subjects.forEach(
          (subject) => {
             this.moduleIDs.push(this.ms.subjectNameToModule.get(subject).id);
+            console.log(this.moduleIDs);
          }, this
       )
    }
