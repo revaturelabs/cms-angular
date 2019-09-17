@@ -1,4 +1,4 @@
-import { Link } from './Link';
+import { Module } from './Module';
 
 /** Content class for reports page */
 export class Content {
@@ -12,8 +12,8 @@ export class Content {
    description: string = '-';
    /** String variable for url */
    url: string = '[no url]';
-   /** Array of links variable */
-   links: Link[] =[];
+   /** Array of modules variable */
+   modules: Module[] = [];
 
    /**
     * Constructor for creating content
@@ -22,15 +22,19 @@ export class Content {
     * @param format 
     * @param description 
     * @param url 
-    * @param links 
+    * @param modules 
     */
-   constructor(id: number, title: string, format: string, description: string, url: string, links: Link[]) {
+   constructor(id: number, title: string, format: string, description: string, url: string, modules: Module[]) {
       if (null != id) this.id = id;
       if (null != title) this.title = title;
       if (null != format) this.format = format;
       if (null != description) this.description = description;
       if (null != url) this.url = url;
-      if (null != links) this.links = links;
+      if (null != modules) this.modules = modules;
+   }
+
+   public pushModule(module: Module){
+      this.modules.push(module);
    }
 
    /** Getter method for id */
@@ -53,9 +57,9 @@ export class Content {
    public getUrl(): string {
       return this.url;
    }
-   /** Getter method for Links */
-   public getLinks(): Link[] {
-      return this.links;
+   /** Getter method for modules */
+   public getmodules(): Module[] {
+      return this.modules;
    }
    /** Setter method for id */
    public setId(id: number) {
@@ -77,9 +81,9 @@ export class Content {
    public setUrl(url: string) {
       this.url = url;
    }
-   /** Setter method for Links */
-   public setLinks(links: Link[]) {
-      this.links = links;
+   /** Setter method for modules */
+   public setmodules(modules: Module[]) {
+      this.modules = modules;
    }
 
 }

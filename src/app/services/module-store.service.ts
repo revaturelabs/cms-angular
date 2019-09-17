@@ -16,8 +16,6 @@ export class ModuleStoreService {
 
    nodes: any[] = [];
 
-   /** Mapping of Subject Name to Module */
-   subjectNameToModule: Map<string, Module>;
    /** Mapping of Subject ID to Module */
    subjectIdToModule: Map<number, Module>;
    /** Mapping of Subject ID to Subject Name */
@@ -131,7 +129,6 @@ export class ModuleStoreService {
       let c = 0;
 
       if (modules.length > 0) {
-         this.subjectNameToModule = new Map<string, Module>();
          this.subjectIdToModule = new Map<number, Module>();
          this.subjectIdToName = new Map<number, string>();
          this.subjectIdToSortedIndex = new Map<number, number>();
@@ -147,7 +144,6 @@ export class ModuleStoreService {
          ).forEach(
             (module) => {
                module.color = this.getColor(c++);
-               this.subjectNameToModule.set(module.subject, module);
                this.subjectIdToModule.set(module.id, module);
                this.subjectIdToName.set(module.id, module.subject);
                this.subjectIdToSortedIndex.set(module.id, i++);

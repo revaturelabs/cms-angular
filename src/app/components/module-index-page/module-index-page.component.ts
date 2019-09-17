@@ -125,8 +125,8 @@ export class ModuleIndexPageComponent implements OnInit {
     */
    removeContentFromModuleIndex() {
       globalCacheBusterNotifier.next();
-      let found = this.selCon.links.findIndex(l => this.selModule.id === l.moduleId);
-      this.selCon.links.splice(found, 1);
+      let found = this.selCon.modules.findIndex(l => this.selModule.id === l.id);
+      this.selCon.modules.splice(found, 1);
 
       let foundContent = this.moduleContents.get(this.selModule).findIndex(l => this.selCon.id === l.id);
       this.moduleContents.get(this.selModule).splice(foundContent, 1);

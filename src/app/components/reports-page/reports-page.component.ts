@@ -8,6 +8,7 @@ import { MetricsData } from 'src/app/models/MetricsData';
 import { GlobalReports } from 'src/app/providers/GlobalReports';
 import { Content } from '../../models/Content';
 import { Filter } from 'src/app/models/Filter';
+import { Module } from 'src/app/models/Module';
 
 /**
  * Reports page that measures and displays metrics.
@@ -24,8 +25,8 @@ export class ReportsPageComponent implements OnInit {
   selFormatFilter = "All";
   contents: Content[];
   moduleIDs: number[];
-  selectedSubjects: string[] = [];
-  searchedSubjects: string[] = [];
+  selectedSubjects: Module[] = [];
+  searchedSubjects: Module[] = [];
 
   /** TS variable referenced to display number of code examples */
   codeExamples : Object;
@@ -108,12 +109,12 @@ export class ReportsPageComponent implements OnInit {
     * Method that takes a string array of selected subjects and populates the number array of subject id 
     * @param subjects an array of strings sent to this function
     */
-   getIDsFromSubjects(subjects: string[]) {
+   getIDsFromSubjects(subjects: Module[]) {
     this.moduleIDs = [];
     if(subjects){
       subjects.forEach(
         (subject) => {
-          this.moduleIDs.push(this.ms.subjectNameToModule.get(subject).id);
+          this.moduleIDs.push(subject.id);
         }, this
       )
     }

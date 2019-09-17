@@ -74,6 +74,7 @@ export class ContentCreatorPageComponent implements OnInit {
       if (this.nodes.length == 0) {
          this.nodes = this.ms.nodes;
          this.tree.treeModel.update();
+
       }
    }
 
@@ -110,7 +111,6 @@ export class ContentCreatorPageComponent implements OnInit {
     * where the link has its subject id populated and the rest are set to default values
     */
    submit() {
-
       this.isSubmitting = true;
 
       if (this.listURLS.indexOf(this.url) >= 0) {
@@ -140,8 +140,10 @@ export class ContentCreatorPageComponent implements OnInit {
       let content: Content = new Content(
          null, this.title, this.selFormat,
          this.description, this.url,
-         this.getLinksFromSubjects(Object.entries(this.tree.treeModel.activeNodeIds)));
+         this.modulesFromIds(Object.entries(this.tree.treeModel.activeNodeIds)));
+         //this.getLinksFromSubjects(Object.entries(this.tree.treeModel.activeNodeIds)));
 
+      
       //call the ContentFetcherService to create a new content
       this.cs.createNewContent(content).subscribe(
          (response) => {
@@ -166,6 +168,7 @@ export class ContentCreatorPageComponent implements OnInit {
       this.tree.treeModel.update();
    }
 
+
    /** Clears the input fields after successful content submit */
    resetVariables() {
       this.title = null;
@@ -183,18 +186,17 @@ export class ContentCreatorPageComponent implements OnInit {
     * @param {number[]} subjects List/array of selected subjects subjects
     * @returns A new set of links.
     */
-   getLinksFromSubjects(subjects: any): Link[] {
-      let links = [];
+   modulesFromIds(subjects: any): Module[] {
+      let modules = [];
+      console.log(subjects);
       subjects.forEach(
          (subject) => {
-            console.log(subject);
-            if (subject[1]){
-               links.push(new Link(null, null,
-                  subject[0], null));
+            if(subject[1]) {
+               modules.push(this.ms.subjectIdToModule.get(subject[0]));
             }
          }, this
       )
-      return links;
+      return modules;
    }
 
    /**
@@ -205,7 +207,7 @@ export class ContentCreatorPageComponent implements OnInit {
     * @returns True if url is valid, false if not valid.
     */
    validURL(url: string): boolean {
-      let regexp: RegExp = /^((http[s]?|ftp):\/\/)(((\w+\.)?\w+\.\w{2,})|(\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}))(\/[\w-._~:/?#[\]@!$&'()*+,;=]+(\.[\w-._~:/?#[\]@!$&'()*+,;=]+)?)*(\?|\?[\w-._~:/?#[\]@!$&'()*+,;=]+=[\w-._~:/?#[\]@!$&'()*+,;=]*(&[\w-._~:/?#[\]@!$&'()*+,;=]+=[\w-._~:/?#[\]@!$&'()*+,;=]*)*)?(#[\w-._~:/?#[\]@!$&'()*+,;=]*)?\/?$/;
+      const regexp: RegExp = /^((http[s]?|ftp):\/\/)(((\w+\.)?\w+\.\w{2,})|(\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}))(\/[\w-._~:/?#[\]@!$&'()*+,;=]+(\.[\w-._~:/?#[\]@!$&'()*+,;=]+)?)*(\?|\?[\w-._~:/?#[\]@!$&'()*+,;=]+=[\w-._~:/?#[\]@!$&'()*+,;=]*(&[\w-._~:/?#[\]@!$&'()*+,;=]+=[\w-._~:/?#[\]@!$&'()*+,;=]*)*)?(#[\w-._~:/?#[\]@!$&'()*+,;=]*)?\/?$/;
       return regexp.test(url);
    }
 
