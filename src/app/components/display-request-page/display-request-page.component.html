@@ -1,0 +1,70 @@
+<!-- This page will display all of the requests for content that are received. -->
+<!-- Followed existing styling by placing data in card container with Revature logo. -->
+<div class="card " style="margin-bottom: 10px">
+    <div class="container">
+        <div class="col">
+            <div id="content">
+                <img src="/assets/img/logo.png" alt="revature" class="logo">
+            </div>
+        </div>
+
+        <!-- Table for displaying the list of requests for content -->
+        <div id="requests">
+            <h3>Requests</h3>
+            <br>
+            <form>
+                <div class="form-row mb-5">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped text-center" id="displayrequests">
+                            <thead>
+                            <tr>
+
+                                <td>
+                                    <form #typeFilter="ngForm" (change)="onFilterChange(typeFilter)">
+                                        Filter by Type:
+                                        <select name="type" [(ngModel)]="format">
+                                        <option value="">
+                                            All
+                                        </option>
+                                        <option value="Document">
+                                            Document
+                                        </option>
+                                        <option value="Code">
+                                            Code
+                                        </option>
+                                        <option value="Powerpoint">
+                                            PowerPoint
+                                        </option>
+                                </select>
+                                    </form>
+                                </td>
+                            </tr>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <!--Row for trash can icon-->
+                                    <th scope="col">Request Id</th>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Format</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">URL</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let r of req | request: filter ">
+                                    <td name="trash">
+                                        <em title="Remove request " id="{r.rid}" (click)="removeRequest(r.rid)" class="fas fa-trash" data-toggle="modal" data-target="#removeRequest" title="Remove request"></em>
+                                    </td>
+                                    <td>{{r.id}}</td>
+                                    <td>{{r.title}}</td>
+                                    <td>{{r.format}}</td>
+                                    <td>{{r.description}}</td>
+                                    <td>{{r.content}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

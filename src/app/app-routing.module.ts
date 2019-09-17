@@ -5,11 +5,13 @@ import { ContentFinderPageComponent } from './components/content-finder-page/con
 import { ModuleCreatorPageComponent } from './components/module-creator-page/module-creator-page.component';
 import { ModuleIndexPageComponent } from './components/module-index-page/module-index-page.component';
 import { ReportsPageComponent } from './components/reports-page/reports-page.component';
+import { DisplayRequestPageComponent } from './components/display-request-page/display-request-page.component';
 
 /** @ignore */
 const routes: Routes = [
    { path: '', redirectTo: '/content-creator', pathMatch: 'full' },
    { path: 'content-creator', component: ContentCreatorPageComponent, pathMatch: 'full' },
+   { path: 'display-request', component: DisplayRequestPageComponent, pathMatch: 'full' },
    { path: 'finder', component: ContentFinderPageComponent },
    { path: 'module-creator', component: ModuleCreatorPageComponent, pathMatch: 'full' },
    { path: 'module-index', component: ModuleIndexPageComponent, pathMatch: 'full' },

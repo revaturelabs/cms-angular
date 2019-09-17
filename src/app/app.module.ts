@@ -21,6 +21,9 @@ import { CommonModule } from '@angular/common';
 import { ToastrModule } from 'ngx-toastr';
 import { MatProgressSpinnerModule} from '@angular/material';
 import { TreeModule } from 'angular-tree-component';
+import { DisplayRequestPageComponent } from './components/display-request-page/display-request-page.component';
+import { RequestPipe } from './constants/request.pipe';
+
 
 /** @ignore */
 @NgModule({
@@ -32,7 +35,9 @@ import { TreeModule } from 'angular-tree-component';
       ModuleCreatorPageComponent,
       ModuleIndexPageComponent,
       ReportsPageComponent,
-      ReportsTimeGraphComponent
+      ReportsTimeGraphComponent,
+      DisplayRequestPageComponent,
+      RequestPipe,
    ],
    imports: [
       BrowserModule,
