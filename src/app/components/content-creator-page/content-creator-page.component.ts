@@ -92,8 +92,6 @@ export class ContentCreatorPageComponent implements OnInit {
 
                handle.listURLS.push(item.url);
 
-
-
             })
       );
    }
@@ -112,6 +110,16 @@ export class ContentCreatorPageComponent implements OnInit {
     */
    submit() {
       this.isSubmitting = true;
+
+      this.selectedSubjects = [];
+
+      Object.entries(this.tree.treeModel.activeNodeIds).forEach(
+         (subject) => {
+         if (subject[1]) {
+            this.selectedSubjects.push( parseInt(subject[0]) );
+         }
+      }, this
+      );
 
       if (this.listURLS.indexOf(this.url) >= 0) {
 
@@ -137,10 +145,13 @@ export class ContentCreatorPageComponent implements OnInit {
       //If the input was valid continue
       let save_url = this.url;
       //create a content object with the data inputed by the user
+
+      
+
       let content: Content = new Content(
          null, this.title, this.selFormat,
          this.description, this.url,
-         this.getLinksFromSubjects(Object.entries(this.tree.treeModel.activeNodeIds)));
+         this.getLinksFromSubjects(this.selectedSubjects));
 
       
       //call the ContentFetcherService to create a new content
@@ -184,13 +195,11 @@ export class ContentCreatorPageComponent implements OnInit {
     * @param {number[]} subjects List/array of selected subjects subjects
     * @returns A new set of links.
     */
-   getLinksFromSubjects(subjects: any): Link[] {
+   getLinksFromSubjects(subjects: number[]): Link[] {
       let links = [];
       subjects.forEach(
          (subject) => {
-            if(subject[1]) {
-               links.push(new Link(null, null, subject[0], null));
-            }
+            links.push(new Link(null, null, subject[0], null));
          }, this
       )
       return links;
