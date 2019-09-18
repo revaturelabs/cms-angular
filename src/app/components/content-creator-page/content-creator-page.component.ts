@@ -92,8 +92,6 @@ export class ContentCreatorPageComponent implements OnInit {
 
                handle.listURLS.push(item.url);
 
-
-
             })
       );
    }
@@ -148,6 +146,9 @@ export class ContentCreatorPageComponent implements OnInit {
       //If the input was valid continue
       let save_url = this.url;
       //create a content object with the data inputed by the user
+
+      
+
       let content: Content = new Content(
          null, this.title, this.selFormat,
          this.description, this.url,
