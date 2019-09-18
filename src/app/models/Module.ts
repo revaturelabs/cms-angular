@@ -129,6 +129,9 @@ export class Module {
    public setParentsObjects(parentModulesObject: Module[]){
       this.parentModulesObject = parentModulesObject;
    }
+   public addParents(parentModulesObject: Module[]){
+      this.parentModulesObject.concat(parentModulesObject);
+   }
 
    // set childrenModules array for module
    public setChildren(childrenModules: Array<number>){

@@ -94,21 +94,39 @@ export class ModuleCreatorPageComponent implements OnInit {
          return;
       }
 
-      // Next create an instance of a Module  for storing, using the Module model.
-      let module: Module = new Module(
-         null, this.subject, null, null, this.getLinksFromSubjects(Object.entries(this.tree.treeModel.activeNodeIds)), null
-      )
-      
+      let module: Module = this.ms.subjectNameToModule.get(this.subject);
+
+      if (module != null) {
+         let parents: Module[];
+
+         for (let nodeId in this.tree.treeModel.activeNodeIds) {
+            parents.push(this.ms.subjectIdToModule.get(parseInt(nodeId)));
+         }
+
+         module.addParents(parents);
+      }
+      else {
+         // Next create an instance of a Module  for storing, using the Module model.
+         module = new Module(
+            null, 
+            this.subject, 
+            null, 
+            null, 
+            this.getLinksFromSubjects(Object.entries(this.tree.treeModel.activeNodeIds)), 
+            null
+         )
+      }
+
       /**
        * This sends the module data to the backend and then stores it if successful.
        */
       this.mf.createNewModule(module).subscribe(
          (response) => {
-            if (response != null){
+            if (response != null) {
                this.toastr.success('Successfully sent module.');
                location.reload();
             }
-               
+
             else
                this.toastr.error('There was a problem creating a subject');
             this.isSubmitting = false;
@@ -133,7 +151,7 @@ export class ModuleCreatorPageComponent implements OnInit {
       this.subject = "";
       this.isSubmitting = false;
    }
-   
+
    // Creates the view for the tree component
    @ViewChild(TreeComponent, null)
    public tree: TreeComponent;
@@ -145,7 +163,7 @@ export class ModuleCreatorPageComponent implements OnInit {
       actionMapping,
       idField: 'id'
    }
-   getLinksFromSubjects(subjects: any) : number[]{
+   getLinksFromSubjects(subjects: any): number[] {
       let links = [];
       subjects.forEach(
          (subject) => {
