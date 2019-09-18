@@ -426,8 +426,8 @@ export class ContentFinderPageComponent implements OnInit {
    }
 
    /**
-    * If content for specific module combination cannot
-    * be found then allow user to switch to page
+    * To do: This method is supposed to fill out a request for content
+    * based on the failed search
     */
 
    gotoRequest() {

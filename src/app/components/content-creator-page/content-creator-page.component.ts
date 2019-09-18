@@ -113,6 +113,17 @@ export class ContentCreatorPageComponent implements OnInit {
    submit() {
       this.isSubmitting = true;
 
+      // Scans the tree for the currently selected modules, and if a module is selected, it adds
+      // the module to the selectedSubjects array
+      let i = 0;
+      Object.entries(this.tree.treeModel.activeNodeIds).forEach(
+         (subject) => {
+            if(subject[1]) {
+               this.selectedSubjects[i++] = parseInt(subject[0]);
+            }
+         }, this
+      )
+
       if (this.listURLS.indexOf(this.url) >= 0) {
 
          this.toastr.error('The URL already exsists in database.');
@@ -140,7 +151,7 @@ export class ContentCreatorPageComponent implements OnInit {
       let content: Content = new Content(
          null, this.title, this.selFormat,
          this.description, this.url,
-         this.getLinksFromSubjects(Object.entries(this.tree.treeModel.activeNodeIds)));
+         this.getLinksFromSubjects(this.selectedSubjects));
 
       
       //call the ContentFetcherService to create a new content
@@ -181,16 +192,14 @@ export class ContentCreatorPageComponent implements OnInit {
    /**
     * Creates a new set of links from selected subject names
     * 
-    * @param {number[]} subjects List/array of selected subjects subjects
+    * @param {number[]} subjects List/array of selected subjects 
     * @returns A new set of links.
     */
-   getLinksFromSubjects(subjects: any): Link[] {
+   getLinksFromSubjects(subjects: number[]): Link[] {
       let links = [];
       subjects.forEach(
          (subject) => {
-            if(subject[1]) {
-               links.push(new Link(null, null, subject[0], null));
-            }
+               links.push(new Link(null, null, subject, null));
          }, this
       )
       return links;
