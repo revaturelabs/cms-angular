@@ -10,7 +10,7 @@ import { ModuleStoreService } from 'src/app/services/module-store.service';
 
 import { Content } from 'src/app/models/Content';
 import { Link } from 'src/app/models/Link';
-import { ITreeOptions, TreeComponent, IActionMapping, TREE_ACTIONS, TreeModel, TreeNode } from 'angular-tree-component';
+import { TreeModule } from 'angular-tree-component';
 
 import { ContentCreatorPageComponent } from './content-creator-page.component';
 
@@ -30,6 +30,7 @@ describe('ContentCreatorPageComponent', () => {
         MatProgressSpinnerModule,
         HttpClientTestingModule,
         ToastrModule.forRoot(),
+        TreeModule.forRoot()
       ]
     })
     .compileComponents();
@@ -92,8 +93,8 @@ describe('ContentCreatorPageComponent', () => {
     expect(document.getElementById('urlTextBox')).toBeTruthy();
   });
 
-  it('Should have a Select Relevant Modules drop down box.', () => {
-    expect(document.getElementById('subjectDropDown')).toBeTruthy();
+  it('Should have a tree of available modules.', () => {
+    expect(document.getElementById('tree')).toBeTruthy();
   });
 
   it('Should have a Description box.', () => {
@@ -188,8 +189,9 @@ describe('ContentCreatorPageComponent', () => {
     expect(component.url).toBeNull();
     expect(component.selFormat).toEqual('Code');
     expect(component.description).toBeNull();
-    // expect(component.selectedSubjects.length).toEqual(0);
-    expect(component.nodes.length).toEqual(0);
+    expect(component.selectedSubjects.length).toEqual(0);
+    const mStoreService = fixture.debugElement.injector.get(ModuleStoreService);
+    expect(component.nodes.length).toEqual(mStoreService.nodes.length);
     expect(component.isSubmitting).toBeFalsy();
   });
 

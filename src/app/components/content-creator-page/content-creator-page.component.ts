@@ -86,7 +86,6 @@ export class ContentCreatorPageComponent implements OnInit {
       if (this.nodes.length == 0) {
          this.nodes = this.ms.nodes;
          this.tree.treeModel.update();
-
       }
    }
 
@@ -199,6 +198,8 @@ export class ContentCreatorPageComponent implements OnInit {
       this.description = null;
       this.selectedSubjects = [];
       this.isSubmitting = false;
+      this.nodes = this.ms.nodes;
+      this.tree.treeModel.update();
    }
 
 
