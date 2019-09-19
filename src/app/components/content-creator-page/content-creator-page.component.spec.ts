@@ -41,11 +41,11 @@ describe('ContentCreatorPageComponent', () => {
     fixture.detectChanges();
 
     // Populate components box fields for testing purposes
-    component.title = 'I am a Title'
-    component.selFormat = 'Code'
-    component.url = 'http://www.test.com'
-    component.description = 'I am a code'
-    //component.selectedSubjects = ['Java', 'CSS']
+    component.title = 'I am a Title';
+    component.selFormat = 'Code';
+    component.url = 'http://www.test.com';
+    component.description = 'I am a code';
+    // component.selectedSubjects = ['Java', 'CSS']
     component.nodes = [
       {
         id: 1,
@@ -70,7 +70,7 @@ describe('ContentCreatorPageComponent', () => {
         ]
       }
     ];
-  
+  });
 
 
   // First let's test general creation of the current component
@@ -82,42 +82,42 @@ describe('ContentCreatorPageComponent', () => {
   // i.e. Logo, Title, URL, Drop Down for Modules, Description, Radio Buttons, and Submit Button.
   it('Should have Revature logo.', () => {
     expect(document.getElementById('logo')).toBeTruthy();
-  })
+  });
 
   it('Should have a Title input box.', () => {
     expect(document.getElementById('titleTextBox')).toBeTruthy();
-  })
+  });
 
   it('Should have a URL input box.', () => {
     expect(document.getElementById('urlTextBox')).toBeTruthy();
-  })
+  });
 
   it('Should have a Select Relevant Modules drop down box.', () => {
     expect(document.getElementById('subjectDropDown')).toBeTruthy();
-  })
+  });
 
   it('Should have a Description box.', () => {
     expect(document.getElementsByName('Description')).toBeTruthy();
-  })
+  });
 
   it('Should have a Code radio button.', () => {
     expect(document.getElementById('Code')).toBeTruthy();
-  })
+  });
 
   it('Should have a Document radio button.', () => {
     expect(document.getElementById('Document')).toBeTruthy();
-  })
+  });
 
   it('Should have a Powerpoint radio button.', () => {
     expect(document.getElementById('Powerpoint')).toBeTruthy();
-  })
+  });
 
   it('Should have a Submit Content button.', () => {
     expect(document.getElementById('submitButton')).toBeTruthy();
-  })
+  });
   // =====End Element creation finds=====
 
-  /**  
+  /**
    * Now test the content-creator-page.ts file methods. The following methods are found here:
    * validInput()
    * resetVariables()
@@ -133,18 +133,18 @@ describe('ContentCreatorPageComponent', () => {
       // Test title first
       component.title = null;
       expect(component.validInput()).toBeFalsy();
-      component.title = 'a title'
+      component.title = 'a title';
 
       // Test URL
       component.url = null;
       expect(component.validInput()).toBeFalsy();
-      component.url = 'http://www.test.com'
+      component.url = 'http://www.test.com';
 
       // Test Subjects
-      //component.selectedSubjects = [];
+      // component.selectedSubjects = [];
       component.nodes = [];
-      //expect(component.validInput()).toBeFalsy();
-      //component.selectedSubjects = ['Java', 'CSS']
+      // expect(component.validInput()).toBeFalsy();
+      // component.selectedSubjects = ['Java', 'CSS']
       component.nodes = [
         {
           id: 1,
@@ -169,30 +169,29 @@ describe('ContentCreatorPageComponent', () => {
           ]
         }
       ];
-    });
 
       // Test radio selformat
-      component.selFormat = null
-      expect(component.validInput()).toBeFalsy()
-      component.selFormat = 'Code'
-    })
+      component.selFormat = null;
+      expect(component.validInput()).toBeFalsy();
+      component.selFormat = 'Code';
+    });
 
   // Good inputs
   it('Should return true when all fields are valid.', () => {
     expect(component.validInput()).toBeTruthy();
-  })
+  });
 
   // Next test resetVariables
   it('Should bring fields back to default states using resetVariables.', () => {
     component.resetVariables();
     expect(component.title).toBeNull();
     expect(component.url).toBeNull();
-    expect(component.selFormat).toEqual("Code")
+    expect(component.selFormat).toEqual('Code');
     expect(component.description).toBeNull();
-    //expect(component.selectedSubjects.length).toEqual(0);
+    // expect(component.selectedSubjects.length).toEqual(0);
     expect(component.nodes.length).toEqual(0);
     expect(component.isSubmitting).toBeFalsy();
-  })
+  });
 
   // // Test getLinksFromSubjects() function
   // it('Should create a Link array when given a string array as input.', () => {
@@ -202,7 +201,7 @@ describe('ContentCreatorPageComponent', () => {
   // })
 
   // Test validURL() function
-  it('Should declare that an incorrect URL is false, i.e. not a valid URL.',() => {
+  it('Should declare that an incorrect URL is false, i.e. not a valid URL.', () => {
     // If empty
     component.url = '';
     expect(component.validURL(component.url)).toBeFalsy();
@@ -215,6 +214,6 @@ describe('ContentCreatorPageComponent', () => {
     component.url = 'ww.cat.com';
     expect(component.validURL(component.url)).toBeFalsy();
 
-  })
+  });
 
 });
