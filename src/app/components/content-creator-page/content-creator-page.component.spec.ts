@@ -10,7 +10,7 @@ import { ModuleStoreService } from 'src/app/services/module-store.service';
 
 import { Content } from 'src/app/models/Content';
 import { Link } from 'src/app/models/Link';
-import { ITreeOptions, TreeComponent, IActionMapping, TREE_ACTIONS, TreeModel, TreeNode, TreeModule } from 'angular-tree-component';
+import { TreeModule } from 'angular-tree-component';
 
 import { ContentCreatorPageComponent } from './content-creator-page.component';
 
@@ -46,6 +46,7 @@ describe('ContentCreatorPageComponent', () => {
     component.selFormat = 'Code';
     component.url = 'http://www.test.com';
     component.description = 'I am a code';
+    // component.selectedSubjects = ['Java', 'CSS']
     component.nodes = [
       {
         id: 1,
@@ -92,7 +93,7 @@ describe('ContentCreatorPageComponent', () => {
     expect(document.getElementById('urlTextBox')).toBeTruthy();
   });
 
-  it('Should have a tree of available modules', () => {
+  it('Should have a tree of available modules.', () => {
     expect(document.getElementById('tree')).toBeTruthy();
   });
 
@@ -128,7 +129,7 @@ describe('ContentCreatorPageComponent', () => {
 
   // First test validInput for bad input and good input.
   // First bad inputs
-  it('Should give an error when there is no input given on a field, specifically, Title, URL, and Format',
+  it('Should give an error when there is no input given on a field, specifically, Title, URL, Format, and subjects ',
     () => {
       // Test title first
       component.title = null;
@@ -139,6 +140,36 @@ describe('ContentCreatorPageComponent', () => {
       component.url = null;
       expect(component.validInput()).toBeFalsy();
       component.url = 'http://www.test.com';
+
+      // Test Subjects
+      // component.selectedSubjects = [];
+      component.nodes = [];
+      // expect(component.validInput()).toBeFalsy();
+      // component.selectedSubjects = ['Java', 'CSS']
+      component.nodes = [
+        {
+          id: 1,
+          subject: 'root1',
+          children: [
+            { id: 2, name: 'child1' },
+            { id: 3, name: 'child2' }
+          ]
+        },
+        {
+          id: 4,
+          subject: 'root2',
+          childrenModules: [
+            { id: 5, subject: 'child2.1' },
+            {
+              id: 6,
+              subject: 'child2.2',
+              children: [
+                { id: 7, subject: 'subsub' }
+              ]
+            }
+          ]
+        }
+      ];
 
       // Test radio selformat
       component.selFormat = null;
@@ -158,7 +189,9 @@ describe('ContentCreatorPageComponent', () => {
     expect(component.url).toBeNull();
     expect(component.selFormat).toEqual('Code');
     expect(component.description).toBeNull();
-    expect(component.nodes.length).toEqual(0);
+    expect(component.selectedSubjects.length).toEqual(0);
+    const mStoreService = fixture.debugElement.injector.get(ModuleStoreService);
+    expect(component.nodes.length).toEqual(mStoreService.nodes.length);
     expect(component.isSubmitting).toBeFalsy();
   });
 
