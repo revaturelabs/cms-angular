@@ -4,11 +4,11 @@ import { Request } from 'src/app/models/Request';
 import { RequestFetcherService } from 'src/app/services/request-fetcher.service';
 
 @Component({
-  selector: 'app-resolve-request',
-  templateUrl: './resolve-request.component.html',
-  styleUrls: ['./resolve-request.component.css']
+  selector: 'app-resolve-request-page',
+  templateUrl: './resolve-request-page.component.html',
+  styleUrls: ['./resolve-request-page.component.css']
 })
-export class ResolveRequestComponent implements OnInit {
+export class ResolveRequestPageComponent implements OnInit {
 
   constructor(
     private rs: RequestFetcherService, public session: SessionStorageService

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ResolveRequestComponent } from './resolve-request.component';
+import { ResolveRequestPageComponent } from './resolve-request-page.component';
 
-describe('ResolveRequestComponent', () => {
-  let component: ResolveRequestComponent;
-  let fixture: ComponentFixture<ResolveRequestComponent>;
+describe('ResolveRequestPageComponent', () => {
+  let component: ResolveRequestPageComponent;
+  let fixture: ComponentFixture<ResolveRequestPageComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ResolveRequestComponent ]
+      declarations: [ ResolveRequestPageComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ResolveRequestComponent);
+    fixture = TestBed.createComponent(ResolveRequestPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

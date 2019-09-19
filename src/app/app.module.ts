@@ -24,7 +24,7 @@ import { MatProgressSpinnerModule} from '@angular/material';
 import { TreeModule } from 'angular-tree-component';
 import { DisplayRequestPageComponent } from './components/display-request-page/display-request-page.component';
 import { RequestPipe } from './constants/request.pipe';
-import { ResolveRequestComponent } from './components/resolve-request/resolve-request.component';
+import { ResolveRequestPageComponent } from './components/resolve-request-page/resolve-request-page.component';
 
 
 /** @ignore */
@@ -40,7 +40,7 @@ import { ResolveRequestComponent } from './components/resolve-request/resolve-re
       ReportsTimeGraphComponent,
       DisplayRequestPageComponent,
       RequestPipe,
-      ResolveRequestComponent,
+      ResolveRequestPageComponent,
    ],
    imports: [
       BrowserModule,
