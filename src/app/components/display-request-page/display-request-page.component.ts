@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { RequestFetcherService } from 'src/app/services/request-fetcher.service';
 import { Request } from 'src/app/models/Request';
+import { Router } from '@angular/router';
 import {NgForm} from '@angular/forms';
+import { SessionStorageService } from 'angular-web-storage';
 
 @Component({
   selector: 'app-display-request-page',
@@ -16,15 +18,12 @@ export class DisplayRequestPageComponent implements OnInit {
   test: string[];
 
   public id: number;
-  public title: string;
   public format = '';
-  public description: string;
-  public url: string;
   public req: Request[];
   public filter = new Request(1, '', '', '', null, []);
 
   constructor(
-      private rs: RequestFetcherService
+      private rs: RequestFetcherService, public session: SessionStorageService, private router: Router
   ) {
   }
 
@@ -33,6 +32,7 @@ export class DisplayRequestPageComponent implements OnInit {
     this.rs.getAllRequests().subscribe((data: Request[]) => {
       this.req = data;
       console.log(this.req);
+      console.log(data);
     });
   }
 
@@ -40,8 +40,15 @@ export class DisplayRequestPageComponent implements OnInit {
     this.filter = new Request(1, '', this.format, '', null, []);
   }
 
-  // Method for deleting a request
+  //
+  editRequest($event: any) {
+    const id: number = $event.target.value;
+    console.log(id);
+    this.session.set('request', JSON.stringify(id));
+    this.router.navigate(['resolve-request']);
+  }
 
+  // Method for deleting a request
   removeRequest(id: Request['id']): void {
     this.rs.deleteRequestById(id);
     // this.rs.deleteRequestById(id).subscribe( data => {

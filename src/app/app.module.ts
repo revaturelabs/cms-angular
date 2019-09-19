@@ -4,6 +4,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { HttpClientModule } from '@angular/common/http';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
+import { AngularWebStorageModule } from 'angular-web-storage';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -23,6 +24,7 @@ import { MatProgressSpinnerModule} from '@angular/material';
 import { TreeModule } from 'angular-tree-component';
 import { DisplayRequestPageComponent } from './components/display-request-page/display-request-page.component';
 import { RequestPipe } from './constants/request.pipe';
+import { ResolveRequestComponent } from './components/resolve-request/resolve-request.component';
 
 
 /** @ignore */
@@ -38,6 +40,7 @@ import { RequestPipe } from './constants/request.pipe';
       ReportsTimeGraphComponent,
       DisplayRequestPageComponent,
       RequestPipe,
+      ResolveRequestComponent,
    ],
    imports: [
       BrowserModule,
@@ -51,7 +54,9 @@ import { RequestPipe } from './constants/request.pipe';
       BrowserAnimationsModule,
       ToastrModule.forRoot(),
       MatProgressSpinnerModule,
-      TreeModule.forRoot()
+      TreeModule.forRoot(),
+      BrowserModule,
+      AngularWebStorageModule,
    ],
    providers: [
       GlobalReports

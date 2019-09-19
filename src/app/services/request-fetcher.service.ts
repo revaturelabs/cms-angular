@@ -30,6 +30,12 @@ export class RequestFetcherService {
       getAllRequests(): Observable<Request[]> {
     return of (this.data);
       }
+
+      getRequestById(requestId: number): Observable<Request> {
+        // add funtion for retreiving individual request by id
+      return this.http.get<Request>(this.endpoints.GET_REQUEST_BY_ID);
+      }
+
       deleteRequestById(requestId: number) {
         // Dummy data deletion by index, index is mapped to id;
         // ToDo: Delete by id
