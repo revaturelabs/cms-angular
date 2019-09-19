@@ -78,6 +78,13 @@ export class ModuleFetcherService {
       return this.http.post<HttpHeaderResponse>(this.endpoints.CREATE_NEW_MODULE, module, { headers: this.HEADERS });
    }
 
+   updateModule(module: Module): Observable<HttpHeaderResponse> {
+      let body: string = JSON.stringify(module);
+      globalCacheBusterNotifier.next();
+      return this.http.put<HttpHeaderResponse>(
+         this.endpoints.UPDATE_MODULE.replace("${id}", module.id.toString()), body, { headers: this.HEADERS });
+   }
+
    /**
     * Sends HTTP request to remove Module from back-end
     * @param id Unique identifier determining which Module to remove
