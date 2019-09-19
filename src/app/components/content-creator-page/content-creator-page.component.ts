@@ -74,6 +74,7 @@ export class ContentCreatorPageComponent implements OnInit {
       if (this.nodes.length == 0) {
          this.nodes = this.ms.nodes;
          this.tree.treeModel.update();
+
       }
    }
 
@@ -90,8 +91,6 @@ export class ContentCreatorPageComponent implements OnInit {
             function (item) {
 
                handle.listURLS.push(item.url);
-
-
 
             })
       );
@@ -110,8 +109,18 @@ export class ContentCreatorPageComponent implements OnInit {
     * where the link has its subject id populated and the rest are set to default values
     */
    submit() {
-
       this.isSubmitting = true;
+
+      // Scans the tree for the currently selected modules, and if a module is selected, it adds
+      // the module to the selectedSubjects array
+      let i = 0;
+      Object.entries(this.tree.treeModel.activeNodeIds).forEach(
+         (subject) => {
+            if(subject[1]) {
+               this.selectedSubjects[i++] = parseInt(subject[0]);
+            }
+         }, this
+      )
 
       if (this.listURLS.indexOf(this.url) >= 0) {
 
@@ -137,11 +146,15 @@ export class ContentCreatorPageComponent implements OnInit {
       //If the input was valid continue
       let save_url = this.url;
       //create a content object with the data inputed by the user
+
+      
+
       let content: Content = new Content(
          null, this.title, this.selFormat,
          this.description, this.url,
-         this.getLinksFromSubjects(Object.entries(this.tree.treeModel.activeNodeIds)));
+         this.getLinksFromSubjects(this.selectedSubjects));
 
+      
       //call the ContentFetcherService to create a new content
       this.cs.createNewContent(content).subscribe(
          (response) => {
@@ -180,15 +193,14 @@ export class ContentCreatorPageComponent implements OnInit {
    /**
     * Creates a new set of links from selected subject names
     * 
-    * @param {number[]} subjects List/array of selected subjects subjects
+    * @param {number[]} subjects List/array of selected subjects 
     * @returns A new set of links.
     */
-   getLinksFromSubjects(subjects: any): Link[] {
+   getLinksFromSubjects(subjects: number[]): Link[] {
       let links = [];
       subjects.forEach(
          (subject) => {
-            links.push(new Link(null, null,
-               subject[0], null));
+               links.push(new Link(null, null, subject, null));
          }, this
       )
       return links;
