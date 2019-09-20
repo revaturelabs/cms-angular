@@ -156,7 +156,7 @@ export class ModuleStoreService {
                this.subjectNames.push(module.subject);
                // populates a collection of root modules
                console.log(module)
-               if (module.parentModules.length == 0) {
+               if (module.parents.length == 0) {
                   this.subjectIDToRootModule.set(module.id, module);
                   this.subjectRootArray.push(module);
                }
@@ -211,7 +211,7 @@ export class ModuleStoreService {
       //    currentModule.links, 
       //    parents.concat(currentModule.parentModulesObject).concat(parentModulesObject));
 
-      currentModule.parentModules.forEach(parent => {
+      currentModule.parents.forEach(parent => {
          parents.push(parent);
       });
 
@@ -220,8 +220,8 @@ export class ModuleStoreService {
       });
 
       console.log(parents)
-      currentModule.parentModules = parents;
-      console.log(currentModule.parentModules)
+      currentModule.parents = parents;
+      console.log(currentModule.parents)
       return currentModule;
    }
 }

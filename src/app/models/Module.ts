@@ -14,7 +14,7 @@ export class Module {
    color: string;
    // Array containing the IDs of parent modules
    //parentModules: Array<number>;
-   parentModules: Module[];
+   parents: Module[];
    // Array containing the IDs of child modules
    childrenModules: Array<number>;
    childrenModulesObject: Module[];
@@ -27,13 +27,13 @@ export class Module {
     * @param created Date created
     * @param links Links to Content
     */
-   constructor(id: number, subject: string, created: number, links: Link[], parentModules: Module[]) {
+   constructor(id: number, subject: string, created: number, links: Link[], parents: Module[]) {
       if (id != null) this.id = id;
       if (subject != null) this.subject = subject;
       if (created != null) this.created = created;
       if (links != null) this.links = links;
       this.childrenModulesObject = [];
-      this.parentModules = parentModules;
+      this.parents = parents;
 
    }
 }
