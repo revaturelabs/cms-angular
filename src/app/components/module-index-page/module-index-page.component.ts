@@ -1,7 +1,7 @@
 import { Component, OnInit, ComponentFactoryResolver} from '@angular/core';
 import { Module } from 'src/app/models/Module';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
-import { ModuleFetcherService } from 'src/app/services/module-fetcher.service'
+import { ModuleFetcherService } from 'src/app/services/module-fetcher.service';
 import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
 import { Content } from 'src/app/models/Content';
 import { Filter } from 'src/app/models/Filter';
@@ -52,7 +52,7 @@ export class ModuleIndexPageComponent implements OnInit {
     * @param ms Fetches tags
     */
    constructor(
-      private cs: ContentFetcherService,
+      public cs: ContentFetcherService,
       public ms: ModuleStoreService,
       private toastr: ToastrService,
       private mfs: ModuleFetcherService,
@@ -72,16 +72,15 @@ export class ModuleIndexPageComponent implements OnInit {
 
    /**
     * Lists the available content for module input
-    * @param {Module} module 
+    * @param {Module} module
     */
    listContent(module: Module) {
       if (null == this.moduleContents.get(module)) {
-
          this.contentVisible.set(module, false);
-
          let filter: Filter = new Filter(
             null, null, [module.id]
          );
+         console.log(filter);
          this.cs.filterContent(filter).subscribe(
             (response) => {
                if (response != null) {
@@ -92,13 +91,12 @@ export class ModuleIndexPageComponent implements OnInit {
             },
             (response) => {
                this.toastr.error('Failed to request contents');
-
             },
-            () => { this.contentVisible.set(module, true); }
-         )
-      }
-
-      else {
+            () => {
+               this.contentVisible.set(module, true);
+            }
+         );
+      } else {
          this.contentVisible.set(module, !this.contentVisible.get(module));
       }
    }
@@ -113,7 +111,7 @@ export class ModuleIndexPageComponent implements OnInit {
 
       let sortedResponse = response.sort(
          (a, b) => { return a.title < b.title ? -1 : 1 }
-      )
+      );
 
       this.moduleContents.set(module, sortedResponse);
    }
