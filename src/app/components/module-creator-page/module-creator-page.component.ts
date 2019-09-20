@@ -94,33 +94,37 @@ export class ModuleCreatorPageComponent implements OnInit {
          return;
       }
 
-      let module: Module = this.ms.subjectNameToModule.get(this.subject);
+      let thisModule: Module = null;
 
-      if (module != null) {
-         let parents: Module[];
+      if (this.ms.subjectNameToModule)
+         thisModule = this.ms.subjectNameToModule.get(this.subject);
 
-         for (let nodeId in this.tree.treeModel.activeNodeIds) {
-            parents.push(this.ms.subjectIdToModule.get(parseInt(nodeId)));
+      if (thisModule != null) {
+         let parents: any[] = [];
+
+         for (let nodeID in this.tree.treeModel.activeNodeIds) {
+            parents.push(this.ms.subjectIdToModule.get(parseInt(nodeID)));
          }
 
-         module.addParents(parents);
+         //thisModule = thisModule as Module;
+         thisModule = this.ms.addParents(thisModule, parents);
       }
       else {
          // Next create an instance of a Module  for storing, using the Module model.
-         module = new Module(
-            null, 
-            this.subject, 
-            null, 
-            null, 
-            this.getLinksFromSubjects(Object.entries(this.tree.treeModel.activeNodeIds)), 
-            null
+
+         thisModule = new Module(
+            null,
+            this.subject,
+            null,
+            null,
+            this.getLinksFromSubjects(Object.entries(this.tree.treeModel.activeNodeIds))
          )
       }
 
       /**
        * This sends the module data to the backend and then stores it if successful.
        */
-      this.mf.createNewModule(module).subscribe(
+      this.mf.createOrUpdateModule(thisModule).subscribe(
          (response) => {
             if (response != null) {
                this.toastr.success('Successfully sent module.');
@@ -163,16 +167,15 @@ export class ModuleCreatorPageComponent implements OnInit {
       actionMapping,
       idField: 'id'
    }
-   getLinksFromSubjects(subjects: any): number[] {
+
+   getLinksFromSubjects(subjects: any): Module[] {
       let links = [];
       subjects.forEach(
          (subject) => {
-            links.push(Number.parseInt(subject[0]));
-            console.log(subject[0])
+            links.push(this.ms.subjectIdToModule.get(parseInt(subject[0])));
          }, this
       )
 
-      console.log(links);
       return links;
    }
 }

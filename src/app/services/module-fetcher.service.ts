@@ -4,6 +4,7 @@ import { Module } from '../models/Module';
 import { HttpClient, HttpHeaderResponse, HttpHeaders } from '@angular/common/http';
 import { EndpointsService } from '../constants/endpoints.service';
 import { Cacheable, CacheBuster, globalCacheBusterNotifier } from 'ngx-cacheable';
+import { map } from 'rxjs/operators';
 
 /** 
  * Manages Modules between Angular and spring-boot back-end. To do this, the 
@@ -38,7 +39,7 @@ export class ModuleFetcherService {
     */
    @Cacheable()
    getAllModules(): Observable<Module[]> {
-      return this.http.get<Module[]>(this.endpoints.GET_ALL_MODULES);
+      return this.http.get(this.endpoints.GET_ALL_MODULES).pipe(map(resp => resp as Module[]));
    }
 
    /**
@@ -47,24 +48,24 @@ export class ModuleFetcherService {
     */
    @Cacheable()
    getModuleByID(id: number): Observable<Module> {
-      return this.http.get<Module>(this.endpoints.GET_MODULE_BY_ID.replace('${id}', id.toString()));
+      return this.http.get(this.endpoints.GET_MODULE_BY_ID.replace('${id}', id.toString())).pipe(map(resp => resp as Module));
    }
    // Sends HTTP request for root modules, modules that have no parents... like batman
    @Cacheable()
    batman(): Observable<Module>{
-      return this.http.get<Module>(this.endpoints.GET_ROOT_MODULES);
+      return this.http.get(this.endpoints.GET_ROOT_MODULES).pipe(map(resp => resp as Module));
    }
 
    // Sends HTTP request to get all children of a module, as an array of module JSON objects
    @Cacheable()
    getChildrenById(id: number): Observable<Module[]> {
-      return this.http.get <Module[]>(this.endpoints.GET_CHILDREN_BY_ID.replace('${id}', id.toString()));
+      return this.http.get(this.endpoints.GET_CHILDREN_BY_ID.replace('${id}', id.toString())).pipe(map(resp => resp as Module[]));
    }
 
    @Cacheable()
    /** Used for debugging, loads Module[] from specified URL */
    getAllFakeModules(url: string): Observable<Module[]> {
-      return this.http.get<Module[]>(url);
+      return this.http.get(url).pipe(map(resp => resp as Module[]));
    }
 
    /**
@@ -72,15 +73,15 @@ export class ModuleFetcherService {
     * @param module What module to persist to back-end
     */
    
-   createNewModule(module: Module): Observable<HttpHeaderResponse> {
-      // let body: string = JSON.stringify(module);
-      globalCacheBusterNotifier.next();
-      return this.http.post<HttpHeaderResponse>(this.endpoints.CREATE_NEW_MODULE, module, { headers: this.HEADERS });
-   }
-
-   updateModule(module: Module): Observable<HttpHeaderResponse> {
+   createOrUpdateModule(module: Module): Observable<HttpHeaderResponse> {
       let body: string = JSON.stringify(module);
       globalCacheBusterNotifier.next();
+
+      console.log(body);
+
+      if (module.id == -1)
+         return this.http.post<HttpHeaderResponse>(this.endpoints.CREATE_NEW_MODULE, module, { headers: this.HEADERS });
+      
       return this.http.put<HttpHeaderResponse>(
          this.endpoints.UPDATE_MODULE.replace("${id}", module.id.toString()), body, { headers: this.HEADERS });
    }

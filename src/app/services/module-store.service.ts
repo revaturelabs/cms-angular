@@ -81,14 +81,16 @@ export class ModuleStoreService {
          }, () => {
             this.populateCollections(this.response);
             this.nodes = [];
-            this.subjectIDToRootModule.forEach(
-               (modules) => {
-                  this.nodes.push(modules);
-               }
-            );
+            if (this.subjectIDToRootModule) {
+               this.subjectIDToRootModule.forEach(
+                  (modules) => {
+                     this.nodes.push(modules);
+                  }
+               );
+            }
          }
       )
-      
+
    }
 
    /** load Modules that have no content */
@@ -153,6 +155,7 @@ export class ModuleStoreService {
                this.subjectIdToSortedIndex.set(module.id, i++);
                this.subjectNames.push(module.subject);
                // populates a collection of root modules
+               console.log(module)
                if (module.parentModules.length == 0) {
                   this.subjectIDToRootModule.set(module.id, module);
                   this.subjectRootArray.push(module);
@@ -168,22 +171,21 @@ export class ModuleStoreService {
 
    // takes the array of child ids and populates an array of module objects
    populateModuleChildObjects(modules: Module[]) {
-         modules.forEach(
-            (module) => {
-               module.childrenModulesObject = [];
-               if (module.childrenModules.length != 0) {
-                  module.childrenModules.forEach(
-                     (element) => {
-                        module.childrenModulesObject.push(this.subjectIdToModule.get(element));
-                     }
-                  );
-                  // recursive for each layer of children
-                  // beware memory leaks
-                  this.populateModuleChildObjects(module.childrenModulesObject);
-               }
+      modules.forEach(
+         (module) => {
+            module.childrenModulesObject = [];
+            if (module.childrenModules.length != 0) {
+               module.childrenModules.forEach(
+                  (element) => {
+                     module.childrenModulesObject.push(this.subjectIdToModule.get(element));
+                  }
+               );
+               // recursive for each layer of children
+               // beware memory leaks
+               this.populateModuleChildObjects(module.childrenModulesObject);
             }
-         );
-   
+         }
+      );
    }
 
    /**
@@ -197,5 +199,29 @@ export class ModuleStoreService {
       else {
          return "#B9B9BA";
       }
+   }
+
+   public addParents(currentModule: Module, parentModulesObject: Module[]) {
+      let parents : any = [];
+
+      // let combinedModule : Module = new Module(
+      //    currentModule.id, 
+      //    currentModule.subject, 
+      //    currentModule.created, 
+      //    currentModule.links, 
+      //    parents.concat(currentModule.parentModulesObject).concat(parentModulesObject));
+
+      currentModule.parentModules.forEach(parent => {
+         parents.push(parent);
+      });
+
+      parentModulesObject.forEach(parent => {
+         parents.push(parent);
+      });
+
+      console.log(parents)
+      currentModule.parentModules = parents;
+      console.log(currentModule.parentModules)
+      return currentModule;
    }
 }
