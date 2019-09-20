@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Module } from '../models/Module';
 import { ModuleFetcherService } from './module-fetcher.service';
-import { BehaviorSubject, Observable, from } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { ContentFetcherService } from './content-fetcher.service';
 
@@ -23,7 +23,7 @@ export class ModuleStoreService {
    /** Mapping of Subject ID to Subject Name */
    subjectIdToName: Map<number, string>;
    // Populates a collection of Root modules
-   subjectIDToRootModule: Map<number, Module>;
+   subjectIDToRootModule: Map<number, Module> = new Map<number, Module>();
    subjectRootArray: Module[] = [];
    /** all subject names in alphabetical order */
    subjectNames: string[];
@@ -56,7 +56,7 @@ export class ModuleStoreService {
     * @param ms Service to obtain Modules from back-end
     * @param toastr
     */
-   constructor(private ms: ModuleFetcherService,
+   constructor(public ms: ModuleFetcherService,
       private cs: ContentFetcherService,
       private toastr: ToastrService) { }
 
@@ -87,8 +87,7 @@ export class ModuleStoreService {
                }
             );
          }
-      )
-      
+      );
    }
 
    /** load Modules that have no content */
