@@ -13,11 +13,11 @@ export class Module {
    /** Display background color in HEX */
    color: string;
    // Array containing the IDs of parent modules
-   //parentModules: Array<number>;
+      //parentModules: Array<number>;
    parents: Module[];
    // Array containing the IDs of child modules
    childrenModules: Array<number>;
-   childrenModulesObject: Module[];
+   children: Module[];
    module: Module;
 
    /**
@@ -32,7 +32,7 @@ export class Module {
       if (subject != null) this.subject = subject;
       if (created != null) this.created = created;
       if (links != null) this.links = links;
-      this.childrenModulesObject = [];
+      //this.children = [];
       this.parents = parents;
 
    }

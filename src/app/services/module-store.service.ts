@@ -173,16 +173,16 @@ export class ModuleStoreService {
    populateModuleChildObjects(modules: Module[]) {
       modules.forEach(
          (module) => {
-            module.childrenModulesObject = [];
+            module.children = [];
             if (module.childrenModules.length != 0) {
                module.childrenModules.forEach(
                   (element) => {
-                     module.childrenModulesObject.push(this.subjectIdToModule.get(element));
+                     module.children.push(this.subjectIdToModule.get(element));
                   }
                );
                // recursive for each layer of children
                // beware memory leaks
-               this.populateModuleChildObjects(module.childrenModulesObject);
+               this.populateModuleChildObjects(module.children);
             }
          }
       );
