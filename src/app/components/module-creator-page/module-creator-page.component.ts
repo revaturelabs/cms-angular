@@ -106,15 +106,11 @@ export class ModuleCreatorPageComponent implements OnInit {
             parents.push(this.ms.subjectIdToModule.get(parseInt(nodeID)));
          }
 
-         //thisModule = thisModule as Module;
          thisModule = this.ms.addParents(thisModule, parents);
-         console.log("After adding parents: " + JSON.stringify(thisModule));
       }
       else {
          // Next create an instance of a Module  for storing, using the Module model.
          
-         console.log("Making new module, parents = " + JSON.stringify(this.getModulesFromSubjects(Object.entries(this.tree.treeModel.activeNodeIds))));
-
          thisModule = new Module(
             null,
             this.subject,
@@ -125,8 +121,6 @@ export class ModuleCreatorPageComponent implements OnInit {
             null
          );
       }
-
-      console.log(thisModule);
 
       /**
        * This sends the module data to the backend and then stores it if successful.
