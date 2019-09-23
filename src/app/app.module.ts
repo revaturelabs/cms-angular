@@ -23,6 +23,7 @@ import { MatProgressSpinnerModule} from '@angular/material';
 import { TreeModule } from 'angular-tree-component';
 import { DisplayRequestPageComponent } from './components/display-request-page/display-request-page.component';
 import { RequestPipe } from './constants/request.pipe';
+import {ModuleStoreService} from './services/module-store.service';
 
 
 /** @ignore */
@@ -54,7 +55,8 @@ import { RequestPipe } from './constants/request.pipe';
       TreeModule.forRoot()
    ],
    providers: [
-      GlobalReports
+      GlobalReports,
+       ModuleStoreService
    ],
    bootstrap: [AppComponent]
 })

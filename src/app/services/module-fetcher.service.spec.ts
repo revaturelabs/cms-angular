@@ -56,7 +56,7 @@ describe('ModuleFetcherService', () => {
     * finalize mock.
     */
   it('should return an Observable<Module[]> Get all', fakeAsync(() => {
-    let url: string = baseURL + '/module';
+    let url: string = baseURL + '/modules';
     let response = {
       resaultCount: 1,
       response: [
@@ -85,7 +85,7 @@ describe('ModuleFetcherService', () => {
   // A similar process as above is used to retrieve an
   // Observable from getById
   it('should return an Observable<Module> get by id', fakeAsync(() => {
-    let url: string = baseURL + '/module/5'
+    let url: string = baseURL + '/modules/5'
     let response = {
       resaultCount: 1,
       response: [
@@ -113,7 +113,7 @@ describe('ModuleFetcherService', () => {
 
   // Similar mocking done for createNewModule()
   it('should return an Observable<HttpHeaderResponse> Create', fakeAsync(() => {
-    let url: string = baseURL + '/module';
+    let url: string = baseURL + '/modules';
     let response = {
       resaultCount: 1,
       response: [
@@ -126,7 +126,7 @@ describe('ModuleFetcherService', () => {
       ]
     };
     let links: Link[] = [];
-    let input: Module = new Module(null, "CSS", null, links, [], [])
+    let input: Module = new Module(null, "CSS", null, links, [], [], [])
     let output: HttpHeaderResponse;
 
     service.createNewModule(input).subscribe(
@@ -143,7 +143,7 @@ describe('ModuleFetcherService', () => {
 
   //Used to mock delete a module by id
   it('should return an Observable<Module> delete by id', fakeAsync(() => {
-    let url: string = baseURL + '/module/5'
+    let url: string = baseURL + '/modules/5'
     let response = {
       resaultCount: 0,
       response: []

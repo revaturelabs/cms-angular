@@ -43,3 +43,9 @@ h3 {
     text-align: center;
     align-content: center;
 }
+
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
