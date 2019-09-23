@@ -154,7 +154,7 @@ export class ModuleStoreService {
                this.subjectIdToSortedIndex.set(currModule.id, i++);
                this.subjectNames.push(currModule.subject);
                // populates a collection of root modules
-               console.log(currModule)
+               
                if (currModule.parents.length == 0) {
                   this.subjectIDToRootModule.set(currModule.id, currModule);
                   this.subjectRootArray.push(currModule);
