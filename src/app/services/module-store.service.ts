@@ -37,7 +37,7 @@ export class ModuleStoreService {
    subjectIdToSortedIndex: Map<number, number>;
 
    /** All Modules being returned */
-   response: Module[];
+   allModules: Module[];
 
    /** All Modules that have no conten */
    emptyresponse: Module[] = [];
@@ -67,7 +67,7 @@ export class ModuleStoreService {
       this.ms.getAllModules().subscribe(
          (response) => {
             if (response != null) {
-               this.response = response;
+               this.allModules = response;
             }
             else {
                // this.failedRetrieve = true;
@@ -79,7 +79,7 @@ export class ModuleStoreService {
             this.isLoading = false;
 
          }, () => {
-            this.populateCollections(this.response);
+            this.populateCollections(this.allModules);
             this.nodes = [];
             this.subjectIDToRootModule.forEach(
                (modules) => {
@@ -152,37 +152,16 @@ export class ModuleStoreService {
                this.subjectIdToSortedIndex.set(module.id, i++);
                this.subjectNames.push(module.subject);
                // populates a collection of root modules
-               if (module.parentModules.length == 0) {
+               if (module.parents.length == 0) {
                   this.subjectIDToRootModule.set(module.id, module);
                   this.subjectRootArray.push(module);
                }
             }, this
          );
-         this.populateModuleChildObjects(this.subjectRootArray);
       }
       this.isLoading = false;
       this.buffer.next(false);
       this.loadingText = "Select relevant modules";
-   }
-
-   // takes the array of child ids and populates an array of module objects
-   populateModuleChildObjects(modules: Module[]) {
-         modules.forEach(
-            (module) => {
-               module.childrenModulesObject = [];
-               if (module.childrenModules.length != 0) {
-                  module.childrenModules.forEach(
-                     (element) => {
-                        module.childrenModulesObject.push(this.subjectIdToModule.get(element));
-                     }
-                  );
-                  // recursive for each layer of children
-                  // beware memory leaks
-                  this.populateModuleChildObjects(module.childrenModulesObject);
-               }
-            }
-         );
-   
    }
 
    /**
