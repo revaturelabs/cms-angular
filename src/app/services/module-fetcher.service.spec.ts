@@ -129,7 +129,7 @@ describe('ModuleFetcherService', () => {
     let input: Module = new Module(null, "CSS", null, links, [], [], [])
     let output: HttpHeaderResponse;
 
-    service.createNewModule(input).subscribe(
+    service.createOrUpdateModule(input).subscribe(
       response => {
         output = response;
       }
