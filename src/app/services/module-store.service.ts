@@ -37,7 +37,7 @@ export class ModuleStoreService {
    subjectIdToSortedIndex: Map<number, number>;
 
    /** All Modules being returned */
-   response: Module[];
+   allModules: Module[];
 
    /** All Modules that have no conten */
    emptyresponse: Module[] = [];
@@ -67,7 +67,7 @@ export class ModuleStoreService {
       this.ms.getAllModules().subscribe(
          (response) => {
             if (response != null) {
-               this.response = response;
+               this.allModules = response;
             }
             else {
                // this.failedRetrieve = true;
@@ -79,7 +79,7 @@ export class ModuleStoreService {
             this.isLoading = false;
 
          }, () => {
-            this.populateCollections(this.response);
+            this.populateCollections(this.allModules);
             this.nodes = [];
             if (this.subjectIDToRootModule) {
                this.subjectIDToRootModule.forEach(
@@ -161,30 +161,10 @@ export class ModuleStoreService {
                }
             }, this
          );
-         this.populateModuleChildObjects(this.subjectRootArray);
       }
       this.isLoading = false;
       this.buffer.next(false);
       this.loadingText = "Select relevant modules";
-   }
-
-   // takes the array of child ids and populates an array of module objects
-   populateModuleChildObjects(modules: Module[]) {
-      modules.forEach(
-         (module) => {
-            module.children = [];
-            if (module.childrenModules.length != 0) {
-               module.childrenModules.forEach(
-                  (element) => {
-                     module.children.push(this.subjectIdToModule.get(element));
-                  }
-               );
-               // recursive for each layer of children
-               // beware memory leaks
-               this.populateModuleChildObjects(module.children);
-            }
-         }
-      );
    }
 
    /**

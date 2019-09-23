@@ -117,8 +117,10 @@ export class ModuleCreatorPageComponent implements OnInit {
             this.subject,
             null,
             null,
-            this.getLinksFromSubjects(Object.entries(this.tree.treeModel.activeNodeIds))
-         )
+            null,
+            this.getModulesFromSubjects(Object.entries(this.tree.treeModel.activeNodeIds)),
+            null
+         );
       }
 
       /**
@@ -163,20 +165,23 @@ export class ModuleCreatorPageComponent implements OnInit {
    // custom options for ITree that allows for nodes to be formatted like module
    options: ITreeOptions = {
       displayField: 'subject',
-      childrenField: 'childrenModulesObject',
+      childrenField: 'children',
       actionMapping,
       idField: 'id'
    }
 
-   getLinksFromSubjects(subjects: any): Module[] {
-      let links = [];
-      subjects.forEach(
-         (subject) => {
-            links.push(this.ms.subjectIdToModule.get(parseInt(subject[0])));
-         }, this
-      )
+   /**
+    * Takes the tree of active node ids, 
+    */
+   getModulesFromSubjects(subjects: any): Module[] {
+      let modules = [];
+      subjects.forEach( (subject) => {
+         if (subject[1])
+            modules.push(this.ms.subjectIdToModule.get(parseInt(subject[0])));
+         console.log(JSON.stringify(modules));
+      }, this);
 
-      return links;
+      return modules;
    }
 }
 // Allows for mutliselect within ngTree

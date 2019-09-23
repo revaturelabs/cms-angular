@@ -36,7 +36,7 @@ export class ModuleIndexPageComponent implements OnInit {
     * Pre-initialized as it would cause errors upon loading the component.
     */
    //Note that this needs defualt values so the bindings {{ }} in html will work on page load
-   selModule: Module = new Module(0, "", 0, [], null);
+   selModule: Module = new Module(0, "", 0, [], null, null, null);
 
    /** Used to display a spinner when modules are loading.*/
    isLoading: boolean = false;
@@ -123,7 +123,7 @@ export class ModuleIndexPageComponent implements OnInit {
     */
    removeContentFromModuleIndex() {
       globalCacheBusterNotifier.next();
-      let found = this.selCon.links.findIndex(l => this.selModule.id === l.moduleId);
+      let found = this.selCon.links.findIndex(l => this.selModule.id === l.module.id);
       this.selCon.links.splice(found, 1);
 
       let foundContent = this.moduleContents.get(this.selModule).findIndex(l => this.selCon.id === l.id);

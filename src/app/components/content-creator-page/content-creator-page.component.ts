@@ -69,7 +69,7 @@ export class ContentCreatorPageComponent implements OnInit {
    // custom options for ITree that allows for nodes to be formatted like module
    options: ITreeOptions = {
       displayField: 'subject',
-      childrenField: 'childrenModulesObject',
+      childrenField: 'children',
       actionMapping,
       idField: 'id'
    };
@@ -102,7 +102,6 @@ export class ContentCreatorPageComponent implements OnInit {
             function(item) {
 
                handle.listURLS.push(item.url);
-
             })
       );
    }
@@ -111,7 +110,9 @@ export class ContentCreatorPageComponent implements OnInit {
    validInput(): boolean {
       const cantBeNull = [this.title, this.selFormat, this.url];
 
-      if (cantBeNull.includes(null) || cantBeNull.includes(undefined)) { return false; }
+      if (cantBeNull.includes(null) || cantBeNull.includes(undefined)) { 
+         return false; 
+      }
       return true;
    }
 
@@ -211,11 +212,14 @@ export class ContentCreatorPageComponent implements OnInit {
     */
    getLinksFromSubjects(subjects: number[]): Link[] {
       const links = [];
-      subjects.forEach(
-         (subject) => {
-               links.push(new Link(null, null, subject, null));
-         }, this
-      );
+      let allModules: Module[] = this.ms.allModules;
+      subjects.forEach( (subject) => {
+         allModules.forEach( (module) => {
+            if (module.id == subject) {
+               links.push(new Link(null, null, module, null));
+            }
+         })
+      }, this);
       return links;
    }
 
