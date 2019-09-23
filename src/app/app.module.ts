@@ -25,6 +25,7 @@ import { TreeModule } from 'angular-tree-component';
 import { DisplayRequestPageComponent } from './components/display-request-page/display-request-page.component';
 import { RequestPipe } from './constants/request.pipe';
 import { ResolveRequestPageComponent } from './components/resolve-request-page/resolve-request-page.component';
+import {ModuleStoreService} from './services/module-store.service';
 
 
 /** @ignore */
@@ -59,7 +60,8 @@ import { ResolveRequestPageComponent } from './components/resolve-request-page/r
       AngularWebStorageModule,
    ],
    providers: [
-      GlobalReports
+      GlobalReports,
+       ModuleStoreService
    ],
    bootstrap: [AppComponent]
 })

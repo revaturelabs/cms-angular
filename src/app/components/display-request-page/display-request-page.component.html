@@ -1,71 +1,104 @@
 <!-- This page will display all of the requests for content that are received. -->
 <!-- Followed existing styling by placing data in card container with Revature logo. -->
-<div class="card " style="margin-bottom: 10px">
+<div class="card">
+    <!-- Displays the content search fields in a card -->
     <div class="container">
         <div class="col">
             <div id="content">
-                <img src="/assets/img/logo.png" alt="revature" class="logo">
+                <img src="/assets/img/logo.png" alt="revature" class="logo" id='logo'>
             </div>
         </div>
+        <form>
+            <div class="form-row mb-5">
+                <div class="col-1"></div>
 
+                <div class="col-5">
+                    <!-- Input the title of a content you want to search for, working with ngModel -->
+                    <input [(ngModel)]="title" name="title" type="text" class="form-control" placeholder="Title" maxlength="254">
+                </div>
+
+                <div class="col">
+                    <div class="btn-radio">
+                        <!-- Radio buttons to filter the content, with format id's. This uses ngModel for the select format -->
+                        <div class="form-check form-check-inline" *ngFor="let format of formats">
+                            <input [(ngModel)]="selFormat" class="form-check-input" type="radio" name="formatOptions" id="{{format}}" value="{{format}}">
+                            <label class="form-check-label" for="{{format}}" id="{{format}}Label">{{format}}</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-1"></div>
+
+            </div>
+
+            <div class="row subject mb-3">
+                <!-- Dropdown section which retrieves subjects using ms to load and ngModel to populate -->
+                <div class="col-1"></div>
+                <div class="col-10">
+                    <ng-select id="subjectDropDown" [items]="ms.subjectNames" multiple="true" closeOnSelect="true" hideSelected="true" clearOnBackspace="true" bindLabel="name" spellcheck="false" notFoundText="(no such subject found)" [loading]="ms.isLoading" [placeholder]="ms.loadingText"
+                        [(ngModel)]="selectedSubjects" name="selectedSubjects">
+                        <!-- ngSelect to manage selecting subjects and operating dropdown functionality -->
+                    </ng-select>
+                </div>
+                <div class="col-1"></div>
+            </div>
+            <div class="row btn mb-3">
+                <!-- Find Content button to submit criteria using submit() function -->
+                <button type="button" class="btn btn-primary" id="submitButton" (click)="submit()" *ngIf="!this.isSearching">Find Requests</button>
+                <!-- While not searching, we can click the button -->
+                <mat-spinner [diameter]="30" *ngIf="this.isSearching"></mat-spinner>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <!-- Displays the content search fields in a card -->
+    <div class="container">
         <!-- Table for displaying the list of requests for content -->
         <div id="requests">
             <h3>Requests</h3>
             <br>
-            <form>
-                <div class="form-row mb-5">
-                    <div class="table-responsive">
-                        <table class="table table-hover table-striped text-center" id="displayrequests">
-                            <thead>
-                                <tr>
-                                    <td>
-                                        <form #typeFilter="ngForm" (change)="onFilterChange(typeFilter)">
-                                            Filter by Type:
-                                            <select name="type" [(ngModel)]="format">
-                                        <option value="">
-                                            All
-                                        </option>
-                                        <option value="Document">
-                                            Document
-                                        </option>
-                                        <option value="Code">
-                                            Code
-                                        </option>
-                                        <option value="Powerpoint">
-                                            PowerPoint
-                                        </option>
-                                </select>
-                                        </form>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="col"></th>
-                                    <!--Row for trash can icon-->
-                                    <th scope="col">Request Id</th>
-                                    <th scope="col">Title</th>
-                                    <th scope="col">Format</th>
-                                    <th scope="col">Description</th>
-                                    <th scope="col">URL</th>
-                                    <th scope="col">Modify</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let r of req | request: filter ">
-                                    <td name="trash">
-                                        <em title="Remove request " id="delbtn" (click)="removeRequest(r.id)" class="fas fa-trash" data-toggle="modal" data-target="#removeRequest" title="Remove request"></em>
-                                    </td>
-                                    <td>{{r.id}}</td>
-                                    <td>{{r.title}}</td>
-                                    <td>{{r.format}}</td>
-                                    <td>{{r.description}}</td>
-                                    <td>{{r.content}}</td>
-                                    <td><button type="submit" class="btn btn-success" id="editbtn" (click)=editRequest($event) [value]=r.id>Edit Request</button></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+            <div class="form-row mb-5">
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped text-center" id="displayrequests">
+                        <thead>
+
+                            <tr>
+                                <th scope="col"></th>
+                                <!--Row for trash can icon-->
+                                <th scope="col">Request Id</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Format</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">URL</th>
+                                <th scope="col">Tags</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let r of req ">
+                                <td name="trash">
+                                    <em title="Remove request " id="{r.rid}" (click)="removeRequest(r.id)" class="fas fa-trash" data-toggle="modal" data-target="#removeRequest" title="Remove request"></em>
+                                </td>
+                                <td>{{r.id}}</td>
+                                <td>{{r.title}}</td>
+                                <td>{{r.format}}</td>
+                                <td>{{r.description}}</td>
+                                <td>{{ r.content?.url}}</td>
+                                <td>
+                                    <span *ngFor="let link of r.reqLinks" [attr.name]="link.module.subject" [style.background-color]=link.module.color class="badge badge-primary" style="color:black; font-size: 16px" id="{{link.module.id}}">
+                    {{link.module.subject}}
+
+
+                  </span>
+
+                                </td>
+                                <td><button type="submit" class="btn btn-success" id="editbtn" (click)=editRequest($event) [value]=r.id>Edit Request</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
