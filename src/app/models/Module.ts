@@ -18,7 +18,8 @@ export class Module {
    // Array containing the IDs of parent modules
    parents: Module[];
    // Array containing the IDs of child modules
-   children: Module[];
+   children: Module[] = [];
+      //childrenModules: Number[];
 
    /**
     * Create a new Module to describe and sort Content
