@@ -10,6 +10,7 @@ import { ModuleCreatorPageComponent } from './module-creator-page.component';
 // import { Component, DebugElement } from "@angular/core";
 import { By } from "@angular/platform-browser";
 import { ComponentRef } from '@angular/core';
+import { TreeModule} from 'angular-tree-component';
 
 describe('ModuleCreatorPageComponent', () => {
   let component: ModuleCreatorPageComponent;
@@ -20,11 +21,12 @@ describe('ModuleCreatorPageComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ ModuleCreatorPageComponent ],
-      imports: [ 
+      imports: [
         FormsModule,
         MatProgressSpinnerModule,
         HttpClientTestingModule,
-        ToastrModule.forRoot()
+        ToastrModule.forRoot(),
+        TreeModule.forRoot()
       ]
     }).compileComponents();
   }));
@@ -33,11 +35,11 @@ describe('ModuleCreatorPageComponent', () => {
     fixture = TestBed.createComponent(ModuleCreatorPageComponent);
     component = fixture.componentInstance;
     // subjectEl = fixture.debugElement.query(By.css('input[name=subject]'));
-    // submitEl = fixture.debugElement.query(By.css('button'));  
+    // submitEl = fixture.debugElement.query(By.css('button'));
     fixture.detectChanges();
 
     // Populating the module input field here
-    component.subject = 'Java'
+    component.subject = 'Java';
 
   });
 
@@ -60,7 +62,7 @@ describe('ModuleCreatorPageComponent', () => {
   it('Should give an error when no module input is written', () => {
     component.subject = '';
     expect(component.validInput()).toBeFalsy();
-    component.subject = 'Java'
+    component.subject = 'Java';
   });
 
   // Testing to make sure that we have good inputs
@@ -73,6 +75,6 @@ describe('ModuleCreatorPageComponent', () => {
     component.resetVariables();
     expect(component.subject.length).toEqual(0);
     expect(component.isSubmitting).toBeFalsy();
-  })
+  });
 
 });

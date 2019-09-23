@@ -108,36 +108,21 @@ describe('ContentFetcherService', () => {
   }));
 
   // Test for failure of updateContentByContent(content)
-  it('updateContentByContent is working', fakeAsync(() => {
+  it('updateContent is working', fakeAsync(() => {
     let response = {};
-    let content: Content = new Content(null, null, null, null, null, null)
+    let content: Content = new Content(1, null, null, null, null, null);
 
-    service.updateContentByContent(content).subscribe(
+    service.updateContent(content).subscribe(
       (receivedResponse: any) => { },
       (error: any) => { }
     );
-    const req = httpTestingController.expectOne(baseURL + '/content');
+    const req = httpTestingController.expectOne(baseURL + '/content/1');
     expect(req.request.method).toEqual("PUT");
     req.flush(response);
     tick();
 
   }));
 
-  // Test for updateContentModulesById is workign properly
-  it('updateContentModulesById is working', fakeAsync(() => {
-    let response = {};
-    let modules: Module[];
-
-    service.updateContentModulesById(1, modules).subscribe(
-      (receivedResponse: any) => { },
-      (error: any) => { }
-    );
-    const req = httpTestingController.expectOne(baseURL + '/content/1/modules');
-    expect(req.request.method).toEqual("PUT");
-    req.flush(response);
-    tick();
-
-  }));
 
   // Test to deleteContentByID
   it('deleteContentByID is working', fakeAsync(() => {
@@ -163,8 +148,8 @@ describe('ContentFetcherService', () => {
       (receivedResponse: any) => { },
       (error: any) => { }
     );
-    const req = httpTestingController.expectOne(baseURL + '/search');
-    expect(req.request.method).toEqual("POST");
+    const req = httpTestingController.expectOne(baseURL + '/content?title=&format=&modules=');
+    expect(req.request.method).toEqual("GET");
     req.flush(response);
     tick();
 

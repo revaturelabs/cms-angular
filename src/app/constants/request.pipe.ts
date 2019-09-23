@@ -9,15 +9,16 @@ import {NgForm} from '@angular/forms';
 export class RequestPipe implements PipeTransform {
 
   transform(requests: Request[], filter: Request): any {
-    console.log(filter.format);
+    console.log(filter);
     if (!requests) {return []; }
     if (!filter || filter.format === '' ) {return requests; }
-    return requests.filter((request: Request) => this.applyFilter(request, filter));
+    let req = requests.filter((request: Request) => this.applyTypeFilter(request, filter));
   }
 
-  applyFilter(request: Request, filter: Request): boolean {
+  applyTypeFilter(request: Request, filter: Request): boolean {
     if (filter.format) {
       return request.format === filter.format;
     }
   }
+
 }
