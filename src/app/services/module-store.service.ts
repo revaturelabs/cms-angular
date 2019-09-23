@@ -183,19 +183,13 @@ export class ModuleStoreService {
    public addParents(currentModule: Module, parentModulesObject: Module[]) {
       let parents : any = [];
 
-      // let combinedModule : Module = new Module(
-      //    currentModule.id, 
-      //    currentModule.subject, 
-      //    currentModule.created, 
-      //    currentModule.links, 
-      //    parents.concat(currentModule.parentModulesObject).concat(parentModulesObject));
-
       currentModule.parents.forEach(parent => {
          parents.push(parent);
       });
 
       parentModulesObject.forEach(parent => {
-         parents.push(parent);
+         if (parent.id != currentModule.id)
+            parents.push(parent);
       });
 
       console.log(parents)
