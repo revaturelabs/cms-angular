@@ -79,8 +79,8 @@ export class ModuleFetcherService {
 
       console.log(body);
 
-      if (module.id == -1)
-         return this.http.post<HttpHeaderResponse>(this.endpoints.CREATE_NEW_MODULE, module, { headers: this.HEADERS });
+      if (module.id <= 0)
+         return this.http.post<HttpHeaderResponse>(this.endpoints.CREATE_NEW_MODULE, body, { headers: this.HEADERS });
       
       return this.http.put<HttpHeaderResponse>(
          this.endpoints.UPDATE_MODULE.replace("${id}", module.id.toString()), body, { headers: this.HEADERS });
