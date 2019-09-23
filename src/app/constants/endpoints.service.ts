@@ -48,7 +48,7 @@ export class EndpointsService {
    public readonly UPDATE_MODULE: string = this.baseURL + '/modules/${id}';
 
    //requests
-   public readonly CREATE_NEW_REQUEST: string = this.baseURL + '/request';
+   public readonly CREATE_NEW_REQUEST: string = this.baseURL + '/requests';
    /** Update Request */
    public readonly UPDATE_REQUEST: string = this.baseURL + '/request/${id}';
    /** Get All Request Endpoint */

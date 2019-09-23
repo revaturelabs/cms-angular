@@ -139,9 +139,9 @@
                     </div>
 
                     <!-- Needs explenation for recursion -->
-                    <ul *ngIf="module.childrenModulesObject.length > 0">
+                    <ul *ngIf="module.children.length > 0">
                         <ng-container
-                            *ngTemplateOutlet="recursiveList; context:{ $implicit: module.childrenModulesObject }">
+                            *ngTemplateOutlet="recursiveList; context:{ $implicit: module.children }">
                         </ng-container>
                     </ul>
                 </div>

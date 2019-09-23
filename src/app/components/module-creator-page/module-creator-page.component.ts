@@ -94,31 +94,44 @@ export class ModuleCreatorPageComponent implements OnInit {
          return;
       }
 
-      // Next create an instance of a Module  for storing, using the Module model.
-      let moduleIds: number[] = this.getLinksFromSubjects(Object.entries(this.tree.treeModel.activeNodeIds));
+      let thisModule: Module = null;
 
-      let modules: Module[] = [];
-      let allModules: Module[] = this.ms.allModules;
-      moduleIds.forEach( (mId) => {
-         allModules.forEach( (module) => {
-            if (mId == module.id) {
-               modules.push(module);
-            }
-         });
-      });
-      
-      let module: Module = new Module( null, this.subject, null, null, null, modules, null )
-      
+      if (this.ms.subjectNameToModule)
+         thisModule = this.ms.subjectNameToModule.get(this.subject);
+
+      if (thisModule != null) {
+         let parents: Module[] = [];
+
+         for (let nodeID in this.tree.treeModel.activeNodeIds) {
+            parents.push(this.ms.subjectIdToModule.get(parseInt(nodeID)));
+         }
+
+         thisModule = this.ms.addParents(thisModule, parents);
+      }
+      else {
+         // Next create an instance of a Module  for storing, using the Module model.
+         
+         thisModule = new Module(
+            null,
+            this.subject,
+            null,
+            null,
+            null,
+            this.getModulesFromSubjects(Object.entries(this.tree.treeModel.activeNodeIds)),
+            null
+         );
+      }
+
       /**
        * This sends the module data to the backend and then stores it if successful.
        */
-      this.mf.createNewModule(module).subscribe(
+      this.mf.createOrUpdateModule(thisModule).subscribe(
          (response) => {
-            if (response != null){
+            if (response != null) {
                this.toastr.success('Successfully sent module.');
                location.reload();
             }
-               
+
             else
                this.toastr.error('There was a problem creating a subject');
             this.isSubmitting = false;
@@ -143,7 +156,7 @@ export class ModuleCreatorPageComponent implements OnInit {
       this.subject = "";
       this.isSubmitting = false;
    }
-   
+
    // Creates the view for the tree component
    @ViewChild(TreeComponent, null)
    public tree: TreeComponent;
@@ -155,15 +168,19 @@ export class ModuleCreatorPageComponent implements OnInit {
       actionMapping,
       idField: 'id'
    }
-   getLinksFromSubjects(subjects: any) : number[]{
-      let links = [];
+
+   /**
+    * Takes the tree of active node ids, 
+    */
+   getModulesFromSubjects(subjects: any): Module[] {
+      let modules = [];
       subjects.forEach( (subject) => {
-         links.push(Number.parseInt(subject[0]));
-         console.log(subject[0])
+         if (subject[1])
+            modules.push(this.ms.subjectIdToModule.get(parseInt(subject[0])));
+         console.log(JSON.stringify(modules));
       }, this);
 
-      console.log(links);
-      return links;
+      return modules;
    }
 }
 // Allows for mutliselect within ngTree
