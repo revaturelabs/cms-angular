@@ -5,9 +5,108 @@
             <div id="content">
                 <img src="/assets/img/logo.png" alt="revature" class="logo">
             </div>
-
-
         </div>
 
+        <div id="request">
+            <h3>Enter information below to resolve request.</h3>
+            <br>
+            <table class="table table-hover table-striped text-center" id="displayrequest">
+                <thead>
+                    <tr>
+                        <th scope="col">Request Id</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Format</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">URL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{request.id}}</td>
+                        <td>{{request.title}}</td>
+                        <td>{{request.format}}</td>
+                        <td>{{request.description}}</td>
+                        <td>{{request.content}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+
+            <ng-container *ngIf="search">
+                <div class="col-5">
+                    <!-- Input the title of a content you want to search for, working with ngModel -->
+                    <input [(ngModel)]="title" name="title" type="text" class="form-control" placeholder="Search Content" maxlength="254">
+                </div>
+
+                <div class="col">
+                    <div class="btn-radio">
+                        <!-- Radio buttons to filter the content, with format id's. This uses ngModel for the select format -->
+                        <div class="form-check form-check-inline" *ngFor="let format of formats">
+                            <input [(ngModel)]="selFormat" class="form-check-input" type="radio" name="formatOptions" id="{{format}}" value="{{format}}">
+                            <label class="form-check-label" for="{{format}}" id="{{format}}Label">{{format}}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-1"></div>
+                <div class="row btn mb-3">
+                    <!-- Find Content button to submit criteria using submit() function -->
+                    <button type="button" class="btn btn-primary" id="submitButton" (click)="submit()" *ngIf="!this.isSearching">Find Content</button>
+                    <!-- While not searching, we can click the button -->
+                    <mat-spinner [diameter]="30" *ngIf="this.isSearching"></mat-spinner>
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="addurl">
+
+            </ng-container>
+
+
+            <label>Search Existing Content: </label>
+            <!-- <div class="form-row mb-5">
+
+            <br>
+
+            <p> OR </p>
+            <div class="row btn mb-3">
+                <button type="button" class="btn btn-primary" id="addbtn" (click)="addurl()">Add URL</button>
+            </div>
+        </div> -->
+        </div>
     </div>
-</div>
+
+
+    <div class="card " *ngIf="this.tablebool">
+        <!-- Card that is revealed upon successful criteria search -->
+        <div class="container">
+            <form>
+                <div class="form-row mb-5">
+                    <div class="table-responsive">
+                        <table id="ResultsTable" class="table table-striped">
+                            <thead>
+                                <!-- The column names for the table that displays the related information -->
+                                <tr>
+                                    <th scope="col">Content ID</th>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Format</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">URL</th>
+                                    <!-- <th scope="col">Modules</th> -->
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr *ngFor="let content of contents">
+                                    <td name="id">{{content.id}}</td>
+                                    <td name="title">{{content.title}}</td>
+                                    <td name="format">{{content.format}}</td>
+                                    <td name="description">{{content.description}}</td>
+                                    <td name="url"><a href="{{content.url}}">{{content.url}}</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br>

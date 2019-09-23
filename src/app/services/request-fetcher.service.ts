@@ -29,11 +29,13 @@ export class RequestFetcherService {
 
       getAllRequests(): Observable<Request[]> {
     return of (this.data);
+        // return this.http.get<Request[]>(this.endpoints.GET_ALL_REQUEST);
       }
 
       getRequestById(requestId: number): Observable<Request> {
         // add funtion for retreiving individual request by id
-      return this.http.get<Request>(this.endpoints.GET_REQUEST_BY_ID);
+      // return this.http.get<Request>(this.endpoints.GET_REQUEST_BY_ID);
+      return of (this.data.find(r => r.id === 1));
       }
 
       deleteRequestById(requestId: number) {

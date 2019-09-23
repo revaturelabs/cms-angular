@@ -19,6 +19,7 @@
 .container {
     padding: 2px 16px;
     margin-top: 70px;
+    text-align: center;
 }
 
 #content {
@@ -27,4 +28,8 @@
     justify-content: center;
     position: relative;
     top: -50px;
+}
+
+h3 {
+    text-align: center;
 }
