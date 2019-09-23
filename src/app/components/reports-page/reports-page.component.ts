@@ -34,9 +34,9 @@ export class ReportsPageComponent implements OnInit {
   /** TS varialbe referenced to display number of powerpoints */
   powerpoints : Object;
   /** TS variable referenced to display number of different modules */
-  difModules : Object;
+  difModules : Object = null;
   /** TS variable referenced to display the average number of resources per module */
-  avgResources : Object;
+  avgResources : Object = null;
 
   /**
    * Constructor uses HttpClient for communication and sends to specific endpoints.

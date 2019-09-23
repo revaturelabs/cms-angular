@@ -101,9 +101,19 @@ export class ModuleCreatorPageComponent implements OnInit {
       this . subject = this.subject.charAt(0).toUpperCase() + this.subject.substr(1);
 
       // Next create an instance of a Module  for storing, using the Module model.
-      let module: Module = new Module(
-         null, this.subject, null, null, this.getLinksFromSubjects(Object.entries(this.tree.treeModel.activeNodeIds)), null
-      )
+      let moduleIds: number[] = this.getLinksFromSubjects(Object.entries(this.tree.treeModel.activeNodeIds));
+
+      let modules: Module[] = [];
+      let allModules: Module[] = this.ms.allModules;
+      moduleIds.forEach( (mId) => {
+         allModules.forEach( (module) => {
+            if (mId == module.id) {
+               modules.push(module);
+            }
+         });
+      });
+      
+      let module: Module = new Module( null, this.subject, null, null, null, modules, null )
       
       /**
        * This sends the module data to the backend and then stores it if successful.
@@ -149,18 +159,16 @@ export class ModuleCreatorPageComponent implements OnInit {
    // custom options for ITree that allows for nodes to be formatted like module
    options: ITreeOptions = {
       displayField: 'subject',
-      childrenField: 'childrenModulesObject',
+      childrenField: 'children',
       actionMapping,
       idField: 'id'
    }
    getLinksFromSubjects(subjects: any) : number[]{
       let links = [];
-      subjects.forEach(
-         (subject) => {
-            links.push(Number.parseInt(subject[0]));
-            console.log(subject[0])
-         }, this
-      )
+      subjects.forEach( (subject) => {
+         links.push(Number.parseInt(subject[0]));
+         console.log(subject[0])
+      }, this);
 
       console.log(links);
       return links;
