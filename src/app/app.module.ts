@@ -21,6 +21,7 @@ import { CommonModule } from '@angular/common';
 import { ToastrModule } from 'ngx-toastr';
 import { MatProgressSpinnerModule} from '@angular/material';
 import { TreeModule } from 'angular-tree-component';
+import { SubmitRequestPageComponent } from './components/submit-request-page/submit-request-page.component';
 
 /** @ignore */
 @NgModule({
@@ -32,7 +33,8 @@ import { TreeModule } from 'angular-tree-component';
       ModuleCreatorPageComponent,
       ModuleIndexPageComponent,
       ReportsPageComponent,
-      ReportsTimeGraphComponent
+      ReportsTimeGraphComponent,
+      SubmitRequestPageComponent
    ],
    imports: [
       BrowserModule,
