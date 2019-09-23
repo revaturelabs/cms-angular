@@ -48,13 +48,13 @@ describe('EndpointsService', () => {
     expect(endpoints[9]).toEqual(baseURL + '/metrics/${timeFrame}');
     expect(endpoints[10]).toEqual(baseURL + '/modules/roots');
     expect(endpoints[11]).toEqual(baseURL + '/modules/${id}/children/');
-    expect(endpoints[12]).toEqual(baseURL + '/request');
-    expect(endpoints[13]).toEqual(baseURL + '/request/${id}');
-    expect(endpoints[14]).toEqual(baseURL + '/request');
-    expect(endpoints[15]).toEqual(baseURL + '/request/${id}');
-    expect(endpoints[16]).toEqual(baseURL + '/request/${id}/modules');
-    expect(endpoints[17]).toEqual(baseURL + '/request/${id}');
-    expect(endpoints[18]).toEqual(baseURL + '/request?title=${title}&format=${format}&modules=${modules}');
+    expect(endpoints[12]).toEqual(baseURL + '/requests');
+    expect(endpoints[13]).toEqual(baseURL + '/requests/${id}');
+    expect(endpoints[14]).toEqual(baseURL + '/requests');
+    expect(endpoints[15]).toEqual(baseURL + '/requests/${id}');
+    expect(endpoints[16]).toEqual(baseURL + '/requests/${id}/modules');
+    expect(endpoints[17]).toEqual(baseURL + '/requests/${id}');
+    expect(endpoints[18]).toEqual(baseURL + '/requests?title=${title}&format=${format}&modules=${modules}');
 
   });
 
