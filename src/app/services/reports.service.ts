@@ -63,8 +63,6 @@ export class ReportsService {
       format: filter.getFormat(),
       modules: moduleIdsString
     };
-
-    console.log("BodyFilter: " + JSON.stringify(body));
     
     this.http.post(
       this.endpoints.GET_METRICS.replace('${timeFrame}', this.MILLIS_PER_YEAR.toString()),
