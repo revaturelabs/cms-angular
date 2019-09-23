@@ -1,6 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ModuleStoreService } from '../../services/module-store.service';
-import { Filter } from '../../models/Filter';
+import { Module } from 'src/app/models/Module';
+import { ToastrService } from 'ngx-toastr';
+import { Content } from 'src/app/models/Content';
+import { Link } from 'src/app/models/Link';
+import { Filter } from 'src/app/models/Filter';
+import { ReqLink } from '../../models/ReqLink';
+import { Request } from '../../models/Request';
+import { SubmitRequestService } from '../../services/submit-request.service';
 
 @Component({
   selector: 'app-submit-request-page',
@@ -11,51 +18,106 @@ export class SubmitRequestPageComponent implements OnInit {
   //Document format types 
   readonly formats: string[] = ["Code", "Document", "Powerpoint"];
 
+  /** Description - boolean to display a spinner for submitting in progress */
+  isSubmitting = false;
+
   //Selected from subject list
-  selectedSubjects: string[] = [];
+  selectedSubjects: string[];
+
+  //Holds modules of subjects
+  modules: Module[];
+
+  //Title of request
+  title: string;
+
+  //Format of the request
+  selFormat: string;
+
+  //Request description
+  description: string;
+
+  //Holds request links for a request
+  rl: ReqLink[];
 
   constructor(
-    public ms: ModuleStoreService
+    public ms: ModuleStoreService,
+    private srs: SubmitRequestService,
+    private toastr: ToastrService
   ) { }
 
   //Load Modules on-page-load for dropdown menu
   ngOnInit() {
     this.ms.loadModules();
-
-      //gets search parameters from url if they exist
-      let url = window.location.href;
-      if (url.indexOf('?') > -1) {
-         //remove non-query part of url
-         let query = url.substring(url.indexOf('?') + 1);
-
-         //retrieve title param
-         let title = query.substring(query.indexOf('=') + 1, query.indexOf('&'));
-
-         //remove title param from query string
-         query = query.substring(query.indexOf('&') + 1);
-
-         //retreive the format param
-         let format = query.substring(query.indexOf('=') + 1, query.indexOf('&'));
-
-         //remove the format param from the query string
-         query = query.substring(query.indexOf('&') + 1);
-
-         //retrieve the modules param
-         let modules = query.substring(query.indexOf('=') + 1);
-
-         //convert modules string into an array of numbers
-         let moduleIds = modules.split(',');
-         let moduleIdNumbers: number[] = new Array;
-         for (let i=0; i<moduleIds.length; i++) {
-            moduleIdNumbers.push(parseInt(moduleIds[i]))
-         }
-
-         //populate a filter object with the params we just extracted
-         let filter: Filter = new Filter(
-            title, format, moduleIdNumbers
-         );
-
-      }
   }
 
+  /** Check if the input fields are all valid - i.e. all fields are filled in */
+  validInput(): boolean {
+    const cantBeNull = [this.title, this.selFormat, this.description, this.selectedSubjects];
+
+    if (cantBeNull.includes(null) || cantBeNull.includes(undefined)) { 
+      return false; 
+    }
+    return true;
+  }
+
+  submit() {
+    this.isSubmitting = true;
+
+    this.rl = [];
+
+    // if the input was not valid display a toastr message and return
+    if (!this.validInput()) {
+      this.toastr.error('Please fill in all input fields!');
+      this.isSubmitting = false;
+      return;
+    }
+
+    this.getModulesFromSubjects(this.selectedSubjects);
+
+    this.modules.forEach(
+      (module) => {
+        this.rl.push(new ReqLink(null, null, module, null));
+      }, this
+    )
+
+    const request: Request = new Request(null, this.title, this.selFormat, this.description, null, this.rl);
+
+    this.srs.createNewRequest(request).subscribe(
+      (response) => {
+        if(response != null) {
+          // on success, display a toastr message and reset the variables on this page
+          this.toastr.success('Successfully sent content.');
+          this.resetVariables();
+        } else {
+          this.toastr.error('Response was null.');
+        }
+      },
+      (response) => {
+        this.toastr.error('Failed to send Request.');
+      }
+    );
+  }
+
+  /** Clears the input fields after successful content submit */
+   resetVariables() {
+      this.title = null;
+      this.selFormat = null;
+      this.description = null;
+      this.selectedSubjects = [];
+      this.isSubmitting = false;
+   }
+
+  /**
+    * Description - Gets the string array of selected subjects and populates
+    * the module array of subject modules (or model or tag or whatever the team never really settled on the name like it was tag at first then prerequisite then modules then affiliation then subjects then back to modules like come on)
+    * @param subjects - array of subjects
+    */
+  getModulesFromSubjects(subjects: string[]) {
+      this.modules = [];
+      subjects.forEach(
+         (subject) => {
+            this.modules.push(this.ms.subjectNameToModule.get(subject));
+         }, this
+      )
+  }
 }
