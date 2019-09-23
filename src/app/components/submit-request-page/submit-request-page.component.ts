@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ModuleStoreService } from '../../services/module-store.service';
 import { Module } from 'src/app/models/Module';
 import { ToastrService } from 'ngx-toastr';
