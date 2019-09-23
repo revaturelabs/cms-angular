@@ -63,6 +63,8 @@ export class EndpointsService {
    public readonly DELETE_REQUEST_BY_ID: string = this.baseURL + '/request/${id}';
    /** Filter Content Endpoint */
    public readonly FILTER_REQUEST: string = this.baseURL + '/request?title=${title}&format=${format}&modules=${modules}';
+   /** Delete link by ID */
+   public readonly DELETE_LINK_BY_ID: string = this.baseURL + '/links/${id}';
    
    /** Initialization of Endpoints */
    constructor(private http: HttpClient) { }

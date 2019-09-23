@@ -74,9 +74,14 @@ export class ContentFetcherService {
     */
 
    updateContent(newContent: Content) {
+      console.log(newContent);
       let body: string = JSON.stringify(newContent);
       globalCacheBusterNotifier.next();
       return this.http.put(this.endpoints.UPDATE_CONTENT.replace('${id}', newContent.id.toString()), body, { headers: this.HEADERS });
+   }
+
+   removeLinkFromContent(linkId: number): Observable<HttpHeaderResponse> {
+      return this.http.delete<HttpHeaderResponse>(this.endpoints.DELETE_LINK_BY_ID.replace('${id}', linkId.toString()));
    }
 
    /**

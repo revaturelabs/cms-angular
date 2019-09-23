@@ -320,13 +320,7 @@ export class ContentFinderPageComponent implements OnInit {
     * Description - This method deletes a link between a content and a module
     */
    removeTag() {
-      let found = this.selCon.links.findIndex(l => this.selLink.id === l.id);
-      this.selCon.links.splice(found, 1);
-      this.cs.updateContent(this.selCon).subscribe(
-         data => {
-         this.updateTags();
-         }
-      );
+      this.cs.removeLinkFromContent(this.selLink.id).subscribe();
    }
 
    /**
