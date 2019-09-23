@@ -151,7 +151,7 @@ export class ModuleCreatorPageComponent implements OnInit {
    // custom options for ITree that allows for nodes to be formatted like module
    options: ITreeOptions = {
       displayField: 'subject',
-      childrenField: 'childrenModulesObject',
+      childrenField: 'children',
       actionMapping,
       idField: 'id'
    }
