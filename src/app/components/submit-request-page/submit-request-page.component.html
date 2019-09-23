@@ -1,0 +1,56 @@
+<div class="card">
+
+   <div class="container">
+
+      <div class="col">
+         <!-- Per usual, the Revature logo is displayed. -->
+         <div id="content">
+            <img src="/assets/img/logo.png" alt="revature" class="logo">
+         </div>
+
+	<form>
+      	    <div class="form-row mb-5">
+		<div class="col-1"></div>
+        	    <div class="col-5"> <!-- Input the title of a content you want to search for, working with ngModel -->
+          		<input id="title" [(ngModel)]="title" name="title" type="text" class="form-control" placeholder="Title" maxlength="254">
+        	    </div>
+
+        	    <div class="col">
+          		<div class="btn-radio"> <!-- Radio buttons to filter the content, with format id's. This uses ngModel for the select format -->
+            		    <div class="form-check form-check-inline" *ngFor="let format of formats">
+              			<input [(ngModel)]="selFormat" class="form-check-input" type="radio" name="formatOptions" id="{{format}}" value="{{format}}">
+              			<label class="form-check-label" for="{{format}}" id="{{format}}Label">{{format}}</label>
+            		    </div>
+          		</div>
+        	    </div>
+	    </div>
+		<div class="row subject mb-3"> <!-- Dropdown section which retrieves subjects using ms to load and ngModel to populate -->
+            	    <div class="col-1"></div>
+            		<div class="col-10">
+               		    <ng-select id="subjectDropDown" [items]="ms.subjectNames" multiple="true" closeOnSelect="true" hideSelected="true"
+                  	    clearOnBackspace="true" bindLabel="name" spellcheck="false" notFoundText="(no such subject found)"
+                  	    [loading]="ms.isLoading" [placeholder]="ms.loadingText" [(ngModel)]="selectedSubjects" name="selectedSubjects">
+               		    </ng-select>
+           		</div>
+            	    <div class="col-1"></div>
+        	</div>
+
+		<div class="row desc mb-5"> <!-- Text box section for adding a description to the content provided -->
+               	    <div class="col-1"></div>
+               		<div class="col">
+                  <!-- We use ngModel binding to record the description written, where the max character length is 254 -->
+                  	    <label for="exampleFormControlTextarea1"></label>
+                  	    <textarea id="descriptionTextBox" [(ngModel)]="description" name="description" class="form-control"
+                     	    id="exampleFormControlTextarea1" rows="4" placeholder="Description" maxlength="254"></textarea>
+               		</div>
+               	    <div class="col-1"></div>
+            	</div>
+
+		<div class="row btn mb-3"> 
+                    <button type="button" class="btn btn-primary" id="submitButton" (click)="submit()" *ngIf="!this.isSubmitting">Submit Request</button>
+                    <mat-spinner [diameter]="30" *ngIf="this.isSubmitting"></mat-spinner>
+            	</div>
+	</form>
+      </div>
+    </div>
+</div>

@@ -48,7 +48,7 @@ describe('EndpointsService', () => {
     expect(endpoints[9]).toEqual(baseURL + '/metrics/${timeFrame}');
     expect(endpoints[10]).toEqual(baseURL + '/modules/roots');
     expect(endpoints[11]).toEqual(baseURL + '/modules/${id}/children/');
-    expect(endpoints[12]).toEqual(baseURL + '/request');
+    expect(endpoints[12]).toEqual(baseURL + '/requests');
     expect(endpoints[13]).toEqual(baseURL + '/request/${id}');
     expect(endpoints[14]).toEqual(baseURL + '/request');
     expect(endpoints[15]).toEqual(baseURL + '/request/${id}');
