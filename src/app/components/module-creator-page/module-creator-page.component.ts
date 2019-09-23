@@ -94,33 +94,44 @@ export class ModuleCreatorPageComponent implements OnInit {
          return;
       }
 
-      let module: Module = this.ms.subjectNameToModule.get(this.subject);
+      let thisModule: Module = null;
 
-      if (module != null) {
-         let parents: Module[];
+      if (this.ms.subjectNameToModule)
+         thisModule = this.ms.subjectNameToModule.get(this.subject);
 
-         for (let nodeId in this.tree.treeModel.activeNodeIds) {
-            parents.push(this.ms.subjectIdToModule.get(parseInt(nodeId)));
+      if (thisModule != null) {
+         let parents: Module[] = [];
+
+         for (let nodeID in this.tree.treeModel.activeNodeIds) {
+            parents.push(this.ms.subjectIdToModule.get(parseInt(nodeID)));
          }
 
-         module.addParents(parents);
+         //thisModule = thisModule as Module;
+         thisModule = this.ms.addParents(thisModule, parents);
+         console.log("After adding parents: " + JSON.stringify(thisModule));
       }
       else {
          // Next create an instance of a Module  for storing, using the Module model.
-         module = new Module(
-            null, 
-            this.subject, 
-            null, 
-            null, 
-            this.getLinksFromSubjects(Object.entries(this.tree.treeModel.activeNodeIds)), 
+         
+         console.log("Making new module, parents = " + JSON.stringify(this.getModulesFromSubjects(Object.entries(this.tree.treeModel.activeNodeIds))));
+
+         thisModule = new Module(
+            null,
+            this.subject,
+            null,
+            null,
+            null,
+            this.getModulesFromSubjects(Object.entries(this.tree.treeModel.activeNodeIds)),
             null
-         )
+         );
       }
+
+      console.log(thisModule);
 
       /**
        * This sends the module data to the backend and then stores it if successful.
        */
-      this.mf.createNewModule(module).subscribe(
+      this.mf.createOrUpdateModule(thisModule).subscribe(
          (response) => {
             if (response != null) {
                this.toastr.success('Successfully sent module.');
@@ -159,21 +170,23 @@ export class ModuleCreatorPageComponent implements OnInit {
    // custom options for ITree that allows for nodes to be formatted like module
    options: ITreeOptions = {
       displayField: 'subject',
-      childrenField: 'childrenModulesObject',
+      childrenField: 'children',
       actionMapping,
       idField: 'id'
    }
-   getLinksFromSubjects(subjects: any): number[] {
-      let links = [];
-      subjects.forEach(
-         (subject) => {
-            links.push(Number.parseInt(subject[0]));
-            console.log(subject[0])
-         }, this
-      )
 
-      console.log(links);
-      return links;
+   /**
+    * Takes the tree of active node ids, 
+    */
+   getModulesFromSubjects(subjects: any): Module[] {
+      let modules = [];
+      subjects.forEach( (subject) => {
+         if (subject[1])
+            modules.push(this.ms.subjectIdToModule.get(parseInt(subject[0])));
+         console.log(JSON.stringify(modules));
+      }, this);
+
+      return modules;
    }
 }
 // Allows for mutliselect within ngTree

@@ -8,13 +8,14 @@ import { ToastrService } from 'ngx-toastr';
 import { Link } from '../../models/Link';
 import { SelectControlValueAccessor } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
+import { Location, LocationStrategy } from '@angular/common';
 
 /** Typescript component for Content Finder page */
 @Component({
    selector: 'app-content-finder-page',
    templateUrl: './content-finder-page.component.html',
-   styleUrls: ['./content-finder-page.component.css']
+   styleUrls: ['./content-finder-page.component.css'],
+   providers: [Location]
 })
 export class ContentFinderPageComponent implements OnInit {
 
@@ -252,8 +253,8 @@ export class ContentFinderPageComponent implements OnInit {
 
             content.links = content.links.sort(
                (a, b) => {
-                  let sortedIndexA: number = this.ms.subjectIdToSortedIndex.get(a.moduleId);
-                  let sortedIndexB: number = this.ms.subjectIdToSortedIndex.get(b.moduleId);
+                  let sortedIndexA: number = this.ms.subjectIdToSortedIndex.get(a.module.id);
+                  let sortedIndexB: number = this.ms.subjectIdToSortedIndex.get(b.module.id);
                   return sortedIndexA - sortedIndexB;
                }
             );
@@ -338,7 +339,7 @@ export class ContentFinderPageComponent implements OnInit {
       let subjectToName: string[] = [];
 
       for (let l of this.selCon.links) {
-         subjectToName.push(this.ms.subjectIdToName.get(l.moduleId));
+         subjectToName.push(this.ms.subjectIdToName.get(l.module.id));
       }
 
       let tempArr: string[] = [];
@@ -371,8 +372,7 @@ export class ContentFinderPageComponent implements OnInit {
       if (this.selectedTags.length > 0) {
          this.selectedTags.forEach(
             (subject) => {
-               links.push(new Link(null, this.selCon.id,
-                  this.ms.subjectNameToModule.get(subject).id, null));
+               links.push(new Link(null, this.selCon, this.ms.subjectNameToModule.get(subject), null));
             }, this
          )
          for (let l of links) {
