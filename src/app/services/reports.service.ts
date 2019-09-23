@@ -49,11 +49,22 @@ export class ReportsService {
     
     this.loading = true;
 
+    //turn filter.getModules() into a string of comma separated integers
+    let moduleIds: number[] = filter.getModules();
+    let moduleIdsString: string = "";
+    moduleIds.forEach( (id) => {
+      moduleIdsString = moduleIdsString + id.toString() + ",";
+    }, this);
+    moduleIdsString.substring(0, moduleIdsString.length - 2);
+    console.log(moduleIdsString);
+
     let body = {
       title: "",
       format: filter.getFormat(),
-      modules: filter.getModules()
+      modules: moduleIdsString
     };
+
+    console.log("BodyFilter: " + JSON.stringify(body));
     
     this.http.post(
       this.endpoints.GET_METRICS.replace('${timeFrame}', this.MILLIS_PER_YEAR.toString()),
