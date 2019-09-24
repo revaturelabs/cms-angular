@@ -4,7 +4,6 @@ import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { ModuleFetcherService } from 'src/app/services/module-fetcher.service';
 import { ToastrService } from 'ngx-toastr';
 import { ITreeOptions, TreeComponent, IActionMapping, TREE_ACTIONS, TreeModel, TreeNode } from 'angular-tree-component';
-import { Link } from 'src/app/models/Link';
 import { Router } from '@angular/router';
 
 
