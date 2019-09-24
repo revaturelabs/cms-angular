@@ -326,7 +326,9 @@ export class ContentFinderPageComponent implements OnInit {
     * Description - This method deletes a link between a content and a module
     */
    removeTag() {
-      this.cs.removeLinkFromContent(this.selLink.id).subscribe();
+      this.cs.removeLinkFromContent(this.selLink.id).subscribe( () => {
+            this.submit();
+      });
    }
 
    /**
@@ -377,9 +379,11 @@ export class ContentFinderPageComponent implements OnInit {
          )
          this.selCon.links = links;
          this.cs.updateContent(this.selCon).subscribe((response: Content) => {
-            //this.selCon.links = response.links;
+            console.log(response);
          });
-         this.cs.addLinkToContent(this.selCon).subscribe();
+         this.cs.addLinkToContent(this.selCon).subscribe((response: Link[]) => {
+            this.selCon.links = response;
+         });
       }
 
       this.selectedTags = [];
