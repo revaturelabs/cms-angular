@@ -1,15 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 
-/* This imports the css for the search and multiselect tags input field */
-@import "~@ng-select/ng-select/themes/default.theme.css";
 
+/* This imports the css for the search and multiselect tags input field */
+
+@import "~@ng-select/ng-select/themes/default.theme.css";
 @import "../node_modules/ngx-toastr/toastr.css";
 
 /* import styles for spinner module from @angular/module*/
+
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
-
 @import "~angular-tree-component/dist/angular-tree-component.css";
-
 body {
     height:100%;
     margin: 0;
