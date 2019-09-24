@@ -13,7 +13,7 @@
 body {
     height:100%;
     margin: 0;
-    background: linear-gradient(135deg, #d05802 0%, rgba(255,136,0,1) 80%, #eba34c 100%);
+    background: linear-gradient(180deg, #d05802 0%, rgba(255,136,0,1) 80%, #eba34c 100%);
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
