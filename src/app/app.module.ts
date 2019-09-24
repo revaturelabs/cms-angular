@@ -4,6 +4,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { HttpClientModule } from '@angular/common/http';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
+import { AngularWebStorageModule } from 'angular-web-storage';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,6 +23,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { MatProgressSpinnerModule} from '@angular/material';
 import { TreeModule } from 'angular-tree-component';
 import { DisplayRequestPageComponent } from './components/display-request-page/display-request-page.component';
+import { ResolveRequestPageComponent } from './components/resolve-request-page/resolve-request-page.component';
 import {ModuleStoreService} from './services/module-store.service';
 import { SubmitRequestPageComponent } from './components/submit-request-page/submit-request-page.component';
 
@@ -37,6 +39,7 @@ import { SubmitRequestPageComponent } from './components/submit-request-page/sub
       ReportsPageComponent,
       ReportsTimeGraphComponent,
       DisplayRequestPageComponent,
+      ResolveRequestPageComponent,
       SubmitRequestPageComponent
    ],
    imports: [
@@ -51,7 +54,9 @@ import { SubmitRequestPageComponent } from './components/submit-request-page/sub
       BrowserAnimationsModule,
       ToastrModule.forRoot(),
       MatProgressSpinnerModule,
-      TreeModule.forRoot()
+      TreeModule.forRoot(),
+      BrowserModule,
+      AngularWebStorageModule,
    ],
    providers: [
       GlobalReports,
