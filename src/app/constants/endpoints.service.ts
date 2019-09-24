@@ -18,6 +18,8 @@ export class EndpointsService {
    public readonly CREATE_NEW_CONTENT: string = this.baseURL + '/content';
    /** Update Content */
    public readonly UPDATE_CONTENT: string = this.baseURL + '/content/${id}';
+   /** Update Content links */
+   public readonly UPDATE_CONTENT_LINKS: string = this.baseURL + '/content/${id}/links';
    /** Get All Content Endpoint */
    public readonly GET_ALL_CONTENT: string = this.baseURL + '/content';
    /** Get Content by ID Endpoint */

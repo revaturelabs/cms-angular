@@ -80,6 +80,20 @@ export class ContentFetcherService {
       return this.http.put(this.endpoints.UPDATE_CONTENT.replace('${id}', newContent.id.toString()), body, { headers: this.HEADERS });
    }
 
+   /**
+    * Method for updating the links for a content
+    * @param content
+    */
+   addLinkToContent(content: Content){
+      let body: string = JSON.stringify(content.links);
+      globalCacheBusterNotifier.next();
+      return this.http.put(this.endpoints.UPDATE_CONTENT_LINKS.replace('${id}', content.id.toString()), body, { headers: this.HEADERS });
+   }
+
+   /**
+    * Method for removing the links from a content
+    * @param linkId
+    */
    removeLinkFromContent(linkId: number): Observable<HttpHeaderResponse> {
       return this.http.delete<HttpHeaderResponse>(this.endpoints.DELETE_LINK_BY_ID.replace('${id}', linkId.toString()));
    }

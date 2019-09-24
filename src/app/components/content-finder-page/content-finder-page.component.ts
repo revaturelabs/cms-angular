@@ -375,13 +375,11 @@ export class ContentFinderPageComponent implements OnInit {
                links.push(new Link(null, new Content(this.selCon.id,'','','','',[]), this.ms.subjectNameToModule.get(subject), null));
             }, this
          )
-         console.log(links);
          this.selCon.links = links;
-         console.log("poop");
-         console.log(this.selCon);
          this.cs.updateContent(this.selCon).subscribe((response: Content) => {
             //this.selCon.links = response.links;
          });
+         this.cs.addLinkToContent(this.selCon).subscribe();
       }
 
       this.selectedTags = [];
