@@ -20,7 +20,7 @@ export class ResolveRequestPageComponent implements OnInit {
   public reqArr: Request[];
   public request: Request;
   public url: string;
-  readonly formats: string[] = ["Code", "Document", "Powerpoint", "Flagged", "All"];
+  readonly formats: string[] = ['Code', 'Document', 'Powerpoint', 'Flagged', 'All'];
   selectedSubjects: string[] = [];
   searchedSubjects: string[] = [];
   tablebool = false;
@@ -40,9 +40,10 @@ export class ResolveRequestPageComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.request = new Request(0, '', '', '', null, []);
     // retrieving the session of previously chosen request that needs to be modified
     console.log(JSON.parse(this.session.get('request')));
-    
+
     let id = JSON.parse(this.session.get('request'));
     if ( id == null) { id = 0; }
     console.log(id);
