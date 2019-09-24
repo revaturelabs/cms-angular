@@ -15,7 +15,8 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-display-request-page',
   templateUrl: './display-request-page.component.html',
-  styleUrls: ['./display-request-page.component.css']
+  styleUrls: ['./display-request-page.component.css'],
+  providers: [Location]
 })
 export class DisplayRequestPageComponent implements OnInit {
 

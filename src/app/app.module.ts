@@ -23,10 +23,9 @@ import { ToastrModule } from 'ngx-toastr';
 import { MatProgressSpinnerModule} from '@angular/material';
 import { TreeModule } from 'angular-tree-component';
 import { DisplayRequestPageComponent } from './components/display-request-page/display-request-page.component';
-import { RequestPipe } from './constants/request.pipe';
 import { ResolveRequestPageComponent } from './components/resolve-request-page/resolve-request-page.component';
 import {ModuleStoreService} from './services/module-store.service';
-
+import { SubmitRequestPageComponent } from './components/submit-request-page/submit-request-page.component';
 
 /** @ignore */
 @NgModule({
@@ -40,8 +39,8 @@ import {ModuleStoreService} from './services/module-store.service';
       ReportsPageComponent,
       ReportsTimeGraphComponent,
       DisplayRequestPageComponent,
-      RequestPipe,
       ResolveRequestPageComponent,
+      SubmitRequestPageComponent
    ],
    imports: [
       BrowserModule,

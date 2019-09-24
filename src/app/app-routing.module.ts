@@ -7,6 +7,7 @@ import { ModuleIndexPageComponent } from './components/module-index-page/module-
 import { ReportsPageComponent } from './components/reports-page/reports-page.component';
 import { DisplayRequestPageComponent } from './components/display-request-page/display-request-page.component';
 import { ResolveRequestPageComponent } from './components/resolve-request-page/resolve-request-page.component';
+import { SubmitRequestPageComponent } from './components/submit-request-page/submit-request-page.component';
 
 /** @ignore */
 const routes: Routes = [
@@ -18,6 +19,7 @@ const routes: Routes = [
    { path: 'module-creator', component: ModuleCreatorPageComponent, pathMatch: 'full' },
    { path: 'module-index', component: ModuleIndexPageComponent, pathMatch: 'full' },
    { path: 'reports', component: ReportsPageComponent},
+   { path: 'submit-request', component: SubmitRequestPageComponent},
    { path: '**', redirectTo: '/content-creator', pathMatch: 'full' }
 ];
 

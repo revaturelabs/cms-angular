@@ -81,11 +81,13 @@ export class ModuleStoreService {
          }, () => {
             this.populateCollections(this.allModules);
             this.nodes = [];
-            this.subjectIDToRootModule.forEach(
-               (modules) => {
-                  this.nodes.push(modules);
-               }
-            );
+            if (this.subjectIDToRootModule) {
+               this.subjectIDToRootModule.forEach(
+                  (modules) => {
+                     this.nodes.push(modules);
+                  }
+               );
+            }
          }
       );
    }
@@ -144,24 +146,46 @@ export class ModuleStoreService {
                return a.subject.toLowerCase() < b.subject.toLowerCase() ? -1 : 1;
             }
          ).forEach(
-            (module) => {
-               module.color = this.getColor(c++);
-               this.subjectNameToModule.set(module.subject, module);
-               this.subjectIdToModule.set(module.id, module);
-               this.subjectIdToName.set(module.id, module.subject);
-               this.subjectIdToSortedIndex.set(module.id, i++);
-               this.subjectNames.push(module.subject);
+            (currModule) => {
+               currModule.color = this.getColor(c++);
+               this.subjectNameToModule.set(currModule.subject, currModule);
+               this.subjectIdToModule.set(currModule.id, currModule);
+               this.subjectIdToName.set(currModule.id, currModule.subject);
+               this.subjectIdToSortedIndex.set(currModule.id, i++);
+               this.subjectNames.push(currModule.subject);
                // populates a collection of root modules
-               if (module.parents.length == 0) {
-                  this.subjectIDToRootModule.set(module.id, module);
-                  this.subjectRootArray.push(module);
+               
+               if (currModule.parents.length == 0) {
+                  this.subjectIDToRootModule.set(currModule.id, currModule);
+                  this.subjectRootArray.push(currModule);
                }
             }, this
          );
+         this.populateModuleChildObjects(this.subjectRootArray);
       }
       this.isLoading = false;
       this.buffer.next(false);
       this.loadingText = "Select relevant modules";
+   }
+
+
+
+   populateModuleChildObjects(modules: Module[]) {
+         modules.forEach(
+            (thisModule) => {
+
+               if (thisModule.children)
+               thisModule.children.forEach(element => {
+                  element.children = this.subjectIdToModule.get(element.id).children;
+               });
+
+               // recursive for each layer of children
+               // beware memory leaks
+               if (thisModule.children)
+                  this.populateModuleChildObjects(thisModule.children);
+            }
+         );
+      
    }
 
    /**
@@ -175,5 +199,21 @@ export class ModuleStoreService {
       else {
          return "#B9B9BA";
       }
+   }
+
+   public addParents(currentModule: Module, parentModulesObject: Module[]) {
+      let parents: any = [];
+
+      currentModule.parents.forEach(parent => {
+         parents.push(parent);
+      });
+
+      parentModulesObject.forEach(parent => {
+         if (parent.id != currentModule.id)
+            parents.push(parent);
+      });
+
+      currentModule.parents = parents;
+      return currentModule;
    }
 }
