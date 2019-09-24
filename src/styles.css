@@ -17,3 +17,7 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
+
+.card {
+    width: 95%!important;
+}

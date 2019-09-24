@@ -4,7 +4,7 @@ import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { ModuleFetcherService } from 'src/app/services/module-fetcher.service';
 import { ToastrService } from 'ngx-toastr';
 import { ITreeOptions, TreeComponent, IActionMapping, TREE_ACTIONS, TreeModel, TreeNode } from 'angular-tree-component';
-import { Link } from 'src/app/models/Link';
+import { Router } from '@angular/router';
 
 
 
@@ -43,7 +43,8 @@ export class ModuleCreatorPageComponent implements OnInit {
    constructor(
       public ms: ModuleStoreService,
       private mf: ModuleFetcherService,
-      private toastr: ToastrService
+      private toastr: ToastrService,
+      private router: Router
    ) { }
 
    ngOnInit() {
@@ -129,7 +130,6 @@ export class ModuleCreatorPageComponent implements OnInit {
          (response) => {
             if (response != null) {
                this.toastr.success('Successfully sent module.');
-               location.reload();
             }
 
             else
@@ -146,6 +146,9 @@ export class ModuleCreatorPageComponent implements OnInit {
          // Lastly, reset field.
          () => this.resetVariables()
       )
+     
+      this.router.navigate(['module-creator']);
+      
    }
 
    /**
