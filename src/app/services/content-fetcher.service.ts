@@ -100,12 +100,12 @@ export class ContentFetcherService {
          modules = modules.replace('[','');
          modules = modules.replace(']','');
       } else {
-         modules = "";
+         modules = '';
       }
       console.log("Modules: " + modules);
       console.log("URL: " + this.endpoints.FILTER_CONTENT.replace('${title}',filter.title).replace('${format}', filter.format).replace('${modules}', modules))
       return this.http.get<Content[]>(this.endpoints.FILTER_CONTENT.replace('${title}',filter.title).replace('${format}', filter.format).replace('${modules}', modules), {withCredentials: true}).pipe(
-         map( resp => resp as Content[])
+         map(resp => resp as Content[])
        );
    }
 }

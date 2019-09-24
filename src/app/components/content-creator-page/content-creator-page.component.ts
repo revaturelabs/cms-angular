@@ -16,9 +16,22 @@ import { Module } from 'src/app/models/Module';
 })
 export class ContentCreatorPageComponent implements OnInit {
 
+   /**
+    *  Content creater constructor
+    * @param cs Content Fetcher
+    * @param ms Module Store
+    */
+   constructor(
+      private cs: ContentFetcherService,
+      public ms: ModuleStoreService,
+      private toastr: ToastrService
+   ) {
+
+   }
+
 
    /** Each format string automatically generates button */
-   readonly formats: string[] = ["Code", "Document", "Powerpoint"];
+   readonly formats: string[] = ['Code', 'Document', 'Powerpoint'];
 
    /** Title of content */
    title: string;
@@ -27,7 +40,7 @@ export class ContentCreatorPageComponent implements OnInit {
    url: string;
 
    /** Used for radio selection for content (Ex. Powerpoint, code, etc) */
-   selFormat: string = "Code";
+   selFormat = 'Code';
 
    /** Description of content */
    description: string;
@@ -36,7 +49,7 @@ export class ContentCreatorPageComponent implements OnInit {
    listURLS = ['http://example.com'];
    urlFlag = '';
    /** Description - boolean to display a spinner for submitting in progress */
-   isSubmitting: boolean = false;
+   isSubmitting = false;
 
    /** Stores selected subjects */
    selectedSubjects: number[] = [];
@@ -49,18 +62,17 @@ export class ContentCreatorPageComponent implements OnInit {
       activeNodeIds: {}
    };
 
-   /**
-    *  Content creater constructor 
-    * @param cs Content Fetcher
-    * @param ms Module Store
-    */
-   constructor(
-      private cs: ContentFetcherService,
-      public ms: ModuleStoreService,
-      private toastr: ToastrService
-   ) {
+   // Creates the view for the tree component
+   @ViewChild(TreeComponent, null)
+   public tree: TreeComponent;
 
-   }
+   // custom options for ITree that allows for nodes to be formatted like module
+   options: ITreeOptions = {
+      displayField: 'subject',
+      childrenField: 'children',
+      actionMapping,
+      idField: 'id'
+   };
 
    /** On page initialization load the modules to list on the dropdown menu */
    ngOnInit() {
@@ -84,24 +96,23 @@ export class ContentCreatorPageComponent implements OnInit {
 
    /** On page initialization load the modules to list on the dropdown menu */
    getListOfURLS() {
-      let handle = this;
+      const handle = this;
       handle.cs.getAllContent().subscribe(
          data => data.forEach(
-            function (item) {
+            function(item) {
 
                handle.listURLS.push(item.url);
-
-
-
             })
       );
    }
 
    /** Check if the input fields are all valid - i.e. all fields are filled in */
    validInput(): boolean {
-      let cantBeNull = [this.title, this.selFormat, this.url];
+      const cantBeNull = [this.title, this.selFormat, this.url];
 
-      if (cantBeNull.includes(null) || cantBeNull.includes(undefined)) return false;
+      if (cantBeNull.includes(null) || cantBeNull.includes(undefined)) { 
+         return false; 
+      }
       return true;
    }
 
@@ -110,8 +121,18 @@ export class ContentCreatorPageComponent implements OnInit {
     * where the link has its subject id populated and the rest are set to default values
     */
    submit() {
-
       this.isSubmitting = true;
+
+      // Scans the tree for the currently selected modules, and if a module is selected, it adds
+      // the module to the selectedSubjects array
+      let i = 0;
+      Object.entries(this.tree.treeModel.activeNodeIds).forEach(
+         (subject) => {
+            if (subject[1]) {
+               this.selectedSubjects[i++] = parseInt(subject[0]);
+            }
+         }, this
+      );
 
       if (this.listURLS.indexOf(this.url) >= 0) {
 
@@ -121,33 +142,37 @@ export class ContentCreatorPageComponent implements OnInit {
       }
 
 
-      //if the input was not valid display a toastr message and return
+      // if the input was not valid display a toastr message and return
       if (!this.validInput()) {
          this.toastr.error('Please fill in all input fields!');
          this.isSubmitting = false;
          return;
 
-         //if the url was not a valid url display a toaster message and return
+         // if the url was not a valid url display a toaster message and return
       } else if (!this.validURL(this.url)) {
          this.toastr.error('Invalid URL. e.g. "http://example.com", "ftp://www.example.com", "http://192.168.0.0"');
          this.isSubmitting = false;
          return;
       }
 
-      //If the input was valid continue
+      // If the input was valid continue
       let save_url = this.url;
-      //create a content object with the data inputed by the user
-      let content: Content = new Content(
+      // create a content object with the data inputed by the user
+
+
+
+      const content: Content = new Content(
          null, this.title, this.selFormat,
          this.description, this.url,
-         this.getLinksFromSubjects(Object.entries(this.tree.treeModel.activeNodeIds)));
+         this.getLinksFromSubjects(this.selectedSubjects));
 
-      //call the ContentFetcherService to create a new content
+
+      // call the ContentFetcherService to create a new content
       this.cs.createNewContent(content).subscribe(
          (response) => {
             if (response != null) {
 
-               //on success, display a toastr message and reset the variables on this page
+               // on success, display a toastr message and reset the variables on this page
                this.toastr.success('Successfully sent content.');
                this.resetVariables();
                this.listURLS.push(save_url); //
@@ -160,7 +185,7 @@ export class ContentCreatorPageComponent implements OnInit {
             this.toastr.error('Failed to send content.');
             this.isSubmitting = false;
          }
-      )
+      );
 
       this.tree.treeModel.setState(this.state);
       this.tree.treeModel.update();
@@ -170,52 +195,44 @@ export class ContentCreatorPageComponent implements OnInit {
    resetVariables() {
       this.title = null;
       this.url = null;
-      this.selFormat = "Code";
+      this.selFormat = 'Code';
       this.description = null;
       this.selectedSubjects = [];
       this.isSubmitting = false;
+      this.nodes = this.ms.nodes;
+      this.tree.treeModel.update();
    }
 
 
    /**
     * Creates a new set of links from selected subject names
-    * 
-    * @param {number[]} subjects List/array of selected subjects subjects
+    *
+    * @param {number[]} subjects List/array of selected subjects
     * @returns A new set of links.
     */
-   getLinksFromSubjects(subjects: any): Link[] {
-      let links = [];
-      subjects.forEach(
-         (subject) => {
-            links.push(new Link(null, null,
-               subject[0], null));
-         }, this
-      )
+   getLinksFromSubjects(subjects: number[]): Link[] {
+      const links = [];
+      let allModules: Module[] = this.ms.allModules;
+      subjects.forEach( (subject) => {
+         allModules.forEach( (module) => {
+            if (module.id == subject) {
+               links.push(new Link(null, null, module, null));
+            }
+         })
+      }, this);
       return links;
    }
 
    /**
     * Takes in the url to check if it matches the application protocol such as http
     * See "Url Regex Filter" for more information on this implementation
-    * 
+    *
     * @param {string} url Url of content
     * @returns True if url is valid, false if not valid.
     */
    validURL(url: string): boolean {
-      let regexp: RegExp = /^((http[s]?|ftp):\/\/)(((\w+\.)?\w+\.\w{2,})|(\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}))(\/[\w-._~:/?#[\]@!$&'()*+,;=]+(\.[\w-._~:/?#[\]@!$&'()*+,;=]+)?)*(\?|\?[\w-._~:/?#[\]@!$&'()*+,;=]+=[\w-._~:/?#[\]@!$&'()*+,;=]*(&[\w-._~:/?#[\]@!$&'()*+,;=]+=[\w-._~:/?#[\]@!$&'()*+,;=]*)*)?(#[\w-._~:/?#[\]@!$&'()*+,;=]*)?\/?$/;
+      const regexp: RegExp = /^((http[s]?|ftp):\/\/)(((\w+\.)?\w+\.\w{2,})|(\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}))(\/[\w-._~:/?#[\]@!$&'()*+,;=]+(\.[\w-._~:/?#[\]@!$&'()*+,;=]+)?)*(\?|\?[\w-._~:/?#[\]@!$&'()*+,;=]+=[\w-._~:/?#[\]@!$&'()*+,;=]*(&[\w-._~:/?#[\]@!$&'()*+,;=]+=[\w-._~:/?#[\]@!$&'()*+,;=]*)*)?(#[\w-._~:/?#[\]@!$&'()*+,;=]*)?\/?$/;
       return regexp.test(url);
-   }
-
-   // Creates the view for the tree component
-   @ViewChild(TreeComponent, null)
-   public tree: TreeComponent;
-
-   // custom options for ITree that allows for nodes to be formatted like module
-   options: ITreeOptions = {
-      displayField: 'subject',
-      childrenField: 'childrenModulesObject',
-      actionMapping,
-      idField: 'id'
    }
 }
 // Allows for mutliselect within ngTree
@@ -223,4 +240,4 @@ const actionMapping: IActionMapping = {
    mouse: {
       click: TREE_ACTIONS.TOGGLE_ACTIVE_MULTI
    }
-}
+};

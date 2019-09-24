@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Module } from '../models/Module';
 import { ModuleFetcherService } from './module-fetcher.service';
-import { BehaviorSubject, Observable, from } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { ContentFetcherService } from './content-fetcher.service';
 
@@ -23,7 +23,7 @@ export class ModuleStoreService {
    /** Mapping of Subject ID to Subject Name */
    subjectIdToName: Map<number, string>;
    // Populates a collection of Root modules
-   subjectIDToRootModule: Map<number, Module>;
+   subjectIDToRootModule: Map<number, Module> = new Map<number, Module>();
    subjectRootArray: Module[] = [];
    /** all subject names in alphabetical order */
    subjectNames: string[];
@@ -37,7 +37,7 @@ export class ModuleStoreService {
    subjectIdToSortedIndex: Map<number, number>;
 
    /** All Modules being returned */
-   response: Module[];
+   allModules: Module[];
 
    /** All Modules that have no conten */
    emptyresponse: Module[] = [];
@@ -56,7 +56,7 @@ export class ModuleStoreService {
     * @param ms Service to obtain Modules from back-end
     * @param toastr
     */
-   constructor(private ms: ModuleFetcherService,
+   constructor(public ms: ModuleFetcherService,
       private cs: ContentFetcherService,
       private toastr: ToastrService) { }
 
@@ -67,7 +67,7 @@ export class ModuleStoreService {
       this.ms.getAllModules().subscribe(
          (response) => {
             if (response != null) {
-               this.response = response;
+               this.allModules = response;
             }
             else {
                // this.failedRetrieve = true;
@@ -79,16 +79,17 @@ export class ModuleStoreService {
             this.isLoading = false;
 
          }, () => {
-            this.populateCollections(this.response);
+            this.populateCollections(this.allModules);
             this.nodes = [];
-            this.subjectIDToRootModule.forEach(
-               (modules) => {
-                  this.nodes.push(modules);
-               }
-            );
+            if (this.subjectIDToRootModule) {
+               this.subjectIDToRootModule.forEach(
+                  (modules) => {
+                     this.nodes.push(modules);
+                  }
+               );
+            }
          }
-      )
-      
+      );
    }
 
    /** load Modules that have no content */
@@ -145,17 +146,18 @@ export class ModuleStoreService {
                return a.subject.toLowerCase() < b.subject.toLowerCase() ? -1 : 1;
             }
          ).forEach(
-            (module) => {
-               module.color = this.getColor(c++);
-               this.subjectNameToModule.set(module.subject, module);
-               this.subjectIdToModule.set(module.id, module);
-               this.subjectIdToName.set(module.id, module.subject);
-               this.subjectIdToSortedIndex.set(module.id, i++);
-               this.subjectNames.push(module.subject);
+            (currModule) => {
+               currModule.color = this.getColor(c++);
+               this.subjectNameToModule.set(currModule.subject, currModule);
+               this.subjectIdToModule.set(currModule.id, currModule);
+               this.subjectIdToName.set(currModule.id, currModule.subject);
+               this.subjectIdToSortedIndex.set(currModule.id, i++);
+               this.subjectNames.push(currModule.subject);
                // populates a collection of root modules
-               if (module.parentModules.length == 0) {
-                  this.subjectIDToRootModule.set(module.id, module);
-                  this.subjectRootArray.push(module);
+               
+               if (currModule.parents.length == 0) {
+                  this.subjectIDToRootModule.set(currModule.id, currModule);
+                  this.subjectRootArray.push(currModule);
                }
             }, this
          );
@@ -166,24 +168,24 @@ export class ModuleStoreService {
       this.loadingText = "Select relevant modules";
    }
 
-   // takes the array of child ids and populates an array of module objects
+
+
    populateModuleChildObjects(modules: Module[]) {
          modules.forEach(
-            (module) => {
-               module.childrenModulesObject = [];
-               if (module.childrenModules.length != 0) {
-                  module.childrenModules.forEach(
-                     (element) => {
-                        module.childrenModulesObject.push(this.subjectIdToModule.get(element));
-                     }
-                  );
-                  // recursive for each layer of children
-                  // beware memory leaks
-                  this.populateModuleChildObjects(module.childrenModulesObject);
-               }
+            (thisModule) => {
+
+               if (thisModule.children)
+               thisModule.children.forEach(element => {
+                  element.children = this.subjectIdToModule.get(element.id).children;
+               });
+
+               // recursive for each layer of children
+               // beware memory leaks
+               if (thisModule.children)
+                  this.populateModuleChildObjects(thisModule.children);
             }
          );
-   
+      
    }
 
    /**
@@ -197,5 +199,21 @@ export class ModuleStoreService {
       else {
          return "#B9B9BA";
       }
+   }
+
+   public addParents(currentModule: Module, parentModulesObject: Module[]) {
+      let parents: any = [];
+
+      currentModule.parents.forEach(parent => {
+         parents.push(parent);
+      });
+
+      parentModulesObject.forEach(parent => {
+         if (parent.id != currentModule.id)
+            parents.push(parent);
+      });
+
+      currentModule.parents = parents;
+      return currentModule;
    }
 }
