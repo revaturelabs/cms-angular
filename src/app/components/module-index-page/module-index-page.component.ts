@@ -186,4 +186,14 @@ export class ModuleIndexPageComponent implements OnInit {
             break;
       }
    }
+
+   getModules(modules: Module[]){
+      let fetchedModules : Module[] = [];
+
+      modules.forEach(thisModule => {
+         fetchedModules.push(this.ms.subjectIdToModule.get(thisModule.id));
+      });
+
+      return fetchedModules;
+   }
 }
