@@ -82,6 +82,7 @@ export class ContentFetcherService {
 
    /**
     * Method for updating the links for a content
+    * TODO: This adds a new link into the table and does not remove the existing one. Need to fix.
     * @param content
     */
    addLinkToContent(content: Content){
