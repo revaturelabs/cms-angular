@@ -74,9 +74,29 @@ export class ContentFetcherService {
     */
 
    updateContent(newContent: Content) {
+      console.log(newContent);
       let body: string = JSON.stringify(newContent);
       globalCacheBusterNotifier.next();
       return this.http.put(this.endpoints.UPDATE_CONTENT.replace('${id}', newContent.id.toString()), body, { headers: this.HEADERS });
+   }
+
+   /**
+    * Method for updating the links for a content
+    * TODO: This adds a new link into the table and does not remove the existing one. Need to fix.
+    * @param content
+    */
+   addLinkToContent(content: Content){
+      let body: string = JSON.stringify(content.links);
+      globalCacheBusterNotifier.next();
+      return this.http.put(this.endpoints.UPDATE_CONTENT_LINKS.replace('${id}', content.id.toString()), body, { headers: this.HEADERS });
+   }
+
+   /**
+    * Method for removing the links from a content
+    * @param linkId
+    */
+   removeLinkFromContent(linkId: number): Observable<HttpHeaderResponse> {
+      return this.http.delete<HttpHeaderResponse>(this.endpoints.DELETE_LINK_BY_ID.replace('${id}', linkId.toString()));
    }
 
    /**
@@ -93,7 +113,6 @@ export class ContentFetcherService {
     * Sends HTTP request to return filtered Content
     * @param filter What to filter returned content by
     */
-   @Cacheable()
    filterContent(filter: Filter): Observable<Content[]> {
       let modules: string = JSON.stringify(filter.modules);
       if (modules) {
@@ -102,8 +121,6 @@ export class ContentFetcherService {
       } else {
          modules = '';
       }
-      console.log("Modules: " + modules);
-      console.log("URL: " + this.endpoints.FILTER_CONTENT.replace('${title}',filter.title).replace('${format}', filter.format).replace('${modules}', modules))
       return this.http.get<Content[]>(this.endpoints.FILTER_CONTENT.replace('${title}',filter.title).replace('${format}', filter.format).replace('${modules}', modules), {withCredentials: true}).pipe(
          map(resp => resp as Content[])
        );

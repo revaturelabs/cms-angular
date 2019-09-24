@@ -18,6 +18,8 @@ export class EndpointsService {
    public readonly CREATE_NEW_CONTENT: string = this.baseURL + '/content';
    /** Update Content */
    public readonly UPDATE_CONTENT: string = this.baseURL + '/content/${id}';
+   /** Update Content links */
+   public readonly UPDATE_CONTENT_LINKS: string = this.baseURL + '/content/${id}/links';
    /** Get All Content Endpoint */
    public readonly GET_ALL_CONTENT: string = this.baseURL + '/content';
    /** Get Content by ID Endpoint */
@@ -63,6 +65,8 @@ export class EndpointsService {
    public readonly DELETE_REQUEST_BY_ID: string = this.baseURL + '/requests/${id}';
    /** Filter Content Endpoint */
    public readonly FILTER_REQUEST: string = this.baseURL + '/requests?title=${title}&format=${format}&modules=${modules}';
+   /** Delete link by ID */
+   public readonly DELETE_LINK_BY_ID: string = this.baseURL + '/links/${id}';
    
    /** Initialization of Endpoints */
    constructor(private http: HttpClient) { }
@@ -89,7 +93,8 @@ export class EndpointsService {
          this.GET_REQUEST_BY_ID,//15
          this.UPDATE_REQUEST_REQMODULES_BY_ID,//16
          this.DELETE_REQUEST_BY_ID,//17
-         this.FILTER_REQUEST //18
+         this.FILTER_REQUEST, //18
+         this.UPDATE_CONTENT_LINKS //19
       );
 
       return endpoints;

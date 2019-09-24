@@ -97,15 +97,14 @@
                   <br>
 
                   <!-- Maps the subject name to the proper module via the id -->
-                  <span *ngFor="let link of content.links" [attr.name]="ms.subjectIdToName.get(link.moduleId)"
-                    [style.background-color]=ms.subjectIdToModule.get(link.moduleId).color
-                    [style.font-weight]="(searchedSubjects.includes(ms.subjectIdToName.get(link.moduleId))) ? 'bold' : 'normal'"
-                    class="badge badge-primary" style="color:black; font-size: 16px" id="{{DoThis(content.id,link.id)}}-{{ms.subjectIdToName.get(link.moduleId)}}">
-                    {{ms.subjectIdToName.get(link.moduleId)}}
+                  <span *ngFor="let link of content.links" [attr.name]="ms.subjectIdToName.get(link.module.id)"
+                    [style.font-weight]="(searchedSubjects.includes(ms.subjectIdToName.get(link.module.id))) ? 'bold' : 'normal'"
+                    class="badge badge-primary" style="color:black; font-size: 16px" id="{{DoThis(content.id,link.id)}}-{{ms.subjectIdToName.get(link.module.id)}}">
+                    {{ms.subjectIdToName.get(link.module.id)}}
 
                     <span data-toggle="modal" data-target="#deleteTag" title="Remove Module"
                       (click)="selectedLinkForRemoval(content, link)" class="fas fa-trash"
-                      id="{{DoThis(content.id,link.id)}}{{'-trash'}}"></span>
+                      id="{{DoThis(content.id,link.module.id)}}{{'-trash'}}"></span>
                   </span>
                 </td>
               </tr>
