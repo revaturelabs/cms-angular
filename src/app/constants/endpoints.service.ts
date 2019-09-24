@@ -50,17 +50,17 @@ export class EndpointsService {
    //requests
    public readonly CREATE_NEW_REQUEST: string = this.baseURL + '/requests';
    /** Update Request */
-   public readonly UPDATE_REQUEST: string = this.baseURL + '/request/${id}';
+   public readonly UPDATE_REQUEST: string = this.baseURL + '/requests/${id}';
    /** Get All Request Endpoint */
-   public readonly GET_ALL_REQUEST: string = this.baseURL + '/request';
+   public readonly GET_ALL_REQUEST: string = this.baseURL + '/requests';
    /** Get Request by ID Endpoint */
-   public readonly GET_REQUEST_BY_ID: string = this.baseURL + '/request/${id}';
+   public readonly GET_REQUEST_BY_ID: string = this.baseURL + '/requests/${id}';
    /** Update Request Endpoint */
-   public readonly UPDATE_REQUEST_BY_ID: string = this.baseURL + '/request/${id}';
+   public readonly UPDATE_REQUEST_BY_ID: string = this.baseURL + '/requests/${id}';
    /** Unused */
-   public readonly UPDATE_REQUEST_REQMODULES_BY_ID: string = this.baseURL + '/request/${id}/modules';
+   public readonly UPDATE_REQUEST_REQMODULES_BY_ID: string = this.baseURL + '/requests/${id}/modules';
    /** Delete Request Endpoint */
-   public readonly DELETE_REQUEST_BY_ID: string = this.baseURL + '/request/${id}';
+   public readonly DELETE_REQUEST_BY_ID: string = this.baseURL + '/requests/${id}';
    /** Filter Content Endpoint */
    public readonly FILTER_REQUEST: string = this.baseURL + '/request?title=${title}&format=${format}&modules=${modules}';
    /** Delete link by ID */
