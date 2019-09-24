@@ -142,10 +142,10 @@
                             </form>
                         </div>
     
-                        <!-- Needs explenation for recursion -->
-                        <ul *ngIf="module.childrenModulesObject.length > 0">
-                            <ng-container
-                                *ngTemplateOutlet="recursiveList; context:{ $implicit: module.childrenModulesObject }">
+                        <!-- Needs explenation for recursion   -->
+                        <ul *ngIf="!isModuleDisplayed(module.child)">
+                            <ng-container 
+                                *ngTemplateOutlet="recursiveList; context:{ $implicit: module.child }">
                             </ng-container>
                         </ul>
                     </div>

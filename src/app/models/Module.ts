@@ -15,9 +15,9 @@ export class Module {
    reqLinks: ReqLink[] = [];
    /** Display background color in HEX */
    color: string;
-   // Array containing the IDs of parent modules
+   // Array containing the parent modules
    parents: Module[];
-   // Array containing the IDs of child modules
+   // Array containing the child modules
    children: Module[];
 
    /**

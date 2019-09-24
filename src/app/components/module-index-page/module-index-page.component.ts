@@ -6,7 +6,6 @@ import { ContentFetcherService } from 'src/app/services/content-fetcher.service'
 import { Content } from 'src/app/models/Content';
 import { Filter } from 'src/app/models/Filter';
 import { ToastrService } from 'ngx-toastr';
-import { PagesService } from 'src/app/services/pages.service';
 import { globalCacheBusterNotifier } from 'ngx-cacheable';
 
 /** Typescript Component for Module Index Page */
@@ -44,7 +43,7 @@ export class ModuleIndexPageComponent implements OnInit {
    /** Create nodes to load child modules as objects */
    nodes: any[] = this.ms.nodes;
 
-   
+   displayModule: Map<Module, boolean> = new Map<Module, boolean>();
 
    /**
     * Constructor for Module Index Component
@@ -55,13 +54,14 @@ export class ModuleIndexPageComponent implements OnInit {
       public cs: ContentFetcherService,
       public ms: ModuleStoreService,
       private toastr: ToastrService,
-      private mfs: ModuleFetcherService,
-      private pageService: PagesService
+      private mfs: ModuleFetcherService
    ) { }
 
    /** On page initialization load the modules to list on the dropdown menu */
    ngOnInit() {
+      
       this.ms.loadModules();
+      console.log(this.ms.allModules);
    }
 
    ngDoCheck() {
@@ -80,7 +80,6 @@ export class ModuleIndexPageComponent implements OnInit {
          let filter: Filter = new Filter(
             null, null, [module.id]
          );
-         console.log(filter);
          this.cs.filterContent(filter).subscribe(
             (response) => {
                if (response != null) {
@@ -88,9 +87,6 @@ export class ModuleIndexPageComponent implements OnInit {
                } else {
                   this.toastr.error('Response was null');
                }
-            },
-            (response) => {
-               this.toastr.error('Failed to request contents');
             },
             () => {
                this.contentVisible.set(module, true);
@@ -171,7 +167,6 @@ export class ModuleIndexPageComponent implements OnInit {
       this.selModule = module;
    }
 
-
    removeModule() {
       /**
        * Below is used to refresh this component when a module has been removed
@@ -186,4 +181,5 @@ export class ModuleIndexPageComponent implements OnInit {
             break;
       }
    }
+
 }
