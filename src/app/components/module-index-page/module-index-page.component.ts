@@ -6,7 +6,6 @@ import { ContentFetcherService } from 'src/app/services/content-fetcher.service'
 import { Content } from 'src/app/models/Content';
 import { Filter } from 'src/app/models/Filter';
 import { ToastrService } from 'ngx-toastr';
-import { PagesService } from 'src/app/services/pages.service';
 import { globalCacheBusterNotifier } from 'ngx-cacheable';
 
 /** Typescript Component for Module Index Page */
@@ -44,8 +43,6 @@ export class ModuleIndexPageComponent implements OnInit {
    /** Create nodes to load child modules as objects */
    nodes: any[] = this.ms.nodes;
 
-   
-
    /**
     * Constructor for Module Index Component
     * @param cs Fetches content
@@ -55,8 +52,7 @@ export class ModuleIndexPageComponent implements OnInit {
       public cs: ContentFetcherService,
       public ms: ModuleStoreService,
       private toastr: ToastrService,
-      private mfs: ModuleFetcherService,
-      private pageService: PagesService
+      private mfs: ModuleFetcherService
    ) { }
 
    /** On page initialization load the modules to list on the dropdown menu */
@@ -80,7 +76,6 @@ export class ModuleIndexPageComponent implements OnInit {
          let filter: Filter = new Filter(
             null, null, [module.id]
          );
-         console.log(filter);
          this.cs.filterContent(filter).subscribe(
             (response) => {
                if (response != null) {
@@ -89,7 +84,7 @@ export class ModuleIndexPageComponent implements OnInit {
                   this.toastr.error('Response was null');
                }
             },
-            (response) => {
+            (response) =>{
                this.toastr.error('Failed to request contents');
             },
             () => {
@@ -170,7 +165,6 @@ export class ModuleIndexPageComponent implements OnInit {
    selectedModuleForRemoval(module: Module) {
       this.selModule = module;
    }
-
 
    removeModule() {
       /**

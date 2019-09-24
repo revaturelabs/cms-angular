@@ -11,6 +11,7 @@ import { ModuleCreatorPageComponent } from './module-creator-page.component';
 import { By } from "@angular/platform-browser";
 import { ComponentRef } from '@angular/core';
 import { TreeModule} from 'angular-tree-component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('ModuleCreatorPageComponent', () => {
   let component: ModuleCreatorPageComponent;
@@ -26,7 +27,8 @@ describe('ModuleCreatorPageComponent', () => {
         MatProgressSpinnerModule,
         HttpClientTestingModule,
         ToastrModule.forRoot(),
-        TreeModule.forRoot()
+        TreeModule.forRoot(),
+        RouterTestingModule
       ]
     }).compileComponents();
   }));
