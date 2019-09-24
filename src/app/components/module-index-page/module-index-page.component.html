@@ -39,8 +39,10 @@
             </ng-container>
 
             <ng-template #recursiveList let-list>
+
                 <div *ngFor="let module of list" name="modules" id="{{module.id}}" class="tag-bubble"
                     style="margin-bottom: 5px" [style.background-color]=module.color>
+
 
                     <!-- 
                     With the creation of bubbles, these are clickable, so simply assigning an 
@@ -138,10 +140,10 @@
                         </form>
                     </div>
 
-                    <!-- Needs explenation for recursion -->
+                    <!-- We are going through the children -->
                     <ul *ngIf="module.children.length > 0">
-                        <ng-container
-                            *ngTemplateOutlet="recursiveList; context:{ $implicit: module.children }">
+
+                        <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: getModules(module.children) }">
                         </ng-container>
                     </ul>
                 </div>
