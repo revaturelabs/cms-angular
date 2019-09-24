@@ -98,7 +98,7 @@
 
                   <!-- Maps the subject name to the proper module via the id -->
                   <span *ngFor="let link of content.links" [attr.name]="ms.subjectIdToName.get(link.moduleId)"
-                    [style.background-color]=ms.subjectIdToModule.get(link.moduleId).color
+                    
                     [style.font-weight]="(searchedSubjects.includes(ms.subjectIdToName.get(link.moduleId))) ? 'bold' : 'normal'"
                     class="badge badge-primary" style="color:black; font-size: 16px" id="{{DoThis(content.id,link.id)}}-{{ms.subjectIdToName.get(link.moduleId)}}">
                     {{ms.subjectIdToName.get(link.moduleId)}}

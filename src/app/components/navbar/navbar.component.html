@@ -1,11 +1,11 @@
-<!-- 
-   This navbar will be present throughout the application for use of navigation across
-   the website. It consists of a CMF Force logo button which routes to 'Content Creator'
-   , a true 'Content Creator' router, 'Content Finder' router, 'Module Creator' router,
-   'Module Index' router, and a 'Reports' router. The routes for all of these are defined
-   in the app-routing module and the nav bar is made present everywhere through the 
-   app.component.html
- -->
+<!--
+  This navbar will be present throughout the application for use of navigation across
+  the website. It consists of a CMF Force logo button which routes to 'Content Creator'
+  , a true 'Content Creator' router, 'Content Finder' router, 'Module Creator' router,
+  'Module Index' router, and a 'Reports' router. The routes for all of these are defined
+  in the app-routing module and the nav bar is made present everywhere through the
+  app.component.html
+-->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
    <a class="navbar-brand" style="margin-right:25px" routerLink="/home">CMS Force</a>
    <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -14,32 +14,27 @@
       aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
    </button>
-
    <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
          <li class="nav-item" style="margin-right:25px">
-            <a class="nav-link" id= "contentcreator" routerLink="/content-creator">Content Creator<span
+            <a class="nav-link" id= "contentcreator" routerLink="/content-creator" [routerLinkActive]="['is-active']">Content Creator<span
                   class="sr-only">(current)</span></a>
          </li>
-
          <li class="nav-item" style="margin-right:25px">
-            <a class="nav-link" id="contentfinder" routerLink="/finder">Content Finder</a>
+            <a class="nav-link" id="contentfinder" routerLink="/finder" [routerLinkActive]="['is-active']">Content Finder</a>
          </li>
-
          <li class="nav-item" style="margin-right:25px">
-            <a class="nav-link" id='modulecreator' routerLink="/module-creator">Module Creator</a>
+            <a class="nav-link" id='modulecreator' routerLink="/module-creator" [routerLinkActive]="['is-active']">Module Creator</a>
          </li>
-
          <li class="nav-item" style="margin-right:25px">
-               <a class="nav-link" id="moduleindex" routerLink="/module-index">Module Index</a>
+               <a class="nav-link" id="moduleindex" routerLink="/module-index" [routerLinkActive]="['is-active']">Module Index</a>
             </li>
-
          <li class="nav-item" style="margin-right:25px">
-            <a class="nav-link" id="reportspage" routerLink="/reports">Reports</a>
+            <a class="nav-link" id="reportspage" routerLink="/reports" [routerLinkActive]="['is-active']">Reports</a>
          </li>
 	 
 	 <li class="nav-item" style="margin-right:25px">
-	    <a class="nav-link" id="submitrequests" routerLink="/submit-request">Submit Requests</a>
+	    <a class="nav-link" id="submitrequests" routerLink="/submit-request" [routerLinkActive]="['is-active']">Submit Requests</a>
 	 </li>
 
       </ul>
