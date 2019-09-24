@@ -30,6 +30,14 @@
     top: -50px;
 }
 
-h3 {
+h3,
+h2 {
     text-align: center;
+}
+
+#toggle {
+    background-color: darkgray;
+    border: darkgray;
+    font-weight: bolder;
+    font-size: x-large;
 }
