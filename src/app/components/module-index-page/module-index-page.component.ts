@@ -43,8 +43,6 @@ export class ModuleIndexPageComponent implements OnInit {
    /** Create nodes to load child modules as objects */
    nodes: any[] = this.ms.nodes;
 
-   displayModule: Map<Module, boolean> = new Map<Module, boolean>();
-
    /**
     * Constructor for Module Index Component
     * @param cs Fetches content
@@ -85,6 +83,9 @@ export class ModuleIndexPageComponent implements OnInit {
                } else {
                   this.toastr.error('Response was null');
                }
+            },
+            (response) =>{
+               this.toastr.error('Failed to request contents');
             },
             () => {
                this.contentVisible.set(module, true);
