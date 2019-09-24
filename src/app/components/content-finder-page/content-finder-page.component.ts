@@ -129,13 +129,18 @@ export class ContentFinderPageComponent implements OnInit {
          query = query.substring(query.indexOf('&') + 1);
          //retrieve the modules param
          let modules = query.substring(query.indexOf('=') + 1);
+         console.log("Modules: "+modules.length);
          //convert modules string into an array of numbers
          let moduleIds = modules.split(',');
-         let moduleIdNumbers: number[] = new Array;
-         for (let i=0; i<moduleIds.length; i++) {
-            moduleIdNumbers.push(parseInt(moduleIds[i]))
+         let moduleIdNumbers: number[] = new Array();
+        
+         if (0 !== modules.length) {
+            for (let i=0; i<moduleIds.length; i++) {
+               console.log(moduleIds[i])
+               moduleIdNumbers.push(parseInt(moduleIds[i]))
+            }
          }
-
+         
          //populate a filter object with the params we just extracted
          let filter: Filter = new Filter(
             title, format, moduleIdNumbers
@@ -241,6 +246,7 @@ export class ContentFinderPageComponent implements OnInit {
     * @param response
     */
    parseContentResponse(response: Content[]) {
+      console.log(response);
       this.isSearching = false;
       /* Sorts contents by their id */
       this.contents = response.sort(
@@ -320,13 +326,9 @@ export class ContentFinderPageComponent implements OnInit {
     * Description - This method deletes a link between a content and a module
     */
    removeTag() {
-      let found = this.selCon.links.findIndex(l => this.selLink.id === l.id);
-      this.selCon.links.splice(found, 1);
-      this.cs.updateContent(this.selCon).subscribe(
-         data => {
-         this.updateTags();
-         }
-      );
+      this.cs.removeLinkFromContent(this.selLink.id).subscribe( () => {
+            this.submit();
+      });
    }
 
    /**
@@ -372,15 +374,15 @@ export class ContentFinderPageComponent implements OnInit {
       if (this.selectedTags.length > 0) {
          this.selectedTags.forEach(
             (subject) => {
-               links.push(new Link(null, this.selCon, this.ms.subjectNameToModule.get(subject), null));
+               links.push(new Link(null, new Content(this.selCon.id,'','','','',[]), this.ms.subjectNameToModule.get(subject), null));
             }, this
          )
-         for (let l of links) {
-            this.selCon.links.push(l);
-         }
-
+         this.selCon.links = links;
          this.cs.updateContent(this.selCon).subscribe((response: Content) => {
-            this.selCon.links = response.links;
+            console.log(response);
+         });
+         this.cs.addLinkToContent(this.selCon).subscribe((response: Link[]) => {
+            this.selCon.links = response;
          });
       }
 
