@@ -189,7 +189,6 @@ export class ModuleIndexPageComponent implements OnInit {
 
    getModules(modules: Module[]){
       let fetchedModules : Module[] = [];
-      console.log(modules);
 
       modules.forEach(thisModule => {
          fetchedModules.push(this.ms.subjectIdToModule.get(thisModule.id));

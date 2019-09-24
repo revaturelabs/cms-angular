@@ -143,7 +143,6 @@
                     <!-- We are going through the children -->
                     <ul *ngIf="module.children.length > 0">
 
-                        <!-- {{getModule(child) | json}} -->
                         <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: getModules(module.children) }">
                         </ng-container>
                     </ul>
