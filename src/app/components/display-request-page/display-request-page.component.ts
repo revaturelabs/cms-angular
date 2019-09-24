@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { RequestFetcherService } from 'src/app/services/request-fetcher.service';
 import { Request } from 'src/app/models/Request';
+import { Router } from '@angular/router';
+import { SessionStorageService } from 'angular-web-storage';
 import {RequestLink} from '../../models/RequestLink';
 import {NgForm} from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
@@ -42,6 +44,8 @@ export class DisplayRequestPageComponent implements OnInit {
   public isSearching = false;
 
   constructor(
+      public session: SessionStorageService,
+      private router: Router,
       public rs: RequestFetcherService,
       public ms: ModuleStoreService,
       public location: Location,
@@ -81,6 +85,14 @@ submit() {
   this.searchedSubjects = this.selectedSubjects;
   this.sendSearch(filter);
 }
+
+  //
+  editRequest($event: any) {
+    const id: number = $event.target.value;
+    console.log(id);
+    this.session.set('request', JSON.stringify(id));
+    this.router.navigate(['resolve-request']);
+  }
 
 updateURL(filter: Filter) {
   let url = window.location.href;
