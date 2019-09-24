@@ -11,4 +11,18 @@ export class ReqLink {
     module: Module = null;
     /** Unused */
     affiliation: string = "relaventTo";
+
+    /**
+    * Constructor for creating a new request link
+    * @param id 
+    * @param request 
+    * @param module 
+    * @param affiliation 
+    */
+   constructor(id: number, request: Request, module: Module, affiliation: string) {
+      if (null != id) this.id = id;
+      if (null != request) this.request = request;
+      if (null != module) this.module = module;
+      if (null != affiliation) this.affiliation = affiliation;
+   }
  }

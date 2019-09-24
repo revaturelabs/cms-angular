@@ -17,8 +17,8 @@ export class Module {
    color: string;
    // Array containing the parent modules
    parents: Module[];
-   // Array containing the child modules
-   children: Module[];
+   // Array containing the IDs of child modules
+   children: Module[] = [];
 
    /**
     * Create a new Module to describe and sort Content
