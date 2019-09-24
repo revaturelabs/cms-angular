@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Module } from '../models/Module';
 import { ModuleFetcherService } from './module-fetcher.service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { ContentFetcherService } from './content-fetcher.service';
 
-/** 
+/**
  * ModuleStoreService provides a method to load all Modules and houses
  * collections of Module-related data for direct access.
  */
@@ -32,7 +32,7 @@ export class ModuleStoreService {
     * subject id => index of subject's name in
     * alphabetical order name array.
     * Can be used for module Name string comparison using
-    * only module ID 
+    * only module ID
     */
    subjectIdToSortedIndex: Map<number, number>;
 
@@ -61,15 +61,17 @@ export class ModuleStoreService {
       private toastr: ToastrService) { }
 
    /** load Modules once from backend on program start */
-   loadModules() {
+   async loadModules(): Promise<Module[]> {
       this.isLoading = true;
+
       this.loadingText = "Loading modules...";
-      this.ms.getAllModules().subscribe(
+      // Returning promise with newly loaded modules
+      return new Promise((resolve) => {this.ms.getAllModules().subscribe(
          (response) => {
             if (response != null) {
+
                this.allModules = response;
-            }
-            else {
+            } else {
                // this.failedRetrieve = true;
                this.toastr.error('failed to retrieve modules');
                this.isLoading = false;
@@ -79,6 +81,7 @@ export class ModuleStoreService {
             this.isLoading = false;
 
          }, () => {
+
             this.populateCollections(this.allModules);
             this.nodes = [];
             if (this.subjectIDToRootModule) {
@@ -88,9 +91,11 @@ export class ModuleStoreService {
                   }
                );
             }
+            resolve(this.nodes);
          }
       );
-   }
+   });
+}
 
    /** load Modules that have no content */
    loadEmptyModules() {
@@ -124,13 +129,12 @@ export class ModuleStoreService {
 
    /**
     * fills collections defined using all available module info for quick,
-    * easy access to subject names, id, and alphabetical ordering 
+    * easy access to subject names, id, and alphabetical ordering
     * @param modules
     */
    populateCollections(modules: Module[]) {
       let i = 0;
       let c = 0;
-
       if (modules.length > 0) {
          this.subjectNameToModule = new Map<string, Module>();
          this.subjectIdToModule = new Map<number, Module>();
@@ -139,7 +143,7 @@ export class ModuleStoreService {
          this.subjectIDToRootModule = new Map<number, Module>();
          this.subjectNames = [];
          this.subjectRootArray = [];
-         // this.subjectIDtoData = new Map<Number, 
+         // this.subjectIDtoData = new Map<Number,
 
          modules.sort(
             (a, b) => {
@@ -154,7 +158,7 @@ export class ModuleStoreService {
                this.subjectIdToSortedIndex.set(currModule.id, i++);
                this.subjectNames.push(currModule.subject);
                // populates a collection of root modules
-               
+
                if (currModule.parents.length == 0) {
                   this.subjectIDToRootModule.set(currModule.id, currModule);
                   this.subjectRootArray.push(currModule);
@@ -185,7 +189,7 @@ export class ModuleStoreService {
                   this.populateModuleChildObjects(thisModule.children);
             }
          );
-      
+
    }
 
    /**
