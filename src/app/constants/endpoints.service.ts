@@ -93,7 +93,8 @@ export class EndpointsService {
          this.GET_REQUEST_BY_ID,//15
          this.UPDATE_REQUEST_REQMODULES_BY_ID,//16
          this.DELETE_REQUEST_BY_ID,//17
-         this.FILTER_REQUEST //18
+         this.FILTER_REQUEST, //18
+         this.UPDATE_CONTENT_LINKS //19
       );
 
       return endpoints;
