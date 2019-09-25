@@ -37,7 +37,6 @@ export class ModuleFetcherService {
    /**
     * Sends HTTP request to return all Modules
     */
-   @Cacheable()
    getAllModules(): Observable<Module[]> {
       return this.http.get(this.endpoints.GET_ALL_MODULES).pipe(map(resp => resp as Module[]));
    }
