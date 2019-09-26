@@ -54,7 +54,7 @@ export class ModuleCreatorPageComponent implements OnInit {
    }
 
    ngDoCheck() {
-      if (this.nodes.length == 0) {
+      if (this.nodes.length === 0) {
          this.nodes = this.ms.nodes;
          this.tree.treeModel.update();
          this.tree.sizeChanged();
@@ -130,10 +130,12 @@ export class ModuleCreatorPageComponent implements OnInit {
          (response) => {
             if (response != null) {
                this.toastr.success('Successfully sent module.');
-            }
-
-            else
+               this.ms.loadModules().then( (list) => {
+                  this.nodes = list;
+               });
+            } else {
                this.toastr.error('There was a problem creating a subject');
+            }
             this.isSubmitting = false;
          },
 
@@ -142,13 +144,9 @@ export class ModuleCreatorPageComponent implements OnInit {
             this.toastr.error('Failed to create subject. Subject may already exist.');
             this.isSubmitting = false;
          },
-
          // Lastly, reset field.
          () => this.resetVariables()
-      )
-     
-      this.router.navigate(['module-creator']);
-      
+      );
    }
 
    /**
