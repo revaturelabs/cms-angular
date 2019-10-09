@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Module } from '../models/Module';
+import { Link } from '../models/Link';
 import { ModuleFetcherService } from './module-fetcher.service';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { ContentFetcherService } from './content-fetcher.service';
+import { UtilService } from './util.service';
 
 /**
  * ModuleStoreService provides a method to load all Modules and houses
@@ -58,7 +60,8 @@ export class ModuleStoreService {
     */
    constructor(public ms: ModuleFetcherService,
       private cs: ContentFetcherService,
-      private toastr: ToastrService) { }
+      private toastr: ToastrService,
+      public util: UtilService) { }
 
    /** load Modules once from backend on program start */
    async loadModules(): Promise<Module[]> {
@@ -91,11 +94,30 @@ export class ModuleStoreService {
                   }
                );
             }
+            this.nodes.sort(this.util.sortModulesById);
+            for (let module of this.nodes) {
+
+                for (let i = 0 ; i < module.links.length ; i++) {
+
+                    module.links[i].priority = i;
+                }
+            }
             resolve(this.nodes);
-         }
-      );
-   });
-}
+            }
+         );
+      });
+   }
+
+   addLinkToNodes(link: Link) {
+
+      if (link == null) {
+
+         return;
+      }
+
+
+      this.nodes[this.util.findModuleIdxById(link.module.id, this.nodes)].links.add(link);
+   }
 
    /** load Modules that have no content */
    loadEmptyModules() {
