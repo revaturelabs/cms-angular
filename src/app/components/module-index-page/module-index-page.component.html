@@ -43,9 +43,9 @@
                         as well as a delete button. 
                     -->
 
-                    <div (click)="listContent(module, moduleIdx)" name="module">
+                    <div (click)="listContent(module)" name="module">
                         <!-- Flag behaves purely as an indicator, which if module.links is empty = flag -->
-                        <span class="fas fa-flag" *ngIf="checkFlag(module)" title="No Content"></span>
+                        <span class="fas fa-flag" *ngIf="module.links.length === 0" title="No Content"></span>
                         <a class="lead"><font size="+2">&nbsp;{{module.subject}}</font></a>
 
                         <!-- 
@@ -71,7 +71,7 @@
                             These are all represented through a table, similar to what is found on the Content
                             Finder page. 
                         -->
-                    <div *ngIf="activeModuleIdx === moduleIdx">
+                    <div *ngIf="contentVisible.get(module)">
                         <!-- Start of form to show dynamic table. -->
 
                         <div class="row">
@@ -80,15 +80,15 @@
                                     <ul class="list-group list-group-flush">
 
                                         <li class="list-group-item lead text-dark" *ngFor="let link of module.links | contentOrder: module : 1; let i = index"
-                                            [attr.id]="'row' + link.content.id" (click)="setActiveContent(i)" [ngClass]="{'active': activeContentIdx === i}"
-                                            draggable="true" (dragend)="dragIdx = -1" (dragstart)="onDragStart($event, i)" (dragover)="onDragOver($event)"
-                                            (drop)="onDrop($event, i, moduleIdx)">
+                                            [attr.id]="'row' + link.content.id" (click)="setActiveContent(module, i)" [ngClass]="{'active': contentActive.get(module) === i}"
+                                            draggable="true" (dragstart)="onDragStart($event, i)" (dragover)="onDragOver($event)"
+                                            (drop)="onDrop($event, i, module)">
 
                                             <div>
                                                 {{link.content.title}}
                                                 <a class="float-right">
                                                     <em title="Remove from module "
-                                                        (click)="selectedLinkForRemoval(link.content, module)"
+                                                        (click)="selectedLinkForRemoval(link, module)"
                                                         class="fas fa-trash" data-toggle="modal"
                                                         data-target="#deleteContent"
                                                         title="Remove Content from Module">
@@ -105,9 +105,9 @@
 
                                 <div class="info-header">
 
-                                    <p class="p-0 m-0">ID: {{nodes[moduleIdx].links[activeContentIdx].content.id}}</p>
-                                    <p class="p-0 m-0">Format: {{nodes[moduleIdx].links[activeContentIdx].content.format}}</p>
-                                    <p>URL: <a style="margin-top: 10px" target="_blank" href="{{nodes[moduleIdx].links[activeContentIdx].content.url}}">{{nodes[moduleIdx].links[activeContentIdx].content.url}}</a></p>
+                                    <p class="p-0 m-0">ID: {{module.links[contentActive.get(module)].content.id}}</p>
+                                    <p class="p-0 m-0">Format: {{module.links[contentActive.get(module)].content.format}}</p>
+                                    <p>URL: <a style="margin-top: 10px" target="_blank" href="{{module.links[contentActive.get(module)].content.url}}">{{module.links[contentActive.get(module)].content.url}}</a></p>
 
                                     <hr />
 
@@ -117,7 +117,7 @@
                                     <form>
                                         <div class="form-group">
                                             <label for="info-description-body">Description</label>
-                                            <textarea class="form-control disabled" id="info-description-body" rows="7" disabled>{{nodes[moduleIdx].links[activeContentIdx].content.description}}</textarea>
+                                            <textarea class="form-control disabled" id="info-description-body" rows="7" disabled>{{module.links[contentActive.get(module)].content.description}}</textarea>
                                         </div>
                                     </form>
                                 </div>
@@ -129,6 +129,7 @@
                         <ng-container
                             *ngTemplateOutlet="recursiveList; context:{ $implicit: getModules(module.children) }">
                         </ng-container>
+
                     </ul>
                 </div>
             </ng-template>
@@ -149,8 +150,8 @@
                     <h4 class="modal-title">Removing Content</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <div class="modal-body">
-                    <h6>Are you sure you want to remove {{selCon.title}} from {{selModule.subject}}?</h6>
+                <div *ngIf="selLink && selModule" class="modal-body">
+                    <h6>Are you sure you want to remove {{selLink.content.title}} from {{selModule.subject}}?</h6>
                     <h6><small>This content will not be deleted, only removed for {{selModule.subject}}.</small></h6>
                     <div class="row btn mb-3">
 
@@ -180,7 +181,7 @@
                     <h4 class="modal-title">Deleting Module</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <div class="modal-body">
+                <div *ngIf="selModule" class="modal-body">
                     <h6>Are you sure you want to delete the {{selModule.subject}} module?</h6>
                     <div class="row btn mb-3">
                         <form>

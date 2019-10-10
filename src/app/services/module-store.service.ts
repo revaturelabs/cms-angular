@@ -117,7 +117,7 @@ export class ModuleStoreService {
       }
 
 
-      this.nodes[this.util.findModuleIdxById(link.module.id, this.nodes)].links.add(link);
+      this.nodes[this.util.findModuleIdxById(link.module.id, this.nodes)].links.push(link);
    }
 
    /** load Modules that have no content */

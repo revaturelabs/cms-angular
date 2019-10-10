@@ -8,8 +8,7 @@ import { Filter } from 'src/app/models/Filter';
 import { ToastrService } from 'ngx-toastr';
 import { globalCacheBusterNotifier } from 'ngx-cacheable';
 import { UtilService } from '../../services/util.service';
-
-// TODO
+import { Link } from '../../models/Link';
 
 /** Typescript Component for Module Index Page */
 @Component({
@@ -17,44 +16,31 @@ import { UtilService } from '../../services/util.service';
     templateUrl: './module-index-page.component.html',
     styleUrls: ['./module-index-page.component.css']
 })
+
 export class ModuleIndexPageComponent implements OnInit {
 
     /** Map of Visibility status of each Module */
     contentVisible: Map<Module, boolean> = new Map<Module, boolean>();
 
-    /** Map of Modules to their list of related Content.
-     * Loaded when user clicks on Module (lazy load) */
-    moduleContents: Map<Module, Content[]> = new Map<Module, Content[]>();
+    /** Map of Active Link index for a given module */
+    contentActive: Map<Module, number> = new Map<Module, number>();
 
-    /**
-     * Variable that will reference selected content for removal. Pre-initialized as it would 
-     * cause errors upon loading the component.
-     */
-    //Note that this needs defualt values so the bindings {{ }} in html will work on page load
-    selCon: Content = new Content(0, "", "", "", "", []);
+    /** Variable that will reference selected Link for removal. */
+    selLink: Link;
 
-    /**
-     * Variable that will reference the module of the selected content for removal. 
-     * Pre-initialized as it would cause errors upon loading the component.
-     */
-    //Note that this needs defualt values so the bindings {{ }} in html will work on page load
-    selModule: Module = new Module(0, "", 0, [], null, null, null);
+    /** Variable that will reference the module of the selected content for removal. */
+    selModule: Module;
 
     /** Used to display a spinner when modules are loading.*/
     isLoading: boolean = false;
 
-    /** Create nodes to load child modules as objects */
-    nodes: Module[] = this.ms.nodes;
-
-    activeContentIdx: number = -1;
-    activeModuleIdx: number = -1;
-    dragIdx: number = -1;
-
-
     /**
-     * Constructor for Module Index Component
-     * @param cs Fetches content
-     * @param ms Fetches tags
+        * Constructor for Module Index Component
+        * @param cs - Fetches content
+        * @param ms - Fetches tags
+        * @param toastr - ???
+        * @param mfs - Used to display stored nodes
+        * @param util - Sorts and Searches
      */
     constructor(
         public cs: ContentFetcherService,
@@ -66,29 +52,15 @@ export class ModuleIndexPageComponent implements OnInit {
 
     /** On page initialization load the modules to list on the dropdown menu */
     ngOnInit() {
+
         this.ms.loadModules();
     }
 
-    ngDoCheck() {
-        if (this.nodes.length == 0) {
-            this.nodes = this.ms.nodes;
-            console.log('dsadsa')
-
-            for (let module of this.nodes) {
-
-                for (let i = 0 ; i < module.links.length ; i++) {
-
-                    module.links[i].priority = i;
-                }
-            }
-        }
-    }
-
     /**
-     * Lists the available content for module input
-     * @param {Module} module
-     */
-    listContent(module: Module, moduleIdx: number) {
+        * Lists the available content for module input
+        * @param {Module} module
+    */
+    listContent(module: Module) {
 
         console.log(this.ms.nodes);
 
@@ -97,110 +69,50 @@ export class ModuleIndexPageComponent implements OnInit {
             module.links[i].priority = i;
         }
 
-        this.activeContentIdx = 0;
-        this.activeModuleIdx = moduleIdx;
-
-        /*
-        if (this.moduleContents.get(module) == null) {
-
-            this.contentVisible.set(module, false);
-            
-            let filter: Filter = new Filter(
-                null, null, [module.id]
-            );
-
-            this.cs.filterContent(filter).subscribe(
-                (response) => {
-                    if (response != null) {
-                        this.parseContentResponse(response, module);
-                    } else {
-                        this.toastr.error('Response was null');
-                    }
-                },
-                (response) =>{
-                    this.toastr.error('Failed to request contents');
-                },
-                () => {
-                    this.contentVisible.set(module, true);
-                }
-            );
-        } else {
-            this.contentVisible.set(module, !this.contentVisible.get(module));
-        } */
-
         this.contentVisible.set(module, !this.contentVisible.get(module));
+        this.contentActive.set(module, module.links.length == 0 ? -1 : this.contentActive.get(module) == null ? 0 : this.contentActive.get(module));
     }
 
     /**
-     * Sort the content list order by title
-     * Insert into Module->List<Content> Map
-     * @param response Available content
-     * @param module Modules for content
-     */
-    parseContentResponse(response: Content[], module: Module) {
-
-        let sortedResponse = response.sort(
-            (a, b) => { return a.title < b.title ? -1 : 1 }
-        );
-
-        this.moduleContents.set(module, sortedResponse);
-    }
-
-    /**
-     * Description - removes the content from the specified module. It will also send a request to decouple the link between content and module.
-     * @param content - the content being removed
-     * @param module - the module the content is being removed from
-     */
+        * Send a request to remove the link between the selected Link and Module
+        * If the response is a success, then we will delete the module link locally
+    */
     removeContentFromModuleIndex() {
+
         globalCacheBusterNotifier.next();
-        console.log(this.selCon);
-        //let found = this.selCon.links.findIndex(l => this.selModule.id === l.module.id);
-        //this.selCon.links.splice(found, 1);
-        this.nodes[this.activeModuleIdx].links.splice(this.activeContentIdx, 1);
 
-        //let foundContent = this.moduleContents.get(this.selModule).findIndex(l => this.selCon.id === l.id);
-        //this.moduleContents.get(this.selModule).splice(foundContent, 1);
+        this.cs.removeLinkFromContent(this.selLink.id).subscribe(
 
-        this.mfs.createOrUpdateModule(this.nodes[this.activeModuleIdx]).subscribe(
+            (resp) => this.selModule.links.splice(this.contentActive.get(this.selModule), 1)
+
         );
     }
     /**
-     * Description - assigns the content and the module that the content resides into variables for this component to utilize.
-     * @param content - the selected content
-     * @param module - the module the selected content resides in
-     */
-    selectedLinkForRemoval(content: Content, module: Module) {
-        console.log(content);
-        this.selCon = content;
+        * Assigns the link and module that will be used for link removal
+        * @param link - the selected link
+        * @param module - the module the selected link resides in
+    */
+    selectedLinkForRemoval(link: Link, module: Module) {
+
+        this.selLink = link;
         this.selModule = module;
     }
 
-    /** 
-        This method checks whether the flag should be displayed for the current module.
-        @param module - the module that is selected.
-    */
-    checkFlag(module: Module) {
-        if (module.links.length === 0) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
     /**
-     * 
-     * @param module 
-     */
+        * Assigns the module that will be used for module removal
+        * @param module 
+    */
     selectedModuleForRemoval(module: Module) {
         this.selModule = module;
     }
 
+    /**
+        * Sends a request to delete the module selected
+    */
     removeModule() {
-        /**
-         * Below is used to refresh this component when a module has been removed
-         */
-        var selMethod = (<HTMLInputElement>document.getElementById("Seldelmethod")).value;
+
+        const selMethod = (<HTMLInputElement>document.getElementById("Seldelmethod")).value;
+
         switch (selMethod) {
             case '1': this.mfs.deleteModuleByID(this.selModule.id).subscribe(() => this.ms.loadModules());
                 break;
@@ -211,6 +123,10 @@ export class ModuleIndexPageComponent implements OnInit {
         }
     }
 
+    /**
+        * No one documented this before so I have absolutely no clue what it does
+        * Seems important, so I won't mess with it
+    */
     getModules(modules: Module[]){
 
         let fetchedModules : Module[] = [];
@@ -222,22 +138,51 @@ export class ModuleIndexPageComponent implements OnInit {
         return fetchedModules;
     }
 
-    setActiveContent(idx: number) {
-        this.activeContentIdx = idx;
+    /**
+        * Bound to a onClick event regarding a particular Link
+        * Maps the index of the link within the module to the module
+        * Used to display active CSS class
+        * @param module - key to the map
+        * @param idx    - value to the map
+    */
+    setActiveContent(module: Module, idx: number) {
+
+        this.contentActive.set(module, idx);
     }
 
+    /**
+        * Bound to the onDragStart event regarding a particular link
+        * Binds the index of the selected element to the event
+        * @param event   - The DragEvent associated with the action
+        * @param baseIdx - The index of the selected element 
+    */
     onDragStart(event: DragEvent, baseIdx: number): void {
 
         event.dataTransfer.setData('baseIdx', JSON.stringify(baseIdx));
-        this.dragIdx = baseIdx;
     }
 
+    /**
+        * Bound to the onDragOver event regarding a particular link
+        * Simply overwrite the default event and allows the Drop operation
+        * @param event - THe DragEvent associated with the action
+    */
     onDragOver(event: DragEvent): void {
 
         event.preventDefault();
     }
 
-    onDrop(event: DragEvent, targetIdx: number, moduleIdx: number): void {
+    /**
+        * Bound to the onDrop event regarding a particular link
+        * The logic that blocks the code from proceeding is here since the DragEvent here is identical to the one from onDragStart
+        * Calculates the offset - Amount of values that need to be modified
+        * This method assumes that the values of priority are normalized: e.g. priority is 0-10 with no outliers
+        * Sorted prior to action and after. Can remove the post sort if performance is deemed too slow
+        * Algorithm at the moment is a simple top vs bottom half of algorithm for determining offset
+        * @param event     - The DragEvent assoiated with a particular action
+        * @param targetIdx - The index of the link that the drag ended on
+        * @param module    - The module that contains all of the links
+    */
+    onDrop(event: DragEvent, targetIdx: number, module: Module): void {
 
         event.preventDefault();
 
@@ -249,29 +194,26 @@ export class ModuleIndexPageComponent implements OnInit {
             return;
         }
 
-        this.ms.nodes[moduleIdx].links.sort(this.util.sortLinksByPriority);
-        this.ms.nodes[moduleIdx].links[baseIdx].priority = targetIdx;
+        module.links.sort(this.util.sortLinksByPriority);
+        module.links[baseIdx].priority = targetIdx;
 
         if (targetIdx < baseIdx) {
 
             for (let i = targetIdx ; i < baseIdx ; i++) {
 
-                this.ms.nodes[moduleIdx].links[i].priority++;
-                console.log(this.ms.nodes[moduleIdx].links[i])
+                module.links[i].priority++;
             }
 
         } else {
 
             for (let i = baseIdx + 1 ; i <= targetIdx ; i++) {
 
-                this.ms.nodes[moduleIdx].links[i].priority--;
-                console.log(this.ms.nodes[moduleIdx].links[i])
+                module.links[i].priority--;
             }
         }
 
-        this.ms.nodes[moduleIdx].links.sort(this.util.sortLinksByPriority);
+        module.links.sort(this.util.sortLinksByPriority);
 
-        this.activeContentIdx = targetIdx;
-
+        this.contentActive.set(module, targetIdx);
     }
 }
