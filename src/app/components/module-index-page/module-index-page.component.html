@@ -32,7 +32,7 @@
             </ng-container>
 
             <ng-template #recursiveList let-list>
-                <div *ngFor="let module of list" name="modules" id="{{module.id}}" class="tag-bubble"
+                <div *ngFor="let module of list; let moduleIdx = index" name="modules" id="{{module.id}}" class="tag-bubble"
                     style="margin-bottom: 5px">
 
                     <!-- 
@@ -43,19 +43,19 @@
                         as well as a delete button. 
                     -->
 
-                    <div (click)="listContent(module)" name="module">
+                    <div (click)="listContent(module, moduleIdx)" name="module">
                         <!-- Flag behaves purely as an indicator, which if module.links is empty = flag -->
                         <span class="fas fa-flag" *ngIf="checkFlag(module)" title="No Content"></span>
-                        {{module.subject}}
+                        <a class="lead"><font size="+2">&nbsp;{{module.subject}}</font></a>
 
                         <!-- 
                                 This trash icon indicates a remove module button. This works off of logic 
                                 defined in both the .ts file and java using the selectedLinkForRemoval() 
                                 function.
                             -->
-                        <span data-toggle="modal" data-target="#deleteModule" title="Delete Module"
-                            style="float: right;" (click)="selectedModuleForRemoval(module)"
-                            class="fas fa-trash"></span>
+                        <a data-toggle="modal" data-target="#deleteModule" title="Delete Module"
+                            style="float: right; padding:6px;" (click)="selectedModuleForRemoval(module)"
+                            class="fas fa-trash"></a>
                     </div>
 
                     <!-- 
@@ -71,69 +71,58 @@
                             These are all represented through a table, similar to what is found on the Content
                             Finder page. 
                         -->
-                    <div *ngIf="contentVisible.get(module)">
+                    <div *ngIf="activeModuleIdx === moduleIdx">
                         <!-- Start of form to show dynamic table. -->
-                        <form>
-                            <div class="form-row mb-5">
-                                <div class="table-responsive">
-                                    <!-- Table start -->
-                                    <table style="width: 99%; margin: 0px auto" class="table table-striped">
-                                        <!-- Creation of table headers -->
-                                        <thead>
-                                            <tr>
-                                                <th scope="col"></th>
-                                                <th scope="col">Content ID</th>
-                                                <th scope="col">Title</th>
-                                                <th scope="col">Format</th>
-                                                <!-- <th scope="col">Description</th> -->
-                                                <th scope="col">URL</th>
-                                            </tr>
-                                        </thead>
-                                        <!-- 
-                                                Here lies the data of each content to each associated module. To do this,
-                                                an *ngFor directive is utilized which takes each content in 
-                                                moduleContents.get(module) and displayes the data in each by using String
-                                                Interpolation {{}}.
-                                            -->
-                                        <tbody *ngFor="let content of moduleContents.get(module)"
-                                            [attr.id]="'row' + content.id">
-                                            <tr>
-                                                <!-- 
-                                                        The first data to exist for row in a table is a Remove Content button. 
-                                                        This works in the same way the remove button works in the content finder
-                                                        page. Using .ts logic and a Spring JDBC backend, one can delete the 
-                                                        content from the database, and hence the fron-end. When this button is 
-                                                        clicked, a data-target is used to call upon the deleteContent div using 
-                                                        data-target="#deleteContent", where deleteContent is a modal used to 
-                                                        create a pop up that asks for delete confirmation. 
-                                                        
-                                                        This is further explained below. 
-                                                    -->
-                                                <td name="trash">
+
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="content-container">
+                                    <ul class="list-group list-group-flush">
+
+                                        <li class="list-group-item lead text-dark" *ngFor="let link of module.links | contentOrder: module : 1; let i = index"
+                                            [attr.id]="'row' + link.content.id" (click)="setActiveContent(i)" [ngClass]="{'active': activeContentIdx === i}"
+                                            draggable="true" (dragend)="dragIdx = -1" (dragstart)="onDragStart($event, i)" (dragover)="onDragOver($event)"
+                                            (drop)="onDrop($event, i, moduleIdx)">
+
+                                            <div>
+                                                {{link.content.title}}
+                                                <a class="float-right">
                                                     <em title="Remove from module "
-                                                        (click)="selectedLinkForRemoval(content, module)"
+                                                        (click)="selectedLinkForRemoval(link.content, module)"
                                                         class="fas fa-trash" data-toggle="modal"
                                                         data-target="#deleteContent"
-                                                        title="Remove Content from Module"></em>
-                                                </td>
-                                                <td name="contentId">{{content.id}}</td>
-                                                <td name="title">{{content.title}}</td>
-                                                <td name="format">{{content.format}}</td>
-                                                <!-- <td name="description">{{content.description}}</td> -->
-                                                <td name="url"><a target="_blank"
-                                                        href="{{content.url}}">{{content.url}}</a>
-                                                </td>
-                                            </tr>
+                                                        title="Remove Content from Module">
+                                                    </em>
+                                                </a>
+                                            </div>
+                                        </li>
 
-                                            <tr>
-                                                <td name="description" colspan="5"><b>Description:
-                                                    </b>{{content.description}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    </ul>
                                 </div>
                             </div>
-                        </form>
+
+                            <div class="col-8 content-container">
+
+                                <div class="info-header">
+
+                                    <p class="p-0 m-0">ID: {{nodes[moduleIdx].links[activeContentIdx].content.id}}</p>
+                                    <p class="p-0 m-0">Format: {{nodes[moduleIdx].links[activeContentIdx].content.format}}</p>
+                                    <p>URL: <a style="margin-top: 10px" target="_blank" href="{{nodes[moduleIdx].links[activeContentIdx].content.url}}">{{nodes[moduleIdx].links[activeContentIdx].content.url}}</a></p>
+
+                                    <hr />
+
+                                </div>
+
+                                <div class="info-description">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="info-description-body">Description</label>
+                                            <textarea class="form-control disabled" id="info-description-body" rows="7" disabled>{{nodes[moduleIdx].links[activeContentIdx].content.description}}</textarea>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <ul *ngIf="module.children.length > 0">
 
