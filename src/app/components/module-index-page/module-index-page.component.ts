@@ -22,8 +22,13 @@ export class ModuleIndexPageComponent implements OnInit {
     /** Map of Visibility status of each Module */
     contentVisible: Map<Module, boolean> = new Map<Module, boolean>();
 
+    childrenVisible: Map<Module, boolean> = new Map<Module, boolean>();
+
     /** Map of Active Link index for a given module */
     contentActive: Map<Module, number> = new Map<Module, number>();
+
+    /** Map of Active Child index for a given module */
+    childActive: Map<Module, number> = new Map<Module, number>();
 
     /** Variable that will reference selected Link for removal. */
     selLink: Link;
@@ -33,6 +38,8 @@ export class ModuleIndexPageComponent implements OnInit {
 
     /** Used to display a spinner when modules are loading.*/
     isLoading: boolean = false;
+
+    activeModule: Module;
 
     /**
         * Constructor for Module Index Component
@@ -70,7 +77,16 @@ export class ModuleIndexPageComponent implements OnInit {
         }
 
         this.contentVisible.set(module, !this.contentVisible.get(module));
+        this.childrenVisible.set(module, false);
         this.contentActive.set(module, module.links.length == 0 ? -1 : this.contentActive.get(module) == null ? 0 : this.contentActive.get(module));
+    }
+
+    listChildren(module: Module) {
+
+        this.childrenVisible.set(module, !this.childrenVisible.get(module));
+        this.contentVisible.set(module, false);
+        this.childActive.set(module, 0);
+        this.activeModule = this.ms.subjectIdToModule.get(module.children[0].id);
     }
 
     /**
@@ -83,8 +99,11 @@ export class ModuleIndexPageComponent implements OnInit {
 
         this.cs.removeLinkFromContent(this.selLink.id).subscribe(
 
-            (resp) => this.selModule.links.splice(this.contentActive.get(this.selModule), 1)
+            (resp) => {
 
+                this.selModule.links.splice(this.contentActive.get(this.selModule), 1);
+                this.contentActive.set(this.selModule, this.selModule.links.length == 0 ? -1 : 0);
+            }
         );
     }
     /**
@@ -127,15 +146,18 @@ export class ModuleIndexPageComponent implements OnInit {
         * No one documented this before so I have absolutely no clue what it does
         * Seems important, so I won't mess with it
     */
-    getModules(modules: Module[]){
+    getChildModule(module: Module){
+        
+        const ret: Module = this.ms.subjectIdToModule.get(module.children[this.childActive.get(module)].id);
 
-        let fetchedModules : Module[] = [];
+        if (ret.links.length != 0 && this.contentActive.get(ret) == null) {
 
-        modules.forEach(thisModule => {
-            fetchedModules.push(this.ms.subjectIdToModule.get(thisModule.id));
-        });
+            this.contentActive.set(ret, 0);
+        }
 
-        return fetchedModules;
+        this.contentVisible.set(ret, true);
+
+        return ret;
     }
 
     /**
@@ -148,6 +170,14 @@ export class ModuleIndexPageComponent implements OnInit {
     setActiveContent(module: Module, idx: number) {
 
         this.contentActive.set(module, idx);
+    }
+
+    setActiveChild(module: Module, idx: number) {
+
+        this.childActive.set(module, idx);
+        this.childActive.set(this.ms.subjectIdToModule.get(module.children[idx].id), -1);
+
+        this.activeModule = this.ms.subjectIdToModule.get(module.children[idx].id);
     }
 
     /**

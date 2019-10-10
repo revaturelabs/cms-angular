@@ -7,107 +7,117 @@
     float: none; 
     margin-top: 20px;
 
-  }
+}
 
-  .card:hover {
+.card:hover {
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-  }
+}
 
-  .container {
+.container {
     padding: 2px 16px;
     margin-top: 70px;
-  }
+}
 
-  .grid-description {
+.grid-description {
     grid-column: 1 / -1;
-  }
+}
 
 #content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  top: -50px;
-  }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    top: -50px;
+}
 
-  .logo {
+.logo {
     height: auto;
     width: 10%;
-  }
+}
 
-  .btn-radio {
+.btn-radio {
     display: flex;
     align-items: center;
     justify-content: center;
-  }
+}
 
-  input[type="radio"] {
+input[type="radio"] {
     margin-right: -15px;
-  }
+}
 
-  .btn {
+.btn {
     display: flex;
     align-items: center;
     justify-content: center;
-  }
+}
 
-  td.tag-bubble-cell {
+td.tag-bubble-cell {
     line-height: 2;
-  }
+}
 
-  .tag-bubble {
+.tag-bubble {
     padding: 2px;
     margin: 1px;
     background-color: #F6F8FA;
-    border: 1px solid #DEE2E6;
-  }
+}
 
-  .fa-trash:hover{
+.parent {
+
+    border: 1px solid #DEE2E6;
+}
+
+.fa-trash:hover{
     cursor: pointer;
     color: gray !important;
-  }
+}
 
-  .fa-flag {
+.fa-flag {
     color: rgb(190,0,0);
-  }
+}
 
-  .fa-flag:hover {
+.fa-flag:hover {
     color: orange;
-  }
+}
 
-  a {
+a {
     color: rgb(3, 0, 192);
     cursor: pointer;
-  }
+}
 
-  .vl {
+.vl {
     border-left: 2px solid black;
     height: 100%;
     
-  }
+}
 
-  .module-title{
+.module-title{
     padding-bottom: 6px;
-  }
+}
 
 .content-container {
 
-  border: 1px solid #DEE2E6;
-  min-height: 400px;
-  max-height: 400px;
-  overflow-y: auto;
-  margin: 20px;
-  background-color: white;
+    border: 1px solid #DEE2E6;
+    min-height: 400px;
+    max-height: 400px;
+    overflow-y: auto;
+    margin: 20px;
+    background-color: white;
 }
 
 .list-group-item.active {
 
-  background-color: #F1F1F1;
-  border-color: #DFDFDF;
+    background-color: #F1F1F1;
+    border-color: #DFDFDF;
 }
 
 textarea.disabled {
 
-  resize: none;
-  background-color: #F6F8Fa!important;
+    resize: none;
+    background-color: #F6F8Fa!important;
+}
+
+.icon {
+
+    padding-left: 10px;
+    padding-right: 10px;
 }
