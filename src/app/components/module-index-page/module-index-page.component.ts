@@ -1,195 +1,320 @@
 import { Component, OnInit, ComponentFactoryResolver} from '@angular/core';
-import { Module } from 'src/app/models/Module';
-import { ModuleStoreService } from 'src/app/services/module-store.service';
-import { ModuleFetcherService } from 'src/app/services/module-fetcher.service';
-import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
-import { Content } from 'src/app/models/Content';
-import { Filter } from 'src/app/models/Filter';
 import { ToastrService } from 'ngx-toastr';
 import { globalCacheBusterNotifier } from 'ngx-cacheable';
 
-// TODO
+import { ModuleStoreService } from 'src/app/services/module-store.service';
+import { ModuleFetcherService } from 'src/app/services/module-fetcher.service';
+import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
+import { UtilService } from '../../services/util.service';
+
+import { Link } from '../../models/Link';
+import { Module } from 'src/app/models/Module';
+import { Content } from 'src/app/models/Content';
+import { Filter } from 'src/app/models/Filter';
 
 /** Typescript Component for Module Index Page */
 @Component({
-   selector: 'app-module-index-page',
-   templateUrl: './module-index-page.component.html',
-   styleUrls: ['./module-index-page.component.css']
+    selector: 'app-module-index-page',
+    templateUrl: './module-index-page.component.html',
+    styleUrls: ['./module-index-page.component.css']
 })
+
 export class ModuleIndexPageComponent implements OnInit {
 
-   /** Map of Visibility status of each Module */
-   contentVisible: Map<Module, boolean> = new Map<Module, boolean>();
+    /** Map of Visibility status of each Module */
+    contentVisible: Map<Module, boolean> = new Map<Module, boolean>();
 
-   /** Map of Modules to their list of related Content.
-    * Loaded when user clicks on Module (lazy load) */
-   moduleContents: Map<Module, Content[]> = new Map<Module, Content[]>();
+    /**
+     * Map of children visibility status of a Module
+     * You can probably combine this with the above map
+     * into a number map to determine what should be displayed
+     */
+    childrenVisible: Map<Module, boolean> = new Map<Module, boolean>();
 
-   /**
-    * Variable that will reference selected content for removal. Pre-initialized as it would 
-    * cause errors upon loading the component.
-    */
-   //Note that this needs defualt values so the bindings {{ }} in html will work on page load
-   selCon: Content = new Content(0, "", "", "", "", []);
+    /** Map of Active Link index for a given module */
+    contentActive: Map<Module, number> = new Map<Module, number>();
 
-   /**
-    * Variable that will reference the module of the selected content for removal. 
-    * Pre-initialized as it would cause errors upon loading the component.
-    */
-   //Note that this needs defualt values so the bindings {{ }} in html will work on page load
-   selModule: Module = new Module(0, "", 0, [], null, null, null);
+    /** Map of Active Child index for a given module */
+    childActive: Map<Module, number> = new Map<Module, number>();
 
-   /** Used to display a spinner when modules are loading.*/
-   isLoading: boolean = false;
+    /** Variable that will reference selected Link for removal. */
+    selLink: Link;
 
-   /** Create nodes to load child modules as objects */
-   nodes: any[] = this.ms.nodes;
+    /** Variable that will reference the module of the selected content for removal. */
+    selModule: Module;
 
-   /**
-    * Constructor for Module Index Component
-    * @param cs Fetches content
-    * @param ms Fetches tags
-    */
-   constructor(
-      public cs: ContentFetcherService,
-      public ms: ModuleStoreService,
-      private toastr: ToastrService,
-      private mfs: ModuleFetcherService
-   ) { }
+    /** Used to display a spinner when modules are loading. */
+    isLoading = false;
 
-   /** On page initialization load the modules to list on the dropdown menu */
-   ngOnInit() {
-      this.ms.loadModules();
-   }
+    /** Used to display module information for not first generation modules */
+    activeModule: Module;
 
-   ngDoCheck() {
-      if (this.nodes.length == 0) {
-         this.nodes = this.ms.nodes;
-      }
-   }
+    /**
+     * Constructor for Module Index Component
+     * @param cs - Fetches content
+     * @param ms - Fetches tags
+     * @param toastr - ???
+     * @param mfs - Used to display stored nodes
+     * @param util - Sorts and Searches
+     */
+    constructor(
+        public cs: ContentFetcherService,
+        public ms: ModuleStoreService,
+        private toastr: ToastrService,
+        private mfs: ModuleFetcherService,
+        private util: UtilService
+    ) { }
 
-   /**
-    * Lists the available content for module input
-    * @param {Module} module
-    */
-   listContent(module: Module) {
-      if (null == this.moduleContents.get(module)) {
-         this.contentVisible.set(module, false);
-         let filter: Filter = new Filter(
-            null, null, [module.id]
-         );
-         this.cs.filterContent(filter).subscribe(
-            (response) => {
-               if (response != null) {
-                  this.parseContentResponse(response, module);
-               } else {
-                  this.toastr.error('Response was null');
-               }
-            },
-            (response) =>{
-               this.toastr.error('Failed to request contents');
-            },
-            () => {
-               this.contentVisible.set(module, true);
+    /** On page initialization load the modules to list on the dropdown menu */
+    ngOnInit() {
+
+        this.ms.loadModules();
+    }
+
+    /**
+     * Lists the available content for module input
+     * @param module - module to expand
+     */
+    listContent(module: Module) {
+
+        this.contentVisible.set(module, !this.contentVisible.get(module));
+        this.childrenVisible.set(module, false);
+
+        this.contentActive.set(
+            module,
+            module.links.length === 0 ? -1 :
+            this.contentActive.get(module) === undefined ? 0 : this.contentActive.get(module)
+        );
+
+        this.normalizePriority(module);
+    }
+
+    /**
+     * Lists the content for module input or complete closes the node
+     * @param module - Module to check for expansion
+     * @param event  - Used to filter out double requests since this is a parent element event
+     */
+    listOrCloseContent(module: Module, event) {
+
+        if (event) {
+
+            const target = event.target || event.srcElement || event.currentTarget;
+            const idAttr: string = target.attributes.id && (target.attributes.id.nodeValue || '');
+
+            if (idAttr && !idAttr.includes('mat-expansion-panel')) {
+
+                return;
             }
-         );
-      } else {
-         this.contentVisible.set(module, !this.contentVisible.get(module));
-      }
-   }
+        }
 
-   /**
-    * Sort the content list order by title
-    * Insert into Module->List<Content> Map
-    * @param response Available content
-    * @param module Modules for content
-    */
-   parseContentResponse(response: Content[], module: Module) {
+        console.log(event);
 
-      let sortedResponse = response.sort(
-         (a, b) => { return a.title < b.title ? -1 : 1 }
-      );
+        if (this.contentVisible.get(module) || this.childrenVisible.get(module)) {
 
-      this.moduleContents.set(module, sortedResponse);
-   }
+            this.contentVisible.set(module, false);
+            this.childrenVisible.set(module, false);
+            return;
+        }
 
-   /**
-    * Description - removes the content from the specified module. It will also send a request to decouple the link between content and module.
-    * @param content - the content being removed
-    * @param module - the module the content is being removed from
-    */
-   removeContentFromModuleIndex() {
-      globalCacheBusterNotifier.next();
-      let found = this.selCon.links.findIndex(l => this.selModule.id === l.module.id);
-      this.selCon.links.splice(found, 1);
+        this.listContent(module);
+    }
 
-      let foundContent = this.moduleContents.get(this.selModule).findIndex(l => this.selCon.id === l.id);
-      this.moduleContents.get(this.selModule).splice(foundContent, 1);
+    /**
+     * Expands the children display option for the Node
+     * @param module - Module to expand
+     */
+    listChildren(module: Module) {
 
-      this.cs.updateContent(this.selCon).subscribe(
-         /**
-          * Below is used to refresh this component when content has been removed from a module
-          */
-         data => {
-            if (data != null) {
-               this.ngOnInit();
+        this.childrenVisible.set(module, !this.childrenVisible.get(module));
+        this.contentVisible.set(module, false);
+        this.setActiveChild(module, 0);
+        this.normalizePriority(this.activeModule);
+    }
+
+    /**
+     * Send a request to remove the link between the selected Link and Module
+     * If the response is a success, then we will delete the module link locally
+     */
+    removeContentFromModuleIndex() {
+
+        globalCacheBusterNotifier.next();
+
+        this.cs.removeLinkFromContent(this.selLink.id).subscribe(
+
+            (resp) => {
+
+                this.selModule.links.splice(this.contentActive.get(this.selModule), 1);
+                this.contentActive.set(this.selModule, this.selModule.links.length === 0 ? -1 : 0);
             }
-         }
-      );
-   }
-   /**
-    * Description - assigns the content and the module that the content resides into variables for this component to utilize.
-    * @param content - the selected content
-    * @param module - the module the selected content resides in
-    */
-   selectedLinkForRemoval(content: Content, module: Module) {
-      this.selCon = content;
-      this.selModule = module;
-   }
+        );
+    }
+    /**
+     * Assigns the link and module that will be used for link removal
+     * @param link - the selected link
+     * @param module - the module the selected link resides in
+     */
+    selectedLinkForRemoval(link: Link, module: Module) {
 
-   /** 
-      This method checks whether the flag should be displayed for the current module.
-      @param module - the module that is selected.
-   */
-   checkFlag(module: Module) {
-      if (module.links.length === 0) {
-         return true;
-      }
-      else {
-         return false;
-      }
-   }
+        this.selLink = link;
+        this.selModule = module;
+    }
 
-   /**
-    * 
-    * @param module 
-    */
-   selectedModuleForRemoval(module: Module) {
-      this.selModule = module;
-   }
+    /**
+     * Assigns the module that will be used for module removal
+     * @param module - module that will be writen as selected
+     */
+    selectedModuleForRemoval(module: Module) {
+        this.selModule = module;
+    }
 
-   removeModule() {
-      /**
-       * Below is used to refresh this component when a module has been removed
-       */
-      var selMethod = (<HTMLInputElement>document.getElementById("Seldelmethod")).value;
-      switch (selMethod) {
-         case '1': this.mfs.deleteModuleByID(this.selModule.id).subscribe(() => this.ms.loadModules());
-            break;
-         case '2': this.mfs.deleteModuleWithSpecificContent(this.selModule.id).subscribe(() => this.ms.loadModules());
-            break;
-         case '3': this.mfs.deleteModuleWithContent(this.selModule.id).subscribe(() => this.ms.loadModules());
-            break;
-      }
-   }
+    /**
+     * Sends a request to delete the module selected
+     */
+    removeModule() {
 
-   getModules(modules: Module[]){
-      let fetchedModules : Module[] = [];
+        const selMethod = (document.getElementById('Seldelmethod') as HTMLInputElement).value;
 
-      modules.forEach(thisModule => {
-         fetchedModules.push(this.ms.subjectIdToModule.get(thisModule.id));
-      });
+        switch (selMethod) {
 
-      return fetchedModules;
-   }
+            case '1':
+                this.mfs.deleteModuleByID(this.selModule.id).subscribe(() => this.ms.loadModules());
+                break;
+            case '2':
+                this.mfs.deleteModuleWithSpecificContent(this.selModule.id).subscribe(() => this.ms.loadModules());
+                break;
+            case '3':
+                this.mfs.deleteModuleWithContent(this.selModule.id).subscribe(() => this.ms.loadModules());
+                break;
+        }
+    }
+
+    /**
+     * The ms.nodes variable doesn't actually contain all of the information about the nodes
+     * Rather, it only contains full information about the first generation ancestor nodes
+     * As such, this function is required - or atleast the service map - to access child nodes
+     * @param module - The parent module. Will get the current active child and get the corresponding module
+     */
+    getChildModule(module: Module) {
+
+        const ret: Module = this.ms.subjectIdToModule.get(module.children[this.childActive.get(module)].id);
+
+        if (ret.links.length !== 0 && this.contentActive.get(ret) === undefined) {
+
+            this.contentActive.set(ret, 0);
+        }
+
+        this.contentVisible.set(ret, true);
+
+        return ret;
+    }
+
+    /**
+     * Bound to a onClick event regarding a particular Link
+     * Maps the index of the link within the module to the module
+     * Used to display active CSS class
+     * @param module - key to the map
+     * @param idx    - value to the map
+     */
+    setActiveContent(module: Module, idx: number) {
+
+        this.contentActive.set(module, idx);
+    }
+
+    /**
+     * Maps the index of the child module to the parent
+     * Used to display information
+     * @param module  - key to the map
+     * @param idx     - value to the map
+     */
+    setActiveChild(module: Module, idx: number) {
+
+        this.childActive.set(module, idx);
+        this.childActive.set(this.ms.subjectIdToModule.get(module.children[idx].id), -1);
+        this.activeModule = this.ms.subjectIdToModule.get(module.children[idx].id);
+
+        this.normalizePriority(this.activeModule);
+    }
+
+    /**
+     * For the Angular Material Lists
+     * Takes the event and shifts module priority
+     * @param event  - The event containing starting and ending index
+     * @param module - The module that contains the links to be shifted 
+     */
+    onDrop(event, module: Module): void {
+
+        const targetIdx: number = event.currentIndex
+        const baseIdx: number = event.previousIndex;
+
+        module.links.sort(this.util.sortLinksByPriority);
+        module.links[baseIdx].priority = targetIdx;
+
+        if (targetIdx < baseIdx) {
+
+            for (let i = targetIdx ; i < baseIdx ; i++) {
+
+                module.links[i].priority++;
+            }
+
+        } else {
+
+            for (let i = baseIdx + 1 ; i <= targetIdx ; i++) {
+
+                module.links[i].priority--;
+            }
+        }
+
+        module.links.sort(this.util.sortLinksByPriority);
+
+        this.contentActive.set(module, targetIdx);
+    }
+
+    /**
+     * For the Angular Material Lists
+     * Discretely moves the content by a discrete index value depending on which button was pressed
+     * Just incase the user doesn't want to use drag and drop
+     * @param module - The module to shift the links in
+     * @param shift - Number of spaces to shift the module. Always either -1 or 1
+     */
+    shiftLinkPriority(module: Module, shift: number): void {
+
+        if (module.links.length === 0) {
+
+            return;
+        }
+
+        const numLinks = module.links.length;
+        const curIdx = this.contentActive.get(module);
+
+        if (curIdx + shift >= numLinks || curIdx + shift <= -1) {
+
+            return;
+        }
+
+        module.links[curIdx].priority = curIdx + shift;
+        module.links[curIdx + shift].priority = curIdx;
+
+        module.links.sort(this.util.sortLinksByPriority);
+        this.contentActive.set(module, curIdx + shift);
+
+    }
+
+    /**
+     * Noramalizes the priority of each link in a module
+     * The resulting link priorities is a smooth list from 0 to n
+     * First sort the list then normalize
+     * @param module - Module whos links we wish to sort
+     */
+    normalizePriority(module: Module): void {
+
+        module.links.sort(this.util.sortLinksByPriority);
+
+        for (let i = 0 ; i < module.links.length ; i++) {
+
+            if (module.links[i].priority !== i) {
+
+                module.links[i].priority = i;
+            }
+        }
+    }
 }

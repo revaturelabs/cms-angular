@@ -76,8 +76,6 @@ export class ModuleFetcherService {
       let body: string = JSON.stringify(module);
       globalCacheBusterNotifier.next();
 
-      console.log(body);
-
       if (module.id <= 0)
          return this.http.post<HttpHeaderResponse>(this.endpoints.CREATE_NEW_MODULE, body, { headers: this.HEADERS });
       

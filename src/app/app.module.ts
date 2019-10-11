@@ -26,6 +26,15 @@ import { DisplayRequestPageComponent } from './components/display-request-page/d
 import { ResolveRequestPageComponent } from './components/resolve-request-page/resolve-request-page.component';
 import {ModuleStoreService} from './services/module-store.service';
 import { SubmitRequestPageComponent } from './components/submit-request-page/submit-request-page.component';
+import { ContentOrderPipe } from './pipes/content-order.pipe';
+import { ContentFilterPipe } from './pipes/content-filter.pipe';
+
+/** Angular Material Modules */
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatCardModule } from '@angular/material/card';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTabsModule } from '@angular/material/tabs';
 
 /** @ignore */
 @NgModule({
@@ -40,7 +49,9 @@ import { SubmitRequestPageComponent } from './components/submit-request-page/sub
       ReportsTimeGraphComponent,
       DisplayRequestPageComponent,
       ResolveRequestPageComponent,
-      SubmitRequestPageComponent
+      SubmitRequestPageComponent,
+      ContentOrderPipe,
+      ContentFilterPipe
    ],
    imports: [
       BrowserModule,
@@ -57,6 +68,11 @@ import { SubmitRequestPageComponent } from './components/submit-request-page/sub
       TreeModule.forRoot(),
       BrowserModule,
       AngularWebStorageModule,
+      DragDropModule,
+      MatCardModule,
+      MatExpansionModule,
+      MatFormFieldModule,
+      MatTabsModule
    ],
    providers: [
       GlobalReports,

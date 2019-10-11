@@ -166,6 +166,8 @@ export class ContentCreatorPageComponent implements OnInit {
          this.description, this.url,
          this.getLinksFromSubjects(this.selectedSubjects));
 
+      console.log(content);
+
 
       // call the ContentFetcherService to create a new content
       this.cs.createNewContent(content).subscribe(
@@ -176,6 +178,7 @@ export class ContentCreatorPageComponent implements OnInit {
                this.toastr.success('Successfully sent content.');
                this.resetVariables();
                this.listURLS.push(save_url); //
+               this.ms.addLinkToNodes(content.links[0]);
             } else {
                this.toastr.error('Response was null.');
                this.isSubmitting = false;
