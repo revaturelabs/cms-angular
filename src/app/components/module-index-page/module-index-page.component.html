@@ -97,7 +97,7 @@
                                             [ngClass]="{'active': contentActive.get(module) === i}" (click)="setActiveContent(module, i)">
                                             <em style="width:20px;" class="fa" [ngClass]="{'fa-file-code-o': link.content.format === 'Code', 'fa-file-text-o': link.content.format === 'Document', 'fa-file-powerpoint-o': link.content.format === 'Powerpoint'}"></em>
 
-                                            &nbsp; - {{link.priority + 1}} - {{link.content.title}}
+                                            &nbsp; {{link.content.title}}
 
                                             <a class="float-right">
                                                 <em title="Remove from module "
@@ -127,7 +127,7 @@
 
                             <div class="col-6 content-container">
 
-                                <div class="info-header">
+                                <div class="info-header mt-1">
 
                                     <p *ngIf="contentActive.get(module) != null && contentActive.get(module) != -1" class="p-0 m-0">ID: {{module.links[contentActive.get(module)].content.id}}</p>
                                     <p *ngIf="contentActive.get(module) != null && contentActive.get(module) != -1" class="p-0 m-0">Format: {{module.links[contentActive.get(module)].content.format}}</p>
@@ -295,7 +295,7 @@
 
                                                 <em style="width:20px;" class="fa" [ngClass]="{'fa-file-code-o': link.content.format === 'Code', 'fa-file-text-o': link.content.format === 'Document', 'fa-file-powerpoint-o': link.content.format === 'Powerpoint'}"></em>
 
-                                                &nbsp; - {{link.priority + 1}} - {{link.content.title}}
+                                                &nbsp;{{link.content.title}}
 
                                                 <a class="float-right">
                                                     <em title="Remove from module "
@@ -321,9 +321,9 @@
 
                                 <!-- Information of current Module -->
 
-                                <div class="col-6 content-container">
+                                <div class="col-6 content-container mt-0">
 
-                                    <div class="info-header">
+                                    <div class="info-header mt-1">
 
                                         <p *ngIf="contentActive.get(activeModule) != null && contentActive.get(activeModule) != -1" class="p-0 m-0">ID: {{activeModule.links[contentActive.get(activeModule)].content.id}}</p>
                                         <p *ngIf="contentActive.get(activeModule) != null && contentActive.get(activeModule) != -1" class="p-0 m-0">Format: {{activeModule.links[contentActive.get(activeModule)].content.format}}</p>
