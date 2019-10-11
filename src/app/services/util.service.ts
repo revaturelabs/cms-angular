@@ -40,12 +40,23 @@ export class UtilService {
         }
     }
 
-    findLinkIdxByModuleId(id: number, links: Link[]): number{
+    findLinkByLinkId(id: number, links: Link[]): Link {
+
+        for (const link of links) {
+
+            if (link.id === id) {
+
+                return link;
+            }
+        }
+    }
+
+    findLinkIdxByModuleId(id: number, links: Link[]): number {
 
         return this.findLinkIdxByModuleIdHelper(id, 0, links.length - 1, links);
     }
 
-    findLinkIdxByModuleIdHelper(id: number, min: number, max: number, links: Link[]): number{
+    findLinkIdxByModuleIdHelper(id: number, min: number, max: number, links: Link[]): number {
 
         const idx = Math.floor((max + min) / 2);
 
@@ -65,6 +76,34 @@ export class UtilService {
         } else {
 
             return this.findLinkIdxByModuleIdHelper(id, idx + 1, max, links);
+        }
+    }
+
+    findModuleById(id: number, modules: Module[]): Module {
+
+        return this.findModuleByIdHelper(id, 0, modules.length - 1, modules);
+    }
+
+    findModuleByIdHelper(id: number, min: number, max: number, modules: Module[]): Module {
+
+        const idx = Math.floor((max + min) / 2);
+
+        if (min > max) {
+
+            return null;
+        }
+
+        if (modules[idx].id === id) {
+
+            return modules[idx];
+
+        } else if (modules[idx].id > id) {
+
+            return this.findModuleByIdHelper(id, min, idx - 1, modules);
+
+        } else {
+
+            return this.findModuleByIdHelper(id, idx + 1, max, modules);
         }
     }
 
@@ -96,7 +135,7 @@ export class UtilService {
         }
     }
 
-    sortLinksByModuleId(l1: Link, l2: Link): number{
+    sortLinksByModuleId(l1: Link, l2: Link): number {
 
         if (l1.module.id > l2.module.id) {
 

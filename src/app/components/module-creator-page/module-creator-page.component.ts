@@ -178,7 +178,6 @@ export class ModuleCreatorPageComponent implements OnInit {
       subjects.forEach( (subject) => {
          if (subject[1])
             modules.push(this.ms.subjectIdToModule.get(parseInt(subject[0])));
-         console.log(JSON.stringify(modules));
       }, this);
 
       return modules;

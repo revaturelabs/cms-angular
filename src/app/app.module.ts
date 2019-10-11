@@ -27,6 +27,7 @@ import { ResolveRequestPageComponent } from './components/resolve-request-page/r
 import {ModuleStoreService} from './services/module-store.service';
 import { SubmitRequestPageComponent } from './components/submit-request-page/submit-request-page.component';
 import { ContentOrderPipe } from './pipes/content-order.pipe';
+import { ContentFilterPipe } from './pipes/content-filter.pipe';
 
 /** @ignore */
 @NgModule({
@@ -42,7 +43,8 @@ import { ContentOrderPipe } from './pipes/content-order.pipe';
       DisplayRequestPageComponent,
       ResolveRequestPageComponent,
       SubmitRequestPageComponent,
-      ContentOrderPipe
+      ContentOrderPipe,
+      ContentFilterPipe
    ],
    imports: [
       BrowserModule,

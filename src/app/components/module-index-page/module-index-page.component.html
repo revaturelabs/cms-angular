@@ -48,11 +48,9 @@
                             as well as a delete button. 
                         -->
 
-                        <div name="module" style="padding-left: 10px" (click)="listContent(module)">
-                            <!-- Flag behaves purely as an indicator, which if module.links is empty = flag -->
+                        <div name="module" style="padding-left: 10px" (click)="listContent(module, $event)">
 
                             <table>
-
                                 <tbody>
                                     <td style="width:44px">
                                         <a class="lead p-0 m-0">
@@ -65,13 +63,13 @@
 
                                     <td style="width:44px">
                                         <a class="lead p-0 m-0" (click)="listContent(module); $event.stopPropagation()">
-                                            <em class="fa fa-expand"></em>
+                                            <em class="fa fa-expand" title="View Module Content"></em>
                                         </a>
                                     </td>
 
                                     <td style="width:44px">
                                         <a class="lead p-0 m-0" (click)="module.children.length == 0 ? '' : listChildren(module); $event.stopPropagation()" [ngClass]="{'text-muted': module.children.length == 0}">
-                                            <em class="fa fa-sitemap"></em>
+                                            <em class="fa fa-sitemap" [title]="module.children.length == 0 ? 'No Children for Module' : 'View Module Children and Children Content'"></em>
                                         </a>
                                     </td>
 
@@ -80,7 +78,7 @@
                                         <a data-toggle="modal" data-target="#deleteModule" title="Delete Module"
                                             (click)="selectedModuleForRemoval(module)">
                                             <font size="+2">
-                                                <em class="fas fa-trash">
+                                                <em class="fas fa-trash" id="delete-module-{{module.id}}">
                                                 </em>
                                             </font>  
                                         </a>
@@ -94,58 +92,51 @@
                                     </td>
                                 </tbody>
                             </table>
-
-                            <!-- 
-                                    This trash icon indicates a remove module button. This works off of logic 
-                                    defined in both the .ts file and java using the selectedLinkForRemoval() 
-                                    function.
-                                -->
                         </div>
 
-                        <!-- 
-                                Here is the presentation of the content inside every given module upon request
-                                (a click). In the listContent(module) function, a boolean is triggered to turn
-                                contentVisible.get(module) from False to True. Doing so triggers the creation 
-                                of a form which lists the available fields:
-                                - Content ID
-                                - Title
-                                - Format
-                                - Description
-                                - URL
-                                These are all represented through a table, similar to what is found on the Content
-                                Finder page. 
-                            -->
                         <div *ngIf="contentVisible.get(module) || module.parents.length !== 0">
-                            <!-- Start of form to show dynamic table. -->
 
                             <div class="row">
-                                <div class="col-3">
+
+                                <div class="col-5">
                                     <div class="content-container">
-                                        <ul class="list-group list-group-flush">
+
+                                        <ul class="list-group">
 
                                             <li class="list-group-item lead text-dark" *ngFor="let link of module.links | contentOrder: module : 1; let i = index"
                                                 [attr.id]="'row' + link.content.id" (click)="setActiveContent(module, i)" [ngClass]="{'active': contentActive.get(module) === i}"
                                                 draggable="true" (dragstart)="onDragStart($event, i)" (dragover)="onDragOver($event)"
                                                 (drop)="onDrop($event, i, module)">
 
-                                                <div>
-                                                    {{link.content.title}}
-                                                    <a class="float-right">
-                                                        <em title="Remove from module "
-                                                            (click)="selectedLinkForRemoval(link, module)"
-                                                            class="fas fa-trash" data-toggle="modal"
-                                                            data-target="#deleteContent"
-                                                            title="Remove Content from Module">
-                                                        </em>
-                                                    </a>
-                                                </div>
+                                                <em style="width:20px;" class="fa" [ngClass]="{'fa-file-code-o': link.content.format === 'Code', 'fa-file-text-o': link.content.format === 'Document', 'fa-file-powerpoint-o': link.content.format === 'Powerpoint'}"></em>
+
+                                                &nbsp; - {{link.priority + 1}} - {{link.content.title}}
+
+                                                <a class="float-right">
+                                                    <em title="Remove from module "
+                                                        (click)="selectedLinkForRemoval(link, module)"
+                                                        class="fas fa-trash" data-toggle="modal"
+                                                        data-target="#deleteContent"
+                                                        title="Remove Content from Module">
+                                                    </em>
+                                                </a>
+
                                             </li>
 
                                         </ul>
+
+                                        <div class="list-footer btn-group">
+
+                                                <button class="btn btn-block order-btn m-0 fa fa-caret-down" (click)="shiftLinkPriority(module, 1)">
+                                                </button>
+
+                                                <button class="btn btn-block order-btn m-0 fa fa-caret-up" (click)="shiftLinkPriority(module, -1)">
+                                                </button>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="col-8 content-container">
+                                <div class="col-6 content-container">
 
                                     <div class="info-header">
 
@@ -153,7 +144,9 @@
                                         <p *ngIf="contentActive.get(module) != null && contentActive.get(module) != -1" class="p-0 m-0">Format: {{module.links[contentActive.get(module)].content.format}}</p>
                                         <p *ngIf="contentActive.get(module) != null && contentActive.get(module) != -1">URL: <a style="margin-top: 10px" target="_blank" href="{{module.links[contentActive.get(module)].content.url}}">{{module.links[contentActive.get(module)].content.url}}</a></p>
 
-                                        <hr />
+                                        <hr *ngIf="contentActive.get(module) != null && contentActive.get(module) != -1" />
+
+                                        <p *ngIf="contentActive.get(module) == null || contentActive.get(module) == -1" class="display-4">No Content</p>
 
                                     </div>
 
@@ -170,8 +163,6 @@
                         </div>
 
                         <div *ngIf="childrenVisible.get(module)">
-
-                            <hr style="margin-top: 0px"/>
 
                             <ul class="nav nav-tabs">
 
@@ -232,11 +223,22 @@
                     <ng-template #childNodesInformation>
 
                         <div>
-                            <!-- Start of form to show dynamic table. -->
-
                             <div class="row">
-                                <div class="col-3">
-                                    <div class="content-container">
+                                <div class="col-5">
+                                    <div class="child-header mb-1 mt-2">
+                                        <p class="lead p-0 ml-1 mb-0 float-left">{{activeModule.subject}}</p>
+
+                                        <a data-toggle="modal" data-target="#deleteModule" title="Delete Module"
+                                            (click)="selectedModuleForRemoval(activeModule)" class="lead float-right">
+                                            <em class="fas fa-trash" id="delete-module-{{module.id}}">
+                                            </em>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" >
+                                <div class="col-5">
+                                    <div class="content-container mt-0">
                                         <ul class="list-group list-group-flush">
 
                                             <li class="list-group-item lead text-dark" *ngFor="let link of activeModule.links | contentOrder: activeModule : 1; let i = index"
@@ -244,24 +246,33 @@
                                                 draggable="true" (dragstart)="onDragStart($event, i)" (dragover)="onDragOver($event)"
                                                 (drop)="onDrop($event, i, activeModule)">
 
-                                                <div>
-                                                    {{link.content.title}}
-                                                    <a class="float-right">
-                                                        <em title="Remove from module "
-                                                            (click)="selectedLinkForRemoval(link, activeModule)"
-                                                            class="fas fa-trash" data-toggle="modal"
-                                                            data-target="#deleteContent"
-                                                            title="Remove Content from Module">
-                                                        </em>
-                                                    </a>
-                                                </div>
+                                                <em style="width:20px;" class="fa" [ngClass]="{'fa-file-code-o': link.content.format === 'Code', 'fa-file-text-o': link.content.format === 'Document', 'fa-file-powerpoint-o': link.content.format === 'Powerpoint'}"></em>
+
+                                                &nbsp; - {{link.priority + 1}} - {{link.content.title}}
+
+                                                <a class="float-right">
+                                                    <em title="Remove from module "
+                                                        (click)="selectedLinkForRemoval(link, activeModule)"
+                                                        class="fas fa-trash" data-toggle="modal"
+                                                        data-target="#deleteContent"
+                                                        title="Remove Content from Module">
+                                                    </em>
+                                                </a>
                                             </li>
 
                                         </ul>
+                                        <div class="list-footer btn-group">
+
+                                            <button class="btn btn-block order-btn m-0 fa fa-caret-down" (click)="shiftLinkPriority(activeModule, 1)">
+                                            </button>
+
+                                            <button class="btn btn-block order-btn m-0 fa fa-caret-up" (click)="shiftLinkPriority(activeModule, -1)">
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="col-8 content-container">
+                                <div class="col-6 content-container">
 
                                     <div class="info-header">
 

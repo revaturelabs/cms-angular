@@ -102,6 +102,13 @@ a {
     overflow-y: auto;
     margin: 20px;
     background-color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.list-footer {
+
+    margin-top: auto;
 }
 
 .list-group-item.active {
@@ -120,4 +127,46 @@ textarea.disabled {
 
     padding-left: 10px;
     padding-right: 10px;
+}
+
+.first-gen-filter {
+
+    margin: 20px;
+    margin-bottom: 0px;
+    padding-right: 40px;
+}
+
+span.input-group-text.active {
+
+    background: #343A40;
+}
+
+span.input-group-text.active > a > em {
+
+    color: white;
+}
+
+span.input-group-text.disabled > a > em {
+
+    color: black;
+}
+
+span.input-group-text.disabled {
+
+    background: white;
+}
+
+.order-btn {
+    background: #F1F1F1;
+}
+
+.order-btn:focus {
+  box-shadow: none;
+}
+
+.child-header {
+
+    margin-left: 20px;
+    margin-right: 20px;
+    padding-right: 20px;
 }
