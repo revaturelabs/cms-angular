@@ -7,6 +7,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ToastrModule } from 'ngx-toastr';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { MatCardModule } from '@angular/material/card';
+
 describe('DisplayRequestPageComponent', () => {
   let component: DisplayRequestPageComponent;
   let fixture: ComponentFixture<DisplayRequestPageComponent>;
@@ -18,7 +20,8 @@ describe('DisplayRequestPageComponent', () => {
                  MatProgressSpinnerModule,
                  HttpClientTestingModule,
                  ToastrModule.forRoot(),
-                 RouterTestingModule
+                 RouterTestingModule,
+                 MatCardModule
                  ],
       declarations: [ DisplayRequestPageComponent ]
     })
