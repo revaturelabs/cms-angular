@@ -107,8 +107,6 @@ export class ModuleIndexPageComponent implements OnInit {
             }
         }
 
-        console.log(event);
-
         if (this.contentVisible.get(module) || this.childrenVisible.get(module)) {
 
             this.contentVisible.set(module, false);
@@ -267,6 +265,8 @@ export class ModuleIndexPageComponent implements OnInit {
         module.links.sort(this.util.sortLinksByPriority);
 
         this.contentActive.set(module, targetIdx);
+
+        this.mfs.updateModuleLinks(module).subscribe(resp => console.log(resp));
     }
 
     /**
@@ -297,6 +297,8 @@ export class ModuleIndexPageComponent implements OnInit {
         module.links.sort(this.util.sortLinksByPriority);
         this.contentActive.set(module, curIdx + shift);
 
+        this.mfs.updateModuleLinks(module).subscribe(resp => console.log(resp));
+
     }
 
     /**
@@ -308,13 +310,20 @@ export class ModuleIndexPageComponent implements OnInit {
     normalizePriority(module: Module): void {
 
         module.links.sort(this.util.sortLinksByPriority);
+        let change = false;
 
         for (let i = 0 ; i < module.links.length ; i++) {
 
             if (module.links[i].priority !== i) {
 
                 module.links[i].priority = i;
+                change = true;
             }
+        }
+
+        if (change) {
+
+            this.mfs.updateModuleLinks(module).subscribe(resp => console.log(resp));
         }
     }
 }

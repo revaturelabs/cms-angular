@@ -219,7 +219,7 @@ export class ContentCreatorPageComponent implements OnInit {
       subjects.forEach( (subject) => {
          allModules.forEach( (module) => {
             if (module.id == subject) {
-               links.push(new Link(null, null, module, null));
+               links.push(new Link(null, null, module, null, -1));
             }
          })
       }, this);

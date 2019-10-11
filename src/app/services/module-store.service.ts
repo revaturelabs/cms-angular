@@ -96,13 +96,6 @@ export class ModuleStoreService {
                );
             }
             this.nodes.sort(this.util.sortModulesById);
-            for (let module of this.nodes) {
-
-                for (let i = 0 ; i < module.links.length ; i++) {
-
-                    module.links[i].priority = i;
-                }
-            }
             resolve(this.nodes);
             }
          );

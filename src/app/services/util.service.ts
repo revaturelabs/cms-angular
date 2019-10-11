@@ -160,6 +160,21 @@ export class UtilService {
 
     sortLinksByPriority(l1: Link, l2: Link): number {
 
+        if (l1.priority === l2.priority) {
+
+            return 0;
+        }
+
+        if (l1.priority === -1) {
+
+            return 1;
+        }
+
+        if (l2.priority === -1) {
+
+            return -1
+        }
+
         if (l1.priority > l2.priority) {
 
             return 1;
@@ -179,8 +194,6 @@ export class UtilService {
 
             return -1;
         }
-
-        return 0;
     }
 
     sortModulesById(m1: Module, m2: Module): number {
