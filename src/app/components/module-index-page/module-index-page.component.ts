@@ -1,14 +1,16 @@
 import { Component, OnInit, ComponentFactoryResolver} from '@angular/core';
-import { Module } from 'src/app/models/Module';
+import { ToastrService } from 'ngx-toastr';
+import { globalCacheBusterNotifier } from 'ngx-cacheable';
+
 import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { ModuleFetcherService } from 'src/app/services/module-fetcher.service';
 import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
+import { UtilService } from '../../services/util.service';
+
+import { Link } from '../../models/Link';
+import { Module } from 'src/app/models/Module';
 import { Content } from 'src/app/models/Content';
 import { Filter } from 'src/app/models/Filter';
-import { ToastrService } from 'ngx-toastr';
-import { globalCacheBusterNotifier } from 'ngx-cacheable';
-import { UtilService } from '../../services/util.service';
-import { Link } from '../../models/Link';
 
 /** Typescript Component for Module Index Page */
 @Component({
@@ -22,6 +24,11 @@ export class ModuleIndexPageComponent implements OnInit {
     /** Map of Visibility status of each Module */
     contentVisible: Map<Module, boolean> = new Map<Module, boolean>();
 
+    /**
+     * Map of children visibility status of a Module
+     * You can probably combine this with the above map
+     * into a number map to determine what should be displayed
+     */
     childrenVisible: Map<Module, boolean> = new Map<Module, boolean>();
 
     /** Map of Active Link index for a given module */
@@ -39,10 +46,8 @@ export class ModuleIndexPageComponent implements OnInit {
     /** Used to display a spinner when modules are loading. */
     isLoading = false;
 
+    /** Used to display module information for not first generation modules */
     activeModule: Module;
-
-    contentFilterOptions: boolean[] = [true, true, true];
-    contentFilterExp: string = '';
 
     /**
      * Constructor for Module Index Component
@@ -70,38 +75,59 @@ export class ModuleIndexPageComponent implements OnInit {
      * Lists the available content for module input
      * @param module - module to expand
      */
-    listContent(module: Module, event) {
+    listContent(module: Module) {
 
-        if (event) {
-            const target = event.target || event.srcElement || event.currentTarget;
-            const idAttr: string = target.attributes.id && (target.attributes.id.nodeValue || '');
-
-            if (idAttr && idAttr.includes('delete-module')) {
-
-                return;
-            }
-        }
-
-        this.contentFilterOptions = [true, true, true];
-        this.contentFilterExp = '';
         this.contentVisible.set(module, !this.contentVisible.get(module));
         this.childrenVisible.set(module, false);
 
         this.contentActive.set(
             module,
             module.links.length === 0 ? -1 :
-            this.contentActive.get(module) === null ? 0 : this.contentActive.get(module)
+            this.contentActive.get(module) === undefined ? 0 : this.contentActive.get(module)
         );
 
         this.normalizePriority(module);
     }
 
+    /**
+     * Lists the content for module input or complete closes the node
+     * @param module - Module to check for expansion
+     * @param event  - Used to filter out double requests since this is a parent element event
+     */
+    listOrCloseContent(module: Module, event) {
+
+        if (event) {
+
+            const target = event.target || event.srcElement || event.currentTarget;
+            const idAttr: string = target.attributes.id && (target.attributes.id.nodeValue || '');
+
+            if (idAttr && !idAttr.includes('mat-expansion-panel')) {
+
+                return;
+            }
+        }
+
+        console.log(event);
+
+        if (this.contentVisible.get(module) || this.childrenVisible.get(module)) {
+
+            this.contentVisible.set(module, false);
+            this.childrenVisible.set(module, false);
+            return;
+        }
+
+        this.listContent(module);
+    }
+
+    /**
+     * Expands the children display option for the Node
+     * @param module - Module to expand
+     */
     listChildren(module: Module) {
 
         this.childrenVisible.set(module, !this.childrenVisible.get(module));
         this.contentVisible.set(module, false);
-        this.childActive.set(module, 0);
-        this.activeModule = this.ms.subjectIdToModule.get(module.children[0].id);
+        this.setActiveChild(module, 0);
         this.normalizePriority(this.activeModule);
     }
 
@@ -172,7 +198,7 @@ export class ModuleIndexPageComponent implements OnInit {
 
         const ret: Module = this.ms.subjectIdToModule.get(module.children[this.childActive.get(module)].id);
 
-        if (ret.links.length !== 0 && this.contentActive.get(ret) === null) {
+        if (ret.links.length !== 0 && this.contentActive.get(ret) === undefined) {
 
             this.contentActive.set(ret, 0);
         }
@@ -194,65 +220,31 @@ export class ModuleIndexPageComponent implements OnInit {
         this.contentActive.set(module, idx);
     }
 
+    /**
+     * Maps the index of the child module to the parent
+     * Used to display information
+     * @param module  - key to the map
+     * @param idx     - value to the map
+     */
     setActiveChild(module: Module, idx: number) {
 
         this.childActive.set(module, idx);
         this.childActive.set(this.ms.subjectIdToModule.get(module.children[idx].id), -1);
-
         this.activeModule = this.ms.subjectIdToModule.get(module.children[idx].id);
 
         this.normalizePriority(this.activeModule);
     }
 
-    toggleContentFilter(idx: number) {
-
-        this.contentFilterOptions[idx] = !this.contentFilterOptions[idx];
-        this.contentFilterOptions = [...this.contentFilterOptions];
-    }
-
     /**
-     * Bound to the onDragStart event regarding a particular link
-     * Binds the index of the selected element to the event
-     * @param event   - The DragEvent associated with the action
-     * @param baseIdx - The index of the selected element
+     * For the Angular Material Lists
+     * Takes the event and shifts module priority
+     * @param event  - The event containing starting and ending index
+     * @param module - The module that contains the links to be shifted 
      */
-    onDragStart(event: DragEvent, baseIdx: number): void {
+    onDrop(event, module: Module): void {
 
-        event.dataTransfer.setData('baseIdx', JSON.stringify(baseIdx));
-    }
-
-    /**
-     * Bound to the onDragOver event regarding a particular link
-     * Simply overwrite the default event and allows the Drop operation
-     * @param event - THe DragEvent associated with the action
-     */
-    onDragOver(event: DragEvent): void {
-
-        event.preventDefault();
-    }
-
-    /**
-     * Bound to the onDrop event regarding a particular link
-     * The logic that blocks the code from proceeding is here since the DragEvent here is identical to the one from onDragStart
-     * Calculates the offset - Amount of values that need to be modified
-     * This method assumes that the values of priority are normalized: e.g. priority is 0-10 with no outliers
-     * Sorted prior to action and after. Can remove the post sort if performance is deemed too slow
-     * Algorithm at the moment is a simple top vs bottom half of algorithm for determining offset
-     * @param event     - The DragEvent assoiated with a particular action
-     * @param targetIdx - The index of the link that the drag ended on
-     * @param module    - The module that contains all of the links
-     */
-    onDrop(event: DragEvent, targetIdx: number, module: Module): void {
-
-        event.preventDefault();
-
-        const offset = Math.floor(event.offsetY / 28) === 0 ? -1 : 1;
-        const baseIdx: number = + JSON.parse(event.dataTransfer.getData('baseIdx'));
-
-        if (baseIdx === targetIdx || baseIdx === targetIdx + offset) {
-
-            return;
-        }
+        const targetIdx: number = event.currentIndex
+        const baseIdx: number = event.previousIndex;
 
         module.links.sort(this.util.sortLinksByPriority);
         module.links[baseIdx].priority = targetIdx;
@@ -277,6 +269,13 @@ export class ModuleIndexPageComponent implements OnInit {
         this.contentActive.set(module, targetIdx);
     }
 
+    /**
+     * For the Angular Material Lists
+     * Discretely moves the content by a discrete index value depending on which button was pressed
+     * Just incase the user doesn't want to use drag and drop
+     * @param module - The module to shift the links in
+     * @param shift - Number of spaces to shift the module. Always either -1 or 1
+     */
     shiftLinkPriority(module: Module, shift: number): void {
 
         if (module.links.length === 0) {
@@ -300,6 +299,12 @@ export class ModuleIndexPageComponent implements OnInit {
 
     }
 
+    /**
+     * Noramalizes the priority of each link in a module
+     * The resulting link priorities is a smooth list from 0 to n
+     * First sort the list then normalize
+     * @param module - Module whos links we wish to sort
+     */
     normalizePriority(module: Module): void {
 
         module.links.sort(this.util.sortLinksByPriority);

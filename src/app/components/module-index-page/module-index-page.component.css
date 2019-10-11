@@ -1,16 +1,8 @@
-.card {
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    transition: 0.3s;
-    width: 80%;
-    height: 15%;
-    margin: 0 auto; 
-    float: none; 
-    margin-top: 20px;
+mat-card {
 
-}
-
-.card:hover {
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+   width: 90%;
+   margin: 0 auto;
+   margin-top: 20px;
 }
 
 .container {
@@ -18,16 +10,11 @@
     margin-top: 70px;
 }
 
-.grid-description {
-    grid-column: 1 / -1;
-}
-
 #content {
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    top: -50px;
 }
 
 .logo {
@@ -35,35 +22,10 @@
     width: 10%;
 }
 
-.btn-radio {
+.spinner {
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-input[type="radio"] {
-    margin-right: -15px;
-}
-
-.btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-td.tag-bubble-cell {
-    line-height: 2;
-}
-
-.tag-bubble {
-    padding: 2px;
-    margin: 1px;
-    background-color: #F6F8FA;
-}
-
-.parent {
-
-    border: 1px solid #DEE2E6;
 }
 
 .fa-trash:hover{
@@ -71,27 +33,8 @@ td.tag-bubble-cell {
     color: gray !important;
 }
 
-.fa-flag {
-    color: rgb(190,0,0);
-}
-
-.fa-flag:hover {
-    color: orange;
-}
-
 a {
-    color: rgb(3, 0, 192);
     cursor: pointer;
-}
-
-.vl {
-    border-left: 2px solid black;
-    height: 100%;
-    
-}
-
-.module-title{
-    padding-bottom: 6px;
 }
 
 .content-container {
@@ -136,26 +79,6 @@ textarea.disabled {
     padding-right: 40px;
 }
 
-span.input-group-text.active {
-
-    background: #343A40;
-}
-
-span.input-group-text.active > a > em {
-
-    color: white;
-}
-
-span.input-group-text.disabled > a > em {
-
-    color: black;
-}
-
-span.input-group-text.disabled {
-
-    background: white;
-}
-
 .order-btn {
     background: #F1F1F1;
 }
@@ -168,5 +91,36 @@ span.input-group-text.disabled {
 
     margin-left: 20px;
     margin-right: 20px;
-    padding-right: 20px;
+    padding-right: 13px;
+}
+
+.list-group-item:last-child {
+
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+mat-expansion-panel {
+
+    background-color: #F6F8FA;
+}
+
+.link-box {
+  padding: 20px 12px;
+  border-bottom: solid 1px #ccc;
+  color: rgba(0, 0, 0, 0.87);
+  box-sizing: border-box;
+  cursor: move;
+  background: white;
+}
+
+.link-box.active {
+
+    background-color: #F1F1F1;
+}
+
+.text-black {
+
+    color: black;
+    font-weight: 400;
 }

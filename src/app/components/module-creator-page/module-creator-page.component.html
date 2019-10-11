@@ -3,16 +3,15 @@
    subejct input box and a "Submit Module" button which pings the backend using [(ngModel)]
    in order to add a new instance of a module to a database. 
   -->
-<div class="card">
+<mat-card>
+   <mat-card-content>
 
-   <div class="container">
+      <!-- Per usual, the Revature logo is displayed. -->
+      <div id="content">
+         <img src="/assets/img/logo.png" alt="revature" class="logo">
+      </div>
 
-      <div class="col">
-         <!-- Per usual, the Revature logo is displayed. -->
-         <div id="content">
-            <img src="/assets/img/logo.png" alt="revature" class="logo">
-         </div>
-
+      <div class="container">
          <form>
             <div class="form-row mb-5">
                <input id="filter" #filter class="form-control" (keyup)="tree.treeModel.filterNodes(filter.value)"
@@ -58,9 +57,8 @@
             </div>
 
          </form>
-
       </div>
 
-   </div>
+   </mat-card-content>
 
-</div>
+</mat-card>
