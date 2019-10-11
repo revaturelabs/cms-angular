@@ -19,13 +19,13 @@
             <img src="/assets/img/logo.png" alt="revature" class="logo">
         </div>
 
-        <div *ngIf="ms.isLoading" class="btn spinner">
-            <mat-spinner [diameter]="30"></mat-spinner>
-        </div>
-
         <!-- Wrapper for Module Expansion List -->
 
         <div class="container">
+
+            <div *ngIf="ms.isLoading" class="btn spinner">
+                <mat-spinner [diameter]="30"></mat-spinner>
+            </div>
 
             <!-- First Generation Module List -->
 
