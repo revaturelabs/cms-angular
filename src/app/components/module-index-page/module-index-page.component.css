@@ -42,7 +42,7 @@ a {
     border: 1px solid #DEE2E6;
     min-height: 400px;
     max-height: 400px;
-    overflow-y: auto;
+    overflow-y: disabled;
     margin: 20px;
     background-color: white;
     display: flex;
@@ -123,4 +123,9 @@ mat-expansion-panel {
 
     color: black;
     font-weight: 400;
+}
+
+.list-wrapper {
+
+    overflow-y: auto;
 }

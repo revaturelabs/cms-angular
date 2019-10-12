@@ -17,6 +17,7 @@ import { ModuleIndexPageComponent } from './components/module-index-page/module-
 import { ReportsPageComponent } from './components/reports-page/reports-page.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReportsTimeGraphComponent } from './components/reports-time-graph/reports-time-graph.component';
+import { CurriculumIndexComponent } from './components/curriculum-index/curriculum-index.component';
 import { GlobalReports } from './providers/GlobalReports';
 import { CommonModule } from '@angular/common';
 
@@ -37,6 +38,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatMenuModule } from '@angular/material/menu';
 
 /** @ignore */
 @NgModule({
@@ -53,7 +55,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
       ResolveRequestPageComponent,
       SubmitRequestPageComponent,
       ContentOrderPipe,
-      ContentFilterPipe
+      ContentFilterPipe,
+      CurriculumIndexComponent
    ],
    imports: [
       BrowserModule,
@@ -76,7 +79,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
       MatFormFieldModule,
       MatTabsModule,
       MatAutocompleteModule,
-      ReactiveFormsModule
+      ReactiveFormsModule,
+      MatMenuModule
    ],
    providers: [
       GlobalReports,
