@@ -4,7 +4,7 @@
    where it can then be accessed in another view.
  -->
 <div class="card">
-   
+
    <div class="container">
 
       <div class="col">
@@ -12,19 +12,27 @@
             <img src="/assets/img/logo.png" alt="revature" class="logo" id="logo">
          </div>
 
-         
+         <div class="info">
+            <p><strong>Important!</strong><br /> In order for your content submission to be approved and searchable by
+               others,
+               please ensure code examples are properly commented and contain a README which explains the example.
+               Documents should have clarity of purpose and content. Powerpoints/Slides must be relevant to the topic.
+            </p>
+         </div>
          <form>
 
             <div class="form-row mb-5">
                <div class="col-1"></div>
 
-               <div class="col"> <!-- Input section for the title -->
+               <div class="col">
+                  <!-- Input section for the title -->
                   <!-- The input for the title is associated with an ngModel binding that we use to set the title of the content as a string -->
                   <input id="titleTextBox" [(ngModel)]="title" required name="title" type="text" class="form-control"
                      placeholder="Title" maxlength="254">
                </div>
 
-               <div class="col"> <!-- Input section for the URL of useful links to use -->
+               <div class="col">
+                  <!-- Input section for the URL of useful links to use -->
                   <!-- Similar as above, used to set the url specified to the content we are submitting using ngModel -->
                   <input id="urlTextBox" [(ngModel)]="url" required name="url" type="text" class="form-control"
                      placeholder="URL" maxlength="254">
@@ -33,14 +41,17 @@
             </div>
 
             <!-- TODO Create new module heirarchy display -->
-            <div class="row subject mb-3"> <!-- Dropdown section for the subjects you want to tie the links to -->
+            <div class="row subject mb-3">
+               <!-- Dropdown section for the subjects you want to tie the links to -->
                <div class="col-1"></div>
                <div class="col rele">
                   <!-- In this dropdown, the subjects are being accessed through a Module Store ms. 
                        Using ngModel binding, the subjects are displayed.
                   -->
-                  <input id="filter" #filter class="form-control" (keyup)="tree.treeModel.filterNodes(filter.value)" placeholder="Search for Module" />
-                  <tree-root id="tree" [nodes]="nodes" [options]="options" bindLabel="name" spellcheck="false"></tree-root>
+                  <input id="filter" #filter class="form-control" (keyup)="tree.treeModel.filterNodes(filter.value)"
+                     placeholder="Search for Module" />
+                  <tree-root id="tree" [nodes]="nodes" [options]="options" bindLabel="name" spellcheck="false">
+                  </tree-root>
                   <!-- <ng-select id="subjectDropDown" [items]="ms.subjectNames" multiple="true" closeOnSelect="true"
                      hideSelected="true" clearOnBackspace="true" bindLabel="name" spellcheck="false"
                      notFoundText="(no such subject found)" [loading]="ms.isLoading" [placeholder]="ms.loadingText"
@@ -50,7 +61,8 @@
                <div class="col-1"></div>
             </div>
 
-            <div class="row desc mb-5"> <!-- Text box section for adding a description to the content provided -->
+            <div class="row desc mb-5">
+               <!-- Text box section for adding a description to the content provided -->
                <div class="col-1"></div>
                <div class="col">
                   <!-- We use ngModel binding to record the description written, where the max character length is 254 -->
@@ -63,7 +75,8 @@
 
             <div class="row format mb-3">
                <div class="col">
-                  <div class="btn-radio"> <!-- Radio buttons to select what kind of resource you want this content to be sectioned under, that being Code, Document, or PowerPoint -->
+                  <div class="btn-radio">
+                     <!-- Radio buttons to select what kind of resource you want this content to be sectioned under, that being Code, Document, or PowerPoint -->
                      <div class="form-check form-check-inline" *ngFor="let format of formats">
                         <!-- Here, ngModel is taking the specified radio button for submitting the form -->
                         <input [(ngModel)]="selFormat" class="form-check-input" type="radio" name="formatOptions"
@@ -74,10 +87,13 @@
                </div>
             </div>
 
-            <div class="row btn mb-3"> <!-- Submit button tied to submit() function that sends the form information to the database, adding the specified information for later retrieval -->
-               <button type="button" class="btn btn-primary" id="submitButton" (click)="submit()" *ngIf="!this.isSubmitting">Submit
-                  Content</button><!-- When submitting, this.isSubmitting is inverted from false to true in order to submit the form -->
-                  <mat-spinner [diameter]="30" *ngIf="this.isSubmitting"></mat-spinner>
+            <div class="row btn mb-3">
+               <!-- Submit button tied to submit() function that sends the form information to the database, adding the specified information for later retrieval -->
+               <button type="button" class="btn btn-primary" id="submitButton" (click)="submit()"
+                  *ngIf="!this.isSubmitting">Submit
+                  Content</button>
+               <!-- When submitting, this.isSubmitting is inverted from false to true in order to submit the form -->
+               <mat-spinner [diameter]="30" *ngIf="this.isSubmitting"></mat-spinner>
             </div>
 
          </form>
