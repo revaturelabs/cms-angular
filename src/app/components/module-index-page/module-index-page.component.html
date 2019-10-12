@@ -92,7 +92,7 @@
 
                                     <!-- Drag and Drop List of Content -->
 
-                                    <div cdkDropList (cdkDropListDropped)="onDrop($event, module)">
+                                    <div cdkDropList (cdkDropListDropped)="onDrop($event, module)" class="list-wrapper">
                                         <div class="link-box lead" *ngFor="let link of module.links | contentOrder: module : 1; let i = index" cdkDrag
                                             [ngClass]="{'active': contentActive.get(module) === i}" (click)="setActiveContent(module, i)">
                                             <em style="width:20px;" class="fa" [ngClass]="{'fa-file-code-o': link.content.format === 'Code', 'fa-file-text-o': link.content.format === 'Document', 'fa-file-powerpoint-o': link.content.format === 'Powerpoint'}"></em>
@@ -289,7 +289,7 @@
 
                                 <div class="col-5">
                                     <div class="content-container mt-0">
-                                        <div cdkDropList (cdkDropListDropped)="onDrop($event, activeModule)">
+                                        <div cdkDropList (cdkDropListDropped)="onDrop($event, activeModule)" class="list-wrapper">
                                             <div class="link-box lead" *ngFor="let link of activeModule.links | contentOrder: activeModule : 1; let i = index" cdkDrag
                                                 [ngClass]="{'active': contentActive.get(activeModule) === i}" (click)="setActiveContent(activeModule, i)">
 
