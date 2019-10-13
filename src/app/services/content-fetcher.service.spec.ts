@@ -7,8 +7,9 @@ import { ContentFetcherService } from './content-fetcher.service';
 import { Content } from '../models/Content';
 import { Module } from '../models/Module';
 import { Filter } from '../models/Filter';
+import { Link } from '../models/Link';
 
-describe('ContentFetcherService', () => {
+fdescribe('ContentFetcherService', () => {
   let httpTestingController: HttpTestingController;
   let service: ContentFetcherService;
   let baseURL = environment.cms_url;
@@ -91,6 +92,24 @@ describe('ContentFetcherService', () => {
 
   }));
 
+   // Testing addLinkToContent(content) function
+   it('addLinkToContent is working', fakeAsync(() => {
+    let response = {};
+    let link: Link;
+    let content: Content = new Content(1, null, null, null, null, [link])
+    link = new Link(1, content, null, "affiliation");
+
+    service.addLinkToContent(content).subscribe(
+      (receivedResponse: any) => { },
+      (error: any) => { }
+    );
+    const req = httpTestingController.expectOne(baseURL + `/content/${content.id}/links`);
+    expect(req.request.method).toEqual("PUT");
+    req.flush(response);
+    tick();
+
+  }));
+
   // Test for updateContentById(num, content)
   it('updateContentById is working', fakeAsync(() => {
     let response = {};
@@ -139,12 +158,42 @@ describe('ContentFetcherService', () => {
 
   }));
 
+  // Test to removeLinkFromContent
+  it('removeLinkFromContent is working', fakeAsync(() => {
+    let response = {};
+
+    service.removeLinkFromContent(1).subscribe(
+      (receivedResponse: any) => { },
+      (error: any) => { }
+    );
+    const req = httpTestingController.expectOne(baseURL + '/links/1');
+    expect(req.request.method).toEqual("DELETE");
+    req.flush(response);
+    tick();
+
+  }));
+
   // Test to make sure filterContent(filter) function is working
-  it('filterContent is working', fakeAsync(() => {
+  it('filterContent is working, filter not null', fakeAsync(() => {
     let response = {};
     let filter: Filter = new Filter(null, null, null);
     
     service.filterContent(filter).subscribe(
+      (receivedResponse: any) => { },
+      (error: any) => { }
+    );
+    const req = httpTestingController.expectOne(baseURL + '/content?title=&format=&modules=');
+    expect(req.request.method).toEqual("GET");
+    req.flush(response);
+    tick();
+
+  }));
+
+  // Test to make sure filterContent(filter) function is working
+  it('filterContent is working, filter null', fakeAsync(() => {
+    let response = {};
+    
+    service.filterContent(null).subscribe(
       (receivedResponse: any) => { },
       (error: any) => { }
     );
