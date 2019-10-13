@@ -9,7 +9,7 @@ import { Module } from '../models/Module';
 import { Filter } from '../models/Filter';
 import { Link } from '../models/Link';
 
-fdescribe('ContentFetcherService', () => {
+describe('ContentFetcherService', () => {
   let httpTestingController: HttpTestingController;
   let service: ContentFetcherService;
   let baseURL = environment.cms_url;

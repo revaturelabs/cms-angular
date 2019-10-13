@@ -11,6 +11,8 @@ import { environment } from '../../environments/environment';
 import { Module } from '../models/Module';
 import { Link } from '../models/Link';
 import { HttpHeaderResponse } from '@angular/common/http';
+import { Output } from '@angular/core';
+import { Content } from '../models/Content';
 
 describe('ModuleFetcherService', () => {
   let service: ModuleFetcherService;
@@ -111,8 +113,25 @@ describe('ModuleFetcherService', () => {
 
   }));
 
+  it('should return an Observable<Module> getChildrenById', fakeAsync(() => {
+    let url: string = baseURL + '/modules/5/children/'
+    let links: Link[] = [new Link(12, null, null, 'Java')]
+    let module: Module = new Module(5, 'Java',14454, links, null, null, null);
+    links[0].module = module;
+
+    let response: Module[] =  [module];    
+    service.getChildrenById(5).subscribe(
+      output => {expect(output[0].id).toBe(response[0].id)}
+    );
+    const req = httpTestingController.expectOne(url);
+    expect(req.request.method).toEqual("GET");
+    req.flush(response);
+    tick();
+
+  }));
+
   // Similar mocking done for createNewModule()
-  it('should return an Observable<HttpHeaderResponse> Create', fakeAsync(() => {
+  it('should return an Observable<HttpHeaderResponse> createOrUpdateModule id < 1', fakeAsync(() => {
     let url: string = baseURL + '/modules';
     let response = {
       resaultCount: 1,
@@ -141,8 +160,23 @@ describe('ModuleFetcherService', () => {
 
   }));
 
+  it('should return an Observable<HttpHeaderResponse>, createOrUpdateModule id > 0', fakeAsync(() => {
+    let url: string = baseURL + '/modules/5';
+    let response :HttpHeaderResponse = new HttpHeaderResponse({headers: null, status: 200, statusText:"ok",url: url});
+    let links: Link[] = [];
+    let input: Module = new Module(5, "CSS", null, links, [], [], [])
+    service.createOrUpdateModule(input).subscribe(
+      output => {expect(output).toBe(response);expect(output.status).toBe(200);}
+    );
+    const req = httpTestingController.expectOne(url);
+    expect(req.request.method).toEqual("PUT");
+    req.flush(response);
+    tick();
+
+  }));
+
   //Used to mock delete a module by id
-  it('should return an Observable<Module> delete by id', fakeAsync(() => {
+  it('should return an Observable<HttpHeaderResponse> delete by id', fakeAsync(() => {
     let url: string = baseURL + '/modules/5'
     let response = {
       resaultCount: 0,
@@ -154,6 +188,34 @@ describe('ModuleFetcherService', () => {
       response => {
         output = response;
       }
+    );
+    const req = httpTestingController.expectOne(url);
+    expect(req.request.method).toEqual("DELETE");
+    req.flush(response);
+    tick();
+
+  }));
+
+  it('should return an Observable<HttpHeaderResponse> deleteModuleWithSpecificContent', fakeAsync(() => {
+    let url: string = baseURL + '/modules/5?type=unique'
+    let response :HttpHeaderResponse = new HttpHeaderResponse({headers: null, status: 200, statusText:"ok",url: url});
+
+    service.deleteModuleWithSpecificContent(5).subscribe(
+      output => {expect(output).toBe(response);expect(output.status).toBe(200);}
+    );
+    const req = httpTestingController.expectOne(url);
+    expect(req.request.method).toEqual("DELETE");
+    req.flush(response);
+    tick();
+
+  }));
+
+  it('should return an Observable<HttpHeaderResponse> deleteModuleWithContent', fakeAsync(() => {
+    let url: string = baseURL + '/modules/5?type=all'
+    let response :HttpHeaderResponse = new HttpHeaderResponse({headers: null, status: 200, statusText:"ok",url: url});
+
+    service.deleteModuleWithContent(5).subscribe(
+      output => {expect(output).toBe(response);expect(output.status).toBe(200);}
     );
     const req = httpTestingController.expectOne(url);
     expect(req.request.method).toEqual("DELETE");
@@ -183,6 +245,23 @@ describe('ModuleFetcherService', () => {
       response => {
         output = response;
       }
+    );
+    const req = httpTestingController.expectOne(url);
+    expect(req.request.method).toEqual("GET");
+    req.flush(response);
+    tick();
+
+  }));
+
+  it('should test the batman', fakeAsync(() => {
+    let url: string = baseURL + '/modules/roots';
+    let links: Link[] = [new Link(12, null, null, 'Java')]
+    let module: Module = new Module(5, 'Java',14454, links, null, null, null);
+    links[0].module = module;
+
+    let response: Module[] =  [module];    
+    service.batman().subscribe(
+      output => {expect(output[0].id).toBe(response[0].id)}
     );
     const req = httpTestingController.expectOne(url);
     expect(req.request.method).toEqual("GET");
