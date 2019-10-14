@@ -17,7 +17,6 @@ import { ModuleIndexPageComponent } from './components/module-index-page/module-
 import { ReportsPageComponent } from './components/reports-page/reports-page.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReportsTimeGraphComponent } from './components/reports-time-graph/reports-time-graph.component';
-import { CurriculumIndexComponent } from './components/curriculum-index/curriculum-index.component';
 import { GlobalReports } from './providers/GlobalReports';
 import { CommonModule } from '@angular/common';
 
@@ -62,7 +61,6 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
       SubmitRequestPageComponent,
       ContentOrderPipe,
       ContentFilterPipe,
-      CurriculumIndexComponent,
       ModuleIndexSearchPipe
    ],
    imports: [
