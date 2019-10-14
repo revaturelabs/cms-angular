@@ -5,52 +5,84 @@ mat-card {
     margin-top: 20px;
  }
  
- .container {
-     padding: 2px 16px;
-     margin-top: 70px;
- }
+.container {
+    padding: 2px 16px;
+    margin-top: 70px;
+}
   
- #content {
-     display: flex;
-     align-items: center;
-     justify-content: center;
-     position: relative;
- }
+#content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
   
- .logo {
-     height: auto;
-     width: 10%;
- }
-  
- .dropdown {
-     margin: 20px;
- }
-  
- .dropdown-menu {
-     max-height: 20rem;
-     overflow-y: auto;
- }
-  
- .title-url {
-     margin-left: auto;
- }
-  
- .form-control {
-     background-color: rgb(245, 245, 245);
- }
-  
- .btn-radio {
-     display: flex;
-     align-items: center;
-     justify-content: center;
- }
-  
- input[type="radio"] {
-     margin-right: -15px;
- }
-  
- .btn {
-     display: flex;
-     align-items: center;
-     justify-content: center;
- }
+.logo {
+    height: auto;
+    width: 10%;
+}
+
+.spinner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+mat-expansion-panel {
+
+   background-color: #F6F8FA;
+}
+
+mat-toolbar {
+
+    background-color: #F6F8FA;
+    border: 1px solid #DEE2E6;
+    border-radius: 4px;
+    box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+}
+
+.link-box {
+  padding: 20px 12px;
+  border-bottom: solid 1px #ccc;
+  color: rgba(0, 0, 0, 0.87);
+  box-sizing: border-box;
+  cursor: move;
+  background: white;
+}
+
+.list-wrapper {
+
+    overflow-y: auto;
+}
+
+.content-container {
+
+    border: 1px solid #DEE2E6;
+    min-height: 480px;
+    max-height: 480px;
+    overflow-y: disabled;
+    margin: 20px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.list-footer {
+
+    margin-top: auto;
+}
+
+.order-btn {
+    background: #F1F1F1;
+}
+
+.list-toolbar {
+
+    overflow-y: disabled;
+    margin-left: 20px;
+}
+
+a {
+
+    cursor: pointer;
+}

@@ -1,45 +1,168 @@
 <mat-card>
-     <!-- Per usual, the Revature logo is displayed. -->
-     <div id="content">
-        <img src="/assets/img/logo.png" alt="revature" class="logo">
-    </div>
 
-    <div class = "container">
-        <form>
+    <mat-card-content>
+
+        <!-- Per usual, the Revature logo is displayed. -->
+        <div id="content">
+            <img src="/assets/img/logo.png" alt="revature" class="logo">
+        </div>
+
+        <div class="container">
+
+            <div *ngIf="cs.loading" class="btn spinner">
+                <mat-spinner [diameter]="30"></mat-spinner>
+            </div>
+
+            <div *ngIf="!cs.loading">
+                <form>
+                        
+                    <div class="form-group mb-3 col-10 offset-1">
+
+                        <label for="inputTextGroup" class="mb-0 pb-0">Curriculum Name</label>
+         
+                        <div class="input-group mb-1" id="inputTextGroup">
+         
+                           <input [(ngModel)]="curriculumName" required name="subject" type="text" class="form-control" placeholder="Subject" 
+                              id="inputText" maxlength="254">
+         
+                           <div class="input-group-append">
+         
+                              <button type="button" class="btn btn-info" id="submitButton" (click)="submit()">
+                                 Create Curriculum
+                              </button>
+         
+                              <mat-spinner [diameter]="30" *ngIf="this.isSubmitting"></mat-spinner>
+         
+                           </div>
+         
+                        </div>
+         
+                        <small id="inputTextHelp" class="form-text text-muted">Maximum of 254 Characters.</small>
+         
+                     </div>
+                </form>
+
+                <mat-toolbar class="mb-4">
+
+                    <button mat-icon-button>
+
+                        <mat-icon>search</mat-icon>
+
+                    </button>
+
+                    <mat-form-field style="width: 100%">
+
+                        <input [(ngModel)]="searchConstraint" type="text" matInput placeholder="Search for Curriculum...">
+
+                        <button mat-button *ngIf="searchConstraint" matSuffix mat-icon-button aria-label="Clear" (click)="searchConstraint=''">
+
+                            <mat-icon>close</mat-icon>
+
+                        </button>
+
+                    </mat-form-field>
+
+                </mat-toolbar>
+
+                <div class="mb-2">
                 
-            <div class="form-group mb-3 col-10 offset-1">
+                    <a class="lead p-0 m-0 pb-3" style="margin-left: 27px!important;">
+                        <font size="+2">
+                            <em class="fa fa-plus" title="New Curriculum">
+                            </em>
+                            &nbsp;&nbsp;&nbsp;Create New Curriculum
+                        </font>
+                    </a>
 
-                <label for="inputTextGroup" class="mb-0 pb-0">Curriculum Name</label>
- 
-                <div class="input-group mb-1" id="inputTextGroup">
- 
-                   <input [(ngModel)]="curriculumName" required name="subject" type="text" class="form-control" placeholder="Subject" 
-                      id="inputText" maxlength="254">
- 
-                   <div class="input-group-append">
- 
-                      <button type="button" class="btn btn-info" id="submitButton" (click)="submit()">
-                         Create Curriculum
-                      </button>
- 
-                      <mat-spinner [diameter]="30" *ngIf="this.isSubmitting"></mat-spinner>
- 
-                   </div>
- 
                 </div>
- 
-                <small id="inputTextHelp" class="form-text text-muted">Maximum of 254 Characters.</small>
- 
-             </div>
-        </form>
-    </div>
 
-</mat-card>
+                <mat-accordion>
 
-<mat-card>
-      <label for="inputTextGroup" class="mb-0 pb-0">All Curricula</label>
-        
-      <div *ngFor = "let curriculum of curricula">
-          <div><a routerLink = "/curriculum/{{curriculum.id}}">{{curriculum.name}}</a></div>
-      </div>
+                    <mat-expansion-panel *ngFor = "let curriculum of cs.nodes | curriculumFilter : searchConstraint" (click)="getCurriculumDetails(curriculum.id)">
+
+                        <mat-expansion-panel-header>
+
+                            <mat-panel-title>
+
+                                <table>
+                                    <tbody>
+
+                                        <td style="width: 44px">
+
+                                            <a data-toggle="modal" data-target="#deleteModule" title="Delete Curriculum">
+                                                <font size="+2">
+                                                    <em class="fas fa-trash" id="delete-curriculum-{{curriculum.id}}">
+                                                    </em>
+                                                </font>  
+                                            </a>
+
+                                        </td>
+
+                                        <td>
+                                             <a class="lead p-0 m-0" (click)="listContent(module)">
+                                                <font size="+2">{{curriculum.name}}</font>
+                                            </a>
+                                        </td>
+                                    </tbody>
+
+                                </table>
+
+                            </mat-panel-title>
+
+                        </mat-expansion-panel-header>
+
+                        <div *ngIf="cs.loadingCurriculum" class="btn spinner">
+                            <mat-spinner [diameter]="30"></mat-spinner>
+                        </div>
+
+                        <div *ngIf="!cs.loadingCurriculum" class="row">
+
+                            <div class="col-5">
+
+                                <div class="list-toolbar">
+
+                                    <p class="lead p-0 m-0">
+                                        &nbsp;Modules
+                                    </p>
+
+                                </div>
+
+                                <div class="content-container mt-0">
+
+                                    <div cdkDropList class="list-wrapper">
+                                        <div class="link-box lead" *ngFor="let link of cs.curriculum.currModules" cdkDrag>
+
+                                            &nbsp; {{link.module.subject}}
+
+                                        </div>
+                                    </div>
+
+                                    <div class="list-footer btn-group">
+
+                                        <button class="btn btn-block order-btn m-0 fa fa-caret-down" (click)="shiftLinkPriority(module, 1)">
+                                        </button>
+
+                                        <button class="btn btn-block order-btn m-0 fa fa-caret-up" (click)="shiftLinkPriority(module, -1)">
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-7">
+
+                                <div class="content-container">
+
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                    </mat-expansion-panel>
+
+                </mat-accordion>
+            </div>
+        </div>
+    </mat-card-content>
 </mat-card>

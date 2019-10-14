@@ -46,6 +46,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { CurriculumFilterPipe } from './pipes/curriculum-filter.pipe';
 
 /** @ignore */
 @NgModule({
@@ -65,7 +66,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
       ContentFilterPipe,
       ModuleIndexSearchPipe,
       CurriculumCreatorPageComponent,
-      CurriculumModulesPageComponent
+      CurriculumModulesPageComponent,
+      CurriculumFilterPipe
    ],
    imports: [
       BrowserModule,

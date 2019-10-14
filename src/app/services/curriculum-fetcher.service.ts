@@ -3,35 +3,45 @@ import { EndpointsService } from '../constants/endpoints.service';
 import { Curriculum } from '../models/Curriculum';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Cacheable, CacheBuster, globalCacheBusterNotifier } from 'ngx-cacheable';
 import { HttpClient, HttpHeaderResponse, HttpHeaders } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
+
 export class CurriculumFetcherService {
 
-  /** HTTP Headers to be used in HTTP requests */
-  private readonly HEADERS = new HttpHeaders({ 'Content-Type': 'application/json' });
+    /** HTTP Headers to be used in HTTP requests */
+    private readonly HEADERS = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-  constructor(private http:HttpClient,
-              private endpoints:EndpointsService) { }
+    isLoading: boolean = true;
 
-//Get all current curricula
-getCurricula(): Observable<Curriculum[]> {
-  return this.http.get(this.endpoints.GET_ALL_CURRICULA).pipe(map(resp => resp as Curriculum[]));
-}
+    constructor(private http:HttpClient,
+                private endpoints:EndpointsService) { }
 
-//Create Curriculum
-createCurriculum(curriculum: Curriculum): Observable<HttpHeaderResponse> {
-  let body: string = JSON.stringify(curriculum);
-  //*Need to add check to make sure curriculum mdoes not exist
-      return this.http.post<HttpHeaderResponse>(this.endpoints.CREATE_NEW_CURRICULUM, curriculum, { headers: this.HEADERS });
-}
+    //Get all current curricula
+    @Cacheable()
+    getAllCurricula(): Observable<Curriculum[]> {
 
-//Get all current curricula
-getCurriculumModules(id:number): Observable<Curriculum[]> {
-  return this.http.get(this.endpoints.GET_CURRICULUM_MODULES.replace('${id}',id.toString())).pipe(map(resp => resp as Curriculum[]));
-}
+        return this.http.get(this.endpoints.GET_ALL_CURRICULA).pipe(map(resp => resp as Curriculum[]));
+    }
+
+    //Create Curriculum
+    createCurriculum(curriculum: Curriculum): Observable<HttpHeaderResponse> {
+
+        let body: string = JSON.stringify(curriculum);
+        //*Need to add check to make sure curriculum mdoes not exist
+        return this.http.post<HttpHeaderResponse>(this.endpoints.CREATE_NEW_CURRICULUM, curriculum, { headers: this.HEADERS });
+    }
+
+    //Get all current curricula
+    @Cacheable()
+    getCurriculumById(id: number): Observable<Curriculum> {
+
+        return this.http.get<Curriculum>(this.endpoints.GET_CURRICULUM_BY_ID.replace('${id}',id.toString()));
+    }
 
   
 }

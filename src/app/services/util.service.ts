@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Link } from '../models/Link';
 import { Module } from '../models/Module';
 import { Content } from '../models/Content';
+import { Curriculum } from '../models/Curriculum';
 
 @Injectable({
     providedIn: 'root'
@@ -204,6 +205,21 @@ export class UtilService {
         }
 
         if (m1.id < m2.id) {
+
+            return -1;
+        }
+
+        return 0;
+    }
+
+    sortCurriculumById(c1: Curriculum, c2: Curriculum): number {
+
+        if (c1.id > c2.id) {
+
+            return 1;
+        }
+
+        if (c1.id < c2.id) {
 
             return -1;
         }
