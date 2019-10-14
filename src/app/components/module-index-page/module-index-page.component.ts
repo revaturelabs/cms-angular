@@ -50,6 +50,9 @@ export class ModuleIndexPageComponent implements OnInit {
     /** Used to display module information for not first generation modules */
     activeModule: Module;
 
+    /** Used to filter Modules by name with a pipe */
+    searchConstraint: string;
+
     /**
      * Constructor for Module Index Component
      * @param cs - Fetches content

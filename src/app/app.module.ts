@@ -30,6 +30,7 @@ import {ModuleStoreService} from './services/module-store.service';
 import { SubmitRequestPageComponent } from './components/submit-request-page/submit-request-page.component';
 import { ContentOrderPipe } from './pipes/content-order.pipe';
 import { ContentFilterPipe } from './pipes/content-filter.pipe';
+import { ModuleIndexSearchPipe } from './pipes/module-index-search.pipe';
 
 /** Angular Material Modules */
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -39,6 +40,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 /** @ignore */
 @NgModule({
@@ -56,7 +62,8 @@ import { MatMenuModule } from '@angular/material/menu';
       SubmitRequestPageComponent,
       ContentOrderPipe,
       ContentFilterPipe,
-      CurriculumIndexComponent
+      CurriculumIndexComponent,
+      ModuleIndexSearchPipe
    ],
    imports: [
       BrowserModule,
@@ -80,7 +87,12 @@ import { MatMenuModule } from '@angular/material/menu';
       MatTabsModule,
       MatAutocompleteModule,
       ReactiveFormsModule,
-      MatMenuModule
+      MatMenuModule,
+      MatIconModule,
+      MatButtonModule,
+      MatInputModule,
+      MatToolbarModule,
+      MatButtonToggleModule
    ],
    providers: [
       GlobalReports,
