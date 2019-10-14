@@ -33,7 +33,15 @@ export class EndpointsService {
    /** Delete Module and all content associated with said module Endpoint */
    public readonly DELETE_MODULE_WITH_CONTENT: string = this.baseURL + '/modules/${id}?type=all';
    /** Create Module Endpoint */
+   public readonly CREATE_NEW_CURRICULUM: string = this.baseURL + '/curriculum';
+   /** Create Module Endpoint */
+   public readonly GET_CURRICULUM_MODULES: string = this.baseURL + '/currmodules/${id}';
+   /** Create Module Endpoint */
+   public readonly CREATE_CURRICULUM_MODULES: string = this.baseURL + '/currmodules/${id}';
+   /** Create Module Endpoint */
    public readonly CREATE_NEW_MODULE: string = this.baseURL + '/modules';
+   /** Get All Curriculums Endpoint */
+   public readonly GET_ALL_CURRICULA: string = this.baseURL + '/curriculum';
    /** Get All Modules Endpoint */
    public readonly GET_ALL_MODULES: string = this.baseURL + '/modules';
    /** Get Module by ID Endpoint */
@@ -87,6 +95,9 @@ export class EndpointsService {
          this.FILTER_CONTENT,//8
          this.GET_METRICS,//9
          this.GET_ROOT_MODULES,//10
+         this.GET_ALL_CURRICULA,//11
+         this.GET_CURRICULUM_MODULES,//12
+         this.CREATE_CURRICULUM_MODULES,//12
 
          this.GET_CHILDREN_BY_ID, //11
          this.CREATE_NEW_REQUEST,//12
@@ -96,7 +107,8 @@ export class EndpointsService {
          this.UPDATE_REQUEST_REQMODULES_BY_ID,//16
          this.DELETE_REQUEST_BY_ID,//17
          this.FILTER_REQUEST, //18
-         this.UPDATE_CONTENT_LINKS //19
+         this.UPDATE_CONTENT_LINKS, //19
+         this.CREATE_NEW_CURRICULUM //20
       );
 
       return endpoints;
