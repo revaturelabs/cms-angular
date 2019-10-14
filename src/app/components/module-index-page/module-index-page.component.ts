@@ -389,4 +389,9 @@ export class ModuleIndexPageComponent implements OnInit {
             );
         }
     }
+
+    getDate(ms: number) {
+
+        return new Date(ms).toString();
+    }
 }

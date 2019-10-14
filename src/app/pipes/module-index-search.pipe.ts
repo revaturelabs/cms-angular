@@ -13,7 +13,7 @@ export class ModuleIndexSearchPipe implements PipeTransform {
 
         return modules.filter((module: Module) => {
 
-            return module.subject.toLowerCase().includes(constraint);
+            return module.subject.toLowerCase().includes(constraint.toLowerCase());
         });
     }
 
