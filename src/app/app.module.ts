@@ -37,6 +37,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { CurriculumCreatorPageComponent } from './components/curriculum-creator-page/curriculum-creator-page.component';
+import { CurriculumModulesPageComponent } from './components/curriculum-modules-page/curriculum-modules-page.component';
 
 /** @ignore */
 @NgModule({
@@ -53,7 +55,9 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
       ResolveRequestPageComponent,
       SubmitRequestPageComponent,
       ContentOrderPipe,
-      ContentFilterPipe
+      ContentFilterPipe,
+      CurriculumCreatorPageComponent,
+      CurriculumModulesPageComponent
    ],
    imports: [
       BrowserModule,
