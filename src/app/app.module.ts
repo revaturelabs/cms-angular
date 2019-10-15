@@ -18,7 +18,6 @@ import { ReportsPageComponent } from './components/reports-page/reports-page.com
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReportsTimeGraphComponent } from './components/reports-time-graph/reports-time-graph.component';
 import { CurriculumCreatorPageComponent } from './components/curriculum-creator-page/curriculum-creator-page.component';
-import { CurriculumModulesPageComponent } from './components/curriculum-modules-page/curriculum-modules-page.component';
 import { GlobalReports } from './providers/GlobalReports';
 import { CommonModule } from '@angular/common';
 
@@ -81,7 +80,6 @@ import { CurrModuleFilterPipe } from './pipes/curr-module-filter.pipe';
         ContentFilterPipe,
         ModuleIndexSearchPipe,
         CurriculumCreatorPageComponent,
-        CurriculumModulesPageComponent,
         CurriculumFilterPipe,
         NewCurriculumDialog,
         DeleteCurriculumDialog,

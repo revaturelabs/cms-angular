@@ -1,15 +1,18 @@
+/** Angular Imports */
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpHeaderResponse } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import { CurriculumFetcherService } from 'src/app/services/curriculum-fetcher.service';
+/** Service Imports */
+import { CurriculumFetcherService } from '../../services/curriculum-fetcher.service';
 import { CurriculumStoreService } from '../../services/curriculum-store.service';
 import { ModuleFetcherService } from '../../services/module-fetcher.service';
 import { ModuleStoreService } from '../../services/module-store.service';
 import { UtilService } from '../../services/util.service';
 
+/** Model Imports */
 import { Curriculum } from 'src/app/models/Curriculum';
 import { Module } from '../../models/Module';
 import { CurrModule } from '../../models/curr-module';
@@ -19,20 +22,23 @@ import { CurrModule } from '../../models/curr-module';
     templateUrl: './curriculum-creator-page.component.html',
     styleUrls: ['./curriculum-creator-page.component.css']
 })
+
+/** Page to display curricula and their contents */
 export class CurriculumCreatorPageComponent implements OnInit {
 
-    curricula: Curriculum[];
-    curriculumName: string;
-    isSubmitting: boolean;
-    isLoading: boolean = true;
-
+    /** String constraint for searching up Curricula */
     searchConstraint: string;
 
+    /** Active Curriculum since we can only have one at any given time */
     activeCurriculum: Curriculum;
 
+    /** Map of Curriculum Ids to if their names are currently editable */
     editable: Map<number, boolean> = new Map<number, boolean>();
+
+    /** Placeholder for renaming a curriculum */
     newName: string;
 
+    /** Determine which module is currently highlighted within any given curriculum */
     moduleActive: Map<number, number> = new Map<number, number>();
 
     constructor(private router: Router,
@@ -42,6 +48,7 @@ export class CurriculumCreatorPageComponent implements OnInit {
                 public util: UtilService,
                 public dialog: MatDialog) { }
 
+    /** Tell the service where we host the curricula to fetch them form the DB */
     ngOnInit() {
 
         this.cs.loadCurricula();
@@ -51,7 +58,7 @@ export class CurriculumCreatorPageComponent implements OnInit {
 
         const dialogRef = this.dialog.open(NewCurriculumDialog, {
             width: '400px',
-            data: {name: this.curriculumName}
+            data: {name: ''}
         });
 
         dialogRef.afterClosed().subscribe(result => {
