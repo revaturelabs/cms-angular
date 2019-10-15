@@ -46,6 +46,8 @@ export class EndpointsService {
    public readonly GET_CURRICULUM_BY_ID: string = this.baseURL + '/curriculum/${id}';
    public readonly UPDATE_CURRICULUM_BY_ID: string = this.baseURL + '/curriculum/${id}';
    public readonly DELETE_CURRICULUM_BY_ID: string = this.baseURL + '/curriculum/${id}';
+
+   public readonly POST_SET_OF_CURRMODULES: string = this.baseURL + '/currmodules/update';
    /** Get All Modules Endpoint */
    public readonly GET_ALL_MODULES: string = this.baseURL + '/modules';
    /** Get Module by ID Endpoint */

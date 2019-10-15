@@ -32,7 +32,7 @@ import { SubmitRequestPageComponent } from './components/submit-request-page/sub
 import { ContentOrderPipe } from './pipes/content-order.pipe';
 import { ContentFilterPipe } from './pipes/content-filter.pipe';
 import { ModuleIndexSearchPipe } from './pipes/module-index-search.pipe';
-import { NewCurriculumDialog, DeleteCurriculumDialog } from './components/curriculum-creator-page/curriculum-creator-page.component';
+import { NewCurriculumDialog, DeleteCurriculumDialog, AddModuleDialog } from './components/curriculum-creator-page/curriculum-creator-page.component';
 
 /** Angular Material Modules */
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -50,6 +50,10 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { CurriculumFilterPipe } from './pipes/curriculum-filter.pipe';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { CurrModuleFilterPipe } from './pipes/curr-module-filter.pipe';
 
 /** @ignore */
 @NgModule({
@@ -57,7 +61,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     entryComponents: [
 
         NewCurriculumDialog,
-        DeleteCurriculumDialog
+        DeleteCurriculumDialog,
+        AddModuleDialog
     ],
 
     declarations: [
@@ -79,7 +84,9 @@ import { MatDialogModule } from '@angular/material/dialog';
         CurriculumModulesPageComponent,
         CurriculumFilterPipe,
         NewCurriculumDialog,
-        DeleteCurriculumDialog
+        DeleteCurriculumDialog,
+        AddModuleDialog,
+        CurrModuleFilterPipe
     ],
     imports: [
         BrowserModule,
@@ -110,7 +117,10 @@ import { MatDialogModule } from '@angular/material/dialog';
         MatToolbarModule,
         MatButtonToggleModule,
         MatTooltipModule,
-        MatDialogModule
+        MatDialogModule,
+        MatGridListModule,
+        MatRadioModule,
+        MatCheckboxModule
     ],
 
     providers: [

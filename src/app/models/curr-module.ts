@@ -10,12 +10,12 @@ export class CurrModule {
     priority: number;
 
     /** Relavent Curriculum: Will be null after retrieval from backend to avoid infinite object nesting */
-    curriculum: Curriculum;
+    curriculum: number;
 
     /** Relavent Module: Should never be null since we are retrieving these either from their own end point of curriculum */
     module: Module;
 
-    constructor(id: number, priority: number, curriculum: Curriculum, module: Module) {
+    constructor(id: number, priority: number, curriculum: number, module: Module) {
 
         if (id != null) {
 

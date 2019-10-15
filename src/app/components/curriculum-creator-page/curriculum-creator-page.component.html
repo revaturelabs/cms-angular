@@ -108,15 +108,15 @@
                             <mat-spinner [diameter]="30"></mat-spinner>
                         </div>
 
-                        <div *ngIf="!cs.loadingCurriculum" class="row">
+                        <div *ngIf="!cs.loadingCurriculum" class="row mt-3">
 
                             <div class="col-5">
 
                                 <div class="list-toolbar">
 
-                                    <p class="lead p-0 m-0">
-                                        &nbsp;Modules
-                                    </p>
+                                    <a class="lead p-0 m-0 pl-1 mb-1" (click)="openAddModulesDialog(curriculum)" matTooltip="Add a Module">
+                                        <font size="+2"><em class="fa fa-plus"></em></font>
+                                    </a>
 
                                 </div>
 

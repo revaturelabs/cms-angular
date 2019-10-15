@@ -4,6 +4,7 @@ import { Link } from '../models/Link';
 import { Module } from '../models/Module';
 import { Content } from '../models/Content';
 import { Curriculum } from '../models/Curriculum';
+import { CurrModule } from '../models/curr-module';
 
 @Injectable({
     providedIn: 'root'
@@ -225,6 +226,59 @@ export class UtilService {
         }
 
         return 0;
+    }
+
+    sortCurrModulesById(c1: CurrModule, c2: CurrModule): number {
+
+        if (c1.id > c2.id) {
+
+            return 1;
+        }
+
+        if (c1.id < c2.id) {
+
+            return -1;
+        }
+
+        return 0;
+    }
+
+    sortCurrModulesByPriority(l1: CurrModule, l2: CurrModule): number {
+
+        if (l1.priority === l2.priority) {
+
+            return 0;
+        }
+
+        if (l1.priority === -1) {
+
+            return 1;
+        }
+
+        if (l2.priority === -1) {
+
+            return -1
+        }
+
+        if (l1.priority > l2.priority) {
+
+            return 1;
+        }
+
+        if (l1.priority < l2.priority) {
+
+            return -1;
+        }
+
+        if (l1.id > l2.id) {
+
+            return 1;
+        }
+
+        if (l1.id < l2.id) {
+
+            return -1;
+        }
     }
 
     findCurriculumIdxById(id: number, nodes: Curriculum[]): number {
