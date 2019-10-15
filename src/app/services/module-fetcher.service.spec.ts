@@ -11,8 +11,6 @@ import { environment } from '../../environments/environment';
 import { Module } from '../models/Module';
 import { Link } from '../models/Link';
 import { HttpHeaderResponse } from '@angular/common/http';
-import { Output } from '@angular/core';
-import { Content } from '../models/Content';
 
 describe('ModuleFetcherService', () => {
   let service: ModuleFetcherService;

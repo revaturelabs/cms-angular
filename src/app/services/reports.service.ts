@@ -19,7 +19,7 @@ export class ReportsService {
   private readonly HEADERS = new HttpHeaders({ 'Content-Type': 'application/json' });
   
   /** Milliseconds per year */
-  private readonly MILLIS_PER_YEAR: number = 3.154e+10;
+  readonly MILLIS_PER_YEAR: number = 3.154e+10;
 
   /** Reports page component */
   reportsPage: ReportsPageComponent;
@@ -56,14 +56,12 @@ export class ReportsService {
       moduleIdsString = moduleIdsString + id.toString() + ",";
     }, this);
     moduleIdsString.substring(0, moduleIdsString.length - 2);
-    console.log(moduleIdsString);
 
     let body = {
       title: "",
       format: filter.getFormat(),
       modules: moduleIdsString
     };
-    
     this.http.post(
       this.endpoints.GET_METRICS.replace('${timeFrame}', this.MILLIS_PER_YEAR.toString()),
       JSON.stringify(body),
