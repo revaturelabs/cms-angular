@@ -43,5 +43,12 @@ export class CurriculumFetcherService {
         return this.http.get<Curriculum>(this.endpoints.GET_CURRICULUM_BY_ID.replace('${id}',id.toString()));
     }
 
-  
+    updateCurriculumById(cur: Curriculum): Observable<HttpHeaderResponse> {
+
+        const body: string = JSON.stringify(cur);
+
+        return this.http.put<HttpHeaderResponse>(
+            this.endpoints.UPDATE_CURRICULUM_BY_ID.replace('${id}', cur.id.toString()), body, { headers: this.HEADERS }
+        );
+    }
 }

@@ -14,11 +14,6 @@ export class CurriculumModulesPageComponent implements OnInit {
               private cfs:CurriculumFetcherService) { }
 
   ngOnInit() {
-    //Load relevant curriculum and display modules.
-    this.route.params.pipe(map(params=>params['id']))
-    .subscribe(res=>{
-      this.cfs.getCurriculumModules(res).subscribe();
-    })
   }
 
 }

@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { HttpHeaderResponse } from '@angular/common/http';
 import { CurriculumFetcherService } from 'src/app/services/curriculum-fetcher.service';
 import { CurriculumStoreService } from '../../services/curriculum-store.service';
 import { Curriculum } from 'src/app/models/Curriculum';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-curriculum-creator-page',
@@ -22,10 +24,14 @@ export class CurriculumCreatorPageComponent implements OnInit {
 
     activeCurriculum: Curriculum;
 
+    editable: Map<number, boolean> = new Map<number, boolean>();
+    newName: string;
+
     constructor(private router: Router,
                 private cfs: CurriculumFetcherService,
                 public cs: CurriculumStoreService,
-                private toastr: ToastrService) { }
+                private toastr: ToastrService,
+                public dialog: MatDialog) { }
 
     ngOnInit() {
 
@@ -62,6 +68,19 @@ export class CurriculumCreatorPageComponent implements OnInit {
         );
     }
 
+    openCreateCurriculumDialog() {
+
+        const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
+          width: '250px',
+          data: {name: this.name, animal: this.animal}
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          console.log('The dialog was closed');
+          this.animal = result;
+        });
+    }
+
     //Set variables back to original value
     resetVariables() {
         this.curriculumName = '';
@@ -71,9 +90,60 @@ export class CurriculumCreatorPageComponent implements OnInit {
     getCurriculumDetails(id: number) {
 
         if (this.activeCurriculum === undefined || this.activeCurriculum.id !== id) {
-
-            console.log('dsa')
             this.cs.loadCurriculumDetails(id).then((cur) => this.activeCurriculum = cur);
         }
     }
+
+    setEditable(cur: Curriculum) {
+
+        for (const key of this.editable.keys()) {
+
+            this.editable.set(key, false);
+        }
+
+        this.editable.set(cur.id, true);
+
+        const ele = document.getElementById(`curriculum-input-${cur.id}`) as HTMLInputElement;
+        ele.focus();
+        ele.select();
+    }
+
+    updateCurriculum(cur: Curriculum) {
+
+        this.editable.set(cur.id, false);
+        this.cfs.updateCurriculumById(cur).subscribe(
+
+            (resp) => {
+
+                if (resp !== null) {
+
+                    this.toastr.info("Changes saved");
+
+                } else {
+
+                    this.toastr.error("Failed to communicate to the server");
+                }
+            },
+            (error) => {
+
+                this.toastr.error("Failed to communicate to the server");
+            }
+        );
+    }
+}
+
+
+@Component({
+    selector: 'new-curriculum-dialog',
+    templateUrl: 'new-curriculum-dialog.html',
+})
+export class NewCurriculumDialog {
+
+    constructor(public dialogRef: MatDialogRef<NewCurriculumDialog>,
+                @Inject(MAT_DIALOG_DATA) public name: string) {}
+
+    onNoClick(): void {
+        this.dialogRef.close();
+    }
+
 }

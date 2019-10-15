@@ -44,6 +44,7 @@ export class EndpointsService {
    public readonly GET_ALL_CURRICULA: string = this.baseURL + '/curriculum';
    /** Get specific curriculum **/
    public readonly GET_CURRICULUM_BY_ID: string = this.baseURL + '/curriculum/${id}';
+   public readonly UPDATE_CURRICULUM_BY_ID: string = this.baseURL + '/curriculum/${id}';
    /** Get All Modules Endpoint */
    public readonly GET_ALL_MODULES: string = this.baseURL + '/modules';
    /** Get Module by ID Endpoint */

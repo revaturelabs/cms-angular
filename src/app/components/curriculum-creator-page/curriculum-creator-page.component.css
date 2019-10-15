@@ -86,3 +86,13 @@ a {
 
     cursor: pointer;
 }
+
+.pointer {
+
+    cursor: pointer;
+}
+
+.form-control-plaintext {
+
+    outline: none;
+}

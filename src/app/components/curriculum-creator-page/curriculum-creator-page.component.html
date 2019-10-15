@@ -89,7 +89,7 @@
 
                                         <td style="width: 44px">
 
-                                            <a data-toggle="modal" data-target="#deleteModule" title="Delete Curriculum">
+                                            <a data-toggle="modal" data-target="#deleteModule" matTooltip="Delete: {{curriculum.name}}">
                                                 <font size="+2">
                                                     <em class="fas fa-trash" id="delete-curriculum-{{curriculum.id}}">
                                                     </em>
@@ -98,10 +98,30 @@
 
                                         </td>
 
-                                        <td>
-                                             <a class="lead p-0 m-0" (click)="listContent(module)">
-                                                <font size="+2">{{curriculum.name}}</font>
+                                        <td style="width:44px">
+
+                                            <a class="lead p-0 m-0" (click)="setEditable(curriculum); $event.stopPropagation()" matTooltip="Rename: {{curriculum.name}}">
+                                                <font size="+2"><em class="fa fa-pencil"></em></font>
                                             </a>
+
+                                        </td>
+
+                                        <td>
+                                             <form>
+
+                                                <div class="form-group m-0">
+                                                    <font size="+2">
+                                                        <input type="text" [(ngModel)]="curriculum.name" [readonly]="!editable.get(curriculum.id)"
+                                                            id="curriculum-input-{{curriculum.id}}" class="lead" name="curriculumName" 
+                                                            (focusout)="editable.get(curriculum.id) ? updateCurriculum(curriculum) : ''"
+                                                            (keyup.enter)="editable.get(curriculum.id) ? updateCurriculum(curriculum) : ''"
+                                                            (click)="editable.get(curriculum.id) ? $event.stopPropagation() : ''"
+                                                            (keyup)="$event.stopPropagation()" (keydown)="$event.stopPropagation()"
+                                                            [ngClass]="{'form-control-plaintext pointer': !editable.get(curriculum.id)}">
+                                                    </font>
+                                                </div>
+
+                                            </form>
                                         </td>
                                     </tbody>
 

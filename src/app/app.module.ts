@@ -47,6 +47,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { CurriculumFilterPipe } from './pipes/curriculum-filter.pipe';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialogModule } from '@angular/material/dialog';
 
 /** @ignore */
 @NgModule({
@@ -96,7 +98,9 @@ import { CurriculumFilterPipe } from './pipes/curriculum-filter.pipe';
       MatButtonModule,
       MatInputModule,
       MatToolbarModule,
-      MatButtonToggleModule
+      MatButtonToggleModule,
+      MatTooltipModule,
+      MatDialogModule
    ],
    providers: [
       GlobalReports,
