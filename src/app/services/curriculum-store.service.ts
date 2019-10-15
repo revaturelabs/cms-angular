@@ -89,9 +89,7 @@ export class CurriculumStoreService {
 
                 this.cfs.getCurriculumById(id).subscribe(
 
-                    (resp) => {
-
-                        console.log(resp);    
+                    (resp) => { 
 
                         if (resp !== null) {
 

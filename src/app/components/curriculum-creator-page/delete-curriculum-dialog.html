@@ -1,0 +1,22 @@
+<div class="modal-header">
+
+    <p mat-dialog-title class="lead p-0 m-0">Deleting {{data.node.name}}</p>
+
+</div>
+
+<div class="modal-body">
+
+    <p>This will not delete any modules associated with this curriculum.</p>
+
+</div>
+
+<div class="modal-footer">
+
+    <button mat-stroked-button (click)="onNoClick()">Cancel</button>
+    <button mat-stroked-button cdkFocusInitial (click)="delete()" [disabled]="isDeleting">Delete</button>
+
+</div>
+
+<div *ngIf="this.isDeleting" class="spinner">
+    <mat-spinner [diameter]="20"></mat-spinner>
+</div>

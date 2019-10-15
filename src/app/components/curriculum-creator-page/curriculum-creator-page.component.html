@@ -14,43 +14,16 @@
             </div>
 
             <div *ngIf="!cs.loading">
-                <form>
-                        
-                    <div class="form-group mb-3 col-10 offset-1">
-
-                        <label for="inputTextGroup" class="mb-0 pb-0">Curriculum Name</label>
-         
-                        <div class="input-group mb-1" id="inputTextGroup">
-         
-                           <input [(ngModel)]="curriculumName" required name="subject" type="text" class="form-control" placeholder="Subject" 
-                              id="inputText" maxlength="254">
-         
-                           <div class="input-group-append">
-         
-                              <button type="button" class="btn btn-info" id="submitButton" (click)="submit()">
-                                 Create Curriculum
-                              </button>
-         
-                              <mat-spinner [diameter]="30" *ngIf="this.isSubmitting"></mat-spinner>
-         
-                           </div>
-         
-                        </div>
-         
-                        <small id="inputTextHelp" class="form-text text-muted">Maximum of 254 Characters.</small>
-         
-                     </div>
-                </form>
 
                 <mat-toolbar class="mb-4">
 
                     <button mat-icon-button>
 
-                        <mat-icon>search</mat-icon>
+                        <mat-icon matTooltip="Filter by name">search</mat-icon>
 
                     </button>
 
-                    <mat-form-field style="width: 100%">
+                    <mat-form-field>
 
                         <input [(ngModel)]="searchConstraint" type="text" matInput placeholder="Search for Curriculum...">
 
@@ -66,9 +39,9 @@
 
                 <div class="mb-2">
                 
-                    <a class="lead p-0 m-0 pb-3" style="margin-left: 27px!important;">
+                    <a class="lead p-0 m-0 pb-3" style="margin-left: 27px!important;" (click)="openCreateCurriculumDialog()">
                         <font size="+2">
-                            <em class="fa fa-plus" title="New Curriculum">
+                            <em class="fa fa-plus" matTooltip="Create a New Curriculum">
                             </em>
                             &nbsp;&nbsp;&nbsp;Create New Curriculum
                         </font>
@@ -78,7 +51,7 @@
 
                 <mat-accordion>
 
-                    <mat-expansion-panel *ngFor = "let curriculum of cs.nodes | curriculumFilter : searchConstraint" (click)="getCurriculumDetails(curriculum.id)">
+                    <mat-expansion-panel *ngFor="let curriculum of cs.nodes | curriculumFilter : searchConstraint" (click)="getCurriculumDetails(curriculum.id)">
 
                         <mat-expansion-panel-header>
 
@@ -89,7 +62,7 @@
 
                                         <td style="width: 44px">
 
-                                            <a data-toggle="modal" data-target="#deleteModule" matTooltip="Delete: {{curriculum.name}}">
+                                            <a (click)="openDeleteCurriculumDialog(curriculum); $event.stopPropagation()" matTooltip="Delete: {{curriculum.name}}">
                                                 <font size="+2">
                                                     <em class="fas fa-trash" id="delete-curriculum-{{curriculum.id}}">
                                                     </em>

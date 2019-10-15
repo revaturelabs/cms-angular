@@ -4,7 +4,7 @@ import { Curriculum } from '../models/Curriculum';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Cacheable, CacheBuster, globalCacheBusterNotifier } from 'ngx-cacheable';
-import { HttpClient, HttpHeaderResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaderResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
@@ -29,11 +29,11 @@ export class CurriculumFetcherService {
     }
 
     //Create Curriculum
-    createCurriculum(curriculum: Curriculum): Observable<HttpHeaderResponse> {
+    createCurriculum(curriculum: Curriculum): Observable<Curriculum> {
 
         let body: string = JSON.stringify(curriculum);
         //*Need to add check to make sure curriculum mdoes not exist
-        return this.http.post<HttpHeaderResponse>(this.endpoints.CREATE_NEW_CURRICULUM, curriculum, { headers: this.HEADERS });
+        return this.http.post<Curriculum>(this.endpoints.CREATE_NEW_CURRICULUM, curriculum, { headers: this.HEADERS });
     }
 
     //Get all current curricula
@@ -49,6 +49,13 @@ export class CurriculumFetcherService {
 
         return this.http.put<HttpHeaderResponse>(
             this.endpoints.UPDATE_CURRICULUM_BY_ID.replace('${id}', cur.id.toString()), body, { headers: this.HEADERS }
+        );
+    }
+
+    deleteCurriculumById(cur: Curriculum): Observable<HttpHeaderResponse> {
+
+        return this.http.delete<HttpHeaderResponse>(
+            this.endpoints.DELETE_CURRICULUM_BY_ID.replace('${id}', cur.id.toString())
         );
     }
 }

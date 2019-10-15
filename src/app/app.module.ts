@@ -32,6 +32,7 @@ import { SubmitRequestPageComponent } from './components/submit-request-page/sub
 import { ContentOrderPipe } from './pipes/content-order.pipe';
 import { ContentFilterPipe } from './pipes/content-filter.pipe';
 import { ModuleIndexSearchPipe } from './pipes/module-index-search.pipe';
+import { NewCurriculumDialog, DeleteCurriculumDialog } from './components/curriculum-creator-page/curriculum-creator-page.component';
 
 /** Angular Material Modules */
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -52,60 +53,71 @@ import { MatDialogModule } from '@angular/material/dialog';
 
 /** @ignore */
 @NgModule({
-   declarations: [
-      AppComponent,
-      ContentCreatorPageComponent,
-      ContentFinderPageComponent,
-      NavbarComponent,
-      ModuleCreatorPageComponent,
-      ModuleIndexPageComponent,
-      ReportsPageComponent,
-      ReportsTimeGraphComponent,
-      DisplayRequestPageComponent,
-      ResolveRequestPageComponent,
-      SubmitRequestPageComponent,
-      ContentOrderPipe,
-      ContentFilterPipe,
-      ModuleIndexSearchPipe,
-      CurriculumCreatorPageComponent,
-      CurriculumModulesPageComponent,
-      CurriculumFilterPipe
-   ],
-   imports: [
-      BrowserModule,
-      AppRoutingModule,
-      HttpClientModule,
-      NgSelectModule,
-      FormsModule,
-      NgxChartsModule,
-      BrowserAnimationsModule,
-      CommonModule,
-      BrowserAnimationsModule,
-      ToastrModule.forRoot(),
-      MatProgressSpinnerModule,
-      TreeModule.forRoot(),
-      BrowserModule,
-      AngularWebStorageModule,
-      DragDropModule,
-      MatCardModule,
-      MatExpansionModule,
-      MatFormFieldModule,
-      MatTabsModule,
-      MatAutocompleteModule,
-      ReactiveFormsModule,
-      MatMenuModule,
-      MatIconModule,
-      MatButtonModule,
-      MatInputModule,
-      MatToolbarModule,
-      MatButtonToggleModule,
-      MatTooltipModule,
-      MatDialogModule
-   ],
-   providers: [
-      GlobalReports,
-       ModuleStoreService
-   ],
-   bootstrap: [AppComponent]
+
+    entryComponents: [
+
+        NewCurriculumDialog,
+        DeleteCurriculumDialog
+    ],
+
+    declarations: [
+        AppComponent,
+        ContentCreatorPageComponent,
+        ContentFinderPageComponent,
+        NavbarComponent,
+        ModuleCreatorPageComponent,
+        ModuleIndexPageComponent,
+        ReportsPageComponent,
+        ReportsTimeGraphComponent,
+        DisplayRequestPageComponent,
+        ResolveRequestPageComponent,
+        SubmitRequestPageComponent,
+        ContentOrderPipe,
+        ContentFilterPipe,
+        ModuleIndexSearchPipe,
+        CurriculumCreatorPageComponent,
+        CurriculumModulesPageComponent,
+        CurriculumFilterPipe,
+        NewCurriculumDialog,
+        DeleteCurriculumDialog
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        NgSelectModule,
+        FormsModule,
+        NgxChartsModule,
+        BrowserAnimationsModule,
+        CommonModule,
+        BrowserAnimationsModule,
+        ToastrModule.forRoot(),
+        MatProgressSpinnerModule,
+        TreeModule.forRoot(),
+        BrowserModule,
+        AngularWebStorageModule,
+        DragDropModule,
+        MatCardModule,
+        MatExpansionModule,
+        MatFormFieldModule,
+        MatTabsModule,
+        MatAutocompleteModule,
+        ReactiveFormsModule,
+        MatMenuModule,
+        MatIconModule,
+        MatButtonModule,
+        MatInputModule,
+        MatToolbarModule,
+        MatButtonToggleModule,
+        MatTooltipModule,
+        MatDialogModule
+    ],
+
+    providers: [
+        GlobalReports,
+         ModuleStoreService
+    ],
+
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

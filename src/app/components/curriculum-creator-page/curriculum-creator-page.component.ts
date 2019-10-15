@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
 
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
+import { UtilService } from '../../services/util.service';
+
 @Component({
     selector: 'app-curriculum-creator-page',
     templateUrl: './curriculum-creator-page.component.html',
@@ -38,53 +40,25 @@ export class CurriculumCreatorPageComponent implements OnInit {
         this.cs.loadCurricula();
     }
 
-    submit(){
-
-        // First isSubmitting is made true to start the spinner wheel. 
-        this.isSubmitting = true;
-        
-        /* 
-        To indicate whether or not something was input correctly, one tests whether or not this.subject, 
-        the two-way databinded element, is an empty string, null, or undefined; i.e. no valid input was
-        given. 
-        */
-
-        if (['', null, undefined].includes(this.curriculumName)) {
-            this.toastr.error('Please fill in the input field!');
-            this.resetVariables();
-            return;
-        }
-
-        //Execute service and persist object
-        this.cfs.createCurriculum(new Curriculum(null, this.curriculumName, null)).subscribe(
-
-            (resp) => {
-
-                if (resp != null) {
-                    
-                    this.cs.loadCurricula();
-                }
-            }
-        );
-    }
-
     openCreateCurriculumDialog() {
 
-        const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
-          width: '250px',
-          data: {name: this.name, animal: this.animal}
+        const dialogRef = this.dialog.open(NewCurriculumDialog, {
+            width: '400px',
+            data: {name: this.curriculumName}
         });
 
         dialogRef.afterClosed().subscribe(result => {
-          console.log('The dialog was closed');
-          this.animal = result;
+
+            this.cs.loadCurricula();
         });
     }
 
-    //Set variables back to original value
-    resetVariables() {
-        this.curriculumName = '';
-        this.isSubmitting = false;
+    openDeleteCurriculumDialog(node: Curriculum) {
+
+        const dialogRef = this.dialog.open(DeleteCurriculumDialog, {
+            width: '400px',
+            data: {node}
+        });
     }
 
     getCurriculumDetails(id: number) {
@@ -135,15 +109,113 @@ export class CurriculumCreatorPageComponent implements OnInit {
 
 @Component({
     selector: 'new-curriculum-dialog',
-    templateUrl: 'new-curriculum-dialog.html',
+    templateUrl: './new-curriculum-dialog.html',
+    styleUrls: ['./curriculum-creator-page.component.css']
 })
 export class NewCurriculumDialog {
 
     constructor(public dialogRef: MatDialogRef<NewCurriculumDialog>,
-                @Inject(MAT_DIALOG_DATA) public name: string) {}
+                public toastr: ToastrService,
+                public cfs: CurriculumFetcherService,
+                public cs: CurriculumStoreService,
+                @Inject(MAT_DIALOG_DATA) public data: {name: string}) {}
+
+    isSubmitting: boolean = false;
 
     onNoClick(): void {
+
+        this.data.name = ''
         this.dialogRef.close();
+    }
+
+    submit(){
+
+        this.isSubmitting = true;
+        
+        /* 
+        To indicate whether or not something was input correctly, one tests whether or not this.subject, 
+        the two-way databinded element, is an empty string, null, or undefined; i.e. no valid input was
+        given. 
+        */
+
+        if (['', null, undefined].includes(this.data.name)) {
+            this.toastr.error('Please fill in the input field!');
+            this.isSubmitting = false;
+            return;
+        }
+
+        //Execute service and persist object
+        this.cfs.createCurriculum(new Curriculum(null, this.data.name, null)).subscribe(
+
+            (resp) => {
+
+                if (resp != null) {
+
+                    this.toastr.info("Curriculum successfully made");
+                    this.cs.nodes.push(resp);
+                    this.cs.idToCurriculum.set(resp.id, resp);
+                    this.isSubmitting = false;
+                    this.data.name = '';
+
+                } else {
+
+                    this.toastr.error("Failed to communicate with the server")
+                }
+            },
+
+            (error) => {
+
+                this.toastr.error("Failed to communicate with the server")
+            }
+        );
+    }
+
+}
+
+@Component({
+    selector: 'delete-curriculum-dialog',
+    templateUrl: './delete-curriculum-dialog.html',
+    styleUrls: ['./curriculum-creator-page.component.css']
+})
+export class DeleteCurriculumDialog {
+
+    constructor(public dialogRef: MatDialogRef<NewCurriculumDialog>,
+                public toastr: ToastrService,
+                public cfs: CurriculumFetcherService,
+                public cs: CurriculumStoreService,
+                public util: UtilService,
+                @Inject(MAT_DIALOG_DATA) public data: {node: Curriculum}) {}
+
+    isDeleting: boolean = false;
+
+    onNoClick(): void {
+
+        this.dialogRef.close();
+    }
+
+    delete() {
+
+        this.isDeleting = true;
+        this.cfs.deleteCurriculumById(this.data.node).subscribe(
+
+            (resp) => {
+
+                this.cs.nodes = this.cs.nodes.filter(
+
+                    (node: Curriculum) => {
+
+                        return node.id !== this.data.node.id;
+                    }
+                );
+
+                this.toastr.info(`${this.data.node.name} deleted`);
+            },
+
+            (error) => {
+
+                this.toastr.error('Failed to communicate with the server')
+            }
+        );
     }
 
 }

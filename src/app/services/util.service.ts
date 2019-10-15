@@ -226,4 +226,32 @@ export class UtilService {
 
         return 0;
     }
+
+    findCurriculumIdxById(id: number, nodes: Curriculum[]): number {
+
+        return this.findCurriculumIdxByIdHelper(id, 0, nodes.length - 1, nodes);
+    }
+
+    findCurriculumIdxByIdHelper(id: number, min: number, max: number, nodes: Curriculum[]): number {
+
+        const idx = Math.floor((max + min) / 2);
+
+        if (min > max) {
+
+            return null;
+        }
+
+        if (nodes[idx].id === id) {
+
+            return idx;
+
+        } else if (nodes[idx].id > id) {
+
+            return this.findCurriculumIdxByIdHelper(id, min, idx - 1, nodes);
+
+        } else {
+
+            return this.findCurriculumIdxByIdHelper(id, idx + 1, max, nodes);
+        }
+    }
 }
