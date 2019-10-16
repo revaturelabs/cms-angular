@@ -33,7 +33,7 @@ export class ContentFinderPageComponent implements OnInit {
    /**
     * Sets defualt for content selection to All
     */
-   selFormat: string = "All";
+   selFormat: string[] = ["All"];
 
    /**
     * Array of contents
@@ -143,10 +143,19 @@ export class ContentFinderPageComponent implements OnInit {
          
          //populate a filter object with the params we just extracted
          let filter: Filter = new Filter(
-            title, format, moduleIdNumbers
+            title, [format], moduleIdNumbers
          );
 
          this.sendSearch(filter);
+      }
+   }
+
+   toggleFormat(format : string){
+      if(this.selFormat.includes(format)){
+         this.selFormat.splice(this.selFormat.indexOf(format), 1);
+      }
+      else{
+         this.selFormat.push(format);
       }
    }
 
@@ -157,12 +166,10 @@ export class ContentFinderPageComponent implements OnInit {
     */
    submit() {
       this.isSearching = true;
-      let format: string = this.selFormat;
+      let format: string[] = this.selFormat;
 
       //if 'all' or 'flagged' was selected return all content
-      if (format === "All" || format === "Flagged") {
-         format = "";
-      }
+     
       this.getIDsFromSubjects(this.selectedSubjects);
       let filter: Filter = new Filter(
          this.title, format, this.moduleIDs
@@ -204,19 +211,21 @@ export class ContentFinderPageComponent implements OnInit {
          url = url.substring(0, url.indexOf('?'));
       }
       let modules: string = JSON.stringify(filter.modules);
+      let formats: string = JSON.stringify(filter.format);
       modules = modules.replace('[','');
       modules = modules.replace(']','');
-      this.location.replaceState("finder?title=" + filter.title + "&format=" + filter.format + "&modules=" + modules)
+      formats = formats.replace('[','');
+      formats = formats.replace(']','');
+      formats = formats.replace(/"/g, '');
+      this.location.replaceState("finder?title=" + filter.title + "&format=" + formats + "&modules=" + modules)
    }
    
    submitForDelete() {
       this.isSearching = true;
-      let format: string = this.selFormat;
+      let format: string[] = this.selFormat;
 
       //if 'all' or 'flagged' was selected return all content
-      if (format === "All" || format === "Flagged") {
-         format = "";
-      }
+      
       this.getIDsFromSubjects(this.selectedSubjects);
       let filter: Filter = new Filter(
          this.title, format, this.moduleIDs
@@ -271,7 +280,7 @@ export class ContentFinderPageComponent implements OnInit {
       * Filter the contents by content with no links (not attached to a modules) 
       * if 'flagged' is the selected format
       */
-      if (this.selFormat === "Flagged") {
+      if (this.selFormat === ["Flagged"]) {
          this.contents = this.contents.filter(function (flaggedContent) {
             return flaggedContent.links.length === 0;
          });
@@ -286,7 +295,7 @@ export class ContentFinderPageComponent implements OnInit {
     */
    reset() {
       this.title = "";
-      this.selFormat = "Code";
+      this.selFormat = ["Code"];
       this.selectedSubjects = [];
    }
 

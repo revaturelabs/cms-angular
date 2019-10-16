@@ -60,7 +60,7 @@ export class RequestFetcherService {
     }
 
     return this.http.get<Request[]>(this.endpoints.FILTER_REQUEST.replace('${title}',
-    filter.title).replace('${format}', filter.format).replace('${modules}', modules), {withCredentials: true}).pipe(
+    filter.title).replace('${format}', filter.format[0]).replace('${modules}', modules), {withCredentials: true}).pipe(
         map(resp => resp as Request[])
       );
   }
