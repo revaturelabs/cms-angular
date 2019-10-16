@@ -118,6 +118,7 @@ export class EndpointsService {
          this.GET_CURRICULUM_MODULES,
          this.POST_SET_OF_CURRMODULES,
          this.DELETE_CURRMODULE_BY_ID
+
       );
 
       return endpoints;

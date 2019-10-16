@@ -4,7 +4,7 @@ export class Filter {
     /** String variable for title */
     title: string = "";
     /** String variable for format */
-    format: string = "";
+    format: string[] = [];
     /** Number array variable for modules */
     modules: number[] = [];
 
@@ -14,7 +14,7 @@ export class Filter {
      * @param format 
      * @param modules 
      */
-    constructor(title: string, format: string, modules: number[]){
+    constructor(title: string, format: string[], modules: number[]){
         if (null != title) this.title = title;
         if (null != format) this.format = format;
         if (null != modules) this.modules = modules;
@@ -25,7 +25,7 @@ export class Filter {
         return this.title;
     }
     /** Getter method to get format */
-    public getFormat(): string {
+    public getFormat(): string[] {
         return this.format;
     }
     /** Getter method to get array of Modules */
@@ -37,7 +37,7 @@ export class Filter {
         this.title = title;
     }
     /** Setter method to set format */
-    public setFormat(format: string){
+    public setFormat(format: string[]){
         this.format = format;
     }
     /** Setter method to set modules */
