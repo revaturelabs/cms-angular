@@ -126,19 +126,19 @@ describe('ModuleIndexPageComponent', () => {
         let Mod1: Module = new Module(1, "", 1, [], [], [], []);
         let Con1: Content = new Content(1, "B", "", "", "", []);
         let Con2: Content = new Content(2, "A", "", "", "", []);
-        expect(component.contentVisible.get(Mod1)).toBeFalsy();
+        expect(component.contentVisible).toBeFalsy();
         component.listContent(Mod1);
-        expect(component.contentVisible.get(Mod1)).toBeTruthy();
+        expect(component.contentVisible).toBeTruthy();
     });
 
     it('should set Module to not visible if listContent() is called twice', () => {
         let Mod1: Module = new Module(2, "", 1, [], [], [], []);
         let Con1: Content = new Content(1, "B", "", "", "", []);
         let Con2: Content = new Content(2, "A", "", "", "", []);
-        expect(component.contentVisible.get(Mod1)).toBeFalsy();
+        expect(component.contentVisible).toBeFalsy();
         component.listContent(Mod1);
         component.listContent(Mod1);
-        expect(component.contentVisible.get(Mod1)).toBeFalsy();
+        expect(component.contentVisible).toBeFalsy();
     });
 
 });
