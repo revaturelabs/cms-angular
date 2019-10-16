@@ -128,13 +128,5 @@ export class EndpointsService {
    */
    public printJSON(uri: string): any {
       let obs = this.http.get<any>(uri);
-      obs.subscribe(
-         (response) => {
-            console.log(response);
-         },
-         (response) => {
-            console.log('failed');
-         }
-      )
    }
 }

@@ -13,6 +13,8 @@ import { Content } from 'src/app/models/Content';
 import { Link } from 'src/app/models/Link';
 import { Observable, of } from 'rxjs';
 
+import { FormsModule } from '@angular/forms';
+
 import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -140,5 +142,4 @@ describe('ModuleIndexPageComponent', () => {
         component.listContent(Mod1);
         expect(component.contentVisible).toBeFalsy();
     });
-
 });

@@ -6,7 +6,7 @@ import { HttpHeaderResponse } from '@angular/common/http';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { ModuleFetcherService } from 'src/app/services/module-fetcher.service';
 import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
-import { UtilService } from '../../services/util.service';
+import { SortSearchService } from '../../services/sort-search.service';
 
 import { Link } from '../../models/Link';
 import { Module } from 'src/app/models/Module';
@@ -23,7 +23,7 @@ import { Filter } from 'src/app/models/Filter';
 export class ModuleIndexPageComponent implements OnInit {
 
     /** Module whose contents are currently visible */
-    contentVisible: Module = null;
+    activeModule: Module = null;
 
     /**
      * Map of children visibility status of a Module
@@ -41,14 +41,8 @@ export class ModuleIndexPageComponent implements OnInit {
     /** Variable that will reference selected Link for removal. */
     selLink: Link;
 
-    /** Variable that will reference the module of the selected content for removal. */
-    selModule: Module;
-
     /** Used to display a spinner when modules are loading. */
     isLoading = false;
-
-    /** Used to display module information for not first generation modules */
-    activeModule: Module;
 
     /** Used to filter Modules by name with a pipe */
     searchConstraint: string;
@@ -62,14 +56,14 @@ export class ModuleIndexPageComponent implements OnInit {
      * @param ms - Fetches tags
      * @param toastr - ???
      * @param mfs - Used to display stored nodes
-     * @param util - Sorts and Searches
+     * @param ss - Sorts and Searches
      */
     constructor(
         public cs: ContentFetcherService,
         public ms: ModuleStoreService,
         private toastr: ToastrService,
         private mfs: ModuleFetcherService,
-        private util: UtilService
+        private ss: SortSearchService
     ) { }
 
     /** On page initialization load the modules to list on the dropdown menu */
@@ -91,13 +85,13 @@ export class ModuleIndexPageComponent implements OnInit {
             }
         }
 
-        if (this.contentVisible === null) {
+        if (this.activeModule === null) {
 
-            this.contentVisible = module;
+            this.activeModule = module;
 
         } else {
 
-            this.contentVisible = this.contentVisible.id === module.id ? null : module;
+            this.activeModule = this.activeModule.id === module.id ? null : module;
         }
 
         this.childrenVisible.set(module, false);
@@ -129,9 +123,10 @@ export class ModuleIndexPageComponent implements OnInit {
             }
         }
 
-        if ((this.contentVisible !== null && this.contentVisible.id === module.id) || this.childrenVisible.get(module)) {
 
-            this.contentVisible = null;
+        if ((this.activeModule !== null && this.activeModule.id === module.id) || this.childrenVisible.get(module)) {
+
+            this.activeModule = null;
             this.childrenVisible.set(module, false);
             return;
         }
@@ -154,7 +149,8 @@ export class ModuleIndexPageComponent implements OnInit {
         }
 
         this.childrenVisible.set(module, !this.childrenVisible.get(module));
-        this.contentVisible = null;
+
+        this.activeModule = null;
         this.setActiveChild(module, 0);
         this.normalizePriority(this.activeModule);
     }
@@ -171,9 +167,9 @@ export class ModuleIndexPageComponent implements OnInit {
 
             (resp) => {
 
-                this.selModule.links.splice(this.contentActive.get(this.selModule), 1);
-                this.contentActive.set(this.selModule, this.selModule.links.length === 0 ? -1 : 0);
-                this.normalizePriority(this.selModule);
+                this.activeModule.links.splice(this.contentActive.get(this.activeModule), 1);
+                this.contentActive.set(this.activeModule, this.activeModule.links.length === 0 ? -1 : 0);
+                this.normalizePriority(this.activeModule);
             }
         );
     }
@@ -185,7 +181,7 @@ export class ModuleIndexPageComponent implements OnInit {
     selectedLinkForRemoval(link: Link, module: Module) {
 
         this.selLink = link;
-        this.selModule = module;
+        this.activeModule = module;
     }
 
     /**
@@ -193,7 +189,7 @@ export class ModuleIndexPageComponent implements OnInit {
      * @param module - module that will be writen as selected
      */
     selectedModuleForRemoval(module: Module) {
-        this.selModule = module;
+        this.activeModule = module;
     }
 
     /**
@@ -204,13 +200,13 @@ export class ModuleIndexPageComponent implements OnInit {
         switch (this.selMethod) {
 
             case '1':
-                this.mfs.deleteModuleByID(this.selModule.id).subscribe(() => this.ms.loadModules());
+                this.mfs.deleteModuleByID(this.activeModule.id).subscribe(() => this.ms.loadModules());
                 break;
             case '2':
-                this.mfs.deleteModuleWithSpecificContent(this.selModule.id).subscribe(() => this.ms.loadModules());
+                this.mfs.deleteModuleWithSpecificContent(this.activeModule.id).subscribe(() => this.ms.loadModules());
                 break;
             case '3':
-                this.mfs.deleteModuleWithContent(this.selModule.id).subscribe(() => this.ms.loadModules());
+                this.mfs.deleteModuleWithContent(this.activeModule.id).subscribe(() => this.ms.loadModules());
                 break;
         }
 
@@ -232,7 +228,7 @@ export class ModuleIndexPageComponent implements OnInit {
             this.contentActive.set(ret, 0);
         }
 
-        this.contentVisible = ret;
+        this.activeModule = ret;
 
         return ret;
     }
@@ -275,7 +271,7 @@ export class ModuleIndexPageComponent implements OnInit {
         const targetIdx: number = event.currentIndex
         const baseIdx: number = event.previousIndex;
 
-        module.links.sort(this.util.sortLinksByPriority);
+        module.links.sort(this.ss.sortLinksByPriority);
         module.links[baseIdx].priority = targetIdx;
 
         if (targetIdx < baseIdx) {
@@ -293,7 +289,7 @@ export class ModuleIndexPageComponent implements OnInit {
             }
         }
 
-        module.links.sort(this.util.sortLinksByPriority);
+        module.links.sort(this.ss.sortLinksByPriority);
 
         this.contentActive.set(module, targetIdx);
 
@@ -337,7 +333,7 @@ export class ModuleIndexPageComponent implements OnInit {
         module.links[curIdx].priority = curIdx + shift;
         module.links[curIdx + shift].priority = curIdx;
 
-        module.links.sort(this.util.sortLinksByPriority);
+        module.links.sort(this.ss.sortLinksByPriority);
         this.contentActive.set(module, curIdx + shift);
 
         this.mfs.updateModuleLinks(module).subscribe(
@@ -364,7 +360,7 @@ export class ModuleIndexPageComponent implements OnInit {
      */
     normalizePriority(module: Module): void {
 
-        module.links.sort(this.util.sortLinksByPriority);
+        module.links.sort(this.ss.sortLinksByPriority);
         let change = false;
 
         for (let i = 0 ; i < module.links.length ; i++) {

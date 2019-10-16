@@ -10,7 +10,7 @@ import { CurrModule } from '../models/curr-module';
     providedIn: 'root'
 })
 
-export class UtilService {
+export class SortSearchService {
 
     constructor() { }
 
