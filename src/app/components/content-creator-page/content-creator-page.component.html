@@ -64,17 +64,21 @@
                     </div>
 
                     <div class="row format mb-3">
-                        <div class="col">
-                            <div class="btn-radio"> <!-- Radio buttons to select what kind of resource you want this content to be sectioned under, that being Code, Document, or PowerPoint -->
-                                <div class="form-check form-check-inline" *ngFor="let format of formats">
-                                    <!-- Here, ngModel is taking the specified radio button for submitting the form -->
-                                    <input [(ngModel)]="selFormat" class="form-check-input" type="radio" name="formatOptions"
-                                        id="{{format}}" value="{{format}}">
-                                    <label class="form-check-label" for="{{format}}" id="{{format}}RadioButton">{{format}}</label>
-                                </div>
+                        
+                        <div class="col text-center">
+                            
+
+                            <div class="btn-group">
+                                <button class="btn" *ngFor="let format of formats" 
+                                [class.btn-primary]="selFormat==format"
+                                [class.btn-secondary]="selFormat!=format"
+                                (click)="selFormat=format" id="{{format}}">{{format}}</button>
                             </div>
                         </div>
+                        
                     </div>
+
+
 
                     <div class="row btn mb-3"> <!-- Submit button tied to submit() function that sends the form information to the database, adding the specified information for later retrieval -->
                         <button type="button" class="btn btn-primary" id="submitButton" (click)="submit()" *ngIf="!this.isSubmitting">Submit
