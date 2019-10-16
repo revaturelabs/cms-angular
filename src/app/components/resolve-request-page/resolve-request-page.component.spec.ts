@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import {  NgSelectModule } from '@ng-select/ng-select';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { MatProgressSpinnerModule } from '@angular/material';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { ToastrModule } from 'ngx-toastr';
@@ -19,7 +19,6 @@ import { Location } from '@angular/common';
 import { RequestFetcherService } from 'src/app/services/request-fetcher.service';
 import { Observable } from 'rxjs';
 
-
 describe('ResolveRequestPageComponent', () => {
   let component: ResolveRequestPageComponent;
   let fixture: ComponentFixture<ResolveRequestPageComponent>;
@@ -34,6 +33,7 @@ describe('ResolveRequestPageComponent', () => {
   let content2:Content = new Content(2, "C#", "String", "description", "url", null);
   let module1:Module = new Module(1,"Java",12345,null,null,null,null);
   let module2:Module = new Module(2,"C#",12345,null,null,null,null);
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ FormsModule,
@@ -70,6 +70,7 @@ describe('ResolveRequestPageComponent', () => {
     component.session.set("request",1)
     component.ngOnInit();
   });
+
   it('ngOnInit mock services', () => {
     let response: Request =  new Request(1,"Java", "String", "Description", null, null);
     let url = baseURL + `/requests/1`;

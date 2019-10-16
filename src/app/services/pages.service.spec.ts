@@ -1,19 +1,16 @@
 import { TestBed } from '@angular/core/testing';
-
 import { PagesService } from './pages.service';
 
 describe('PagesService', () => {
   let pagesService: PagesService;
 
-  beforeEach(() => TestBed.configureTestingModule(
-    {
-    }));
+  beforeEach(() => {
+    TestBed.configureTestingModule({});
+    pagesService = TestBed.get(PagesService);
+  });
 
   it('should be created', () => {
-    const service: PagesService = TestBed.get(PagesService);
-
-    expect(service).toBeTruthy();
-  
+    expect(pagesService).toBeTruthy();
   });
 
   it('test constructor', () => {
@@ -30,6 +27,5 @@ describe('PagesService', () => {
      expect(pagesService.pageRefresh).toBeTruthy();
   });
   
-
 });
 

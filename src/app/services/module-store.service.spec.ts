@@ -1,5 +1,4 @@
 import { TestBed, fakeAsync, tick, ComponentFixture, flushMicrotasks, discardPeriodicTasks } from '@angular/core/testing';
-
 import { ModuleStoreService } from './module-store.service';
 import { environment } from '../../environments/environment';
 import { Module } from '../models/Module';
@@ -8,8 +7,6 @@ import { ToastrModule } from 'ngx-toastr';
 import { Link } from '../models/Link';
 
 describe('ModuleStoreService', () => {
-  let fixture: ComponentFixture<ModuleStoreService>;
-
   let service: ModuleStoreService;
   let httpTestingController: HttpTestingController;
   let baseURL = environment.cms_url;
@@ -23,75 +20,50 @@ describe('ModuleStoreService', () => {
     });
     service = TestBed.get(ModuleStoreService);
     httpTestingController = TestBed.get(HttpTestingController);
-
   });
 
   afterEach(() => {
     httpTestingController.verify();
   });
 
-  // First test that the service is created
   it('should be created', () => {
-    const service: ModuleStoreService = TestBed.get(ModuleStoreService);
-
     expect(service).toBeTruthy();
-
   });
 
-  // Next we test the methods that ping our deployed backend
-  /**
-   * First, we test the LoadModules fuctioning. To do so, mocking is needed.
-   * First stipulate the fakeAsync()
-   * function to generate an empty response that one will manually
-   * populate.
-   */
   it('loadModules response not null', fakeAsync(() => {
     let response:Module[] = [];
-
-    service.loadModules().then(function(value) {
-      expect(response.length).toBe(value.length);
-    });
+    service.loadModules().then(function(value) {expect(response.length).toBe(value.length);});
     const req = httpTestingController.expectOne(baseURL + '/modules');
     expect(req.request.method).toEqual('GET');
     req.flush(response);
     tick(Infinity);
-
   }));
 
   it('loadModules response null', fakeAsync(() => {
-    service.loadModules().then(function(value) {
-      expect(0).toBe(value.length);
-    });
+    service.loadModules().then(function(value) {expect(0).toBe(value.length);});
     const req = httpTestingController.expectOne(baseURL + '/modules');
     expect(req.request.method).toEqual('GET');
     req.flush(null);
     tick(Infinity);
-
   }));
 
   it('loadModules error', fakeAsync(() => {
-    service.loadModules().then(function(value) {
-      expect(0).toBe(value.length);
-    });
+    service.loadModules().then(function(value) {expect(0).toBe(value.length);});
     const req = httpTestingController.expectOne(baseURL + '/modules');
     expect(req.request.method).toEqual('GET');
     req.error(null, {status: 400, statusText: "Bad Request"});
     tick(Infinity);
-
   }));
 
   it('loadModules response not null subjectIDToRootModule not empty', fakeAsync(() => {
     let module: Module = new Module(1,"Java", 12345,null,null,null,null);
     let response:Module[] = [module];
     service.subjectIDToRootModule.set(1,module);
-    service.loadModules().then(function(value) {
-      expect(response.length).toBe(value.length);
-    });
+    service.loadModules().then(function(value) {expect(response.length).toBe(value.length);});
     const req = httpTestingController.expectOne(baseURL + '/modules');
     expect(req.request.method).toEqual('GET');
     req.flush(response);
     tick(Infinity);
-
   }));
 
   it('loadEmptyModules response not null', fakeAsync(() => {
@@ -103,7 +75,6 @@ describe('ModuleStoreService', () => {
     expect(req.request.method).toEqual('GET');
     req.flush(response);
     tick(Infinity);
-
   }));
 
   it('loadEmptyModules response not null, response links not empty', fakeAsync(() => {
@@ -117,7 +88,6 @@ describe('ModuleStoreService', () => {
     expect(req.request.method).toEqual('GET');
     req.flush(response);
     tick(Infinity);
-
   }));
 
   it('loadEmptyModules response null', fakeAsync(() => {
@@ -126,7 +96,6 @@ describe('ModuleStoreService', () => {
     expect(req.request.method).toEqual('GET');
     req.flush(null);
     tick(Infinity);
-
   }));
 
   it('loadEmptyModules error', fakeAsync(() => {
@@ -135,7 +104,6 @@ describe('ModuleStoreService', () => {
     expect(req.request.method).toEqual('GET');
     req.error(null, {status: 400, statusText: "Bad Request"});
     tick(Infinity);
-
   }));
 
   it('populateCollections test sort 1', fakeAsync(() => {

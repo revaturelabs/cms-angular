@@ -4,7 +4,6 @@ import { RequestFetcherService } from './request-fetcher.service';
 import { ContentFetcherService } from './content-fetcher.service';
 import { ToastrModule } from 'ngx-toastr';
 import { environment } from '../../environments/environment';
-import { HttpHeaderResponse } from '@angular/common/http';
 import {Request} from '../models/Request';
 import { Filter } from '../models/Filter';
 
@@ -15,8 +14,7 @@ describe('RequestFetcherService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule,
-                ToastrModule.forRoot()],
+      imports: [HttpClientTestingModule,ToastrModule.forRoot()],
       providers: [ContentFetcherService]
     });
     service = TestBed.get(RequestFetcherService);
@@ -28,84 +26,53 @@ describe('RequestFetcherService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should return an Observable<Request[]> getAllRequests', fakeAsync(() => {
-    let url: string = baseURL + '/requests'
-    let request: Request = new Request(1,"Java","String", "Java is great", null, []);
-
-    let response: Request[] =  [request];    
-    service.getAllRequests().subscribe(
-      output => {expect(output[0].id).toBe(response[0].id)}
-    );
+  it('should test getAllRequests', fakeAsync(() => {
+    let url: string = baseURL + '/requests'   
+    service.getAllRequests().subscribe();
     const req = httpTestingController.expectOne(url);
     expect(req.request.method).toEqual("GET");
-    req.flush(response);
     tick();
-
   }));
 
-  it('should return an Observable<HttpHeaderResponse> deleteRequestByID', fakeAsync(() => {
+  it('should test deleteRequestByID', fakeAsync(() => {
     let url: string = baseURL + '/requests/1'
-    let response :HttpHeaderResponse = new HttpHeaderResponse({headers: null, status: 200, statusText:"ok",url: url});
-
-    service.deleteRequestByID(1).subscribe(
-      output => {expect(output).toBe(response);expect(output.status).toBe(200);}
-    );
+    service.deleteRequestByID(1).subscribe();
     const req = httpTestingController.expectOne(url);
     expect(req.request.method).toEqual("DELETE");
-    req.flush(response);
     tick();
-
   }));
 
-  it('should return an Observable<Request>, updateRequestByID', fakeAsync(() => {
+  it('should test updateRequestByID', fakeAsync(() => {
     let url: string = baseURL + '/requests/1';
     let requestAndResponse: Request = new Request(1,"Java","String", "Java is great", null, []);
-    service.updateRequestByID(1, requestAndResponse).subscribe(
-      output => {expect(output).toBe(requestAndResponse);}
-    );
+    service.updateRequestByID(1, requestAndResponse).subscribe();
     const req = httpTestingController.expectOne(url);
     expect(req.request.method).toEqual("PUT");
-    req.flush(requestAndResponse);
     tick();
-
   }));
 
-  it('should return an Observable<Request> getRequestByID', fakeAsync(() => {
+  it('should test getRequestByID', fakeAsync(() => {
     let url: string = baseURL + '/requests/1'
-    let response: Request = new Request(1,"Java","String", "Java is great", null, []);   
-    service.getRequestByID(1).subscribe(
-      output => {expect(output).toBe(response)}
-    );
+    service.getRequestByID(1).subscribe();
     const req = httpTestingController.expectOne(url);
     expect(req.request.method).toEqual("GET");
-    req.flush(response);
     tick();
-
   }));
 
-  // Test to make sure filterContent(filter) function is working
   it('filterContent is working, filter not null', fakeAsync(() => {
-    let response = {};
     let filter: Filter = new Filter(null, null, null);
-    
-    service.filterContent(filter).subscribe((receivedResponse) => {});
+    service.filterContent(filter).subscribe();
     const req = httpTestingController.expectOne(baseURL + '/requests?title=&format=&modules=');
     expect(req.request.method).toEqual("GET");
-    req.flush(response);
     tick();
-
   }));
 
-  // Test to make sure filterContent(filter) function is working
   it('filterContent is working, filter null', fakeAsync(() => {
-    let response = {};
-    
-    service.filterContent(null).subscribe((receivedResponse: any) => {});
+    service.filterContent(null).subscribe();
     const req = httpTestingController.expectOne(baseURL + '/requests?title=&format=&modules=');
     expect(req.request.method).toEqual("GET");
-    req.flush(response);
+    req.flush({});
     tick();
-
   }));
   
 });
