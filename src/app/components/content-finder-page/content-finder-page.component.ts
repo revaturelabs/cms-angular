@@ -23,7 +23,7 @@ export class ContentFinderPageComponent implements OnInit {
    /**
     * Selection of formats to choose betwwen
     */
-   readonly formats: string[] = ["Code", "Document", "Powerpoint", "Flagged", "All"];
+   readonly formats: string[] = ["Code", "Document", "Powerpoint"];
 
    /**
     * Title of content
@@ -31,9 +31,9 @@ export class ContentFinderPageComponent implements OnInit {
    title: string = "";
 
    /**
-    * Sets defualt for content selection to All
+    * Sets defualt format selection to all.
     */
-   selFormat: string[] = ["All"];
+   selFormat: string[] = ["Code", "Document", "Powerpoint"];
 
    /**
     * Array of contents
@@ -151,12 +151,20 @@ export class ContentFinderPageComponent implements OnInit {
    }
 
    toggleFormat(format : string){
+
+
+      
       if(this.selFormat.includes(format)){
-         this.selFormat.splice(this.selFormat.indexOf(format), 1);
+         if(this.selFormat.length==1){
+            this.toastr.info("You must include at least one format type.");
+         }else{
+            this.selFormat.splice(this.selFormat.indexOf(format), 1);
+         }
       }
       else{
          this.selFormat.push(format);
       }
+      
    }
 
    /**
