@@ -22,8 +22,8 @@ import { Filter } from 'src/app/models/Filter';
 
 export class ModuleIndexPageComponent implements OnInit {
 
-    /** Map of Visibility status of each Module */
-    contentVisible: Map<Module, boolean> = new Map<Module, boolean>();
+    /** Module whose contents are currently visible */
+    contentVisible: Module = null;
 
     /**
      * Map of children visibility status of a Module
@@ -53,6 +53,9 @@ export class ModuleIndexPageComponent implements OnInit {
     /** Used to filter Modules by name with a pipe */
     searchConstraint: string;
 
+    /** Deletion Method for Modules */
+    selMethod: string = '1';
+
     /**
      * Constructor for Module Index Component
      * @param cs - Fetches content
@@ -81,16 +84,22 @@ export class ModuleIndexPageComponent implements OnInit {
      */
     listContent(module: Module) {
 
-        for (const key of this.contentVisible.keys()) {
+        for (const key of this.childrenVisible.keys()) {
 
             if (key.id !== module.id) {
-
-                this.contentVisible.set(key, false);
                 this.childrenVisible.set(key, false);
             }
         }
 
-        this.contentVisible.set(module, !this.contentVisible.get(module));
+        if (this.contentVisible === null) {
+
+            this.contentVisible = module;
+
+        } else {
+
+            this.contentVisible = this.contentVisible.id === module.id ? null : module;
+        }
+
         this.childrenVisible.set(module, false);
 
         this.contentActive.set(
@@ -120,9 +129,9 @@ export class ModuleIndexPageComponent implements OnInit {
             }
         }
 
-        if (this.contentVisible.get(module) || this.childrenVisible.get(module)) {
+        if ((this.contentVisible !== null && this.contentVisible.id === module.id) || this.childrenVisible.get(module)) {
 
-            this.contentVisible.set(module, false);
+            this.contentVisible = null;
             this.childrenVisible.set(module, false);
             return;
         }
@@ -136,17 +145,16 @@ export class ModuleIndexPageComponent implements OnInit {
      */
     listChildren(module: Module) {
 
-        for (const key of this.contentVisible.keys()) {
+        for (const key of this.childrenVisible.keys()) {
 
             if (key.id !== module.id) {
 
-                this.contentVisible.set(key, false);
                 this.childrenVisible.set(key, false);
             }
         }
 
         this.childrenVisible.set(module, !this.childrenVisible.get(module));
-        this.contentVisible.set(module, false);
+        this.contentVisible = null;
         this.setActiveChild(module, 0);
         this.normalizePriority(this.activeModule);
     }
@@ -193,9 +201,7 @@ export class ModuleIndexPageComponent implements OnInit {
      */
     removeModule() {
 
-        const selMethod = (document.getElementById('Seldelmethod') as HTMLInputElement).value;
-
-        switch (selMethod) {
+        switch (this.selMethod) {
 
             case '1':
                 this.mfs.deleteModuleByID(this.selModule.id).subscribe(() => this.ms.loadModules());
@@ -207,6 +213,8 @@ export class ModuleIndexPageComponent implements OnInit {
                 this.mfs.deleteModuleWithContent(this.selModule.id).subscribe(() => this.ms.loadModules());
                 break;
         }
+
+        this.selMethod = '1';
     }
 
     /**
@@ -224,7 +232,7 @@ export class ModuleIndexPageComponent implements OnInit {
             this.contentActive.set(ret, 0);
         }
 
-        this.contentVisible.set(ret, true);
+        this.contentVisible = ret;
 
         return ret;
     }

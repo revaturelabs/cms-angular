@@ -58,7 +58,7 @@
 
                     <mat-expansion-panel *ngFor="let module of ms.nodes | moduleIndexSearch: searchConstraint" name="modules" id="{{module.id}}"
                         [ngClass]="{'parent': module.parents.length === 0}"
-                        [expanded]="contentVisible.get(module) || childrenVisible.get(module)">
+                        [expanded]="(contentVisible !== null && contentVisible.id === module.id) || childrenVisible.get(module)">
 
                         <!-- Icons and Module Name -->
 
@@ -126,7 +126,7 @@
 
                         <!-- Current First Generation Module Contents -->
 
-                        <div *ngIf="contentVisible.get(module) || module.parents.length !== 0">
+                        <div *ngIf="(contentVisible !== null && contentVisible.id === module.id) || module.parents.length !== 0">
                             <div class="row">
                                 <div class="col-5">
                                     <div class="content-container">
@@ -450,7 +450,7 @@
                 <div class="row btn mb-3">
                     <form>
                         <h5><small>Delete module and
-                                <select id="Seldelmethod">
+                                <select id="Seldelmethod" [(ngModel)]="selMethod" name="delMethod">
                                     <option value="1">Keep all content</option>
                                     <option value="2">Associated content to this module</option>
                                     <option value="3">All content related to this module</option>
