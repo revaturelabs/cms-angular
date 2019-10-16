@@ -27,10 +27,10 @@ export class DisplayRequestPageComponent implements OnInit {
   public searchedSubjects: string[] = [];
 
   // Formats that populate filter radio options
-  readonly formats: string[] = ["All","Code", "Document", "Powerpoint"];
+  readonly formats: string[] = ["Code", "Document", "Powerpoint"];
 
   // Selected format
-  public selFormat: string = "All";
+  public selFormat: string[] = ["Code", "Document", "Powerpoint"];
 
   // Current requests being displayed
   public req: Request[];
@@ -104,15 +104,13 @@ export class DisplayRequestPageComponent implements OnInit {
 // Submit filter
 submit() {
   this.isSearching = true;
-  let format: string = this.selFormat;
+  let format: string[] = this.selFormat;
 
       // if 'all' was selected return all content
-  if (format === "All") {
-      format = '';
-  }
+  
   this.getIDsFromSubjects(this.selectedSubjects);
   const filter: Filter = new Filter(
-      this.title, [format], this.moduleIDs
+      this.title, format, this.moduleIDs
   );
 
   this.updateURL(filter);
@@ -134,9 +132,31 @@ updateURL(filter: Filter) {
      url = url.substring(0, url.indexOf('?'));
   }
   let modules: string = JSON.stringify(filter.modules);
+  let formats: string = JSON.stringify(filter.format);
   modules = modules.replace('[', '');
   modules = modules.replace(']', '');
-  this.location.replaceState('display-request?title=' + filter.title + '&format=' + filter.format + '&modules=' + modules)
+  formats = formats.replace('[', '');
+  formats = formats.replace(']', '');
+  formats = formats.replace(/"/g, '');
+  this.location.replaceState('display-request?title=' + filter.title + '&format=' + formats + '&modules=' + modules)
+}
+
+//Toggles the select format strings
+toggleFormat(format : string){
+
+
+      
+  if(this.selFormat.includes(format)){
+     if(this.selFormat.length==1){
+        this.toastr.info("You must include at least one format type.");
+     }else{
+        this.selFormat.splice(this.selFormat.indexOf(format), 1);
+     }
+  }
+  else{
+     this.selFormat.push(format);
+  }
+  
 }
 
 getIDsFromSubjects(subjects: string[]) {
