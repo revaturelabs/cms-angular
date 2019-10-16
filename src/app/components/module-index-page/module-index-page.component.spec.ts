@@ -17,7 +17,6 @@ import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTabsModule } from '@angular/material/tabs';
-import { ContentOrderPipe } from '../../pipes/content-order.pipe';
 
 describe('ModuleIndexPageComponent', () => {
   let component: ModuleIndexPageComponent;
@@ -29,8 +28,7 @@ describe('ModuleIndexPageComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        ModuleIndexPageComponent,
-        ContentOrderPipe
+        ModuleIndexPageComponent
       ],
       imports: [
         MatProgressSpinnerModule,
