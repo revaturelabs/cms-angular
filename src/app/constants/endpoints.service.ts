@@ -35,13 +35,20 @@ export class EndpointsService {
    /** Create Module Endpoint */
    public readonly CREATE_NEW_CURRICULUM: string = this.baseURL + '/curriculum';
    /** Create Module Endpoint */
-   public readonly GET_CURRICULUM_MODULES: string = this.baseURL + '/currmodules/${id}';
+   public readonly GET_CURRICULUM_MODULES: string = this.baseURL + '/curriculummodules/${id}';
    /** Create Module Endpoint */
-   public readonly CREATE_CURRICULUM_MODULES: string = this.baseURL + '/currmodules/${id}';
+   public readonly CREATE_CURRICULUM_MODULES: string = this.baseURL + '/curriculummodules/${id}';
    /** Create Module Endpoint */
    public readonly CREATE_NEW_MODULE: string = this.baseURL + '/modules';
    /** Get All Curriculums Endpoint */
    public readonly GET_ALL_CURRICULA: string = this.baseURL + '/curriculum';
+   /** Get specific curriculum **/
+   public readonly GET_CURRICULUM_BY_ID: string = this.baseURL + '/curriculum/${id}';
+   public readonly UPDATE_CURRICULUM_BY_ID: string = this.baseURL + '/curriculum/${id}';
+   public readonly DELETE_CURRICULUM_BY_ID: string = this.baseURL + '/curriculum/${id}';
+
+   public readonly POST_SET_OF_CURRMODULES: string = this.baseURL + '/curriculummodules/update';
+   public readonly DELETE_CURRMODULE_BY_ID: string = this.baseURL + '/curriculummodules/${id}';
    /** Get All Modules Endpoint */
    public readonly GET_ALL_MODULES: string = this.baseURL + '/modules';
    /** Get Module by ID Endpoint */
@@ -105,9 +112,12 @@ export class EndpointsService {
          this.FILTER_REQUEST, //18
          this.UPDATE_CONTENT_LINKS, //19
          this.CREATE_NEW_CURRICULUM, //20
-         this.GET_ALL_CURRICULA,//21
-         this.GET_CURRICULUM_MODULES,//22
-         this.CREATE_CURRICULUM_MODULES,//23
+         this.GET_CURRICULUM_BY_ID,
+         this.UPDATE_CURRICULUM_BY_ID,
+         this.DELETE_CURRICULUM_BY_ID,
+         this.GET_CURRICULUM_MODULES,
+         this.POST_SET_OF_CURRMODULES,
+         this.DELETE_CURRMODULE_BY_ID
 
       );
 
