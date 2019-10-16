@@ -33,7 +33,7 @@
 
                 <mat-expansion-panel *ngFor="let module of ms.nodes" name="modules" id="{{module.id}}"
                     [ngClass]="{'parent': module.parents.length === 0}"
-                    [expanded]="(contentVisible !== null && contentVisible.id === module.id) || childrenVisible.get(module)">
+                    [expanded]="(activeModule !== null && activeModule.id === module.id) || childrenVisible.get(module)">
 
                     <!-- Icons and Module Name -->
 
@@ -85,7 +85,7 @@
 
                     <!-- Current First Generation Module Contents -->
 
-                    <div *ngIf="(contentVisible !== null && contentVisible.id === module.id) || module.parents.length !== 0">
+                    <div *ngIf="(activeModule !== null && activeModule.id === module.id) || module.parents.length !== 0">
                         <div class="row">
                             <div class="col-5">
                                 <div class="content-container">
@@ -372,9 +372,9 @@
                 <h4 class="modal-title">Removing Content</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-            <div *ngIf="selLink && selModule" class="modal-body">
-                <h6>Are you sure you want to remove {{selLink.content.title}} from {{selModule.subject}}?</h6>
-                <h6><small>This content will not be deleted, only removed for {{selModule.subject}}.</small></h6>
+            <div *ngIf="selLink && activeModule" class="modal-body">
+                <h6>Are you sure you want to remove {{selLink.content.title}} from {{activeModule.subject}}?</h6>
+                <h6><small>This content will not be deleted, only removed for {{activeModule.subject}}.</small></h6>
                 <div class="row btn mb-3">
 
                     <!-- 
@@ -403,8 +403,8 @@
                 <h4 class="modal-title">Deleting Module</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-            <div *ngIf="selModule" class="modal-body">
-                <h6>Are you sure you want to delete the {{selModule.subject}} module?</h6>
+            <div *ngIf="activeModule" class="modal-body">
+                <h6>Are you sure you want to delete the {{activeModule.subject}} module?</h6>
                 <div class="row btn mb-3">
                     <form>
                         <h5><small>Delete module and

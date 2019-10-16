@@ -23,7 +23,7 @@ import { Filter } from 'src/app/models/Filter';
 export class ModuleIndexPageComponent implements OnInit {
 
     /** Module whose contents are currently visible */
-    contentVisible: Module = null;
+    activeModule: Module = null;
 
     /**
      * Map of children visibility status of a Module
@@ -41,14 +41,8 @@ export class ModuleIndexPageComponent implements OnInit {
     /** Variable that will reference selected Link for removal. */
     selLink: Link;
 
-    /** Variable that will reference the module of the selected content for removal. */
-    selModule: Module;
-
     /** Used to display a spinner when modules are loading. */
     isLoading = false;
-
-    /** Used to display module information for not first generation modules */
-    activeModule: Module;
 
     /** Deletion Method for Modules */
     selMethod: string = '1';
@@ -88,13 +82,13 @@ export class ModuleIndexPageComponent implements OnInit {
             }
         }
 
-        if (this.contentVisible === null) {
+        if (this.activeModule === null) {
 
-            this.contentVisible = module;
+            this.activeModule = module;
 
         } else {
 
-            this.contentVisible = this.contentVisible.id === module.id ? null : module;
+            this.activeModule = this.activeModule.id === module.id ? null : module;
         }
 
         this.childrenVisible.set(module, false);
@@ -126,9 +120,9 @@ export class ModuleIndexPageComponent implements OnInit {
             }
         }
 
-        if ((this.contentVisible !== null && this.contentVisible.id === module.id) || this.childrenVisible.get(module)) {
+        if ((this.activeModule !== null && this.activeModule.id === module.id) || this.childrenVisible.get(module)) {
 
-            this.contentVisible = null;
+            this.activeModule = null;
             this.childrenVisible.set(module, false);
             return;
         }
@@ -151,7 +145,7 @@ export class ModuleIndexPageComponent implements OnInit {
         }
 
         this.childrenVisible.set(module, !this.childrenVisible.get(module));
-        this.contentVisible = null;
+        this.activeModule = null;
         this.setActiveChild(module, 0);
         this.normalizePriority(this.activeModule);
     }
@@ -168,9 +162,9 @@ export class ModuleIndexPageComponent implements OnInit {
 
             (resp) => {
 
-                this.selModule.links.splice(this.contentActive.get(this.selModule), 1);
-                this.contentActive.set(this.selModule, this.selModule.links.length === 0 ? -1 : 0);
-                this.normalizePriority(this.selModule);
+                this.activeModule.links.splice(this.contentActive.get(this.activeModule), 1);
+                this.contentActive.set(this.activeModule, this.activeModule.links.length === 0 ? -1 : 0);
+                this.normalizePriority(this.activeModule);
             }
         );
     }
@@ -182,7 +176,7 @@ export class ModuleIndexPageComponent implements OnInit {
     selectedLinkForRemoval(link: Link, module: Module) {
 
         this.selLink = link;
-        this.selModule = module;
+        this.activeModule = module;
     }
 
     /**
@@ -190,7 +184,7 @@ export class ModuleIndexPageComponent implements OnInit {
      * @param module - module that will be writen as selected
      */
     selectedModuleForRemoval(module: Module) {
-        this.selModule = module;
+        this.activeModule = module;
     }
 
     /**
@@ -201,13 +195,13 @@ export class ModuleIndexPageComponent implements OnInit {
         switch (this.selMethod) {
 
             case '1':
-                this.mfs.deleteModuleByID(this.selModule.id).subscribe(() => this.ms.loadModules());
+                this.mfs.deleteModuleByID(this.activeModule.id).subscribe(() => this.ms.loadModules());
                 break;
             case '2':
-                this.mfs.deleteModuleWithSpecificContent(this.selModule.id).subscribe(() => this.ms.loadModules());
+                this.mfs.deleteModuleWithSpecificContent(this.activeModule.id).subscribe(() => this.ms.loadModules());
                 break;
             case '3':
-                this.mfs.deleteModuleWithContent(this.selModule.id).subscribe(() => this.ms.loadModules());
+                this.mfs.deleteModuleWithContent(this.activeModule.id).subscribe(() => this.ms.loadModules());
                 break;
         }
 
@@ -229,7 +223,7 @@ export class ModuleIndexPageComponent implements OnInit {
             this.contentActive.set(ret, 0);
         }
 
-        this.contentVisible = ret;
+        this.activeModule = ret;
 
         return ret;
     }
