@@ -36,7 +36,6 @@ export class RequestFetcherService {
 
   deleteRequestByID(id: number): Observable<HttpHeaderResponse> {
     // globalCacheBusterNotifier.next();
-    console.log(this.endpoints.DELETE_REQUEST_BY_ID.replace('${id}', id.toString()));
     return this.http.delete<HttpHeaderResponse>(this.endpoints.DELETE_REQUEST_BY_ID.replace('${id}', id.toString()));
   }
 
