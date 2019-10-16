@@ -97,7 +97,7 @@
                                             [ngClass]="{'active': contentActive.get(module) === i}" (click)="setActiveContent(module, i)">
                                             <em style="width:20px;" class="fa" [ngClass]="{'fa-file-code-o': link.content.format === 'Code', 'fa-file-text-o': link.content.format === 'Document', 'fa-file-powerpoint-o': link.content.format === 'Powerpoint'}"></em>
 
-                                            &nbsp;{{link.priority}} - {{link.content.title}}
+                                            &nbsp; {{link.content.title}}
 
                                             <a class="float-right">
                                                 <em title="Remove from module "
