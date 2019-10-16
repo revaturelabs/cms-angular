@@ -10,7 +10,7 @@ import { CurriculumFetcherService } from '../../services/curriculum-fetcher.serv
 import { CurriculumStoreService } from '../../services/curriculum-store.service';
 import { ModuleFetcherService } from '../../services/module-fetcher.service';
 import { ModuleStoreService } from '../../services/module-store.service';
-import { UtilService } from '../../services/util.service';
+import { SortSearchService } from '../../services/sort-search.service';
 
 /** Model Imports */
 import { Curriculum } from 'src/app/models/Curriculum';
@@ -44,7 +44,7 @@ export class CurriculumCreatorPageComponent implements OnInit {
     constructor(private cfs: CurriculumFetcherService,
                 public cs: CurriculumStoreService,
                 private toastr: ToastrService,
-                public util: UtilService,
+                public ss: SortSearchService,
                 public dialog: MatDialog) { }
 
     /** Tell the service where we host the curricula to fetch them form the DB */
@@ -164,7 +164,7 @@ export class CurriculumCreatorPageComponent implements OnInit {
     normalizeLinkPriority(nodes: CurrModule[]) {
 
         let changed = false;
-        nodes.sort(this.util.sortCurrModulesByPriority);
+        nodes.sort(this.ss.sortCurrModulesByPriority);
 
         for (let i = 0 ; i < nodes.length ; i++) {
 
@@ -310,7 +310,7 @@ export class CurriculumCreatorPageComponent implements OnInit {
         node.currModules[curIdx].priority = curIdx + shift;
         node.currModules[curIdx + shift].priority = curIdx;
 
-        node.currModules.sort(this.util.sortCurrModulesByPriority);
+        node.currModules.sort(this.ss.sortCurrModulesByPriority);
         this.moduleActive.set(node.id, curIdx + shift);
 
         this.cfs.postSetOfCurrModules(node.currModules).subscribe(
@@ -342,7 +342,7 @@ export class CurriculumCreatorPageComponent implements OnInit {
         const targetIdx: number = event.currentIndex
         const baseIdx: number = event.previousIndex;
 
-        node.currModules.sort(this.util.sortCurrModulesByPriority);
+        node.currModules.sort(this.ss.sortCurrModulesByPriority);
         node.currModules[baseIdx].priority = targetIdx;
 
         if (targetIdx < baseIdx) {
@@ -360,7 +360,7 @@ export class CurriculumCreatorPageComponent implements OnInit {
             }
         }
 
-        node.currModules.sort(this.util.sortCurrModulesByPriority);
+        node.currModules.sort(this.ss.sortCurrModulesByPriority);
 
         this.moduleActive.set(node.id, targetIdx);
 
@@ -467,7 +467,7 @@ export class DeleteCurriculumDialog {
                 public toastr: ToastrService,
                 public cfs: CurriculumFetcherService,
                 public cs: CurriculumStoreService,
-                public util: UtilService,
+                public ss: SortSearchService,
                 @Inject(MAT_DIALOG_DATA) public data: {node: Curriculum}) {}
 
     /** Spinny wheel functionality as well as delete button lock */
@@ -525,7 +525,7 @@ export class AddModuleDialog implements OnInit {
                 public toastr: ToastrService,
                 public cfs: CurriculumFetcherService,
                 public cs: CurriculumStoreService,
-                public util: UtilService,
+                public ss: SortSearchService,
                 public ms: ModuleStoreService,
                 @Inject(MAT_DIALOG_DATA) public data: {node: Curriculum}) {}
 
@@ -569,7 +569,7 @@ export class AddModuleDialog implements OnInit {
 
             if (this.checked.get(key) === true) {
 
-                links.push(new CurrModule(null, -1, this.data.node.id, this.util.findModuleById(key, this.ms.nodes)));
+                links.push(new CurrModule(null, -1, this.data.node.id, this.ss.findModuleById(key, this.ms.nodes)));
             }
         }
 
