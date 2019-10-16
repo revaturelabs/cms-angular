@@ -303,7 +303,7 @@ export class ContentFinderPageComponent implements OnInit {
     */
    reset() {
       this.title = "";
-      this.selFormat = ["Code"];
+      this.selFormat = ["Code", "Document", "Powerpoint"];
       this.selectedSubjects = [];
    }
 

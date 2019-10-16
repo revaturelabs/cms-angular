@@ -72,7 +72,7 @@
                                 <button class="btn" *ngFor="let format of formats" 
                                 [class.btn-primary]="selFormat==format"
                                 [class.btn-secondary]="selFormat!=format"
-                                (click)="selFormat=format">{{format}}</button>
+                                (click)="selFormat=format" id="{{format}}">{{format}}</button>
                             </div>
                         </div>
                         
