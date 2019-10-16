@@ -76,7 +76,7 @@ export class ModuleStoreService {
                this.toastr.error('failed to retrieve modules');
                this.isLoading = false;
             }
-         }, (response) => {
+         }, (error) => {
             this.toastr.error('failed to retrieve modules');
             this.isLoading = false;
 
@@ -84,13 +84,12 @@ export class ModuleStoreService {
 
             this.populateCollections(this.allModules);
             this.nodes = [];
-            if (this.subjectIDToRootModule) {
-               this.subjectIDToRootModule.forEach(
-                  (modules) => {
-                     this.nodes.push(modules);
-                  }
-               );
-            }
+            this.subjectIDToRootModule.forEach(
+               (modules) => {
+                  this.nodes.push(modules);
+               }
+            );
+            
             resolve(this.nodes);
          }
       );
@@ -118,7 +117,7 @@ export class ModuleStoreService {
                this.toastr.error('failed to retrieve modules');
                this.isLoading = false;
             }
-         }, (response) => {
+         }, (error) => {
             this.toastr.error('failed to retrieve modules');
             this.isLoading = false;
 
@@ -135,7 +134,7 @@ export class ModuleStoreService {
    populateCollections(modules: Module[]) {
       let i = 0;
       let c = 0;
-      if (modules.length > 0) {
+      if (modules != null && modules.length > 0) {
          this.subjectNameToModule = new Map<string, Module>();
          this.subjectIdToModule = new Map<number, Module>();
          this.subjectIdToName = new Map<number, string>();
@@ -177,16 +176,13 @@ export class ModuleStoreService {
    populateModuleChildObjects(modules: Module[]) {
          modules.forEach(
             (thisModule) => {
-
-               if (thisModule.children)
                thisModule.children.forEach(element => {
                   element.children = this.subjectIdToModule.get(element.id).children;
                });
 
                // recursive for each layer of children
                // beware memory leaks
-               if (thisModule.children)
-                  this.populateModuleChildObjects(thisModule.children);
+               this.populateModuleChildObjects(thisModule.children);      
             }
          );
 
