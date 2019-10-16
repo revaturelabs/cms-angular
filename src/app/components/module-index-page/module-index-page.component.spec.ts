@@ -67,7 +67,7 @@ describe('ModuleIndexPageComponent', () => {
     expect(document.getElementById('deleteModule')).toBeTruthy();
   });
 
-// tests for setting selCon and selModule
+// tests for setting selCon and activeModule
 
   it('should update selLink and selMod with selectedLinkForRemoval()', () => {
     let Link1: Link = new Link(1, null, null, '', -1);
@@ -75,24 +75,24 @@ describe('ModuleIndexPageComponent', () => {
 
     component.selectedLinkForRemoval(Link1, Mod1);
     expect(component.selLink.id).toEqual(1);
-    expect(component.selModule.id).toEqual(1);
+    expect(component.activeModule.id).toEqual(1);
 
     let Link2: Link = new Link(2, null, null, '', -1);
     let Mod2: Module = new Module(2, "", 1, [], [], [], []);
 
     component.selectedLinkForRemoval(Link2, Mod2);
     expect(component.selLink.id).toEqual(2);
-    expect(component.selModule.id).toEqual(2);
+    expect(component.activeModule.id).toEqual(2);
   });
 
   it('should update selMod with selectedModuleForRemoval()', () => {
     let Mod1: Module = new Module(1, "", 1, [], [], [], []);
     component.selectedModuleForRemoval(Mod1);
-    expect(component.selModule.id).toEqual(1);
+    expect(component.activeModule.id).toEqual(1);
 
     let Mod2: Module = new Module(2, "", 1, [], [], [], []);
     component.selectedModuleForRemoval(Mod2);
-    expect(component.selModule.id).toEqual(2);
+    expect(component.activeModule.id).toEqual(2);
   });
 
 // tests for listContent()
@@ -100,19 +100,19 @@ describe('ModuleIndexPageComponent', () => {
     let Mod1: Module = new Module(1, "", 1, [], [], [], []);
     let Con1: Content = new Content(1, "B", "", "", "", []);
     let Con2: Content = new Content(2, "A", "", "", "", []);
-    expect(component.contentVisible).toBeFalsy();
+    expect(component.activeModule).toBeFalsy();
     component.listContent(Mod1);
-    expect(component.contentVisible).toBeTruthy();
+    expect(component.activeModule).toBeTruthy();
   });
 
   it('should set Module to not visible if listContent() is called twice', () => {
     let Mod1: Module = new Module(2, "", 1, [], [], [], []);
     let Con1: Content = new Content(1, "B", "", "", "", []);
     let Con2: Content = new Content(2, "A", "", "", "", []);
-    expect(component.contentVisible).toBeFalsy();
+    expect(component.activeModule).toBeFalsy();
     component.listContent(Mod1);
     component.listContent(Mod1);
-    expect(component.contentVisible).toBeFalsy();
+    expect(component.activeModule).toBeFalsy();
   });
 
 });
