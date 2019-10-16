@@ -383,7 +383,7 @@ export class ContentFinderPageComponent implements OnInit {
       if (this.selectedTags.length > 0) {
          this.selectedTags.forEach(
             (subject) => {
-               links.push(new Link(null, new Content(this.selCon.id,'','','','',[]), this.ms.subjectNameToModule.get(subject), null));
+               links.push(new Link(null, new Content(this.selCon.id,'','','','',[]), this.ms.subjectNameToModule.get(subject), null, -1));
             }, this
          )
          this.selCon.links = links;

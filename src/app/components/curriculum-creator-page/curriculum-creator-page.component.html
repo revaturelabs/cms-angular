@@ -1,0 +1,45 @@
+<mat-card>
+     <!-- Per usual, the Revature logo is displayed. -->
+     <div id="content">
+        <img src="/assets/img/logo.png" alt="revature" class="logo">
+    </div>
+
+    <div class = "container">
+        <form>
+                
+            <div class="form-group mb-3 col-10 offset-1">
+
+                <label for="inputTextGroup" class="mb-0 pb-0">Curriculum Name</label>
+ 
+                <div class="input-group mb-1" id="inputTextGroup">
+ 
+                   <input [(ngModel)]="curriculumName" required name="subject" type="text" class="form-control" placeholder="Subject" 
+                      id="inputText" maxlength="254">
+ 
+                   <div class="input-group-append">
+ 
+                      <button type="button" class="btn btn-info" id="submitButton" (click)="submit()">
+                         Create Curriculum
+                      </button>
+ 
+                      <mat-spinner [diameter]="30" *ngIf="this.isSubmitting"></mat-spinner>
+ 
+                   </div>
+ 
+                </div>
+ 
+                <small id="inputTextHelp" class="form-text text-muted">Maximum of 254 Characters.</small>
+ 
+             </div>
+        </form>
+    </div>
+
+</mat-card>
+
+<mat-card>
+      <label for="inputTextGroup" class="mb-0 pb-0">All Curricula</label>
+        
+      <div *ngFor = "let curriculum of curricula">
+          <div><a routerLink = "/curriculum/{{curriculum.id}}">{{curriculum.name}}</a></div>
+      </div>
+</mat-card>

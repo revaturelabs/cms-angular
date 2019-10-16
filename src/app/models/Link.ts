@@ -27,7 +27,7 @@ export class Link {
     * @param affiliation Unused - Default "relaventTo"
     * @param priority - Placement of Content within the linked Module
     */
-    constructor(id: number, content: Content, module: Module, affiliation: string) {
+    constructor(id: number, content: Content, module: Module, affiliation: string, priority: number) {
 
         if (id != null) {
 
@@ -49,6 +49,9 @@ export class Link {
             this.affiliation = affiliation;
         }
 
-        this.priority = 5 - id;
+        if (priority != null) {
+
+            this.priority = priority;
+        }
     }
 }

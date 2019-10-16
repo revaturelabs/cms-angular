@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { AngularWebStorageModule } from 'angular-web-storage';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -35,6 +36,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { CurriculumCreatorPageComponent } from './components/curriculum-creator-page/curriculum-creator-page.component';
+import { CurriculumModulesPageComponent } from './components/curriculum-modules-page/curriculum-modules-page.component';
 
 /** @ignore */
 @NgModule({
@@ -51,7 +55,9 @@ import { MatTabsModule } from '@angular/material/tabs';
       ResolveRequestPageComponent,
       SubmitRequestPageComponent,
       ContentOrderPipe,
-      ContentFilterPipe
+      ContentFilterPipe,
+      CurriculumCreatorPageComponent,
+      CurriculumModulesPageComponent
    ],
    imports: [
       BrowserModule,
@@ -72,7 +78,9 @@ import { MatTabsModule } from '@angular/material/tabs';
       MatCardModule,
       MatExpansionModule,
       MatFormFieldModule,
-      MatTabsModule
+      MatTabsModule,
+      MatAutocompleteModule,
+      ReactiveFormsModule
    ],
    providers: [
       GlobalReports,

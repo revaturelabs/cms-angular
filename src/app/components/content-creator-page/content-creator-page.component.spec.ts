@@ -14,6 +14,8 @@ import { TreeModule } from 'angular-tree-component';
 
 import { ContentCreatorPageComponent } from './content-creator-page.component';
 
+import { MatCardModule } from '@angular/material/card';
+
 describe('ContentCreatorPageComponent', () => {
   let component: ContentCreatorPageComponent;
   let fixture: ComponentFixture<ContentCreatorPageComponent>;
@@ -30,7 +32,8 @@ describe('ContentCreatorPageComponent', () => {
         MatProgressSpinnerModule,
         HttpClientTestingModule,
         ToastrModule.forRoot(),
-        TreeModule.forRoot()
+        TreeModule.forRoot(),
+        MatCardModule
       ]
     })
     .compileComponents();

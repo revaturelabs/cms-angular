@@ -1,6 +1,7 @@
 import { Component, OnInit, ComponentFactoryResolver} from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { globalCacheBusterNotifier } from 'ngx-cacheable';
+import { HttpHeaderResponse } from '@angular/common/http';
 
 import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { ModuleFetcherService } from 'src/app/services/module-fetcher.service';
@@ -77,6 +78,15 @@ export class ModuleIndexPageComponent implements OnInit {
      */
     listContent(module: Module) {
 
+        for (const key of this.contentVisible.keys()) {
+
+            if (key.id !== module.id) {
+
+                this.contentVisible.set(key, false);
+                this.childrenVisible.set(key, false);
+            }
+        }
+
         this.contentVisible.set(module, !this.contentVisible.get(module));
         this.childrenVisible.set(module, false);
 
@@ -107,8 +117,6 @@ export class ModuleIndexPageComponent implements OnInit {
             }
         }
 
-        console.log(event);
-
         if (this.contentVisible.get(module) || this.childrenVisible.get(module)) {
 
             this.contentVisible.set(module, false);
@@ -124,6 +132,15 @@ export class ModuleIndexPageComponent implements OnInit {
      * @param module - Module to expand
      */
     listChildren(module: Module) {
+
+        for (const key of this.contentVisible.keys()) {
+
+            if (key.id !== module.id) {
+
+                this.contentVisible.set(key, false);
+                this.childrenVisible.set(key, false);
+            }
+        }
 
         this.childrenVisible.set(module, !this.childrenVisible.get(module));
         this.contentVisible.set(module, false);
@@ -145,6 +162,7 @@ export class ModuleIndexPageComponent implements OnInit {
 
                 this.selModule.links.splice(this.contentActive.get(this.selModule), 1);
                 this.contentActive.set(this.selModule, this.selModule.links.length === 0 ? -1 : 0);
+                this.normalizePriority(this.selModule);
             }
         );
     }
@@ -267,6 +285,20 @@ export class ModuleIndexPageComponent implements OnInit {
         module.links.sort(this.util.sortLinksByPriority);
 
         this.contentActive.set(module, targetIdx);
+
+        this.mfs.updateModuleLinks(module).subscribe(
+            (resp: HttpHeaderResponse) => {
+
+                if (resp === null) {
+
+                    this.toastr.error('Failed to Normalize this Module');
+                }
+            },
+            (error: HttpHeaderResponse) => {
+
+                this.toastr.error('Failed to Normalize this Module')
+            }
+        );
     }
 
     /**
@@ -297,6 +329,20 @@ export class ModuleIndexPageComponent implements OnInit {
         module.links.sort(this.util.sortLinksByPriority);
         this.contentActive.set(module, curIdx + shift);
 
+        this.mfs.updateModuleLinks(module).subscribe(
+            (resp: HttpHeaderResponse) => {
+
+                if (resp === null) {
+
+                    this.toastr.error('Failed to Normalize this Module');
+                }
+            },
+            (error: HttpHeaderResponse) => {
+
+                this.toastr.error('Failed to Normalize this Module')
+            }
+        );
+
     }
 
     /**
@@ -308,13 +354,36 @@ export class ModuleIndexPageComponent implements OnInit {
     normalizePriority(module: Module): void {
 
         module.links.sort(this.util.sortLinksByPriority);
+        let change = false;
 
         for (let i = 0 ; i < module.links.length ; i++) {
 
             if (module.links[i].priority !== i) {
 
                 module.links[i].priority = i;
+                change = true;
             }
+        }
+
+        if (change) {
+
+            this.mfs.updateModuleLinks(module).subscribe(
+                (resp: HttpHeaderResponse) => {
+
+                    if (resp !== null) {
+
+                        this.toastr.info('Normalized Module Priority');
+
+                    } else {
+
+                        this.toastr.error('Failed to Normalize this Module');
+                    }
+                },
+                (error: HttpHeaderResponse) => {
+
+                    this.toastr.error('Failed to Normalize this Module')
+                }
+            );
         }
     }
 }
