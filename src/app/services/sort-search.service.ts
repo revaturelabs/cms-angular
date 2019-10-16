@@ -8,7 +8,7 @@ import { Content } from '../models/Content';
     providedIn: 'root'
 })
 
-export class UtilService {
+export class SortSearchService {
 
     constructor() { }
 

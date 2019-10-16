@@ -27,7 +27,6 @@ import { DisplayRequestPageComponent } from './components/display-request-page/d
 import { ResolveRequestPageComponent } from './components/resolve-request-page/resolve-request-page.component';
 import { ModuleStoreService } from './services/module-store.service';
 import { SubmitRequestPageComponent } from './components/submit-request-page/submit-request-page.component';
-import { ContentOrderPipe } from './pipes/content-order.pipe';
 
 /** Angular Material Modules */
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -50,8 +49,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
       ReportsTimeGraphComponent,
       DisplayRequestPageComponent,
       ResolveRequestPageComponent,
-      SubmitRequestPageComponent,
-      ContentOrderPipe
+      SubmitRequestPageComponent
    ],
    imports: [
       BrowserModule,

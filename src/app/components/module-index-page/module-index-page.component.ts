@@ -6,7 +6,7 @@ import { HttpHeaderResponse } from '@angular/common/http';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { ModuleFetcherService } from 'src/app/services/module-fetcher.service';
 import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
-import { UtilService } from '../../services/util.service';
+import { SortSearchService } from '../../services/sort-search.service';
 
 import { Link } from '../../models/Link';
 import { Module } from 'src/app/models/Module';
@@ -53,14 +53,14 @@ export class ModuleIndexPageComponent implements OnInit {
      * @param ms - Fetches tags
      * @param toastr - ???
      * @param mfs - Used to display stored nodes
-     * @param util - Sorts and Searches
+     * @param ss - Sorts and Searches
      */
     constructor(
         public cs: ContentFetcherService,
         public ms: ModuleStoreService,
         private toastr: ToastrService,
         private mfs: ModuleFetcherService,
-        private util: UtilService
+        private ss: SortSearchService
     ) { }
 
     /** On page initialization load the modules to list on the dropdown menu */
@@ -266,7 +266,7 @@ export class ModuleIndexPageComponent implements OnInit {
         const targetIdx: number = event.currentIndex
         const baseIdx: number = event.previousIndex;
 
-        module.links.sort(this.util.sortLinksByPriority);
+        module.links.sort(this.ss.sortLinksByPriority);
         module.links[baseIdx].priority = targetIdx;
 
         if (targetIdx < baseIdx) {
@@ -284,7 +284,7 @@ export class ModuleIndexPageComponent implements OnInit {
             }
         }
 
-        module.links.sort(this.util.sortLinksByPriority);
+        module.links.sort(this.ss.sortLinksByPriority);
 
         this.contentActive.set(module, targetIdx);
 
@@ -328,7 +328,7 @@ export class ModuleIndexPageComponent implements OnInit {
         module.links[curIdx].priority = curIdx + shift;
         module.links[curIdx + shift].priority = curIdx;
 
-        module.links.sort(this.util.sortLinksByPriority);
+        module.links.sort(this.ss.sortLinksByPriority);
         this.contentActive.set(module, curIdx + shift);
 
         this.mfs.updateModuleLinks(module).subscribe(
@@ -355,7 +355,7 @@ export class ModuleIndexPageComponent implements OnInit {
      */
     normalizePriority(module: Module): void {
 
-        module.links.sort(this.util.sortLinksByPriority);
+        module.links.sort(this.ss.sortLinksByPriority);
         let change = false;
 
         for (let i = 0 ; i < module.links.length ; i++) {
