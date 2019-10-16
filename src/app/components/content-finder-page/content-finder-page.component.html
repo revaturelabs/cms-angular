@@ -8,6 +8,7 @@
         <div id="content">
             <img src="/assets/img/logo.png" alt="revature" class="logo" id='logo'>
         </div>
+
         <div class="container">
             <form>
                 <div class="form-row mb-5">
@@ -25,6 +26,14 @@
                                 <label class="form-check-label" for="{{format}}" id="{{format}}Label">{{format}}</label>
                             </div>
                         </div>
+                      
+                      
+                      <div class="btn-group">
+                        <button class="btn" *ngFor="let format of formats" 
+                        [class.btn-primary]="selFormat.includes(format)"
+                        [class.btn-secondary]="!(selFormat.includes(format))"
+                        (click)="toggleFormat(format)">{{format}}</button>
+                      </div>
                     </div>
 
                     <div class="col-1">
@@ -52,6 +61,7 @@
                              <mat-spinner [diameter]="30" *ngIf="this.isSearching"></mat-spinner>
                  </div>
             </form>
+
         </div>
     </mat-card-content>
 </mat-card>

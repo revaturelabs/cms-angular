@@ -82,7 +82,7 @@ export class DisplayRequestPageComponent implements OnInit {
 
         // populate a filter object with the params we just extracted
         let filter: Filter = new Filter(
-          title, format, moduleIdNumbers
+          title, [format], moduleIdNumbers
         );
 
         this.sendSearch(filter);
@@ -112,7 +112,7 @@ submit() {
   }
   this.getIDsFromSubjects(this.selectedSubjects);
   const filter: Filter = new Filter(
-      this.title, format, this.moduleIDs
+      this.title, [format], this.moduleIDs
   );
 
   this.updateURL(filter);
