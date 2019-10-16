@@ -48,6 +48,7 @@ export class EndpointsService {
    public readonly DELETE_CURRICULUM_BY_ID: string = this.baseURL + '/curriculum/${id}';
 
    public readonly POST_SET_OF_CURRMODULES: string = this.baseURL + '/currmodules/update';
+   public readonly DELETE_CURRMODULE_BY_ID: string = this.baseURL + '/currmodules/${id}';
    /** Get All Modules Endpoint */
    public readonly GET_ALL_MODULES: string = this.baseURL + '/modules';
    /** Get Module by ID Endpoint */
@@ -101,10 +102,6 @@ export class EndpointsService {
          this.FILTER_CONTENT,//8
          this.GET_METRICS,//9
          this.GET_ROOT_MODULES,//10
-         this.GET_ALL_CURRICULA,//11
-         this.GET_CURRICULUM_MODULES,//12
-         this.CREATE_CURRICULUM_MODULES,//12
-
          this.GET_CHILDREN_BY_ID, //11
          this.CREATE_NEW_REQUEST,//12
          this.UPDATE_REQUEST,//13
@@ -114,7 +111,13 @@ export class EndpointsService {
          this.DELETE_REQUEST_BY_ID,//17
          this.FILTER_REQUEST, //18
          this.UPDATE_CONTENT_LINKS, //19
-         this.CREATE_NEW_CURRICULUM //20
+         this.CREATE_NEW_CURRICULUM, //20
+         this.GET_CURRICULUM_BY_ID,
+         this.UPDATE_CURRICULUM_BY_ID,
+         this.DELETE_CURRICULUM_BY_ID,
+         this.GET_CURRICULUM_MODULES,
+         this.POST_SET_OF_CURRMODULES,
+         this.DELETE_CURRMODULE_BY_ID
       );
 
       return endpoints;

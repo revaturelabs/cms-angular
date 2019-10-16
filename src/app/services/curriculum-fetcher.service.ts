@@ -69,4 +69,11 @@ export class CurriculumFetcherService {
             this.endpoints.POST_SET_OF_CURRMODULES, body, { headers: this.HEADERS}
         );
     }
+
+    deleteCurrModuleById(node: CurrModule): Observable<HttpHeaderResponse> {
+
+        return this.http.delete<HttpHeaderResponse>(
+            this.endpoints.DELETE_CURRMODULE_BY_ID.replace('${id}', node.id.toString())
+        );
+    }
 }

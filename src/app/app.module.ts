@@ -53,6 +53,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CurrModuleFilterPipe } from './pipes/curr-module-filter.pipe';
+import { CurrModulePriorityPipe } from './pipes/curr-module-priority.pipe';
 
 /** @ignore */
 @NgModule({
@@ -84,7 +85,8 @@ import { CurrModuleFilterPipe } from './pipes/curr-module-filter.pipe';
         NewCurriculumDialog,
         DeleteCurriculumDialog,
         AddModuleDialog,
-        CurrModuleFilterPipe
+        CurrModuleFilterPipe,
+        CurrModulePriorityPipe
     ],
     imports: [
         BrowserModule,

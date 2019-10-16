@@ -34,6 +34,9 @@ export class CurriculumStoreService {
 
         this.loading = true;
         this.loadingText = 'Loading Curricula...';
+        this.nodes = [];
+        this.idToCurriculum = new Map<number, Curriculum>();
+        this.allCurricula = [];
 
         return new Promise(
 

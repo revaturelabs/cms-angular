@@ -41,8 +41,7 @@ export class CurriculumCreatorPageComponent implements OnInit {
     /** Determine which module is currently highlighted within any given curriculum */
     moduleActive: Map<number, number> = new Map<number, number>();
 
-    constructor(private router: Router,
-                private cfs: CurriculumFetcherService,
+    constructor(private cfs: CurriculumFetcherService,
                 public cs: CurriculumStoreService,
                 private toastr: ToastrService,
                 public util: UtilService,
@@ -52,8 +51,17 @@ export class CurriculumCreatorPageComponent implements OnInit {
     ngOnInit() {
 
         this.cs.loadCurricula();
+        this.searchConstraint = '';
+        this.activeCurriculum = undefined;
+        this.editable = new Map<number, boolean>();
+        this.newName = '';
+        this.moduleActive = new Map<number, number>();
     }
 
+    /**
+     * Launches the Modal to Create a Curriculum
+     * When the Modal is closed, we reload all of the Curricula from the DB
+     */
     openCreateCurriculumDialog() {
 
         const dialogRef = this.dialog.open(NewCurriculumDialog, {
@@ -61,12 +69,14 @@ export class CurriculumCreatorPageComponent implements OnInit {
             data: {name: ''}
         });
 
-        dialogRef.afterClosed().subscribe(result => {
-
-            this.cs.loadCurricula();
-        });
+        this.searchConstraint = undefined;
     }
 
+    /**
+     * Launches the Modal to Delete a Curriculum
+     * The list of nodes is updated in the modal
+     * @param node - The Curriculum that we want to delete
+     */
     openDeleteCurriculumDialog(node: Curriculum) {
 
         const dialogRef = this.dialog.open(DeleteCurriculumDialog, {
@@ -75,7 +85,11 @@ export class CurriculumCreatorPageComponent implements OnInit {
         });
     }
 
-    openAddModulesDialog(node: Curriculum) {
+    /**
+     * Launches the Modal to append module(s) to the Curriculum
+     * Injects the Curriculum that is currently open into the modal
+     */
+    openAddModulesDialog() {
 
         const dialogRef = this.dialog.open(
             AddModuleDialog,
@@ -84,8 +98,23 @@ export class CurriculumCreatorPageComponent implements OnInit {
                 data: {node: this.activeCurriculum}
             }
         );
+
+        dialogRef.afterClosed().subscribe(
+
+            () => {
+                this.normalizeLinkPriority(this.activeCurriculum.currModules);
+                console.log(this.activeCurriculum.currModules);
+            }
+        );
     }
 
+    /**
+     * Since the JSON that we get back doesn't directly contain the curriculum links, we have
+     * to make a call to our DB to get the specifics of a given Curriculum
+     * If the complete object has a null list of links, we initial it, otherwise, we retrieve it
+     * and normalize the priorities before assigning the node as the current node
+     * @param - id - ID of the Curriculum that we want to retrieve
+     */
     getCurriculumDetails(id: number) {
 
         if (this.activeCurriculum === undefined || this.activeCurriculum.id !== id) {
@@ -94,26 +123,48 @@ export class CurriculumCreatorPageComponent implements OnInit {
 
                 (node: Curriculum) => {
 
-                    if (node.currModules !== null) {
+                    if (node !== null) {
 
-                        this.normalizeLinkPriority(node.currModules);
+                        if (node.currModules !== null && node.currModules.length !== 0) {
+
+                            this.normalizeLinkPriority(node.currModules);
+                            this.moduleActive.set(node.id, 0);
+
+                        } else {
+
+                            node.currModules = [];
+                            this.moduleActive.set(node.id, -1);
+                        }
+
+                        this.activeCurriculum = node;
 
                     } else {
 
-                        node.currModules = [];
+                        this.toastr.error('Failed to retrieve the Curriculum with that ID');
                     }
+                },
 
-                    this.activeCurriculum = node;
+                (error: HttpHeaderResponse) => {
+
+                    this.toastr.error('Failed to communicate with the server');
                 }
-
             );
         }
     }
 
+    /**
+     * Basically the same thing as the normalize Links from ModuleIndex that I made
+     * can probably combine somewhere to remove duplications
+     * Of a given list of CurrModules, we expect their priorities when sorted to be a
+     * smooth, complete list from [0, n). If this is not the case, the we reassign the priorities
+     * of the module in question. Also responsible for removing -1 priority and turning them into usable values
+     * Should be called after Deletion, Insertion of modules and when opening a Curriculum
+     * @param - nodes - THe list of CurrModules that we want to normalize
+     */
     normalizeLinkPriority(nodes: CurrModule[]) {
 
         let changed = false;
-        nodes.sort(this.util.sortCurrModulesById);
+        nodes.sort(this.util.sortCurrModulesByPriority);
 
         for (let i = 0 ; i < nodes.length ; i++) {
 
@@ -128,7 +179,7 @@ export class CurriculumCreatorPageComponent implements OnInit {
 
             this.cfs.postSetOfCurrModules(nodes).subscribe(
 
-                (resp) => {
+                (resp: CurrModule[]) => {
 
                     if (resp !== null) {
 
@@ -137,11 +188,11 @@ export class CurriculumCreatorPageComponent implements OnInit {
 
                     } else {
 
-                        this.toastr.error('Failed to communicate with the server');
+                        this.toastr.error('Normalization Failed');
                     }
                 },
 
-                (error) => {
+                (error: HttpHeaderResponse) => {
 
                     this.toastr.error('Failed to communicate with the server');
                 }
@@ -149,6 +200,13 @@ export class CurriculumCreatorPageComponent implements OnInit {
         }
     }
 
+    /**
+     * Toggles the state of the input that corresponds to the Curriculum's name
+     * We only want to have one editable name at a time for fairly obvious reasons
+     * Additionally, the input auto saves when we lose focus of the input, so the editable
+     * modification at the start is mostly for safety
+     * @param - cur - The Curriculum that we want to rename
+     */
     setEditable(cur: Curriculum) {
 
         for (const key of this.editable.keys()) {
@@ -163,12 +221,52 @@ export class CurriculumCreatorPageComponent implements OnInit {
         ele.select();
     }
 
+    /**
+     * Changes the active module associated with the curriculum
+     */
+    setActiveModule(idx: number) {
+
+        this.moduleActive.set(this.activeCurriculum.id, idx);
+    }
+
+    /**
+     * Deletes a CurrModule from the Curriculum
+     */
+    removeModule(link: CurrModule) {
+
+        const temp = this.activeCurriculum.currModules.filter(
+
+            (node: CurrModule) => {
+
+                return node.id !== link.id;
+            }
+        );
+
+        this.cfs.deleteCurrModuleById(link).subscribe(
+
+            (resp: HttpHeaderResponse) => {
+
+                this.activeCurriculum.currModules = temp;
+            },
+
+            (error: HttpHeaderResponse) => {
+
+                this.toastr.error("There was an error deleting the link");
+            }
+        );
+    }
+
+    /**
+     * Updates the Curriculum outside of the modals
+     * Really only used for renaming since thats the only update we really do outside of the modals
+     * @param - cur - The Curriculum that we want to persist to the DB
+     */
     updateCurriculum(cur: Curriculum) {
 
         this.editable.set(cur.id, false);
         this.cfs.updateCurriculumById(cur).subscribe(
 
-            (resp) => {
+            (resp: HttpHeaderResponse) => {
 
                 if (resp !== null) {
 
@@ -176,16 +274,24 @@ export class CurriculumCreatorPageComponent implements OnInit {
 
                 } else {
 
-                    this.toastr.error("Failed to communicate to the server");
+                    this.toastr.error("Could not update the Curriculum");
                 }
             },
-            (error) => {
+            (error: HttpHeaderResponse) => {
 
                 this.toastr.error("Failed to communicate to the server");
             }
         );
     }
 
+    /**
+     * Same thing as the function in ModuleIndex basically.
+     * Swaps the priority of the currently active module within a Curriculum and the one
+     * a discrete shift away from it. This is only realistically going to shift one up or down
+     * so shift is going to be 1 or -1. Implemented if the user doesn't want to use drag and drop
+     * @param - node - The Curriculum that contains the modules we want to reorder
+     * @param - shift - Realistically going to be -1 or 1, denote a swap with the previous or next element
+     */
     shiftLinkPriority(node: Curriculum, shift: number): void {
 
         if (node.currModules.length === 0) {
@@ -209,7 +315,7 @@ export class CurriculumCreatorPageComponent implements OnInit {
 
         this.cfs.postSetOfCurrModules(node.currModules).subscribe(
 
-            (resp) => {
+            (resp: CurrModule[]) => {
 
                 if (resp === null) {
 
@@ -217,16 +323,70 @@ export class CurriculumCreatorPageComponent implements OnInit {
                 }
             },
 
-            (error) => {
+            (error: HttpHeaderResponse) => {
 
                 this.toastr.error('Failed to communicate with the server');
             }
         );
+    }
 
+    /**
+     * Drag and Drop priority reordering for Curriculum Module Links
+     * Determines how much it needs to iterate and in what direction before incrementing
+     * or decrementing the priorities. Requires a sorted list to function in terms of priority
+     * @param - event - CDKDragDrop event that contains start and end indexes
+     * @param - node - The Curriculum that contains the links to reorder
+     */
+    onDrop(event, node: Curriculum): void {
+
+        const targetIdx: number = event.currentIndex
+        const baseIdx: number = event.previousIndex;
+
+        node.currModules.sort(this.util.sortCurrModulesByPriority);
+        node.currModules[baseIdx].priority = targetIdx;
+
+        if (targetIdx < baseIdx) {
+
+            for (let i = targetIdx ; i < baseIdx ; i++) {
+
+                node.currModules[i].priority++;
+            }
+
+        } else {
+
+            for (let i = baseIdx + 1 ; i <= targetIdx ; i++) {
+
+                node.currModules[i].priority--;
+            }
+        }
+
+        node.currModules.sort(this.util.sortCurrModulesByPriority);
+
+        this.moduleActive.set(node.id, targetIdx);
+
+        this.cfs.postSetOfCurrModules(node.currModules).subscribe(
+
+            (resp: CurrModule[]) => {
+
+                if (resp === null) {
+
+                    this.toastr.error('Failed to reorder Modules');
+                }
+            },
+
+            (error: HttpHeaderResponse) => {
+
+                this.toastr.error('Failed to communicate with server')
+            }
+        );
     }
 }
 
-
+/**
+ * Component Dedicated to creating new Curricula
+ * New Curricula are persisted as they are created within the Modal
+ * Allows for multiple curricula to be made before closing
+ */
 @Component({
     selector: 'new-curriculum-dialog',
     templateUrl: './new-curriculum-dialog.html',
@@ -240,23 +400,22 @@ export class NewCurriculumDialog {
                 public cs: CurriculumStoreService,
                 @Inject(MAT_DIALOG_DATA) public data: {name: string}) {}
 
+    /** Spinny Wheel functionality as well as locking submit button */
     isSubmitting: boolean = false;
 
+    /** Exit Function */
     onNoClick(): void {
 
         this.data.name = ''
         this.dialogRef.close();
     }
 
+    /** 
+     * Attempts to persist the newly created Curriculum to the backend
+     */
     submit(){
 
         this.isSubmitting = true;
-        
-        /* 
-        To indicate whether or not something was input correctly, one tests whether or not this.subject, 
-        the two-way databinded element, is an empty string, null, or undefined; i.e. no valid input was
-        given. 
-        */
 
         if (['', null, undefined].includes(this.data.name)) {
             this.toastr.error('Please fill in the input field!');
@@ -264,7 +423,7 @@ export class NewCurriculumDialog {
             return;
         }
 
-        //Execute service and persist object
+        /** Required fields were all filled to specifiation */
         this.cfs.createCurriculum(new Curriculum(null, this.data.name, null)).subscribe(
 
             (resp) => {
@@ -279,7 +438,7 @@ export class NewCurriculumDialog {
 
                 } else {
 
-                    this.toastr.error("Failed to communicate with the server")
+                    this.toastr.error("There was an error creating the Curriculum")
                 }
             },
 
@@ -292,6 +451,11 @@ export class NewCurriculumDialog {
 
 }
 
+/**
+ * Modal Component dedicated to deleting a curriculum
+ * Auto closes upon a successful deletion, otherwise, allows the user to try again
+ * Change is persisted after a success is received from the sever
+ */
 @Component({
     selector: 'delete-curriculum-dialog',
     templateUrl: './delete-curriculum-dialog.html',
@@ -306,13 +470,16 @@ export class DeleteCurriculumDialog {
                 public util: UtilService,
                 @Inject(MAT_DIALOG_DATA) public data: {node: Curriculum}) {}
 
+    /** Spinny wheel functionality as well as delete button lock */
     isDeleting: boolean = false;
 
+    /** Exit Function */
     onNoClick(): void {
 
         this.dialogRef.close();
     }
 
+    /** Attempts to Delete the Requested Curriculum */
     delete() {
 
         this.isDeleting = true;
@@ -329,17 +496,24 @@ export class DeleteCurriculumDialog {
                 );
 
                 this.toastr.info(`${this.data.node.name} deleted`);
+                this.onNoClick();
             },
 
             (error) => {
 
                 this.toastr.error('Failed to communicate with the server')
+                this.isDeleting = false;
             }
         );
     }
 
 }
 
+/**
+ * Modal Component dedicated to adding preexisting modules to Curriculum
+ * Modules are retrieved upon window launch and filtered according to if they currently exist in the curriculum
+ * A list of desired additions is created and attempts to be persisted in the DB
+ */
 @Component({
     selector: 'add-module-dialog',
     templateUrl: './add-module-dialog.html',
@@ -355,26 +529,36 @@ export class AddModuleDialog implements OnInit {
                 public ms: ModuleStoreService,
                 @Inject(MAT_DIALOG_DATA) public data: {node: Curriculum}) {}
 
+    /** Spinny wheel functionality and lock of Add Button */
     isAdding: boolean = false;
+
+    /** Spinny wheel for module retrieval */
     isFetching: boolean = true;
+
+    /** Desired modules to be added - Unsorted*/
     modules: Module[] = [];
 
+    /** Search string constraint for looking up modules */
     searchConstraint: string = ''
 
+    /** Map relating the ID of a module to if a user wants to add it */
     checked: Map<number, boolean>;
 
+    /** Retrieve all modules and reinitialize the map upon window opening */
     ngOnInit() {
 
         this.ms.loadModules();
         this.checked = new Map<number, boolean>();
     }
 
+    /** Exit Function */
     onNoClick(): void {
 
         this.searchConstraint = '';
         this.dialogRef.close();
     }
 
+    /** Attempts to persist CurrModules to the database */
     addModules() {
 
         this.isAdding = true;
@@ -391,13 +575,13 @@ export class AddModuleDialog implements OnInit {
 
         this.cfs.postSetOfCurrModules(links).subscribe(
 
-            (resp) => {
+            (resp: CurrModule[]) => {
 
                 if (resp !== null) {
 
                     this.isAdding = false;
                     
-                    for (const link of links) {
+                    for (const link of resp) {
 
                         this.data.node.currModules.push(link);
                     }
@@ -420,6 +604,7 @@ export class AddModuleDialog implements OnInit {
         );
     }
 
+    /** Overwriting default behavior for checkboxes */
     check(node: Module, event) {
 
         event.preventDefault();

@@ -11,8 +11,6 @@ export class CurrModuleFilterPipe implements PipeTransform {
 
     transform(modules: Module[], node: Curriculum): Module[] {
 
-        console.log('dsa')
-
         if (node.currModules.length === 0) {
 
             return modules;
