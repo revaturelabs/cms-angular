@@ -13,6 +13,8 @@ import { ComponentRef } from '@angular/core';
 import { TreeModule} from 'angular-tree-component';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { MatCardModule } from '@angular/material/card';
+
 describe('ModuleCreatorPageComponent', () => {
   let component: ModuleCreatorPageComponent;
   let fixture: ComponentFixture<ModuleCreatorPageComponent>;
@@ -28,7 +30,8 @@ describe('ModuleCreatorPageComponent', () => {
         HttpClientTestingModule,
         ToastrModule.forRoot(),
         TreeModule.forRoot(),
-        RouterTestingModule
+        RouterTestingModule,
+        MatCardModule
       ]
     }).compileComponents();
   }));

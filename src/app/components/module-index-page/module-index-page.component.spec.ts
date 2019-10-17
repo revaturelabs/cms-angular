@@ -12,6 +12,12 @@ import { Content } from 'src/app/models/Content';
 import { Link } from 'src/app/models/Link';
 import { Observable, of } from 'rxjs';
 
+import { FormsModule } from '@angular/forms';
+
+import { MatCardModule } from '@angular/material/card';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatTabsModule } from '@angular/material/tabs';
+
 describe('ModuleIndexPageComponent', () => {
   let component: ModuleIndexPageComponent;
   let fixture: ComponentFixture<ModuleIndexPageComponent>;
@@ -21,11 +27,17 @@ describe('ModuleIndexPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ModuleIndexPageComponent ],
+      declarations: [
+        ModuleIndexPageComponent
+      ],
       imports: [
         MatProgressSpinnerModule,
         HttpClientTestingModule,
-        ToastrModule.forRoot()
+        ToastrModule.forRoot(),
+        MatCardModule,
+        MatExpansionModule,
+        MatTabsModule,
+        FormsModule
       ]
     })
     .compileComponents();
@@ -53,90 +65,32 @@ describe('ModuleIndexPageComponent', () => {
     expect(document.getElementById('deleteModule')).toBeTruthy();
   });
 
+// tests for setting selCon and activeModule
 
-// test that the table populates
-  it('should populate table based on Modules Service Response', () => {
-    pending('Not properly implemented yet.');
-    let Mod1: Module = new Module(1, '', 1, [], [], [], []);
-    let Mod2: Module = new Module(2, '', 1, [], [], [], []);
-    spy = spyOn(service2, 'getAllModules').and.returnValue(of([Mod1, Mod2]));
-    component.ngOnInit();
-    expect(document.getElementById('1')).toBeTruthy();
-    expect(document.getElementById('2')).toBeTruthy();
-    expect(document.getElementById('3')).toBeFalsy();
-  });
-
-// tests that flags show when expected
-  it('should show flag on modules with no links', () => {
-    pending('Not properly implemented yet.');
-    let Mod1: Module = new Module(1, '', 1, [], [], [], []);
-
-    component.ms.allModules = [Mod1];
-    expect(document.getElementById('flag-1')).toBeTruthy();
-  });
-
-  it('should not show flag on modules with links', () => {
-    pending('Not properly implemented yet.');
-    let Link1: Link = new Link(1, null, null, '');
-    let Mod1: Module = new Module(1, '', 1, [Link1], [], [], []);
-
-    component.ms.allModules = [Mod1];
-    expect(document.getElementById('flag-1')).toBeFalsy();
-  });
-
-// tests for setting selCon and selModule
-  it('should have default values for selCon and selModule', () =>{
-    expect(component.selCon.id).toEqual(0);
-    expect(component.selModule.id).toEqual(0);
-  });
-
-
-  it('should update selCon and selMod with selectedLinkForRemoval()', () => {
-    let Con1: Content = new Content(1, "", "", "", "", []);
+  it('should update selLink and selMod with selectedLinkForRemoval()', () => {
+    let Link1: Link = new Link(1, null, null, '', -1);
     let Mod1: Module = new Module(1, "", 1, [], [], [], []);
 
-    component.selectedLinkForRemoval(Con1, Mod1);
-    expect(component.selCon.id).toEqual(1);
-    expect(component.selModule.id).toEqual(1);
+    component.selectedLinkForRemoval(Link1, Mod1);
+    expect(component.selLink.id).toEqual(1);
+    expect(component.activeModule.id).toEqual(1);
 
-    let Con2: Content = new Content(2, "", "", "", "", []);
+    let Link2: Link = new Link(2, null, null, '', -1);
     let Mod2: Module = new Module(2, "", 1, [], [], [], []);
 
-    component.selectedLinkForRemoval(Con2, Mod2);
-    expect(component.selCon.id).toEqual(2);
-    expect(component.selModule.id).toEqual(2);
+    component.selectedLinkForRemoval(Link2, Mod2);
+    expect(component.selLink.id).toEqual(2);
+    expect(component.activeModule.id).toEqual(2);
   });
 
   it('should update selMod with selectedModuleForRemoval()', () => {
     let Mod1: Module = new Module(1, "", 1, [], [], [], []);
     component.selectedModuleForRemoval(Mod1);
-    expect(component.selModule.id).toEqual(1);
+    expect(component.activeModule.id).toEqual(1);
 
     let Mod2: Module = new Module(2, "", 1, [], [], [], []);
     component.selectedModuleForRemoval(Mod2);
-    expect(component.selModule.id).toEqual(2);
-  });
-
-// tests for parseContentResponse()
-  it('should set moduleContents with parseContentResponse()', () => {
-    let Mod1: Module = new Module(1, "", 1, [], [], [], []);
-    let Mod2: Module = new Module(2, "", 1, [], [], [], []);
-
-    component.parseContentResponse([], Mod1);
-
-    expect(component.moduleContents.has(Mod1)).toBeTruthy();
-    expect(component.moduleContents.has(Mod2)).toBeFalsy();
-  });
-
-
-  it('should sort content with parseContentResponse()', () => {
-    let Mod1: Module = new Module(1, "", 1, [], [], [], []);
-    let Con1: Content = new Content(1, "B", "", "", "", []);
-    let Con2: Content = new Content(2, "A", "", "", "", []);
-
-    component.parseContentResponse([Con1, Con2], Mod1);
-
-    expect(component.moduleContents.get(Mod1)).toEqual([Con2, Con1]);
+    expect(component.activeModule.id).toEqual(2);
   });
 
 // tests for listContent()
@@ -144,22 +98,19 @@ describe('ModuleIndexPageComponent', () => {
     let Mod1: Module = new Module(1, "", 1, [], [], [], []);
     let Con1: Content = new Content(1, "B", "", "", "", []);
     let Con2: Content = new Content(2, "A", "", "", "", []);
-    spy = spyOn(service, 'filterContent').and.returnValue(of([Con1, Con2]));
-    expect(component.contentVisible.get(Mod1)).toBeFalsy();
+    expect(component.activeModule).toBeFalsy();
     component.listContent(Mod1);
-    expect(service.filterContent).toHaveBeenCalled();
-    expect(component.contentVisible.get(Mod1)).toBeTruthy();
+    expect(component.activeModule).toBeTruthy();
   });
 
   it('should set Module to not visible if listContent() is called twice', () => {
     let Mod1: Module = new Module(2, "", 1, [], [], [], []);
     let Con1: Content = new Content(1, "B", "", "", "", []);
     let Con2: Content = new Content(2, "A", "", "", "", []);
-    spy = spyOn(service, 'filterContent').and.returnValue(of([Con1, Con2]));
-    expect(component.contentVisible.get(Mod1)).toBeFalsy();
+    expect(component.activeModule).toBeFalsy();
     component.listContent(Mod1);
     component.listContent(Mod1);
-    expect(component.contentVisible.get(Mod1)).toBeFalsy();
+    expect(component.activeModule).toBeFalsy();
   });
 
 });

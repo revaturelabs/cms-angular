@@ -8,6 +8,7 @@ import { MatProgressSpinnerModule} from '@angular/material';
 import { ToastrModule } from 'ngx-toastr';
 
 import { ContentFinderPageComponent } from './content-finder-page.component';
+import { MatCardModule } from '@angular/material/card';
 
 
 describe('ContentFinderPageComponent', () => {
@@ -23,7 +24,8 @@ describe('ContentFinderPageComponent', () => {
         NgSelectModule,
         MatProgressSpinnerModule,
         HttpClientTestingModule,
-        ToastrModule.forRoot()
+        ToastrModule.forRoot(),
+        MatCardModule
       ]
     })
     .compileComponents();

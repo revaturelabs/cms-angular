@@ -8,6 +8,7 @@ import { MatProgressSpinnerModule } from '@angular/material';
 import { ToastrModule } from 'ngx-toastr';
 
 import { SubmitRequestPageComponent } from './submit-request-page.component';
+import { MatCardModule } from '@angular/material/card';
 
 describe('SubmitRequestPageComponent', () => {
   let component: SubmitRequestPageComponent;
@@ -21,7 +22,8 @@ describe('SubmitRequestPageComponent', () => {
         	 NgSelectModule,
         	 MatProgressSpinnerModule,
 		 HttpClientTestingModule,
-        	 ToastrModule.forRoot() ]
+        	 ToastrModule.forRoot(),
+           MatCardModule ]
     })
     .compileComponents();
   }));

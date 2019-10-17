@@ -56,7 +56,6 @@ export class ReportsService {
       moduleIdsString = moduleIdsString + id.toString() + ",";
     }, this);
     moduleIdsString.substring(0, moduleIdsString.length - 2);
-    console.log(moduleIdsString);
 
     let body = {
       title: "",
