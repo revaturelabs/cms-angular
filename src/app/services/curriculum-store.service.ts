@@ -114,6 +114,7 @@ export class CurriculumStoreService {
 
                     () => {
 
+                        this.curriculum.currModules.sort(this.ss.sortCurriculumModulesByPriority);
                         resolve(this.curriculum);
                     }
                 );

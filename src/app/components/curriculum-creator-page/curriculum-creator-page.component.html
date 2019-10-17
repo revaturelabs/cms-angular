@@ -122,7 +122,7 @@
 
                                     <div cdkDropList class="list-wrapper" (cdkDropListDropped)="onDrop($event, activeCurriculum)">
 
-                                        <div class="link-box lead" *ngFor="let link of cs.curriculum.currModules | currModulePriority; let i = index" cdkDrag (click)="setActiveModule(i)"
+                                        <div class="link-box lead" *ngFor="let link of cs.curriculum.currModules; let i = index" cdkDrag (click)="setActiveModule(i)"
                                             [ngClass]="{'active': moduleActive.get(activeCurriculum.id) === i}">
 
                                             &nbsp; {{link.module.subject}}
