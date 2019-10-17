@@ -19,7 +19,7 @@ import { Location } from '@angular/common';
 import { RequestFetcherService } from 'src/app/services/request-fetcher.service';
 import { Observable } from 'rxjs';
 
-fdescribe('ResolveRequestPageComponent', () => {
+describe('ResolveRequestPageComponent', () => {
   let component: ResolveRequestPageComponent;
   let fixture: ComponentFixture<ResolveRequestPageComponent>;
   let httpTestingController: HttpTestingController;
@@ -111,16 +111,16 @@ fdescribe('ResolveRequestPageComponent', () => {
     component.sendSearch(filter);
     let url = baseURL + `/content?title=Java&format=String&modules=`;
     const req = httpTestingController.expectOne(url);
+    req.flush([content1])
     expect(req.request.method).toEqual("GET");
   });
 
   it('sendSearch response not null, this empty', () => {
     spyOn(component, "notEmpty").and.returnValue(false)
     component.sendSearch(filter);
-    let contents = [content1];
     let url = baseURL + `/content?title=Java&format=String&modules=`;
     const req = httpTestingController.expectOne(url);
-    req.flush(contents)
+    req.flush([content1])
     expect(component.toastr.previousToastMessage).toBe('No Results Found')
   });
 
@@ -219,7 +219,6 @@ fdescribe('ResolveRequestPageComponent', () => {
 
   it('updateRequest expect put', ()=>{
     let url = baseURL + `/requests/0`;
-    let request: Request =  new Request(0,"COBOL", "String", "Description", null, null);
     component.updateRequest(null);
     const req = httpTestingController.expectOne(url);
     expect(req.request.method).toEqual("PUT");
