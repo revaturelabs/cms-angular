@@ -84,7 +84,7 @@ export class ModuleIndexPageComponent implements OnInit {
                   this.toastr.error('Response was null');
                }
             },
-            (response) =>{
+            (error) =>{
                this.toastr.error('Failed to request contents');
             },
             () => {
