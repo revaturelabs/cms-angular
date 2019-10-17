@@ -176,6 +176,7 @@ export class ContentCreatorPageComponent implements OnInit {
                this.toastr.success('Successfully sent content.');
                this.resetVariables();
                this.listURLS.push(save_url); //
+               this.ms.addLinkToNodes(content.links[0]);
             } else {
                this.toastr.error('Response was null.');
                this.isSubmitting = false;
@@ -216,7 +217,7 @@ export class ContentCreatorPageComponent implements OnInit {
       subjects.forEach( (subject) => {
          allModules.forEach( (module) => {
             if (module.id == subject) {
-               links.push(new Link(null, null, module, null));
+               links.push(new Link(null, null, module, null, -1));
             }
          })
       }, this);

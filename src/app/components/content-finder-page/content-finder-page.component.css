@@ -1,18 +1,9 @@
-.card {
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    transition: 0.3s;
-    width: 80%;
-    height: 15%;
-    margin: 0 auto;
-    float: none;
-    margin-top: 20px;
-    margin-bottom: 20px;
- 
-  }
-  
-  .card:hover {
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-  }
+mat-card {
+
+   width: 90%;
+   margin: 0 auto;
+   margin-top: 20px;
+}
   
   .container { 
     padding: 2px 16px;
@@ -24,7 +15,6 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  top: -50px;
   }
 
   .logo {

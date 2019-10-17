@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { AngularWebStorageModule } from 'angular-web-storage';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -24,8 +25,16 @@ import { MatProgressSpinnerModule} from '@angular/material';
 import { TreeModule } from 'angular-tree-component';
 import { DisplayRequestPageComponent } from './components/display-request-page/display-request-page.component';
 import { ResolveRequestPageComponent } from './components/resolve-request-page/resolve-request-page.component';
-import {ModuleStoreService} from './services/module-store.service';
+import { ModuleStoreService } from './services/module-store.service';
 import { SubmitRequestPageComponent } from './components/submit-request-page/submit-request-page.component';
+
+/** Angular Material Modules */
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatCardModule } from '@angular/material/card';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 /** @ignore */
 @NgModule({
@@ -57,6 +66,13 @@ import { SubmitRequestPageComponent } from './components/submit-request-page/sub
       TreeModule.forRoot(),
       BrowserModule,
       AngularWebStorageModule,
+      DragDropModule,
+      MatCardModule,
+      MatExpansionModule,
+      MatFormFieldModule,
+      MatTabsModule,
+      MatAutocompleteModule,
+      ReactiveFormsModule
    ],
    providers: [
       GlobalReports,

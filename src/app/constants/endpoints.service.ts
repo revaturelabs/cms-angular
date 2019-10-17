@@ -48,6 +48,8 @@ export class EndpointsService {
    public readonly GET_CHILDREN_BY_ID: string = this.baseURL + '/modules/${id}/children/';
    // update module
    public readonly UPDATE_MODULE: string = this.baseURL + '/modules/${id}';
+   // update module links
+   public readonly UPDATE_MODULE_LINKS: string = this.baseURL + '/modules/${id}/links'
 
    //requests
    public readonly CREATE_NEW_REQUEST: string = this.baseURL + '/requests';
@@ -105,13 +107,5 @@ export class EndpointsService {
    */
    public printJSON(uri: string): any {
       let obs = this.http.get<any>(uri);
-      obs.subscribe(
-         (response) => {
-            console.log(response);
-         },
-         (response) => {
-            console.log('failed');
-         }
-      )
    }
 }
