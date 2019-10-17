@@ -139,13 +139,13 @@ describe('ResolveRequestPageComponent', () => {
     expect(contents[1]).toBe(content2)
   });
   it('parseContentResponse test sort 2', () => {
-    let link1: Link = new Link(1, content1, null, "affiliation");
-    let link2: Link = new Link(1, content2, null, "affiliation");
+    let link1: Link = new Link(1, content1, null, "affiliation", 1);
+    let link2: Link = new Link(1, content2, null, "affiliation",1);
     content1.links = [link1, link2]
     let contents = [content2, content1];
     link1.module = module1;
     link2.module = module2;
-    component.ms = new ModuleStoreService(null,null,null);
+    component.ms = new ModuleStoreService(null,null,null, null);
     component.ms.subjectIdToSortedIndex = new Map<number, number>(); 
     component.ms.subjectIdToSortedIndex.set(1,1)
     component.ms.subjectIdToSortedIndex.set(2,2)
@@ -170,7 +170,7 @@ describe('ResolveRequestPageComponent', () => {
 
   it('getIDsFromSubjects param not empty', () => {
     let subjects: string[] = ["Java", "C#"];
-    component.ms = new ModuleStoreService(null,null,null);
+    component.ms = new ModuleStoreService(null,null,null, null);
     component.ms.subjectNameToModule = new Map<string, Module>();
     component.ms.subjectNameToModule.set("Java", module1);
     component.ms.subjectNameToModule.set("C#", module2);

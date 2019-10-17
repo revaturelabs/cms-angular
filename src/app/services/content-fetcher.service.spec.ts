@@ -59,7 +59,7 @@ describe('ContentFetcherService', () => {
    it('addLinkToContent is working', fakeAsync(() => {
     let link: Link;
     let content: Content = new Content(1, null, null, null, null, [link])
-    link = new Link(1, content, null, "affiliation");
+    link = new Link(1, content, null, "affiliation", 1);
     service.addLinkToContent(content).subscribe();
     const req = httpTestingController.expectOne(baseURL + `/content/${content.id}/links`);
     expect(req.request.method).toEqual("PUT");

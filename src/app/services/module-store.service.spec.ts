@@ -78,7 +78,7 @@ describe('ModuleStoreService', () => {
   }));
 
   it('loadEmptyModules response not null, response links not empty', fakeAsync(() => {
-    let link: Link = new Link(1,null,null,"affiliation");
+    let link: Link = new Link(1,null,null,"affiliation", 1);
     let module: Module = new Module(1,"Java", 12345,[link],null,null,null);
     link.module = module;
     let response:Module[] = [module];
