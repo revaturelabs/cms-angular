@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Link } from '../models/Link';
 import { Module } from '../models/Module';
 import { Content } from '../models/Content';
+import { Curriculum } from '../models/Curriculum';
+import { CurrModule } from '../models/curr-module';
 
 @Injectable({
     providedIn: 'root'
@@ -209,5 +211,101 @@ export class SortSearchService {
         }
 
         return 0;
+    }
+
+    sortCurriculumById(c1: Curriculum, c2: Curriculum): number {
+
+        if (c1.id > c2.id) {
+
+            return 1;
+        }
+
+        if (c1.id < c2.id) {
+
+            return -1;
+        }
+
+        return 0;
+    }
+
+    sortCurrModulesById(c1: CurrModule, c2: CurrModule): number {
+
+        if (c1.id > c2.id) {
+
+            return 1;
+        }
+
+        if (c1.id < c2.id) {
+
+            return -1;
+        }
+
+        return 0;
+    }
+
+    sortCurrModulesByPriority(l1: CurrModule, l2: CurrModule): number {
+
+        if (l1.priority === l2.priority) {
+
+            return 0;
+        }
+
+        if (l1.priority === -1) {
+
+            return 1;
+        }
+
+        if (l2.priority === -1) {
+
+            return -1
+        }
+
+        if (l1.priority > l2.priority) {
+
+            return 1;
+        }
+
+        if (l1.priority < l2.priority) {
+
+            return -1;
+        }
+
+        if (l1.id > l2.id) {
+
+            return 1;
+        }
+
+        if (l1.id < l2.id) {
+
+            return -1;
+        }
+    }
+
+    findCurriculumIdxById(id: number, nodes: Curriculum[]): number {
+
+        return this.findCurriculumIdxByIdHelper(id, 0, nodes.length - 1, nodes);
+    }
+
+    findCurriculumIdxByIdHelper(id: number, min: number, max: number, nodes: Curriculum[]): number {
+
+        const idx = Math.floor((max + min) / 2);
+
+        if (min > max) {
+
+            return null;
+        }
+
+        if (nodes[idx].id === id) {
+
+            return idx;
+
+        } else if (nodes[idx].id > id) {
+
+            return this.findCurriculumIdxByIdHelper(id, min, idx - 1, nodes);
+
+        } else {
+
+            return this.findCurriculumIdxByIdHelper(id, idx + 1, max, nodes);
+        }
     }
 }

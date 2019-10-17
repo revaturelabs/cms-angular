@@ -108,123 +108,192 @@
                                                 </em>
                                             </a>
 
+                <!-- Very basic 0-generation depth search -->
+
+                <mat-toolbar class="mb-4">
+
+                    <button mat-icon-button>
+
+                        <mat-icon>search</mat-icon>
+
+                    </button>
+
+                    <mat-form-field style="width: 100%">
+
+                        <input [(ngModel)]="searchConstraint" type="text" matInput placeholder="Search for Module...">
+
+                        <button mat-button *ngIf="searchConstraint" matSuffix mat-icon-button aria-label="Clear" (click)="searchConstraint=''">
+                            <mat-icon>close</mat-icon>
+                        </button>
+
+                    </mat-form-field>
+
+
+                </mat-toolbar>
+
+                <!-- First Generation Module List -->
+
+                <mat-accordion>
+
+                    <mat-expansion-panel *ngFor="let module of ms.nodes | moduleIndexSearch: searchConstraint" name="modules" id="{{module.id}}"
+                        [ngClass]="{'parent': module.parents.length === 0}"
+                        [expanded]="(contentVisible !== null && contentVisible.id === module.id) || childrenVisible.get(module)">
+
+                        <!-- Icons and Module Name -->
+
+                        <mat-expansion-panel-header (click)="listOrCloseContent(module, $event)" id="module-expansion-{{module.id}}">
+
+                            <mat-panel-title>
+
+                                <table>
+                                    <tbody>
+                                        <td style="width:44px">
+                                            <a class="lead p-0 m-0">
+                                                <font size="+2">
+                                                    <em class="fa fa-exclamation-triangle" *ngIf="module.links.length === 0" title="No Content">
+                                                    </em>
+                                                </font>
+                                            </a>
+                                        </td>
+
+                                        <td style="width:44px">
+                                            <a class="lead p-0 m-0" (click)="listContent(module); $event.stopPropagation()">
+                                                <em class="fa fa-expand" title="View Module Content"></em>
+                                            </a>
+                                        </td>
+
+                                        <td style="width:44px">
+                                            <a class="lead p-0 m-0" (click)="module.children.length == 0 ? '' : listChildren(module); $event.stopPropagation()" [ngClass]="{'text-muted': module.children.length == 0}">
+                                                <em class="fa fa-sitemap" [title]="module.children.length == 0 ? 'No Children for Module' : 'View Module Children and Children Content'"></em>
+                                            </a>
+                                        </td>
+
+                                        <td style="width: 44px">
+
+                                            <a data-toggle="modal" data-target="#deleteModule" title="Delete Module"
+                                                (click)="selectedModuleForRemoval(module)">
+                                                <font size="+2">
+                                                    <em class="fas fa-trash" id="delete-module-{{module.id}}">
+                                                    </em>
+                                                </font>  
+                                            </a>
+
+                                        </td>
+
+                                        <td (click)="listContent(module)">
+                                             <a class="lead p-0 m-0" (click)="listContent(module)">
+                                                <font size="+2">{{module.subject}}</font>
+                                            </a>
+                                        </td>
+                                    </tbody>
+
+                                </table>
+
+                            </mat-panel-title>
+
+                            <mat-panel-description>
+
+                                <p class="lead p-0 m-0">
+                                    <font size="+2">
+                                    {{getDate(module.created) | date : 'shortDate'}}
+                                    </font>
+                                </p>
+
+                            </mat-panel-description>
+
+                        </mat-expansion-panel-header>
+
+                        <!-- Current First Generation Module Contents -->
+
+                        <div *ngIf="(contentVisible !== null && contentVisible.id === module.id) || module.parents.length !== 0">
+                            <div class="row">
+                                <div class="col-5">
+                                    <div class="content-container">
+
+                                        <!-- Drag and Drop List of Content -->
+
+                                        <div cdkDropList (cdkDropListDropped)="onDrop($event, module)" class="list-wrapper">
+                                            <div class="link-box lead" *ngFor="let link of module.links | contentOrder: module : 1; let i = index" cdkDrag
+                                                [ngClass]="{'active': contentActive.get(module) === i}" (click)="setActiveContent(module, i)">
+                                                <em style="width:20px;" class="fa" [ngClass]="{'fa-file-code-o': link.content.format === 'Code', 'fa-file-text-o': link.content.format === 'Document', 'fa-file-powerpoint-o': link.content.format === 'Powerpoint'}"></em>
+
+                                                &nbsp; {{link.content.title}}
+
+                                                <a class="float-right">
+                                                    <em title="Remove from module "
+                                                        (click)="selectedLinkForRemoval(link, module)"
+                                                        class="fas fa-trash" data-toggle="modal"
+                                                        data-target="#deleteContent"
+                                                        title="Remove Content from Module">
+                                                    </em>
+                                                </a>
+
+                                            </div>
+                                        </div>
+
+                                        <!-- Discrete Movement Buttons -->
+
+                                        <div class="list-footer btn-group">
+
+                                            <button class="btn btn-block order-btn m-0 fa fa-caret-down" (click)="shiftLinkPriority(module, 1)">
+                                            </button>
+
+                                            <button class="btn btn-block order-btn m-0 fa fa-caret-up" (click)="shiftLinkPriority(module, -1)">
+                                            </button>
+
                                         </div>
                                     </div>
+                                </div>
 
-                                    <!-- Discrete Movement Buttons -->
+                                <div class="col-6 content-container">
 
-                                    <div class="list-footer btn-group">
+                                    <div class="info-header mt-1">
 
-                                        <button class="btn btn-block order-btn m-0 fa fa-caret-down" (click)="shiftLinkPriority(module, 1)">
-                                        </button>
+                                        <p *ngIf="contentActive.get(module) != null && contentActive.get(module) != -1" class="p-0 m-0">ID: {{module.links[contentActive.get(module)].content.id}}</p>
+                                        <p *ngIf="contentActive.get(module) != null && contentActive.get(module) != -1" class="p-0 m-0">Format: {{module.links[contentActive.get(module)].content.format}}</p>
+                                        <p *ngIf="contentActive.get(module) != null && contentActive.get(module) != -1">URL: <a style="margin-top: 10px" target="_blank" href="{{module.links[contentActive.get(module)].content.url}}">{{module.links[contentActive.get(module)].content.url}}</a></p>
 
-                                        <button class="btn btn-block order-btn m-0 fa fa-caret-up" (click)="shiftLinkPriority(module, -1)">
-                                        </button>
+                                        <hr *ngIf="contentActive.get(module) != null && contentActive.get(module) != -1" />
 
+                                        <p *ngIf="contentActive.get(module) == null || contentActive.get(module) == -1" class="display-4">No Content</p>
+
+                                    </div>
+
+                                    <div class="info-description">
+                                        <form *ngIf="contentActive.get(module) != null && contentActive.get(module) != -1">
+                                            <div class="form-group">
+                                                <label for="info-description-body">Description</label>
+                                                <textarea class="form-control disabled" id="info-description-body" rows="7" disabled>{{module.links[contentActive.get(module)].content.description}}</textarea>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="col-6 content-container">
-
-                                <div class="info-header mt-1">
-
-                                    <p *ngIf="contentActive.get(module) != null && contentActive.get(module) != -1" class="p-0 m-0">ID: {{module.links[contentActive.get(module)].content.id}}</p>
-                                    <p *ngIf="contentActive.get(module) != null && contentActive.get(module) != -1" class="p-0 m-0">Format: {{module.links[contentActive.get(module)].content.format}}</p>
-                                    <p *ngIf="contentActive.get(module) != null && contentActive.get(module) != -1">URL: <a style="margin-top: 10px" target="_blank" href="{{module.links[contentActive.get(module)].content.url}}">{{module.links[contentActive.get(module)].content.url}}</a></p>
-
-                                    <hr *ngIf="contentActive.get(module) != null && contentActive.get(module) != -1" />
-
-                                    <p *ngIf="contentActive.get(module) == null || contentActive.get(module) == -1" class="display-4">No Content</p>
-
-                                </div>
-
-                                <div class="info-description">
-                                    <form *ngIf="contentActive.get(module) != null && contentActive.get(module) != -1">
-                                        <div class="form-group">
-                                            <label for="info-description-body">Description</label>
-                                            <textarea class="form-control disabled" id="info-description-body" rows="7" disabled>{{module.links[contentActive.get(module)].content.description}}</textarea>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
                         </div>
-                    </div>
 
-                    <!-- Current First Generation Module Children -->
+                        <!-- Current First Generation Module Children -->
 
-                    <div *ngIf="childrenVisible.get(module)">
+                        <div *ngIf="childrenVisible.get(module)">
 
-                        <!-- Navigation Tabs for the current generation of children Modules -->
-
-                        <mat-tab-group (selectedTabChange)="setActiveChild(module, $event.index)">
-
-                            <mat-tab *ngFor="let child of module.children; let i = index" isActive="childActive.get(module) === i">
-
-                                <ng-template mat-tab-label>
-
-                                    <!--
-                                        The click event is here because selectedTabChange only works if the currently selected
-                                        tab of a current generation changes. Since we have multiple generations and only one module's
-                                        information can be displayed at a time, I needed to bind this click to make it so that a user
-                                        can select the first index of a given generation when its first instantiated.
-
-                                        -   If you can make it cleaner, please do.
-                                        -   Also, for some reason, my active child will NOT register with the tabs when it does with the
-                                            rest of my program. I don't know why.
-                                    -->
-
-                                    <a class="lead text-black" [ngClass]="{'active': childActive.get(module) === i}" (click)="setActiveChild(module, i)">
-
-                                        <span class="fas fa-flag" *ngIf="ms.subjectIdToModule.get(child.id).links.length === 0" title="No Content"></span>
-                                        &nbsp;{{child.subject}}
-
-                                    </a>
-                                </ng-template>
-
-                            </mat-tab>
-
-                        </mat-tab-group>
-
-                        <!--
-                            Gets the next generation of children modules associated with a selection as well
-                            Displays the Module information in the given template space as well
-                        -->
-
-                        <div *ngIf="childActive.get(module) != null" class="m-0 p-0">
-
-                            <!-- Next generation from active child Module -->
-
-                            <ng-container *ngTemplateOutlet="childNodes; context:{ $implicit: getChildModule(module) }">
-                            </ng-container>
-
-                            <!-- Information for active child Module -->
-
-                            <ng-container *ngTemplateOutlet="childNodesInformation">
-                            </ng-container>
-
-                        </div>
-                    </div>
-
-                    <!--
-                        Template to display the Content Links within a given child module
-                        Alot of this code is similar / copied from above. The difference is that this will
-                        be generated recursively until the final generation is reached
-                    -->
-
-                    <ng-template #childNodes let-module>
-
-                        <div *ngIf="module.children.length > 0">
-
-                            <!-- Next Generation Nav Tabs -->
+                            <!-- Navigation Tabs for the current generation of children Modules -->
 
                             <mat-tab-group (selectedTabChange)="setActiveChild(module, $event.index)">
 
-                                <mat-tab *ngFor="let child of module.children; let i = index">
-
-                                    <!-- Same Click event, however, active state doesn't matter since active modules hould be parent by default -->
+                                <mat-tab *ngFor="let child of module.children; let i = index" isActive="childActive.get(module) === i">
 
                                     <ng-template mat-tab-label>
+
+                                        <!--
+                                            The click event is here because selectedTabChange only works if the currently selected
+                                            tab of a current generation changes. Since we have multiple generations and only one module's
+                                            information can be displayed at a time, I needed to bind this click to make it so that a user
+                                            can select the first index of a given generation when its first instantiated.
+
+                                            -   If you can make it cleaner, please do.
+                                            -   Also, for some reason, my active child will NOT register with the tabs when it does with the
+                                                rest of my program. I don't know why.
+                                        -->
+
                                         <a class="lead text-black" [ngClass]="{'active': childActive.get(module) === i}" (click)="setActiveChild(module, i)">
 
                                             <span class="fas fa-flag" *ngIf="ms.subjectIdToModule.get(child.id).links.length === 0" title="No Content"></span>
@@ -237,55 +306,104 @@
 
                             </mat-tab-group>
 
-                            <!-- Check if last generation is reached -->
+                            <!--
+                                Gets the next generation of children modules associated with a selection as well
+                                Displays the Module information in the given template space as well
+                            -->
 
-                            <div *ngIf="module.children.length > 0 && childActive.get(module) != null && childActive.get(module) != -1" class="m-0 p-0">
+                            <div *ngIf="childActive.get(module) != null" class="m-0 p-0">
 
-                                <!-- Recursive Call -->
+                                <!-- Next generation from active child Module -->
 
                                 <ng-container *ngTemplateOutlet="childNodes; context:{ $implicit: getChildModule(module) }">
                                 </ng-container>
 
+                                <!-- Information for active child Module -->
+
+                                <ng-container *ngTemplateOutlet="childNodesInformation">
+                                </ng-container>
+
                             </div>
-
                         </div>
-                    </ng-template>
 
-                    <!--
-                        Template to display information associated with a given piece of content
-                        that the active module contains. If I was a better programmer, I would have made
-                        a general template that the parent could also write to, but I didn't.
-                    -->
+                        <!--
+                            Template to display the Content Links within a given child module
+                            Alot of this code is similar / copied from above. The difference is that this will
+                            be generated recursively until the final generation is reached
+                        -->
 
-                    <ng-template #childNodesInformation>
-                        <div>
+                        <ng-template #childNodes let-module>
 
-                            <!-- 
-                                Header to the content list, Contains the Module name as well as an option to delete the Module
-                                Whoever started this thing had only implemented the delete module option, so, if we are trying
-                                to remove a child, but also keep the module intact - destroy the ancestor relationship - then
-                                we cannot do that. There's also no way to designate a ancestry heirarchy after a module had 
-                                initially been created, so I don't really get why it exists other than it was rushed and not
-                                complete.
-                            -->
+                            <div *ngIf="module.children.length > 0">
 
-                            <div class="row mb-2" style="margin-top:20px">
-                                <div class="col-5">
-                                    <div class="child-header">
-                                        <p class="lead p-0 ml-1 mb-0 float-left">{{activeModule.subject}}</p>
+                                <!-- Next Generation Nav Tabs -->
 
-                                        <a data-toggle="modal" data-target="#deleteModule" title="Delete Module"
-                                            (click)="selectedModuleForRemoval(activeModule)" class="lead float-right">
-                                            <em class="fas fa-trash" id="delete-module-{{module.id}}">
-                                            </em>
-                                        </a>
+                                <mat-tab-group (selectedTabChange)="setActiveChild(module, $event.index)">
+
+                                    <mat-tab *ngFor="let child of module.children; let i = index">
+
+                                        <!-- Same Click event, however, active state doesn't matter since active modules hould be parent by default -->
+
+                                        <ng-template mat-tab-label>
+                                            <a class="lead text-black" [ngClass]="{'active': childActive.get(module) === i}" (click)="setActiveChild(module, i)">
+
+                                                <span class="fas fa-flag" *ngIf="ms.subjectIdToModule.get(child.id).links.length === 0" title="No Content"></span>
+                                                &nbsp;{{child.subject}}
+
+                                            </a>
+                                        </ng-template>
+
+                                    </mat-tab>
+
+                                </mat-tab-group>
+
+                                <!-- Check if last generation is reached -->
+
+                                <div *ngIf="module.children.length > 0 && childActive.get(module) != null && childActive.get(module) != -1" class="m-0 p-0">
+
+                                    <!-- Recursive Call -->
+
+                                    <ng-container *ngTemplateOutlet="childNodes; context:{ $implicit: getChildModule(module) }">
+                                    </ng-container>
+
+                                </div>
+
+                            </div>
+                        </ng-template>
+
+                        <!--
+                            Template to display information associated with a given piece of content
+                            that the active module contains. If I was a better programmer, I would have made
+                            a general template that the parent could also write to, but I didn't.
+                        -->
+
+                        <ng-template #childNodesInformation>
+                            <div>
+
+                                <!-- 
+                                    Header to the content list, Contains the Module name as well as an option to delete the Module
+                                    Whoever started this thing had only implemented the delete module option, so, if we are trying
+                                    to remove a child, but also keep the module intact - destroy the ancestor relationship - then
+                                    we cannot do that. There's also no way to designate a ancestry heirarchy after a module had 
+                                    initially been created, so I don't really get why it exists other than it was rushed and not
+                                    complete.
+                                -->
+
+                                <div class="row mb-2" style="margin-top:20px">
+                                    <div class="col-5">
+                                        <div class="child-header">
+                                            <p class="lead p-0 ml-1 mb-0 float-left">{{activeModule.subject}}</p>
+
+                                            <a data-toggle="modal" data-target="#deleteModule" title="Delete Module"
+                                                (click)="selectedModuleForRemoval(activeModule)" class="lead float-right">
+                                                <em class="fas fa-trash" id="delete-module-{{module.id}}">
+                                                </em>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="row" >
-
-                                <!-- Drag and Drop list for Content Links -->
+                                <div class="row" >
 
                                 <div class="col-5">
                                     <div class="content-container mt-0">
@@ -293,63 +411,70 @@
                                             <div class="link-box lead" *ngFor="let link of activeModule.links; let i = index" cdkDrag
                                                 [ngClass]="{'active': contentActive.get(activeModule) === i}" (click)="setActiveContent(activeModule, i)">
 
-                                                <em style="width:20px;" class="fa" [ngClass]="{'fa-file-code-o': link.content.format === 'Code', 'fa-file-text-o': link.content.format === 'Document', 'fa-file-powerpoint-o': link.content.format === 'Powerpoint'}"></em>
+                                    <div class="col-5">
+                                        <div class="content-container mt-0">
+                                            <div cdkDropList (cdkDropListDropped)="onDrop($event, activeModule)" class="list-wrapper">
+                                                <div class="link-box lead" *ngFor="let link of activeModule.links | contentOrder: activeModule : 1; let i = index" cdkDrag
+                                                    [ngClass]="{'active': contentActive.get(activeModule) === i}" (click)="setActiveContent(activeModule, i)">
 
-                                                &nbsp;{{link.content.title}}
+                                                    <em style="width:20px;" class="fa" [ngClass]="{'fa-file-code-o': link.content.format === 'Code', 'fa-file-text-o': link.content.format === 'Document', 'fa-file-powerpoint-o': link.content.format === 'Powerpoint'}"></em>
 
-                                                <a class="float-right">
-                                                    <em title="Remove from module "
-                                                        (click)="selectedLinkForRemoval(link, activeModule)"
-                                                        class="fas fa-trash" data-toggle="modal"
-                                                        data-target="#deleteContent"
-                                                        title="Remove Content from Module">
-                                                    </em>
-                                                </a>
+                                                    &nbsp;{{link.content.title}}
 
+                                                    <a class="float-right">
+                                                        <em title="Remove from module "
+                                                            (click)="selectedLinkForRemoval(link, activeModule)"
+                                                            class="fas fa-trash" data-toggle="modal"
+                                                            data-target="#deleteContent"
+                                                            title="Remove Content from Module">
+                                                        </em>
+                                                    </a>
+
+                                                </div>
+                                            </div>
+                                            <div class="list-footer btn-group">
+
+                                                <button class="btn btn-block order-btn m-0 fa fa-caret-down" (click)="shiftLinkPriority(activeModule, 1)">
+                                                </button>
+
+                                                <button class="btn btn-block order-btn m-0 fa fa-caret-up" (click)="shiftLinkPriority(activeModule, -1)">
+                                                </button>
                                             </div>
                                         </div>
-                                        <div class="list-footer btn-group">
+                                    </div>
 
-                                            <button class="btn btn-block order-btn m-0 fa fa-caret-down" (click)="shiftLinkPriority(activeModule, 1)">
-                                            </button>
+                                    <!-- Information of current Module -->
 
-                                            <button class="btn btn-block order-btn m-0 fa fa-caret-up" (click)="shiftLinkPriority(activeModule, -1)">
-                                            </button>
+                                    <div class="col-6 content-container mt-0">
+
+                                        <div class="info-header mt-1">
+
+                                            <p *ngIf="contentActive.get(activeModule) != null && contentActive.get(activeModule) != -1" class="p-0 m-0">ID: {{activeModule.links[contentActive.get(activeModule)].content.id}}</p>
+                                            <p *ngIf="contentActive.get(activeModule) != null && contentActive.get(activeModule) != -1" class="p-0 m-0">Format: {{activeModule.links[contentActive.get(activeModule)].content.format}}</p>
+                                            <p *ngIf="contentActive.get(activeModule) != null && contentActive.get(activeModule) != -1">URL: <a style="margin-top: 10px" target="_blank" href="{{activeModule.links[contentActive.get(activeModule)].content.url}}">{{activeModule.links[contentActive.get(activeModule)].content.url}}</a></p>
+
+                                            <hr *ngIf="contentActive.get(activeModule) != null && contentActive.get(activeModule) != -1" />
+
+                                            <p *ngIf="contentActive.get(activeModule) == null || contentActive.get(activeModule) == -1" class="display-4">No Content</p>
+
                                         </div>
-                                    </div>
-                                </div>
 
-                                <!-- Information of current Module -->
-
-                                <div class="col-6 content-container mt-0">
-
-                                    <div class="info-header mt-1">
-
-                                        <p *ngIf="contentActive.get(activeModule) != null && contentActive.get(activeModule) != -1" class="p-0 m-0">ID: {{activeModule.links[contentActive.get(activeModule)].content.id}}</p>
-                                        <p *ngIf="contentActive.get(activeModule) != null && contentActive.get(activeModule) != -1" class="p-0 m-0">Format: {{activeModule.links[contentActive.get(activeModule)].content.format}}</p>
-                                        <p *ngIf="contentActive.get(activeModule) != null && contentActive.get(activeModule) != -1">URL: <a style="margin-top: 10px" target="_blank" href="{{activeModule.links[contentActive.get(activeModule)].content.url}}">{{activeModule.links[contentActive.get(activeModule)].content.url}}</a></p>
-
-                                        <hr *ngIf="contentActive.get(activeModule) != null && contentActive.get(activeModule) != -1" />
-
-                                        <p *ngIf="contentActive.get(activeModule) == null || contentActive.get(activeModule) == -1" class="display-4">No Content</p>
-
-                                    </div>
-
-                                    <div class="info-description">
-                                        <form *ngIf="contentActive.get(activeModule) != null && contentActive.get(activeModule) != -1">
-                                            <div class="form-group">
-                                                <label for="info-description-body">Description</label>
-                                                <textarea class="form-control disabled" id="info-description-body" rows="7" disabled>{{activeModule.links[contentActive.get(activeModule)].content.description}}</textarea>
-                                            </div>
-                                        </form>
+                                        <div class="info-description">
+                                            <form *ngIf="contentActive.get(activeModule) != null && contentActive.get(activeModule) != -1">
+                                                <div class="form-group">
+                                                    <label for="info-description-body">Description</label>
+                                                    <textarea class="form-control disabled" id="info-description-body" rows="7" disabled>{{activeModule.links[contentActive.get(activeModule)].content.description}}</textarea>
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </ng-template>
+                        </ng-template>
 
-                </mat-expansion-panel>
-            </mat-accordion>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
         </div>
     </mat-card-content>
 </mat-card>

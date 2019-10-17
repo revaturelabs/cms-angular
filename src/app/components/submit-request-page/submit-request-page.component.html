@@ -16,14 +16,15 @@
                     </div>
 
                     <div class="col">
-                        <div class="btn-radio"> <!-- Radio buttons to filter the content, with format id's. This uses ngModel for the select format -->
-                            <div class="form-check form-check-inline" *ngFor="let format of formats">
+                        
 
-                                <label class="form-check-label" for="{{format}}" id="{{format}}Label">{{format}}</label>
-                                <input [(ngModel)]="selFormat" class="form-check-input" type="radio" name="formatOptions" id="{{format}}" value="{{format}}">
+                        <div class="btn-group">
+                                <button class="btn" *ngFor="let format of formats" 
+                                [class.btn-primary]="selFormat==format"
+                                [class.btn-secondary]="selFormat!=format"
+                                (click)="selFormat=format">{{format}}</button>
                             </div>
                         </div>
-                    </div>
                 </div>
 
                 <div class="row subject mb-3"> <!-- Dropdown section which retrieves subjects using ms to load and ngModel to populate -->

@@ -1,0 +1,65 @@
+<div class="modal-header">
+
+    <p mat-dialog-title class="lead p-0 m-0">Add Modules to {{data.node.name}}</p>
+
+</div>
+
+<div class="modal-body">
+
+    <div *ngIf="ms.isLoading" class="spinner">
+
+        <mat-spinner [diameter]="30"></mat-spinner>
+
+    </div>
+
+    <div *ngIf="!ms.isLoading">
+
+        <mat-toolbar class="modal-toolbar">
+
+            <button mat-icon-button>
+
+                <mat-icon matTooltip="Filter by name">search</mat-icon>
+
+            </button>
+
+            <mat-form-field>
+
+                <input [(ngModel)]="searchConstraint" type="text" matInput placeholder="Search for Modules..">
+
+                <button mat-button *ngIf="searchConstraint" matSuffix mat-icon-button aria-label="Clear" (click)="searchConstraint=''">
+
+                    <mat-icon>close</mat-icon>
+
+                </button>
+
+            </mat-form-field>
+        </mat-toolbar>
+
+        <hr />
+
+        <div class="module-container container-flush">
+
+            <mat-grid-list cols="3" rowHeight="4:1" gutterSize="12px 20px">
+
+                <mat-grid-tile *ngFor="let node of ms.nodes | moduleIndexSearch: searchConstraint | currModuleFilter: data.node" (click)="check(node, $event)">
+                    <mat-checkbox class="mb-0" value="{{node.id}}" [checked]="checked.get(node.id) === true" (click)="check(node, $event); $event.stopPropagation()"></mat-checkbox>
+                    <a class="m-0 p-0" style="margin-left: auto!important;">{{node.subject}}</a>
+                </mat-grid-tile>
+
+            </mat-grid-list>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="modal-footer">
+
+    <button mat-stroked-button (click)="onNoClick()">Cancel</button>
+    <button mat-stroked-button cdkFocusInitial (click)="addModules()" [disabled]="isAdding">Submit</button>
+
+</div>
+
+<div *ngIf="this.isAdding" class="spinner">
+    <mat-spinner [diameter]="20"></mat-spinner>
+</div>

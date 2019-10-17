@@ -17,6 +17,7 @@ import { ModuleIndexPageComponent } from './components/module-index-page/module-
 import { ReportsPageComponent } from './components/reports-page/reports-page.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReportsTimeGraphComponent } from './components/reports-time-graph/reports-time-graph.component';
+import { CurriculumCreatorPageComponent } from './components/curriculum-creator-page/curriculum-creator-page.component';
 import { GlobalReports } from './providers/GlobalReports';
 import { CommonModule } from '@angular/common';
 
@@ -35,6 +36,20 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { CurriculumFilterPipe } from './pipes/curriculum-filter.pipe';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { CurrModuleFilterPipe } from './pipes/curr-module-filter.pipe';
+import { CurrModulePriorityPipe } from './pipes/curr-module-priority.pipe';
 
 /** @ignore */
 @NgModule({

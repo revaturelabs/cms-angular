@@ -176,7 +176,6 @@ export class ContentCreatorPageComponent implements OnInit {
                this.toastr.success('Successfully sent content.');
                this.resetVariables();
                this.listURLS.push(save_url); //
-               this.ms.addLinkToNodes(content.links[0]);
             } else {
                this.toastr.error('Response was null.');
                this.isSubmitting = false;

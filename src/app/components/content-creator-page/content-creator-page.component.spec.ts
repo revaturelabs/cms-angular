@@ -104,15 +104,15 @@ describe('ContentCreatorPageComponent', () => {
     expect(document.getElementsByName('Description')).toBeTruthy();
   });
 
-  it('Should have a Code radio button.', () => {
+  it('Should have a Code tab button.', () => {
     expect(document.getElementById('Code')).toBeTruthy();
   });
 
-  it('Should have a Document radio button.', () => {
+  it('Should have a Document tab button.', () => {
     expect(document.getElementById('Document')).toBeTruthy();
   });
 
-  it('Should have a Powerpoint radio button.', () => {
+  it('Should have a Powerpoint tab button.', () => {
     expect(document.getElementById('Powerpoint')).toBeTruthy();
   });
 
