@@ -5,7 +5,7 @@ import { ModuleFetcherService } from './module-fetcher.service';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { ContentFetcherService } from './content-fetcher.service';
-import { UtilService } from './util.service';
+import { SortSearchService } from './sort-search.service';
 
 /**
  * ModuleStoreService provides a method to load all Modules and houses
@@ -62,7 +62,7 @@ export class ModuleStoreService {
    constructor(public ms: ModuleFetcherService,
       private cs: ContentFetcherService,
       private toastr: ToastrService,
-      public util: UtilService) { }
+      public ss: SortSearchService) { }
 
    /** load Modules once from backend on program start */
    async loadModules(): Promise<Module[]> {
@@ -95,7 +95,7 @@ export class ModuleStoreService {
                   }
                );
             }
-            this.nodes.sort(this.util.sortModulesById);
+            this.nodes.sort(this.ss.sortModulesById);
             resolve(this.nodes);
             }
          );
@@ -110,7 +110,7 @@ export class ModuleStoreService {
       }
 
 
-      this.nodes[this.util.findModuleIdxById(link.module.id, this.nodes)].links.push(link);
+      this.nodes[this.ss.findModuleIdxById(link.module.id, this.nodes)].links.push(link);
    }
 
    /** load Modules that have no content */

@@ -166,8 +166,6 @@ export class ContentCreatorPageComponent implements OnInit {
          this.description, this.url,
          this.getLinksFromSubjects(this.selectedSubjects));
 
-      console.log(content);
-
 
       // call the ContentFetcherService to create a new content
       this.cs.createNewContent(content).subscribe(

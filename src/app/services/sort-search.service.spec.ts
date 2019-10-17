@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { UtilService } from './util.service';
+import { SortSearchService } from './sort-search.service';
 
 describe('SortsService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: UtilService = TestBed.get(UtilService);
+    const service: SortSearchService = TestBed.get(SortSearchService);
     expect(service).toBeTruthy();
   });
 });

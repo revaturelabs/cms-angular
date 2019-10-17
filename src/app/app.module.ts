@@ -26,10 +26,8 @@ import { MatProgressSpinnerModule} from '@angular/material';
 import { TreeModule } from 'angular-tree-component';
 import { DisplayRequestPageComponent } from './components/display-request-page/display-request-page.component';
 import { ResolveRequestPageComponent } from './components/resolve-request-page/resolve-request-page.component';
-import {ModuleStoreService} from './services/module-store.service';
+import { ModuleStoreService } from './services/module-store.service';
 import { SubmitRequestPageComponent } from './components/submit-request-page/submit-request-page.component';
-import { ContentOrderPipe } from './pipes/content-order.pipe';
-import { ContentFilterPipe } from './pipes/content-filter.pipe';
 import { ModuleIndexSearchPipe } from './pipes/module-index-search.pipe';
 import { NewCurriculumDialog, DeleteCurriculumDialog, AddModuleDialog } from './components/curriculum-creator-page/curriculum-creator-page.component';
 
@@ -77,8 +75,6 @@ import { CurrModulePriorityPipe } from './pipes/curr-module-priority.pipe';
         DisplayRequestPageComponent,
         ResolveRequestPageComponent,
         SubmitRequestPageComponent,
-        ContentOrderPipe,
-        ContentFilterPipe,
         ModuleIndexSearchPipe,
         CurriculumCreatorPageComponent,
         CurriculumFilterPipe,

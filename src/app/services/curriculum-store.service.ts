@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { EndpointsService } from '../constants/endpoints.service';
 import { CurriculumFetcherService } from './curriculum-fetcher.service';
 import { ToastrService } from 'ngx-toastr';
-import { UtilService } from '../services/util.service';
+import { SortSearchService } from '../services/sort-search.service';
 
 import { Curriculum } from '../models/Curriculum';
 import { CurrModule } from '../models/curr-module';
@@ -27,7 +27,7 @@ export class CurriculumStoreService {
                 private endpoints: EndpointsService,
                 private cfs: CurriculumFetcherService,
                 private toastr: ToastrService,
-                private util: UtilService) { }
+                private ss: SortSearchService) { }
 
   
     async loadCurricula(): Promise<Curriculum[]> {
@@ -73,7 +73,7 @@ export class CurriculumStoreService {
                             this.idToCurriculum.set(node.id, node);
                         }
 
-                        this.nodes.sort(this.util.sortCurriculumById);
+                        this.nodes.sort(this.ss.sortCurriculumById);
                         resolve(this.nodes);
                     }
                 );

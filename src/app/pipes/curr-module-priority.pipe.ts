@@ -1,17 +1,17 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { CurrModule } from '../models/curr-module';
-import { UtilService } from '../services/util.service';
+import { SortSearchService } from '../services/sort-search.service';
 
 @Pipe({
     name: 'currModulePriority'
 })
 export class CurrModulePriorityPipe implements PipeTransform {
 
-    constructor(public util: UtilService) {}
+    constructor(public ss: SortSearchService) {}
 
     transform(nodes: CurrModule[]): CurrModule[] {
 
-        return nodes.sort(this.util.sortCurrModulesByPriority);
+        return nodes.sort(this.ss.sortCurrModulesByPriority);
     }
 
 }
