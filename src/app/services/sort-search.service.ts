@@ -4,7 +4,7 @@ import { Link } from '../models/Link';
 import { Module } from '../models/Module';
 import { Content } from '../models/Content';
 import { Curriculum } from '../models/Curriculum';
-import { CurrModule } from '../models/curr-module';
+import { CurriculumModule } from '../models/CurriculumModule';
 
 @Injectable({
     providedIn: 'root'
@@ -228,7 +228,7 @@ export class SortSearchService {
         return 0;
     }
 
-    sortCurrModulesById(c1: CurrModule, c2: CurrModule): number {
+    sortCurriculumModulesById(c1: CurriculumModule, c2: CurriculumModule): number {
 
         if (c1.id > c2.id) {
 
@@ -243,7 +243,7 @@ export class SortSearchService {
         return 0;
     }
 
-    sortCurrModulesByPriority(l1: CurrModule, l2: CurrModule): number {
+    sortCurriculumModulesByPriority(l1: CurriculumModule, l2: CurriculumModule): number {
 
         if (l1.priority === l2.priority) {
 

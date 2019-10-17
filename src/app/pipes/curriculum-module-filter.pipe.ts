@@ -1,13 +1,13 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { CurrModule } from '../models/curr-module';
+import { CurriculumModule } from '../models/CurriculumModule';
 import { Curriculum } from '../models/Curriculum';
 import { Module } from '../models/Module';
 
 @Pipe({
     name: 'currModuleFilter'
 })
-export class CurrModuleFilterPipe implements PipeTransform {
+export class CurriculumModuleFilterPipe implements PipeTransform {
 
     transform(modules: Module[], node: Curriculum): Module[] {
 
@@ -22,7 +22,7 @@ export class CurrModuleFilterPipe implements PipeTransform {
 
                 const ret = node.currModules.find(
 
-                    (link: CurrModule) => {
+                    (link: CurriculumModule) => {
 
                         return link.module.id === module.id;
                     }

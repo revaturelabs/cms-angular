@@ -1,4 +1,4 @@
-import { CurrModule } from './curr-module';
+import { CurriculumModule } from './CurriculumModule';
 
 export class Curriculum{
 
@@ -9,9 +9,9 @@ export class Curriculum{
     name: String;
 
     /** Curriculum-Module Links */
-    currModules: CurrModule[];
+    currModules: CurriculumModule[];
 
-    constructor(id: number, name: string, currModules: CurrModule[]) {
+    constructor(id: number, name: string, currModules: CurriculumModule[]) {
 
         if (id != null) {
 

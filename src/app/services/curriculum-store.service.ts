@@ -6,7 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { SortSearchService } from '../services/sort-search.service';
 
 import { Curriculum } from '../models/Curriculum';
-import { CurrModule } from '../models/curr-module';
+import { CurriculumModule } from '../models/CurriculumModule';
 
 @Injectable({
   providedIn: 'root'
@@ -47,7 +47,7 @@ export class CurriculumStoreService {
                     (resp) => {
 
                         if (resp !== null) {
-
+                            
                             this.nodes = resp;
                             this.loading = false;
 

@@ -7,7 +7,7 @@ import { Cacheable, CacheBuster, globalCacheBusterNotifier } from 'ngx-cacheable
 import { HttpClient, HttpHeaderResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 
-import { CurrModule } from '../models/curr-module';
+import { CurriculumModule } from '../models/CurriculumModule';
 
 @Injectable({
     providedIn: 'root'
@@ -61,16 +61,16 @@ export class CurriculumFetcherService {
         );
     }
 
-    postSetOfCurrModules(nodes: CurrModule[]): Observable<CurrModule[]> {
+    postSetOfCurriculumModules(nodes: CurriculumModule[]): Observable<CurriculumModule[]> {
 
         const body: string = JSON.stringify(nodes);
 
-        return this.http.put<CurrModule[]>(
-            this.endpoints.POST_SET_OF_CURRMODULES, body, { headers: this.HEADERS}
+        return this.http.put<CurriculumModule[]>(
+            this.endpoints.POST_SET_OF_CURRMODULES.replace('${id}', nodes[0].curriculum.toString()), body, { headers: this.HEADERS}
         );
     }
 
-    deleteCurrModuleById(node: CurrModule): Observable<HttpHeaderResponse> {
+    deleteCurriculumModuleById(node: CurriculumModule): Observable<HttpHeaderResponse> {
 
         return this.http.delete<HttpHeaderResponse>(
             this.endpoints.DELETE_CURRMODULE_BY_ID.replace('${id}', node.id.toString())

@@ -1,7 +1,7 @@
 import { Curriculum } from './Curriculum';
 import { Module } from './Module';
 
-export class CurrModule {
+export class CurriculumModule {
 
     /** Unique Integer ID */
     id: number;

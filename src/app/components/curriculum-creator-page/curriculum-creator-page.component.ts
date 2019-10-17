@@ -15,7 +15,7 @@ import { SortSearchService } from '../../services/sort-search.service';
 /** Model Imports */
 import { Curriculum } from 'src/app/models/Curriculum';
 import { Module } from '../../models/Module';
-import { CurrModule } from '../../models/curr-module';
+import { CurriculumModule } from '../../models/CurriculumModule';
 
 @Component({
     selector: 'app-curriculum-creator-page',
@@ -155,16 +155,16 @@ export class CurriculumCreatorPageComponent implements OnInit {
     /**
      * Basically the same thing as the normalize Links from ModuleIndex that I made
      * can probably combine somewhere to remove duplications
-     * Of a given list of CurrModules, we expect their priorities when sorted to be a
+     * Of a given list of CurriculumModules, we expect their priorities when sorted to be a
      * smooth, complete list from [0, n). If this is not the case, the we reassign the priorities
      * of the module in question. Also responsible for removing -1 priority and turning them into usable values
      * Should be called after Deletion, Insertion of modules and when opening a Curriculum
-     * @param - nodes - THe list of CurrModules that we want to normalize
+     * @param - nodes - THe list of CurriculumModules that we want to normalize
      */
-    normalizeLinkPriority(nodes: CurrModule[]) {
+    normalizeLinkPriority(nodes: CurriculumModule[]) {
 
         let changed = false;
-        nodes.sort(this.ss.sortCurrModulesByPriority);
+        nodes.sort(this.ss.sortCurriculumModulesByPriority);
 
         for (let i = 0 ; i < nodes.length ; i++) {
 
@@ -177,9 +177,9 @@ export class CurriculumCreatorPageComponent implements OnInit {
 
         if (changed) {
 
-            this.cfs.postSetOfCurrModules(nodes).subscribe(
+            this.cfs.postSetOfCurriculumModules(nodes).subscribe(
 
-                (resp: CurrModule[]) => {
+                (resp: CurriculumModule[]) => {
 
                     if (resp !== null) {
 
@@ -230,19 +230,19 @@ export class CurriculumCreatorPageComponent implements OnInit {
     }
 
     /**
-     * Deletes a CurrModule from the Curriculum
+     * Deletes a CurriculumModule from the Curriculum
      */
-    removeModule(link: CurrModule) {
+    removeModule(link: CurriculumModule) {
 
         const temp = this.activeCurriculum.currModules.filter(
 
-            (node: CurrModule) => {
+            (node: CurriculumModule) => {
 
                 return node.id !== link.id;
             }
         );
 
-        this.cfs.deleteCurrModuleById(link).subscribe(
+        this.cfs.deleteCurriculumModuleById(link).subscribe(
 
             (resp: HttpHeaderResponse) => {
 
@@ -310,12 +310,12 @@ export class CurriculumCreatorPageComponent implements OnInit {
         node.currModules[curIdx].priority = curIdx + shift;
         node.currModules[curIdx + shift].priority = curIdx;
 
-        node.currModules.sort(this.ss.sortCurrModulesByPriority);
+        node.currModules.sort(this.ss.sortCurriculumModulesByPriority);
         this.moduleActive.set(node.id, curIdx + shift);
 
-        this.cfs.postSetOfCurrModules(node.currModules).subscribe(
+        this.cfs.postSetOfCurriculumModules(node.currModules).subscribe(
 
-            (resp: CurrModule[]) => {
+            (resp: CurriculumModule[]) => {
 
                 if (resp === null) {
 
@@ -342,7 +342,7 @@ export class CurriculumCreatorPageComponent implements OnInit {
         const targetIdx: number = event.currentIndex
         const baseIdx: number = event.previousIndex;
 
-        node.currModules.sort(this.ss.sortCurrModulesByPriority);
+        node.currModules.sort(this.ss.sortCurriculumModulesByPriority);
         node.currModules[baseIdx].priority = targetIdx;
 
         if (targetIdx < baseIdx) {
@@ -360,13 +360,13 @@ export class CurriculumCreatorPageComponent implements OnInit {
             }
         }
 
-        node.currModules.sort(this.ss.sortCurrModulesByPriority);
+        node.currModules.sort(this.ss.sortCurriculumModulesByPriority);
 
         this.moduleActive.set(node.id, targetIdx);
 
-        this.cfs.postSetOfCurrModules(node.currModules).subscribe(
+        this.cfs.postSetOfCurriculumModules(node.currModules).subscribe(
 
-            (resp: CurrModule[]) => {
+            (resp: CurriculumModule[]) => {
 
                 if (resp === null) {
 
@@ -558,24 +558,24 @@ export class AddModuleDialog implements OnInit {
         this.dialogRef.close();
     }
 
-    /** Attempts to persist CurrModules to the database */
+    /** Attempts to persist CurriculumModules to the database */
     addModules() {
 
         this.isAdding = true;
 
-        let links: CurrModule[] = [];
+        let links: CurriculumModule[] = [];
 
         for (const key of this.checked.keys()) {
 
             if (this.checked.get(key) === true) {
 
-                links.push(new CurrModule(null, -1, this.data.node.id, this.ss.findModuleById(key, this.ms.nodes)));
+                links.push(new CurriculumModule(null, -1, this.data.node.id, this.ss.findModuleById(key, this.ms.nodes)));
             }
         }
 
-        this.cfs.postSetOfCurrModules(links).subscribe(
+        this.cfs.postSetOfCurriculumModules(links).subscribe(
 
-            (resp: CurrModule[]) => {
+            (resp: CurriculumModule[]) => {
 
                 if (resp !== null) {
 

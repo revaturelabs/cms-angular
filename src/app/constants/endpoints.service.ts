@@ -33,22 +33,22 @@ export class EndpointsService {
    /** Delete Module and all content associated with said module Endpoint */
    public readonly DELETE_MODULE_WITH_CONTENT: string = this.baseURL + '/modules/${id}?type=all';
    /** Create Module Endpoint */
-   public readonly CREATE_NEW_CURRICULUM: string = this.baseURL + '/curriculum';
+   public readonly CREATE_NEW_CURRICULUM: string = this.baseURL + '/curricula';
    /** Create Module Endpoint */
-   public readonly GET_CURRICULUM_MODULES: string = this.baseURL + '/currmodules/${id}';
+   public readonly GET_CURRICULUM_MODULES: string = this.baseURL + '/curriculum-modules/${id}';
    /** Create Module Endpoint */
-   public readonly CREATE_CURRICULUM_MODULES: string = this.baseURL + '/currmodules/${id}';
+   public readonly CREATE_CURRICULUM_MODULES: string = this.baseURL + '/curriculum-modules/${id}';
    /** Create Module Endpoint */
    public readonly CREATE_NEW_MODULE: string = this.baseURL + '/modules';
    /** Get All Curriculums Endpoint */
-   public readonly GET_ALL_CURRICULA: string = this.baseURL + '/curriculum';
+   public readonly GET_ALL_CURRICULA: string = this.baseURL + '/curricula';
    /** Get specific curriculum **/
-   public readonly GET_CURRICULUM_BY_ID: string = this.baseURL + '/curriculum/${id}';
-   public readonly UPDATE_CURRICULUM_BY_ID: string = this.baseURL + '/curriculum/${id}';
-   public readonly DELETE_CURRICULUM_BY_ID: string = this.baseURL + '/curriculum/${id}';
+   public readonly GET_CURRICULUM_BY_ID: string = this.baseURL + '/curricula/${id}';
+   public readonly UPDATE_CURRICULUM_BY_ID: string = this.baseURL + '/curricula/${id}';
+   public readonly DELETE_CURRICULUM_BY_ID: string = this.baseURL + '/curricula/${id}';
 
-   public readonly POST_SET_OF_CURRMODULES: string = this.baseURL + '/currmodules/update';
-   public readonly DELETE_CURRMODULE_BY_ID: string = this.baseURL + '/currmodules/${id}';
+   public readonly POST_SET_OF_CURRMODULES: string = this.baseURL + '/curriculum-modules/curriculum/${id}';
+   public readonly DELETE_CURRMODULE_BY_ID: string = this.baseURL + '/curriculum-modules/${id}';
    /** Get All Modules Endpoint */
    public readonly GET_ALL_MODULES: string = this.baseURL + '/modules';
    /** Get Module by ID Endpoint */
