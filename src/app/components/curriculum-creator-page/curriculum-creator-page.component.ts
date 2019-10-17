@@ -102,8 +102,8 @@ export class CurriculumCreatorPageComponent implements OnInit {
         dialogRef.afterClosed().subscribe(
 
             () => {
+                
                 this.normalizeLinkPriority(this.activeCurriculum.currModules);
-                console.log(this.activeCurriculum.currModules);
             }
         );
     }
