@@ -8,6 +8,7 @@ import { ReportsPageComponent } from './components/reports-page/reports-page.com
 import { DisplayRequestPageComponent } from './components/display-request-page/display-request-page.component';
 import { ResolveRequestPageComponent } from './components/resolve-request-page/resolve-request-page.component';
 import { SubmitRequestPageComponent } from './components/submit-request-page/submit-request-page.component';
+import { CurriculumCreatorPageComponent } from './components/curriculum-creator-page/curriculum-creator-page.component';
 
 /** @ignore */
 const routes: Routes = [
@@ -16,6 +17,7 @@ const routes: Routes = [
    { path: 'display-request', component: DisplayRequestPageComponent, pathMatch: 'full' },
    { path: 'resolve-request', component: ResolveRequestPageComponent, pathMatch: 'full' },
    { path: 'finder', component: ContentFinderPageComponent },
+   { path: 'curriculum', component: CurriculumCreatorPageComponent,pathMatch:'full'},
    { path: 'module-creator', component: ModuleCreatorPageComponent, pathMatch: 'full' },
    { path: 'module-index', component: ModuleIndexPageComponent, pathMatch: 'full' },
    { path: 'reports', component: ReportsPageComponent},
