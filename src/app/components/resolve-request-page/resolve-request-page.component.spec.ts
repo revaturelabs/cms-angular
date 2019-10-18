@@ -71,20 +71,31 @@ describe('ResolveRequestPageComponent', () => {
 
   it('ngOnInit session request not null', () => {
     component.session.set("request",1)
+    let request: Request =  new Request(1,"Java", "String", "Description", null, null);
+    const observable: Observable<Request> = new Observable<Request>((observer) => {
+      observer.next(request);
+      observer.complete();
+      return {unsubscribe() {console.log("updateRequest test - unsubscribed")}};
+    });
+    spyOn(requestFetcherService,'getRequestByID').and.returnValue(observable);
     component.ngOnInit();
+    expect(requestFetcherService.getRequestByID).toHaveBeenCalledWith(1);
   });
 
-  it('ngOnInit mock services', () => {
+  it('ngOnInit test getRequestByID', () => {
     let response: Request =  new Request(1,"Java", "String", "Description", null, null);
     let url = baseURL + `/requests/1`;
     const req = httpTestingController.expectOne(url);
     expect(req.request.method).toEqual("GET");
     req.flush(response)
+  });
+
+  it('ngOnInit test getAllContent', () => {
     let contents = [content1];
-    let url2 = baseURL + "/content";
-    const req2 = httpTestingController.expectOne(url2);
-    expect(req2.request.method).toEqual("GET");
-    req2.flush(contents)
+    let url = baseURL + "/content";
+    const req = httpTestingController.expectOne(url);
+    expect(req.request.method).toEqual("GET");
+    req.flush(contents)
   });
 
   it('choose toggle false', () => {
@@ -101,20 +112,18 @@ describe('ResolveRequestPageComponent', () => {
 
   it('sendSearch response not null', () => {
     component.sendSearch(filter);
-    let contents = [content1];
     let url = baseURL + `/content?title=Java&format=String&modules=`;
     const req = httpTestingController.expectOne(url);
+    req.flush([content1])
     expect(req.request.method).toEqual("GET");
-    req.flush(contents)
   });
 
   it('sendSearch response not null, this empty', () => {
     spyOn(component, "notEmpty").and.returnValue(false)
     component.sendSearch(filter);
-    let contents = [content1];
     let url = baseURL + `/content?title=Java&format=String&modules=`;
     const req = httpTestingController.expectOne(url);
-    req.flush(contents)
+    req.flush([content1])
     expect(component.toastr.previousToastMessage).toBe('No Results Found')
   });
 
@@ -213,15 +222,12 @@ describe('ResolveRequestPageComponent', () => {
 
   it('updateRequest expect put', ()=>{
     let url = baseURL + `/requests/0`;
-    let request: Request =  new Request(0,"COBOL", "String", "Description", null, null);
     component.updateRequest(null);
     const req = httpTestingController.expectOne(url);
-    console.log(req.request.method)
-    req.flush(request)
     expect(req.request.method).toEqual("PUT");
   });
 
-  it('updateRequest', () => {
+  it('updateRequest toatr test', () => {
     let request: Request =  new Request(1,"Java", "String", "Description", null, null);
     const observable: Observable<Request> = new Observable<Request>((observer) => {
       observer.next(request);

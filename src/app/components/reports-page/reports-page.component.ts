@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { EndpointsService } from 'src/app/constants/endpoints.service';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
-import { BehaviorSubject } from 'rxjs';
 import { ReportsService } from 'src/app/services/reports.service';
 import { MetricsData } from 'src/app/models/MetricsData';
 import { GlobalReports } from 'src/app/providers/GlobalReports';
