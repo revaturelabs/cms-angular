@@ -20,11 +20,11 @@ export class ModuleStoreService {
    nodes: any[] = [];
 
    /** Mapping of Subject Name to Module */
-   subjectNameToModule: Map<string, Module> = new Map<string, Module>();;
+   subjectNameToModule: Map<string, Module> = new Map<string, Module>();
    /** Mapping of Subject ID to Module */
-   subjectIdToModule: Map<number, Module> = new Map<number, Module>();;
+   subjectIdToModule: Map<number, Module> = new Map<number, Module>();
    /** Mapping of Subject ID to Subject Name */
-   subjectIdToName: Map<number, string> = new Map<number, string>();;
+   subjectIdToName: Map<number, string> = new Map<number, string>();
    // Populates a collection of Root modules
    subjectIDToRootModule: Map<number, Module> = new Map<number, Module>();
    subjectRootArray: Module[] = [];
