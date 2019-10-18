@@ -20,6 +20,7 @@ import { RequestFetcherService } from 'src/app/services/request-fetcher.service'
 import { Observable } from 'rxjs';
 
 import { MatCardModule } from '@angular/material/card';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('ResolveRequestPageComponent', () => {
   let component: ResolveRequestPageComponent;
@@ -45,7 +46,8 @@ describe('ResolveRequestPageComponent', () => {
         ToastrModule.forRoot(),
         TreeModule.forRoot(),
         RouterTestingModule,
-        MatCardModule
+        MatCardModule,
+        BrowserAnimationsModule
       ],
       providers: [Location, RequestFetcherService],
       declarations: [ ResolveRequestPageComponent, ContentCreatorPageComponent ]
@@ -75,7 +77,6 @@ describe('ResolveRequestPageComponent', () => {
     const observable: Observable<Request> = new Observable<Request>((observer) => {
       observer.next(request);
       observer.complete();
-      return {unsubscribe() {console.log("updateRequest test - unsubscribed")}};
     });
     spyOn(requestFetcherService,'getRequestByID').and.returnValue(observable);
     component.ngOnInit();
@@ -232,7 +233,6 @@ describe('ResolveRequestPageComponent', () => {
     const observable: Observable<Request> = new Observable<Request>((observer) => {
       observer.next(request);
       observer.complete();
-      return {unsubscribe() {console.log("updateRequest test - unsubscribed")}};
     });
     spyOn(requestFetcherService, "updateRequestByID").and.returnValue(observable)
     component.updateRequest(null);

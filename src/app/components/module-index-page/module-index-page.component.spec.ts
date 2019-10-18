@@ -15,6 +15,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTabsModule } from '@angular/material/tabs';
 import { HttpHeaderResponse } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('ModuleIndexPageComponent', () => {
   let component: ModuleIndexPageComponent;
@@ -46,7 +47,8 @@ describe('ModuleIndexPageComponent', () => {
         MatCardModule,
         MatExpansionModule,
         MatTabsModule,
-        FormsModule
+        FormsModule,
+        BrowserAnimationsModule
       ]
     })
     .compileComponents().then(()=>{
@@ -58,7 +60,6 @@ describe('ModuleIndexPageComponent', () => {
       observableError = new Observable<HttpHeaderResponse>((observer) => {
         observer.error(null);
         observer.complete();
-        return {unsubscribe() {console.log("onDrop test - unsubscribed")}};
       });
     });
   }));

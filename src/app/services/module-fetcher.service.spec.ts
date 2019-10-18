@@ -3,6 +3,7 @@ import { HttpClientTestingModule, HttpTestingController} from "@angular/common/h
 import { ModuleFetcherService } from './module-fetcher.service';
 import { environment } from '../../environments/environment';
 import { Module } from '../models/Module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('ModuleFetcherService', () => {
   let service: ModuleFetcherService;
@@ -12,7 +13,8 @@ describe('ModuleFetcherService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        BrowserAnimationsModule
       ],
       providers: [
         ModuleFetcherService
