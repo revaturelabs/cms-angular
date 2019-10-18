@@ -26,9 +26,6 @@ import { CurriculumModule } from '../../models/CurriculumModule';
 /** Page to display curricula and their contents */
 export class CurriculumCreatorPageComponent implements OnInit {
 
-    /** String constraint for searching up Curricula */
-    searchConstraint: string;
-
     /** Active Curriculum since we can only have one at any given time */
     activeCurriculum: Curriculum;
 
@@ -51,7 +48,6 @@ export class CurriculumCreatorPageComponent implements OnInit {
     ngOnInit() {
 
         this.cs.loadCurricula();
-        this.searchConstraint = '';
         this.activeCurriculum = undefined;
         this.editable = new Map<number, boolean>();
         this.newName = '';
@@ -68,8 +64,6 @@ export class CurriculumCreatorPageComponent implements OnInit {
             width: '400px',
             data: {name: ''}
         });
-
-        this.searchConstraint = undefined;
     }
 
     /**
@@ -549,9 +543,6 @@ export class AddModuleDialog implements OnInit {
     /** Desired modules to be added - Unsorted*/
     modules: Module[] = [];
 
-    /** Search string constraint for looking up modules */
-    searchConstraint: string = ''
-
     /** Map relating the ID of a module to if a user wants to add it */
     checked: Map<number, boolean>;
 
@@ -564,8 +555,7 @@ export class AddModuleDialog implements OnInit {
 
     /** Exit Function */
     onNoClick(): void {
-
-        this.searchConstraint = '';
+        
         this.dialogRef.close();
     }
 

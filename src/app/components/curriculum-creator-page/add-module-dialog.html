@@ -14,34 +14,11 @@
 
     <div *ngIf="!ms.isLoading">
 
-        <mat-toolbar class="modal-toolbar">
-
-            <button mat-icon-button>
-
-                <mat-icon matTooltip="Filter by name">search</mat-icon>
-
-            </button>
-
-            <mat-form-field>
-
-                <input [(ngModel)]="searchConstraint" type="text" matInput placeholder="Search for Modules..">
-
-                <button mat-button *ngIf="searchConstraint" matSuffix mat-icon-button aria-label="Clear" (click)="searchConstraint=''">
-
-                    <mat-icon>close</mat-icon>
-
-                </button>
-
-            </mat-form-field>
-        </mat-toolbar>
-
-        <hr />
-
         <div class="module-container container-flush">
 
             <mat-grid-list cols="3" rowHeight="4:1" gutterSize="12px 20px">
 
-                <mat-grid-tile *ngFor="let node of ms.nodes | moduleIndexSearch: searchConstraint | currModuleFilter: data.node" (click)="check(node, $event)">
+                <mat-grid-tile *ngFor="let node of ms.nodes | currModuleFilter: data.node" (click)="check(node, $event)">
                     <mat-checkbox class="mb-0" value="{{node.id}}" [checked]="checked.get(node.id) === true" (click)="check(node, $event); $event.stopPropagation()"></mat-checkbox>
                     <a class="m-0 p-0" style="margin-left: auto!important;">{{node.subject}}</a>
                 </mat-grid-tile>

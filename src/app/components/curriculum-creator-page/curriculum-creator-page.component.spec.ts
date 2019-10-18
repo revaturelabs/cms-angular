@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 
-import { CurriculumFilterPipe } from '../../pipes/curriculum-filter.pipe';
 import { ToastrModule } from 'ngx-toastr';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
@@ -33,8 +32,7 @@ describe('CurriculumCreatorPageComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
 
-        CurriculumCreatorPageComponent,
-        CurriculumFilterPipe
+        CurriculumCreatorPageComponent
       ],
 
       imports: [

@@ -20,8 +20,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 
-import { ModuleIndexSearchPipe } from '../../pipes/module-index-search.pipe';
-
 describe('ModuleIndexPageComponent', () => {
 
     let component: ModuleIndexPageComponent;
@@ -40,8 +38,7 @@ describe('ModuleIndexPageComponent', () => {
 
             declarations: [
 
-                ModuleIndexPageComponent,
-                ModuleIndexSearchPipe
+                ModuleIndexPageComponent
             ],
 
             imports: [
