@@ -112,8 +112,11 @@
 
                                 <div class="list-toolbar">
 
-                                    <a class="lead p-0 m-0 pl-1 mb-1" (click)="openAddModulesDialog()" matTooltip="Add a Module">
-                                        <font size="+2"><em class="fa fa-plus"></em></font>
+                                    <a class="lead p-0 m-0 pb-1" style="margin-left: 16px!important;" (click)="openAddModulesDialog()" matTooltip="Add a Module">
+                                        <font size="+2">
+                                            <em class="fa fa-plus"></em>
+                                            &nbsp;&nbsp;&nbsp;Add Modules
+                                        </font>
                                     </a>
 
                                 </div>
@@ -123,12 +126,17 @@
                                     <div cdkDropList class="list-wrapper" (cdkDropListDropped)="onDrop($event, activeCurriculum)">
 
                                         <div class="link-box lead" *ngFor="let link of cs.curriculum.currModules; let i = index" cdkDrag (click)="setActiveModule(i)"
-                                            [ngClass]="{'active': moduleActive.get(activeCurriculum.id) === i}">
+                                            [ngClass]="{'active': moduleActive.get(activeCurriculum.id) === i}" (dblclick)="openViewModuleContentDialog(link.module)">
 
-                                            &nbsp; {{link.module.subject}}
+                                            <a class="float-left">
+                                                <em matTooltip="View the contents of {{link.module.subject}}" (click)="openViewModuleContentDialog(link.module)" class="fa fa-external-link"></em>
+                                            </a>
+
+                                            &nbsp;&nbsp;&nbsp;{{link.module.subject}}
 
                                             <a class="float-right">
-                                                <em matTooltip="Remove {{link.module.subject}} from {{activeCurriculum.name}}" (click)="removeModule(link)" class="fa fa-times"></em>
+                                                <em matTooltip="Remove {{link.module.subject}} from {{activeCurriculum.name}}" (click)="removeModule(link)" (dblclick)="$event.stopPropagation()"
+                                                    class="fa fa-times"></em>
                                             </a>
 
                                         </div>

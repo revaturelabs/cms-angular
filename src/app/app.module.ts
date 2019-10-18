@@ -29,7 +29,7 @@ import { ResolveRequestPageComponent } from './components/resolve-request-page/r
 import { ModuleStoreService } from './services/module-store.service';
 import { SubmitRequestPageComponent } from './components/submit-request-page/submit-request-page.component';
 import { ModuleIndexSearchPipe } from './pipes/module-index-search.pipe';
-import { NewCurriculumDialog, DeleteCurriculumDialog, AddModuleDialog } from './components/curriculum-creator-page/curriculum-creator-page.component';
+import { NewCurriculumDialog, DeleteCurriculumDialog, AddModuleDialog, ViewModuleContentDialog } from './components/curriculum-creator-page/curriculum-creator-page.component';
 
 /** Angular Material Modules */
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -59,7 +59,8 @@ import { CurriculumModuleFilterPipe } from './pipes/curriculum-module-filter.pip
 
         NewCurriculumDialog,
         DeleteCurriculumDialog,
-        AddModuleDialog
+        AddModuleDialog,
+        ViewModuleContentDialog
     ],
 
     declarations: [
@@ -80,7 +81,8 @@ import { CurriculumModuleFilterPipe } from './pipes/curriculum-module-filter.pip
         NewCurriculumDialog,
         DeleteCurriculumDialog,
         AddModuleDialog,
-        CurriculumModuleFilterPipe
+        CurriculumModuleFilterPipe,
+        ViewModuleContentDialog
     ],
     imports: [
         BrowserModule,

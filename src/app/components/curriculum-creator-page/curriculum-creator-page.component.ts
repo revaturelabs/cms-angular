@@ -108,6 +108,17 @@ export class CurriculumCreatorPageComponent implements OnInit {
         );
     }
 
+    openViewModuleContentDialog(module: Module) {
+
+        const dialogRef = this.dialog.open(
+            ViewModuleContentDialog,
+            {
+                width: '800px',
+                data: {module}
+            }
+        );
+    }
+
     /**
      * Since the JSON that we get back doesn't directly contain the curriculum links, we have
      * to make a call to our DB to get the specifics of a given Curriculum
@@ -610,6 +621,29 @@ export class AddModuleDialog implements OnInit {
         event.preventDefault();
 
         this.checked.set(node.id, this.checked.get(node.id) === undefined ? true : !this.checked.get(node.id));
+    }
+
+}
+
+@Component({
+    selector: 'module-content-dialog',
+    templateUrl: './module-content-dialog.html',
+    styleUrls: ['./curriculum-creator-page.component.css']
+})
+export class ViewModuleContentDialog {
+
+    constructor(public dialogRef: MatDialogRef<NewCurriculumDialog>,
+                public toastr: ToastrService,
+                public cfs: CurriculumFetcherService,
+                public cs: CurriculumStoreService,
+                public ss: SortSearchService,
+                public ms: ModuleStoreService,
+                @Inject(MAT_DIALOG_DATA) public data: {module: Module}) {}
+
+    /** Exit Function */
+    onNoClick(): void {
+
+        this.dialogRef.close();
     }
 
 }
