@@ -13,28 +13,6 @@
 
             <div *ngIf="!cs.loading">
 
-                <mat-toolbar class="mb-4">
-
-                    <button mat-icon-button>
-
-                        <mat-icon matTooltip="Filter by name">search</mat-icon>
-
-                    </button>
-
-                    <mat-form-field>
-
-                        <input [(ngModel)]="searchConstraint" type="text" matInput placeholder="Search for Curriculum...">
-
-                        <button mat-button *ngIf="searchConstraint" matSuffix mat-icon-button aria-label="Clear" (click)="searchConstraint=''">
-
-                            <mat-icon>close</mat-icon>
-
-                        </button>
-
-                    </mat-form-field>
-
-                </mat-toolbar>
-
                 <div class="mb-2">
                 
                     <a class="lead p-0 m-0 pb-3" style="margin-left: 27px!important;" (click)="openCreateCurriculumDialog()">
@@ -49,7 +27,7 @@
 
                 <mat-accordion>
 
-                    <mat-expansion-panel *ngFor="let curriculum of cs.nodes | curriculumFilter : searchConstraint" (click)="getCurriculumDetails(curriculum.id)">
+                    <mat-expansion-panel *ngFor="let curriculum of cs.nodes" (click)="getCurriculumDetails(curriculum.id)">
 
                         <mat-expansion-panel-header>
 

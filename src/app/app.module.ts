@@ -28,7 +28,6 @@ import { DisplayRequestPageComponent } from './components/display-request-page/d
 import { ResolveRequestPageComponent } from './components/resolve-request-page/resolve-request-page.component';
 import { ModuleStoreService } from './services/module-store.service';
 import { SubmitRequestPageComponent } from './components/submit-request-page/submit-request-page.component';
-import { ModuleIndexSearchPipe } from './pipes/module-index-search.pipe';
 import { NewCurriculumDialog, DeleteCurriculumDialog, AddModuleDialog } from './components/curriculum-creator-page/curriculum-creator-page.component';
 
 /** Angular Material Modules */
@@ -44,7 +43,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { CurriculumFilterPipe } from './pipes/curriculum-filter.pipe';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -74,9 +72,7 @@ import { CurriculumModuleFilterPipe } from './pipes/curriculum-module-filter.pip
         DisplayRequestPageComponent,
         ResolveRequestPageComponent,
         SubmitRequestPageComponent,
-        ModuleIndexSearchPipe,
         CurriculumCreatorPageComponent,
-        CurriculumFilterPipe,
         NewCurriculumDialog,
         DeleteCurriculumDialog,
         AddModuleDialog,

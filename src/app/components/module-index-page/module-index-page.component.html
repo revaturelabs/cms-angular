@@ -29,34 +29,11 @@
 
             <div *ngIf="!ms.isLoading">
 
-                <!-- Very basic 0-generation depth search -->
-
-                <mat-toolbar class="mb-4">
-
-                    <button mat-icon-button>
-
-                        <mat-icon>search</mat-icon>
-
-                    </button>
-
-                    <mat-form-field style="width: 100%">
-
-                        <input [(ngModel)]="searchConstraint" type="text" matInput placeholder="Search for Module...">
-
-                        <button mat-button *ngIf="searchConstraint" matSuffix mat-icon-button aria-label="Clear" (click)="searchConstraint=''">
-                            <mat-icon>close</mat-icon>
-                        </button>
-
-                    </mat-form-field>
-
-
-                </mat-toolbar>
-
                 <!-- First Generation Module List -->
 
                 <mat-accordion>
 
-                    <mat-expansion-panel *ngFor="let module of ms.nodes | moduleIndexSearch: searchConstraint" name="modules" id="{{module.id}}"
+                    <mat-expansion-panel *ngFor="let module of ms.nodes" name="modules" id="{{module.id}}"
                         [ngClass]="{'parent': module.parents.length === 0}"
                         [expanded]="(activeModule !== null && activeModule.id === module.id) || childrenVisible.get(module)">
 
