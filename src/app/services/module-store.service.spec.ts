@@ -170,4 +170,21 @@ describe('ModuleStoreService', () => {
     expect(children.parents.length).not.toBe([parent, ...modules].length)
   }));
 
+  it('should test addLinkToNodes, add ', fakeAsync(() => {
+    spyOn(service.ss,'findModuleIdxById').and.returnValue(0);
+    let module: Module = new Module(1,"Java",12345,[],null,null,null);
+    service.nodes.push(module);
+    let link:Link = new Link(1,null,module,"affilication", 1);
+    service.addLinkToNodes(link);
+    expect(module.links.includes(link)).toBe(true);
+  }));
+
+  it('should test addLinkToNodes, but not add link', fakeAsync(() => {
+    let module: Module = new Module(1,"Java",12345,[],null,null,null);
+    service.nodes.push(module);
+    let link:Link = new Link(1,null,module,"affilication", 1);
+    service.addLinkToNodes(null);
+    expect(module.links.includes(link)).toBe(false);
+  }));
+
 });

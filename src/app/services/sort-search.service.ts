@@ -25,7 +25,7 @@ export class SortSearchService {
 
             return null;
         }
-
+        
         if (links[idx].module.id === id) {
 
             return links[idx];
