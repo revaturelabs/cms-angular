@@ -1,18 +1,13 @@
-import { Component, OnInit, ComponentFactoryResolver} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { globalCacheBusterNotifier } from 'ngx-cacheable';
 import { HttpHeaderResponse } from '@angular/common/http';
-
 import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { ModuleFetcherService } from 'src/app/services/module-fetcher.service';
 import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
 import { SortSearchService } from '../../services/sort-search.service';
-
 import { Link } from '../../models/Link';
 import { Module } from 'src/app/models/Module';
-import { Content } from 'src/app/models/Content';
-import { Filter } from 'src/app/models/Filter';
-import { id } from '@swimlane/ngx-charts/release/utils';
 
 /** Typescript Component for Module Index Page */
 @Component({
@@ -386,5 +381,10 @@ export class ModuleIndexPageComponent implements OnInit {
                 }
             );
         }
+    }
+
+    getDate(ms: number) {
+
+        return new Date(ms).toString();
     }
 }
