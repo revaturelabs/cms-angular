@@ -3,6 +3,8 @@ import { SortSearchService } from './sort-search.service';
 import { Link } from '../models/Link';
 import { Module } from '../models/Module';
 import { Content } from '../models/Content';
+import { Curriculum } from '../models/Curriculum';
+import { CurriculumModule } from '../models/CurriculumModule';
 
 describe('SortsService', () => {
   
@@ -11,6 +13,11 @@ describe('SortsService', () => {
   let module2: Module;
   let link1: Link;
   let link2: Link;
+  let curriculums:Curriculum[];
+  let curriculum1:Curriculum;
+  let curriculum2:Curriculum;
+  let curriculumModule1:CurriculumModule;
+  let curriculumModule2:CurriculumModule;
 
   beforeEach(() => {
       TestBed.configureTestingModule({})
@@ -19,6 +26,11 @@ describe('SortsService', () => {
       module2 = new Module(2,null,null,[],null,null,null);
       link1 = new Link(1,null,null,null,1);
       link2 = new Link(2,null,null,null,1);
+      curriculum1 = new Curriculum(1,"Java",null);
+      curriculum2 = new Curriculum(2,"C#",null);
+      curriculumModule1 = new CurriculumModule(1,1,1,null);
+      curriculumModule2 = new CurriculumModule(2,2,2,null);
+      curriculums = [];
     }
   );
 
@@ -98,7 +110,6 @@ describe('SortsService', () => {
   });
 
   it('should test findModuleIdxById', () => {
-    //  let module1: Module = new Module(1,null,null,[],null,null,null);
     let modules: Module[] = [module1];
     expect(service.findModuleIdxById(1,modules)).toBe(0);
   });
@@ -117,24 +128,18 @@ describe('SortsService', () => {
   });
 
   it('should test sortLinksByModuleId Greater than return 1', () => {
-    // let link1: Link = new Link(1,null,null,null,1);
-    // let link2: Link = new Link(2,null,null,null,1);
     link1.module = module1;
     link2.module = module2;
     expect(service.sortLinksByModuleId(link2,link1)).toBe(1);
   });
 
   it('should test sortLinksByModuleId Less Than return -1', () => {
-    // let link1: Link = new Link(1,null,null,null,1);
-    // let link2: Link = new Link(2,null,null,null,1);
     link1.module = module1;
     link2.module = module2;
     expect(service.sortLinksByModuleId(link1,link2)).toBe(-1);
   });
 
   it('should test sortLinksByModuleId Equal return 0', () => {
-   // let link1: Link = new Link(1,null,null,null,1);
-    // let link2: Link = new Link(2,null,null,null,1);
     link1.module = module1;
     link2.module = module1;
     expect(service.sortLinksByModuleId(link2,link1)).toBe(0);
@@ -168,7 +173,7 @@ describe('SortsService', () => {
     expect(service.sortLinksByPriority(link1,link2)).toBe(1);
   });
 
-  it('should test sortLinksByPriority, link2 greater priority 1', () => {
+  it('should test sortLinksByPriority, link2 greater priority -1', () => {
      link2.priority = 2;
     expect(service.sortLinksByPriority(link1,link2)).toBe(-1);
   });
@@ -180,7 +185,7 @@ describe('SortsService', () => {
     expect(service.sortLinksByPriority(link1,link2)).toBe(1);
   });
 
-  it('should test sortLinksByPriority, link2 greater id 1', () => {
+  it('should test sortLinksByPriority, link2 greater id -1', () => {
      link2.id = 3;
      link1.priority =  null;
      link2.priority = NaN;
@@ -208,4 +213,99 @@ describe('SortsService', () => {
     module1.id = 2;
     expect(service.sortModulesById(module1,module2)).toBe(0);
   });
+
+  it('should test sortCurriculumById, same id', () => {
+    expect(service.sortCurriculumById(curriculum1,curriculum1)).toBe(0);
+  });
+
+  it('should test sortCurriculumById, c1 Greater id', () => {
+    expect(service.sortCurriculumById(curriculum2,curriculum1)).toBe(1);
+  });
+
+  it('should test sortCurriculumById, c1 Lesser id', () => {
+    expect(service.sortCurriculumById(curriculum1,curriculum2)).toBe(-1);
+  });
+
+  it('should test sortCurriculumModulesById, same id', () => {
+    expect(service.sortCurriculumModulesById(curriculumModule1,curriculumModule1)).toBe(0);
+  });
+
+  it('should test sortCurriculumModulesById, c1 Greater id', () => {
+    expect(service.sortCurriculumModulesById(curriculumModule2,curriculumModule1)).toBe(1);
+  });
+
+  it('should test sortCurriculumModulesById, c1 Lesser id', () => {
+    expect(service.sortCurriculumModulesById(curriculumModule1,curriculumModule2)).toBe(-1);
+  });
+  
+
+   it('should test sortCurriculumModulesByPriority, same priority 0', () => {
+    expect(service.sortCurriculumModulesByPriority(curriculumModule1,curriculumModule1)).toBe(0);
+  });
+
+  it('should test sortCurriculumModulesByPriority, l1 negative priority 1', () => {
+     curriculumModule1.priority = -1;
+    expect(service.sortCurriculumModulesByPriority(curriculumModule1,curriculumModule2)).toBe(1);
+  });
+
+  it('should test sortCurriculumModulesByPriority, l2 negative priority -1', () => {
+     curriculumModule2.priority = -1;
+    expect(service.sortCurriculumModulesByPriority(curriculumModule1,curriculumModule2)).toBe(-1);
+  });
+
+   it('should test sortCurriculumModulesByPriority, l1 greater priority 1', () => {
+     curriculumModule1.priority = 3;
+    expect(service.sortCurriculumModulesByPriority(curriculumModule1,curriculumModule2)).toBe(1);
+  });
+
+  it('should test sortCurriculumModulesByPriority, l2 greater priority -1', () => {
+     curriculumModule2.priority = 2;
+    expect(service.sortCurriculumModulesByPriority(curriculumModule1,curriculumModule2)).toBe(-1);
+  });
+
+  it('should test sortCurriculumModulesByPriority, l1 greater id 1', () => {
+     curriculumModule1.id = 3;
+     curriculumModule1.priority =  null;
+     curriculumModule2.priority = NaN;
+    expect(service.sortCurriculumModulesByPriority(curriculumModule1,curriculumModule2)).toBe(1);
+  });
+
+  it('should test sortCurriculumModulesByPriority, l2 greater id -1', () => {
+     curriculumModule2.id = 3;
+     curriculumModule1.priority =  null;
+     curriculumModule2.priority = NaN;
+    expect(service.sortCurriculumModulesByPriority(curriculumModule1,curriculumModule2)).toBe(-1);
+  });
+
+  it('should test sortCurriculumModulesByPriority, all equal', () => {
+     curriculumModule1.id = 3;
+     curriculumModule2.id = 3;
+     curriculumModule1.priority =  null;
+     curriculumModule2.priority = NaN;
+    expect(service.sortCurriculumModulesByPriority(curriculumModule1,curriculumModule2)).toBe(undefined);
+  });
+
+  it('should test findCurriculumIdxById', () => {
+    let spy = spyOn(service,'findCurriculumIdxByIdHelper');
+    curriculums.push(curriculum1);
+    service.findCurriculumIdxById(curriculum1.id,curriculums);
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should test findCurriculumIdxByIdHelper, invalid min/max', () => {
+    expect(service.findCurriculumIdxByIdHelper(1,4,2,[])).toBe(null);
+  });
+
+  it('should test findCurriculumIdxByIdHelper, Lower search', () => {
+    curriculums.push(curriculum1);
+    curriculums.push(curriculum2);
+    expect(service.findCurriculumIdxByIdHelper(curriculum1.id,0,2,curriculums)).toBe(curriculums.indexOf(curriculum1));
+  });
+
+  it('should test findCurriculumIdxByIdHelper, Upper search', () => {
+    curriculums.push(curriculum1);
+    curriculums.push(curriculum2);
+    expect(service.findCurriculumIdxByIdHelper(curriculum2.id,0,1,curriculums)).toBe(curriculums.indexOf(curriculum2));
+  });
+
 });
