@@ -18,7 +18,6 @@ import { Module } from '../../models/Module';
 import { Location } from '@angular/common';
 import { RequestFetcherService } from 'src/app/services/request-fetcher.service';
 import { Observable } from 'rxjs';
-
 import { MatCardModule } from '@angular/material/card';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -234,7 +233,8 @@ describe('ResolveRequestPageComponent', () => {
       observer.next(request);
       observer.complete();
     });
-    spyOn(requestFetcherService, "updateRequestByID").and.returnValue(observable)
+    spyOn(requestFetcherService, "updateRequestByID").and.returnValue(observable);
+    spyOn(component.router, 'navigate').and.callFake(()=>Promise.resolve(true))
     component.updateRequest(null);
     expect(component.toastr.previousToastMessage).toBe('Request Successfully Updated.')
   });
