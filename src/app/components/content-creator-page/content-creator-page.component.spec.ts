@@ -7,7 +7,6 @@ import { MatProgressSpinnerModule } from '@angular/material';
 import { ToastrModule } from 'ngx-toastr';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { Content } from 'src/app/models/Content';
-import { Link } from 'src/app/models/Link';
 import { TreeModule } from 'angular-tree-component';
 import { ContentCreatorPageComponent } from './content-creator-page.component';
 import { MatCardModule } from '@angular/material/card';
@@ -16,13 +15,12 @@ import { ContentFetcherService } from 'src/app/services/content-fetcher.service'
 import { Module } from 'src/app/models/Module';
 import { ToastrService } from 'ngx-toastr';
 import { HttpHeaderResponse } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('ContentCreatorPageComponent', () => {
   let component: ContentCreatorPageComponent;
   let fixture: ComponentFixture<ContentCreatorPageComponent>;
   let contentFetcherService:ContentFetcherService;
-  let content: Content;
-  let links: Link[];
   let toastrService:ToastrService;
 
   beforeEach(async(() => {
@@ -37,7 +35,8 @@ describe('ContentCreatorPageComponent', () => {
         HttpClientTestingModule,
         ToastrModule.forRoot(),
         TreeModule.forRoot(),
-        MatCardModule
+        MatCardModule,
+        BrowserAnimationsModule
       ]
     })
     .compileComponents();
@@ -274,7 +273,6 @@ describe('ContentCreatorPageComponent', () => {
     const observable: Observable<HttpHeaderResponse> = new Observable<HttpHeaderResponse>((observer) => {
       observer.next(response);
       observer.complete();
-      return {unsubscribe() {console.log("submit test - unsubscribed")}};
     });
     spyOn(contentFetcherService,'createNewContent').and.returnValue(observable);
     component.submit();
@@ -291,7 +289,6 @@ describe('ContentCreatorPageComponent', () => {
     const observable: Observable<HttpHeaderResponse> = new Observable<HttpHeaderResponse>((observer) => {
       observer.error({status: 400, statusText: "Bad Request"})
       observer.complete();
-      return {unsubscribe() {console.log("submit test - unsubscribed")}};
     });
     spyOn(contentFetcherService,'createNewContent').and.returnValue(observable);
     component.submit();

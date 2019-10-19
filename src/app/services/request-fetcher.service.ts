@@ -45,9 +45,6 @@ export class RequestFetcherService {
 
   updateRequestByID(id: number, request: Request): Observable<Request>{
   const body: string = JSON.stringify(request);
-  console.log(request)
-  console.log("huh")
-  console.log(this.http)
   return this.http.put<Request>(this.endpoints.UPDATE_REQUEST.replace('${id}', id.toString()), body,  { headers: this.HEADERS } );
   }
 

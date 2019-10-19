@@ -3,6 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from "@angular/common/
 import { SubmitRequestService } from './submit-request.service';
 import { Request } from '../models/Request';
 import { environment } from '../../environments/environment';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('SubmitRequestService', () => {
 
@@ -12,7 +13,7 @@ describe('SubmitRequestService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule ],
+      imports: [HttpClientTestingModule, BrowserAnimationsModule ],
         providers: [SubmitRequestService]
     });
     service = TestBed.get(SubmitRequestService);

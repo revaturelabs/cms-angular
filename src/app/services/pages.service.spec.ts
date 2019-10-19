@@ -22,7 +22,7 @@ describe('PagesService', () => {
   // Also normal attmpt to test window.location.reload ends in loop.
   it('test pageRefresh, param null', () => {
      pagesService = new PagesService();
-     pagesService.window = {location: {reload : ()=>{console.log("Reload Test")}}}
+     pagesService.window = {location: {reload : ()=>{}}}
      pagesService.pageRefresh();
      expect(pagesService.pageRefresh).toBeTruthy();
   });

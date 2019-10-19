@@ -9,6 +9,7 @@ import { Filter } from '../models/Filter';
 import { ReportsTimeGraphComponent } from '../components/reports-time-graph/reports-time-graph.component';
 import { MetricsData } from '../models/MetricsData';
 import { TimeGraphData } from '../models/TimeGraphData';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('ReportsService', () => {
   let service: ReportsService;
@@ -18,7 +19,7 @@ describe('ReportsService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [HttpClientTestingModule,ToastrModule.forRoot()],
+    imports: [HttpClientTestingModule,ToastrModule.forRoot(), BrowserAnimationsModule],
     providers: [ GlobalReports,  ReportsService,]
     });
     service = TestBed.get(ReportsService);

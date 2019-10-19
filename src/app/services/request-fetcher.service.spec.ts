@@ -6,6 +6,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { environment } from '../../environments/environment';
 import {Request} from '../models/Request';
 import { Filter } from '../models/Filter';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('RequestFetcherService', () => {
   let service: RequestFetcherService;
@@ -14,7 +15,7 @@ describe('RequestFetcherService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule,ToastrModule.forRoot()],
+      imports: [HttpClientTestingModule,ToastrModule.forRoot(), BrowserAnimationsModule],
       providers: [ContentFetcherService]
     });
     service = TestBed.get(RequestFetcherService);

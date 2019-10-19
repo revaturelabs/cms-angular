@@ -5,6 +5,7 @@ import { Module } from '../models/Module';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { ToastrModule } from 'ngx-toastr';
 import { Link } from '../models/Link';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('ModuleStoreService', () => {
   let service: ModuleStoreService;
@@ -15,7 +16,8 @@ describe('ModuleStoreService', () => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
-        ToastrModule.forRoot()
+        ToastrModule.forRoot(),
+        BrowserAnimationsModule
       ]
     });
     service = TestBed.get(ModuleStoreService);

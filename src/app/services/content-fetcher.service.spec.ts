@@ -5,6 +5,7 @@ import { ContentFetcherService } from './content-fetcher.service';
 import { Content } from '../models/Content';
 import { Filter } from '../models/Filter';
 import { Link } from '../models/Link';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('ContentFetcherService', () => {
   let httpTestingController: HttpTestingController;
@@ -13,7 +14,7 @@ describe('ContentFetcherService', () => {
   
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, BrowserAnimationsModule],
       providers: [ContentFetcherService]
     });
     

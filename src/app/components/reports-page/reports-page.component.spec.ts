@@ -10,6 +10,7 @@ import { MetricsData } from 'src/app/models/MetricsData';
 import { ReportsPageComponent } from './reports-page.component';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { Module } from 'src/app/models/Module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('ReportsPageComponent', () => {
   let component: ReportsPageComponent;
@@ -23,7 +24,8 @@ describe('ReportsPageComponent', () => {
         FormsModule,
         NgxChartsModule,
         HttpClientTestingModule,
-        ToastrModule.forRoot()
+        ToastrModule.forRoot(),
+        BrowserAnimationsModule
       ],
       providers: [GlobalReports]
     })

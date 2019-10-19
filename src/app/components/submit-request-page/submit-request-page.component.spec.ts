@@ -14,6 +14,7 @@ import { SubmitRequestService } from '../../services/submit-request.service';
 import { HttpHeaderResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('SubmitRequestPageComponent', () => {
   let component: SubmitRequestPageComponent;
@@ -32,7 +33,8 @@ describe('SubmitRequestPageComponent', () => {
         MatProgressSpinnerModule,
         HttpClientTestingModule,
         MatCardModule,
-        ToastrModule.forRoot()
+        ToastrModule.forRoot(),
+        BrowserAnimationsModule
       ],
       providers: [SubmitRequestService]
     }).compileComponents().then(()=>{
@@ -105,7 +107,6 @@ describe('SubmitRequestPageComponent', () => {
     const observable: Observable<HttpHeaderResponse> = new Observable<HttpHeaderResponse>((observer) => {
       observer.next(response);
       observer.complete();
-      return {unsubscribe() {console.log("submit test - unsubscribed")}};
     });
     spyOn(component, 'validInput').and.returnValue(true);
     spyOn(submitRequestService, 'createNewRequest').and.returnValue(observable);
@@ -117,7 +118,6 @@ describe('SubmitRequestPageComponent', () => {
     const observable: Observable<HttpHeaderResponse> = new Observable<HttpHeaderResponse>((observer) => {
       observer.next(null);
       observer.complete();
-      return {unsubscribe() {console.log("submit test - unsubscribed")}};
     });
     spyOn(component, 'validInput').and.returnValue(true);
     spyOn(submitRequestService, 'createNewRequest').and.returnValue(observable);
@@ -129,7 +129,6 @@ describe('SubmitRequestPageComponent', () => {
     const observable: Observable<HttpHeaderResponse> = new Observable<HttpHeaderResponse>((observer) => {
       observer.error({status: 400, statusText: "Bad Request"})
       observer.complete();
-      return {unsubscribe() {console.log("submit test - unsubscribed")}};
     });
     spyOn(component, 'validInput').and.returnValue(true);
     spyOn(submitRequestService, 'createNewRequest').and.returnValue(observable);

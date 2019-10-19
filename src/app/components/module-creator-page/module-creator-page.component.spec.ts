@@ -12,6 +12,7 @@ import { HttpHeaderResponse } from '@angular/common/http';
 import { of, Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { Module } from 'src/app/models/Module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('ModuleCreatorPageComponent', () => {
   let component: ModuleCreatorPageComponent;
@@ -30,7 +31,8 @@ describe('ModuleCreatorPageComponent', () => {
         ToastrModule.forRoot(),
         TreeModule.forRoot(),
         RouterTestingModule,
-        MatCardModule
+        MatCardModule,
+        BrowserAnimationsModule
       ]
     }).compileComponents();
   }));
@@ -111,7 +113,6 @@ describe('ModuleCreatorPageComponent', () => {
     const observable: Observable<HttpHeaderResponse> = new Observable<HttpHeaderResponse>((observer) => {
       observer.error({status: 400, statusText: "Bad Request"})
       observer.complete();
-      return {unsubscribe() {console.log("submit test m-c-p unsubscribed")}};
     });
     spyOn(moduleFetcherService,'createOrUpdateModule').and.returnValue(observable);
     component.submit();
