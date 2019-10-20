@@ -16,7 +16,6 @@ import { SortSearchService } from '../../services/sort-search.service';
 import { Curriculum } from 'src/app/models/Curriculum';
 import { Module } from '../../models/Module';
 import { CurriculumModule } from '../../models/CurriculumModule';
-import { link } from 'fs';
 
 @Component({
     selector: 'app-curriculum-creator-page',

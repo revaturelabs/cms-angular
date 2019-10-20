@@ -359,7 +359,7 @@ describe('ModuleIndexPageComponent', () => {
   });
 
   it('should test getDate', () => {
-    expect(component.getDate(5)).toBe("Wed Dec 31 1969 19:00:00 GMT-0500 (Eastern Standard Time)");
+    expect(component.getDate(5)).toBe(new Date(5).toString());
   });
 
 });
