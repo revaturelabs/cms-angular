@@ -132,4 +132,11 @@ describe('ModuleCreatorPageComponent', () => {
     expect(component.getModulesFromSubjects(Object.entries(subject)).length).toBeGreaterThan(0);
   });
 
+  it('Should test getModulesFromSubjects, return empty', () => {
+    let  module:Module = new Module(1,"Java",null,null,null,null,null);
+    component.ms.subjectIdToModule.set(1, module);
+    let subject = {"1":false};
+    expect(component.getModulesFromSubjects(Object.entries(subject)).length).toBe(0);
+  });
+
 });
