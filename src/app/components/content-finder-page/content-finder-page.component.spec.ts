@@ -1,12 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { MatProgressSpinnerModule} from '@angular/material';
 import { ToastrModule } from 'ngx-toastr';
-
 import { ContentFinderPageComponent } from './content-finder-page.component';
 import { MatCardModule } from '@angular/material/card';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -44,61 +42,63 @@ describe('ContentFinderPageComponent', () => {
     component.selectedSubjects = ['Java', 'CSS'];
   });
 
-  /**
-   *
-   *  =============Tests start here, first test webpage components==================
-   *
-   */
-
-  //  First test to make sure component is created
   it('Should create the component', () => {
     expect(component).toBeTruthy();
   });
 
-  // Test Document elements are present as desired
-
-  // Logo
   it('Should have Revature logo displayed', () => {
     expect(document.getElementById('logo')).toBeTruthy();
   });
 
-  // Title
   it('Should have a title input box displayed', () => {
     expect(document.getElementsByName('title')).toBeTruthy();
   });
 
-  // Radio Buttons
-  it('Should have radio buttons for Code, Document, Powerpoint, Flagged, and All.',
+  it('Should have radio buttons for Code.',
   () => {
     expect(document.getElementById('CodeLabel')).toBeTruthy();
+  });
+
+  it('Should have radio buttons for Document.',
+  () => {
     expect(document.getElementById('DocumentLabel')).toBeTruthy();
+  });
+
+  it('Should have radio buttons for  Powerpoint.',
+  () => {
     expect(document.getElementById('PowerpointLabel')).toBeTruthy();
+  });
+
+  it('Should have radio buttons for Flagged.',
+  () => {
     expect(document.getElementById('FlaggedLabel')).toBeTruthy();
+  });
+
+  it('Should have radio buttons for All.',
+  () => {
     expect(document.getElementById('AllLabel')).toBeTruthy();
   });
 
-  // Drop down menu
   it('Should have a drop down menu to Select Relevant Modules that are available.', () => {
     expect(document.getElementById('subjectDropDown')).toBeTruthy();
   });
 
-  // Submit Button
   it('Should have a submit button labled "Find Content"', () => {
     expect(document.getElementById('submitButton')).toBeTruthy();
   });
 
-  // // The table has a variety of elements that need to be tested <= to figure out
-  // it('Should create a table when "tablebool" is triggered to be "True"', () => {
-  //   expect(document.getElementById('ResultsTable')).toBeTruthy();
-  // })
-
-  // Now test methods
-
-  // Test the Reset Function
-  it('Should reset page to empty string Title, "Code" string selFormat, and empty array', () => {
+  it('Should reset page, string Title', () => {
     component.reset();
     expect(component.title).toEqual('');
+  });
+
+  it('Should reset page, "Code" string selFormat', () => {
+    component.reset();
     expect(component.selFormat).toEqual('Code');
+  });
+
+  it('Should reset page, empty array', () => {
+    component.reset();
     expect(component.selectedSubjects).toEqual([]);
   });
 

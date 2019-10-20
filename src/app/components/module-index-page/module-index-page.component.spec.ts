@@ -358,4 +358,8 @@ describe('ModuleIndexPageComponent', () => {
     expect(toastrService.previousToastMessage).toBe("Failed to Normalize this Module");
   });
 
+  it('should test getDate', () => {
+    expect(component.getDate(5)).toBe(new Date(5).toString());
+  });
+
 });
