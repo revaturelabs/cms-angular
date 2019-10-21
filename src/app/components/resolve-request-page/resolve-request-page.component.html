@@ -1,6 +1,6 @@
 <!-- Followed existing styling by placing data in card container with Revature logo. -->
-<div class="card " style="margin-bottom: 10px">
-    <div class="container">
+<mat-card>
+    <mat-card-content class="container">
         <div class="col">
             <div id="content">
                 <img src="/assets/img/logo.png" alt="revature" class="logo">
@@ -35,11 +35,11 @@
             </div>
             <br>
         </div>
-    </div>
-</div>
+    </mat-card-content>
+</mat-card>
 
-<div class="card" *ngIf="toggle">
-    <div class="container">
+<mat-card *ngIf="toggle">
+    <mat-card-content class="container">
         <ng-container>
             <h4>Input Information Below To Search For Content</h4>
             <br>
@@ -65,8 +65,8 @@
                 <mat-spinner [diameter]="30" *ngIf="this.isSearching"></mat-spinner>
             </div>
         </ng-container>
-    </div>
-</div>
+    </mat-card-content>
+</mat-card>
 
 <!-- This toggle the option to create new content for resolving request -->
 <ng-container *ngIf="!toggle">
@@ -74,9 +74,9 @@
 </ng-container>
 
 
-<div class="card " *ngIf="this.tablebool && toggle">
+<mat-card *ngIf="this.tablebool && toggle">
     <!-- Card that is revealed upon successful criteria search -->
-    <div class="container">
+    <mat-card-content class="container">
         <form>
             <div class="form-row mb-5">
                 <div class="table-responsive">
@@ -111,6 +111,6 @@
                 </div>
             </div>
         </form>
-    </div>
-</div>
+    </mat-card-content>
+</mat-card>
 <br>

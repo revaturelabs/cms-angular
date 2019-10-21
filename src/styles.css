@@ -21,3 +21,16 @@ body {
 .card {
     width: 95%!important;
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mat-grid-tile .mat-figure {
+    
+    justify-content: flex-start !important;
+    padding: 12px 10px!important;
+}
+
+.mat-checkbox-layout {
+
+    margin: 0px!important;
+}
