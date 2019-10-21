@@ -125,6 +125,7 @@ export class ContentFetcherService {
       if (formats) {
          formats = formats.replace('[','');
          formats = formats.replace(']','');
+         formats = formats.replace(/"/g, '');
       } else {
          formats = '';
       }

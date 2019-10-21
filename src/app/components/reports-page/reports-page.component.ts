@@ -20,8 +20,8 @@ import { Filter } from 'src/app/models/Filter';
 export class ReportsPageComponent implements OnInit {
 
   readonly formats: string[] = ["Code", "Document", "Powerpoint", "All"];
-  selFormat: string[] = ["All"];
-  selFormatFilter = ["All"];
+  selFormat: string = "All";
+  selFormatFilter = "All";
   contents: Content[];
   moduleIDs: number[];
   selectedSubjects: string[] = [];
@@ -75,7 +75,7 @@ export class ReportsPageComponent implements OnInit {
     this.selFormatFilter = this.selFormat;
 
     //filter to get content by the selected format and moduleIDs from the reportsService
-    this.reportsService.getMetrics(new Filter("", this.selFormat, this.moduleIDs));
+    this.reportsService.getMetrics(new Filter("", [this.selFormat], this.moduleIDs));
 
     this.codeExamples = null;
     this.lectureNotes = null;
