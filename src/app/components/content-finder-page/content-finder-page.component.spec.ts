@@ -16,6 +16,7 @@ import { Filter } from 'src/app/models/Filter';
 import { Observable, Subject } from 'rxjs';
 import { HttpHeaderResponse } from '@angular/common/http';
 import { Module } from 'src/app/models/Module';
+import { MatCardModule } from '@angular/material/card';
 
 
 describe('ContentFinderPageComponent', () => {
@@ -42,9 +43,13 @@ describe('ContentFinderPageComponent', () => {
         NgSelectModule,
         MatProgressSpinnerModule,
         HttpClientTestingModule,
-        ToastrModule.forRoot()
+        ToastrModule.forRoot(),
+        MatCardModule
       ],
-      providers: [ContentFetcherService,ModuleStoreService,ToastrService]
+      providers: [ContentFetcherService,ModuleStoreService,ToastrService],
+       
+        
+      
     })
     .compileComponents().then(()=>{
       
@@ -60,11 +65,12 @@ describe('ContentFinderPageComponent', () => {
       "format: string", 
       "description: string", 
       "url: string", []);
-    l1=new Link( 1,
-      c1,
-      null,
-      "reval"
-    );
+      l1=new Link( 1,
+        c1,
+        m1,
+        "reval",
+        1
+      );
     f1=new Filter(
       "adasd0",
       "adawae",

@@ -1,0 +1,141 @@
+<mat-card>
+    <mat-card-content>
+
+        <div id="content">
+            <img src="/assets/img/logo.png" alt="revature" class="logo">
+        </div>
+
+        <div class="container">
+
+            <div *ngIf="cs.loading" class="btn spinner">
+                <mat-spinner [diameter]="30"></mat-spinner>
+            </div>
+
+            <div *ngIf="!cs.loading">
+
+                <div class="mb-2">
+                
+                    <a class="lead p-0 m-0 pb-3" style="margin-left: 27px!important;" (click)="openCreateCurriculumDialog()">
+                        <font size="+2">
+                            <em class="fa fa-plus" matTooltip="Create a New Curriculum">
+                            </em>
+                            &nbsp;&nbsp;&nbsp;Create New Curriculum
+                        </font>
+                    </a>
+
+                </div>
+
+                <mat-accordion>
+
+                    <mat-expansion-panel *ngFor="let curriculum of cs.nodes" (click)="getCurriculumDetails(curriculum.id)">
+
+                        <mat-expansion-panel-header>
+
+                            <mat-panel-title>
+
+                                <table>
+                                    <tbody>
+
+                                        <td style="width: 44px">
+
+                                            <a (click)="openDeleteCurriculumDialog(curriculum); $event.stopPropagation()" matTooltip="Delete: {{curriculum.name}}">
+                                                <font size="+2">
+                                                    <em class="fas fa-trash" id="delete-curriculum-{{curriculum.id}}">
+                                                    </em>
+                                                </font>  
+                                            </a>
+
+                                        </td>
+
+                                        <td style="width:44px">
+
+                                            <a class="lead p-0 m-0" (click)="setEditable(curriculum); $event.stopPropagation()" matTooltip="Rename: {{curriculum.name}}">
+                                                <font size="+2"><em class="fa fa-pencil"></em></font>
+                                            </a>
+
+                                        </td>
+
+                                        <td>
+                                             <form>
+
+                                                <div class="form-group m-0">
+                                                    <font size="+2">
+                                                        <input type="text" [(ngModel)]="curriculum.name" [readonly]="!editable.get(curriculum.id)"
+                                                            id="curriculum-input-{{curriculum.id}}" class="lead" name="curriculumName" 
+                                                            (focusout)="editable.get(curriculum.id) ? updateCurriculum(curriculum) : ''"
+                                                            (keyup.enter)="editable.get(curriculum.id) ? updateCurriculum(curriculum) : ''"
+                                                            (click)="editable.get(curriculum.id) ? $event.stopPropagation() : ''"
+                                                            (keyup)="$event.stopPropagation()" (keydown)="$event.stopPropagation()"
+                                                            [ngClass]="{'form-control-plaintext pointer': !editable.get(curriculum.id)}">
+                                                    </font>
+                                                </div>
+
+                                            </form>
+                                        </td>
+                                    </tbody>
+
+                                </table>
+
+                            </mat-panel-title>
+
+                        </mat-expansion-panel-header>
+
+                        <div *ngIf="cs.loadingCurriculum" class="btn spinner">
+                            <mat-spinner [diameter]="30"></mat-spinner>
+                        </div>
+
+                        <div *ngIf="!cs.loadingCurriculum && activeCurriculum" class="row mt-3">
+
+                            <div class="col-5">
+
+                                <div class="list-toolbar">
+
+                                    <a class="lead p-0 m-0 pl-1 mb-1" (click)="openAddModulesDialog()" matTooltip="Add a Module">
+                                        <font size="+2"><em class="fa fa-plus"></em></font>
+                                    </a>
+
+                                </div>
+
+                                <div class="content-container mt-0">
+
+                                    <div cdkDropList class="list-wrapper" (cdkDropListDropped)="onDrop($event, activeCurriculum)">
+
+                                        <div class="link-box lead" *ngFor="let link of cs.curriculum.currModules; let i = index" cdkDrag (click)="setActiveModule(i)"
+                                            [ngClass]="{'active': moduleActive.get(activeCurriculum.id) === i}">
+
+                                            &nbsp; {{link.module.subject}}
+
+                                            <a class="float-right">
+                                                <em matTooltip="Remove {{link.module.subject}} from {{activeCurriculum.name}}" (click)="removeModule(link)" class="fa fa-times"></em>
+                                            </a>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="list-footer btn-group">
+
+                                        <button class="btn btn-block order-btn m-0 fa fa-caret-down" (click)="shiftLinkPriority(activeCurriculum, 1)">
+                                        </button>
+
+                                        <button class="btn btn-block order-btn m-0 fa fa-caret-up" (click)="shiftLinkPriority(activeCurriculum, -1)">
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-7">
+
+                                <div class="content-container">
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>

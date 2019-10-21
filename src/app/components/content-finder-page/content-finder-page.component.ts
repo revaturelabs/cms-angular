@@ -130,14 +130,13 @@ export class ContentFinderPageComponent implements OnInit {
          query = query.substring(query.indexOf('&') + 1);
          //retrieve the modules param
          let modules = query.substring(query.indexOf('=') + 1);
-         console.log("Modules: "+modules.length);
          //convert modules string into an array of numbers
          let moduleIds = modules.split(',');
          let moduleIdNumbers: number[] = new Array();
         
          if (0 !== modules.length) {
             for (let i=0; i<moduleIds.length; i++) {
-               console.log(moduleIds[i])
+
                moduleIdNumbers.push(parseInt(moduleIds[i]))
             }
          }
@@ -253,7 +252,7 @@ export class ContentFinderPageComponent implements OnInit {
     * @param response
     */
    parseContentResponse(response: Content[]) {
-      console.log(response);
+
       this.isSearching = false;
       /* Sorts contents by their id */
       this.contents = response.sort(
@@ -325,7 +324,6 @@ export class ContentFinderPageComponent implements OnInit {
          (subject) => {
             console.log(this.ms.subjectNameToModule.get(subject));
             this.moduleIDs.push(this.ms.subjectNameToModule.get(subject).id);
-            console.log(this.moduleIDs);
          }, this
       );
    }
@@ -382,12 +380,11 @@ export class ContentFinderPageComponent implements OnInit {
       if (this.selectedTags.length > 0) {
          this.selectedTags.forEach(
             (subject) => {
-               links.push(new Link(null, new Content(this.selCon.id,'','','','',[]), this.ms.subjectNameToModule.get(subject), null));
+               links.push(new Link(null, new Content(this.selCon.id,'','','','',[]), this.ms.subjectNameToModule.get(subject), null, -1));
             }, this
          )
          this.selCon.links = links;
          this.cs.updateContent(this.selCon).subscribe((response: Content) => {
-            console.log(response);
          });
          this.cs.addLinkToContent(this.selCon).subscribe((response: Link[]) => {
             this.selCon.links = response;
