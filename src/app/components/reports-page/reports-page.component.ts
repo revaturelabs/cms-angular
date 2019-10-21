@@ -20,8 +20,8 @@ import { Filter } from 'src/app/models/Filter';
 export class ReportsPageComponent implements OnInit {
 
   readonly formats: string[] = ["Code", "Document", "Powerpoint", "All"];
-  selFormat: string = "All";
-  selFormatFilter = "All";
+  selFormat: string[] = ["All"];
+  selFormatFilter = ["All"];
   contents: Content[];
   moduleIDs: number[];
   selectedSubjects: string[] = [];

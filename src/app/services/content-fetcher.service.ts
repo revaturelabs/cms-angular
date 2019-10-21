@@ -114,13 +114,21 @@ export class ContentFetcherService {
     */
    filterContent(filter: Filter): Observable<Content[]> {
       let modules: string = JSON.stringify(filter.modules);
+      let formats: string = JSON.stringify(filter.format);
       if (modules) {
          modules = modules.replace('[','');
          modules = modules.replace(']','');
       } else {
          modules = '';
       }
-      return this.http.get<Content[]>(this.endpoints.FILTER_CONTENT.replace('${title}',filter.title).replace('${format}', filter.format).replace('${modules}', modules), {withCredentials: true}).pipe(
+
+      if (formats) {
+         formats = formats.replace('[','');
+         formats = formats.replace(']','');
+      } else {
+         formats = '';
+      }
+      return this.http.get<Content[]>(this.endpoints.FILTER_CONTENT.replace('${title}',filter.title).replace('${format}', formats).replace('${modules}', modules), {withCredentials: true}).pipe(
          map(resp => resp as Content[])
        );
    }

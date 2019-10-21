@@ -27,10 +27,10 @@ export class DisplayRequestPageComponent implements OnInit {
   public searchedSubjects: string[] = [];
 
   // Formats that populate filter radio options
-  readonly formats: string[] = ["All","Code", "Document", "Powerpoint"];
+  readonly formats: string[] = ["Code", "Document", "Powerpoint"];
 
   // Selected format
-  public selFormat: string = "All";
+  public selFormat: string[] = ["Code", "Document", "Powerpoint"];
 
   // Current requests being displayed
   public req: Request[];
@@ -66,6 +66,8 @@ export class DisplayRequestPageComponent implements OnInit {
         query = query.substring(query.indexOf('&') + 1);
         // retreive the format param
         let format = query.substring(query.indexOf('=') + 1, query.indexOf('&'));
+        // create an array of formats
+        let formats = format.split(',');
         // remove the format param from the query string
         query = query.substring(query.indexOf('&') + 1);
         // retrieve the modules param
@@ -81,7 +83,7 @@ export class DisplayRequestPageComponent implements OnInit {
 
         // populate a filter object with the params we just extracted
         let filter: Filter = new Filter(
-          title, format, moduleIdNumbers
+          title, formats, moduleIdNumbers
         );
 
         this.sendSearch(filter);
@@ -93,6 +95,24 @@ export class DisplayRequestPageComponent implements OnInit {
   }
   }
 
+  //Toggles the select format strings
+toggleFormat(format : string){
+
+
+      
+  if(this.selFormat.includes(format)){
+     if(this.selFormat.length==1){
+        this.toastr.info("You must include at least one format type.");
+     }else{
+        this.selFormat.splice(this.selFormat.indexOf(format), 1);
+     }
+  }
+  else{
+     this.selFormat.push(format);
+  }
+  
+}
+
   // Method for deleting a request
   removeRequest(id: Request['id']): void {
       this.rs.deleteRequestByID(id).subscribe( data => {
@@ -103,12 +123,9 @@ export class DisplayRequestPageComponent implements OnInit {
 // Submit filter
 submit() {
   this.isSearching = true;
-  let format: string = this.selFormat;
+  let format: string[] = this.selFormat;
 
-      // if 'all' was selected return all content
-  if (format === "All") {
-      format = '';
-  }
+  
   this.getIDsFromSubjects(this.selectedSubjects);
   const filter: Filter = new Filter(
       this.title, format, this.moduleIDs

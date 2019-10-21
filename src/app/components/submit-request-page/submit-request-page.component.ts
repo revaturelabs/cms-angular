@@ -31,7 +31,7 @@ export class SubmitRequestPageComponent implements OnInit {
   title: string;
 
   //Format of the request
-  selFormat: string;
+  selFormat: string = "Code";
 
   //Request description
   description: string;
