@@ -9,6 +9,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TreeModule } from 'angular-tree-component';
 import { ContentCreatorPageComponent } from '../content-creator-page/content-creator-page.component';
 
+import { MatCardModule } from '@angular/material/card';
+
 describe('ResolveRequestPageComponent', () => {
   let component: ResolveRequestPageComponent;
   let fixture: ComponentFixture<ResolveRequestPageComponent>;
@@ -21,7 +23,8 @@ describe('ResolveRequestPageComponent', () => {
         HttpClientTestingModule,
         ToastrModule.forRoot(),
         TreeModule.forRoot(),
-        RouterTestingModule
+        RouterTestingModule,
+        MatCardModule
       ],
       declarations: [ ResolveRequestPageComponent, ContentCreatorPageComponent ]
     })

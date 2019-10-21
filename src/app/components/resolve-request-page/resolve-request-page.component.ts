@@ -42,16 +42,14 @@ export class ResolveRequestPageComponent implements OnInit {
   ngOnInit() {
     this.request = new Request(0, '', '', '', null, []);
     // retrieving the session of previously chosen request that needs to be modified
-    console.log(JSON.parse(this.session.get('request')));
 
     let id = JSON.parse(this.session.get('request'));
     if ( id == null) { id = 0; }
-    console.log(id);
     this.toggle = true;
 
     this.rs.getRequestByID(id).subscribe((data: any) => {
       this.request = data;
-      console.log(data);
+
     });
 
     this.cs.getAllContent().subscribe((data: Content[]) => {
@@ -163,15 +161,15 @@ submit() {
 addContent(cont: any) {
   this.cont = cont;
   this.toastr.success('Content chosen.');
-  console.log(cont);
+
 }
 
 updateRequest(request: Request) {
   this.request.content = this.cont;
-  console.log(this.request);
+
   this.rs.updateRequestByID(this.request.id, this.request).subscribe(resp => {
     this.request = resp;
-    console.log(resp);
+
     this.toastr.success('Request Successfully Updated.');
     this.router.navigate(['display-request']);
   });

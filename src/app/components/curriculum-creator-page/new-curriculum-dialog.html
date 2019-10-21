@@ -1,0 +1,28 @@
+<div class="modal-header">
+
+    <p mat-dialog-title class="lead p-0 m-0">Create a New Curriculum</p>
+
+</div>
+
+<div class="modal-body">
+
+    <mat-form-field>
+
+        <input matInput [(ngModel)]="data.name" placeholder="Curriculum Name" class="modal-input"
+            (keyup.enter)="submit()">
+        <mat-hint align="end">{{data.name ? data.name.length : 0}} / 254</mat-hint>
+
+    </mat-form-field>
+
+</div>
+
+<div class="modal-footer">
+
+    <button mat-stroked-button (click)="onNoClick()">Cancel</button>
+    <button mat-stroked-button (click)="submit()" [disabled]="isSubmitting">Submit</button>
+
+</div>
+
+<div *ngIf="this.isSubmitting" class="spinner">
+    <mat-spinner [diameter]="20"></mat-spinner>
+</div>
