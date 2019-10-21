@@ -75,7 +75,6 @@ export class DisplayRequestPageComponent implements OnInit {
         let moduleIdNumbers: number[] = new Array;
         if (0 !== modules.length) {
           for (let i=0; i<moduleIds.length; i++) {
-             console.log(moduleIds[i])
              moduleIdNumbers.push(parseInt(moduleIds[i]))
           }
        }
@@ -123,7 +122,6 @@ submit() {
   //
   editRequest($event: any) {
     const id: number = $event.target.value;
-    console.log(id);
     this.session.set('request', JSON.stringify(id));
     this.router.navigate(['resolve-request']);
   }
@@ -144,7 +142,6 @@ getIDsFromSubjects(subjects: string[]) {
   subjects.forEach(
      (subject) => {
         this.moduleIDs.push(this.ms.subjectNameToModule.get(subject).id);
-        console.log(this.moduleIDs);
      }, this
   );
 }
@@ -154,7 +151,6 @@ sendSearch(filter: Filter) {
 
   this.rs.filterContent(filter).subscribe(
      (response) => {
-       console.log(response);
        this.isSearching = false;
        if (response != null) {
 
