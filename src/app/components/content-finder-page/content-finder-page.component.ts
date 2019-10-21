@@ -345,11 +345,13 @@ export class ContentFinderPageComponent implements OnInit {
       this.selCon = content;
 
       let subjectToName: string[] = [];
-
+      console.log("Before For")
       for (let l of this.selCon.links) {
+         console.log("Inside For")
+         console.log(l)
          subjectToName.push(this.ms.subjectIdToName.get(l.module.id));
       }
-
+console.log("After For")
       let tempArr: string[] = [];
 
       for (let t of this.ms.subjectNames) {

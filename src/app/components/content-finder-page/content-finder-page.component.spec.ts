@@ -31,6 +31,7 @@ describe('ContentFinderPageComponent', () => {
 
   let c1=null;
   let l1=null;
+  let l2=null;
   let f1=null;
   let m1=null;
   let me=null;
@@ -65,18 +66,24 @@ describe('ContentFinderPageComponent', () => {
     msService=TestBed.get(ModuleStoreService);
     toast=TestBed.get(ToastrService);
     fixture.detectChanges();
-
+    l1=new Link( 1,
+      c1,
+      m1,
+      "reval",
+      1
+    );
+    l2=new Link( 2,
+      c1,
+      m1,
+      "reval",
+      2
+    );
     c1=new Content(  1, 
       "adsad", 
       "format: string", 
       "description: string", 
-      "url: string", []);
-      l1=new Link( 1,
-        c1,
-        m1,
-        "reval",
-        1
-      );
+      "url: string", [l1,l2]);
+      
     f1=new Filter(
       "adasd0",
       "adawae",
@@ -88,8 +95,8 @@ describe('ContentFinderPageComponent', () => {
       1,
       [l1],
       [l1],
-      [],
-      []
+      [l1],
+      [l1]
 
     );
     component.tablebool = true;
@@ -114,7 +121,7 @@ describe('ContentFinderPageComponent', () => {
     
    it("Submit should call getIDsFromSubjects",()=>{
     
-    
+    component.selFormat="Flagged";
     component.ms.subjectNameToModule = new Map<string,Module>();
     component.ms.subjectNameToModule.set("1",m1);
     component.selectedSubjects=["1"];
@@ -123,6 +130,19 @@ describe('ContentFinderPageComponent', () => {
     expect(component.sendSearch).toHaveBeenCalled();
     
    });
+   it("Submit should call getIDsFromSubjects",()=>{
+    
+    component.selFormat=" ";
+    component.ms.subjectNameToModule = new Map<string,Module>();
+    component.ms.subjectNameToModule.set("1",m1);
+    component.selectedSubjects=["1"];
+    spyOn(component,'sendSearch');
+    component.submit();
+    expect(component.sendSearch).toHaveBeenCalled();
+    
+   });
+
+   
 
    it('SendSeach should retrun searchedSubjects',()=>{
     
@@ -195,14 +215,7 @@ describe('ContentFinderPageComponent', () => {
     expect(component.selCon).toBe(c1);
   });
 
-  it('selectedLinkForRemoval should change selCon',()=>{
-    component.selectedLinkForRemoval(c1,l1);
-    expect(component.selCon).toBe(c1);
-  });
-  it('selectedLinkForRemoval should change selLink',()=>{
-    component.selectedLinkForRemoval(c1,l1);
-    expect(component.selLink).toBe(l1);
-  });
+ 
 
   it('removeContent should call ngOnInit',()=>{
     spyOn(component,'submitForDelete');
@@ -237,6 +250,77 @@ describe('ContentFinderPageComponent', () => {
     expect(component.submitForDelete).toHaveBeenCalled();
   });
 
+  fit ('selectedContent should update selCon',()=>{
+    //spyOn(component.ms.subjectIdToName,'get');
+   
+    //component.selCon.links=[l1,l2];
+    
+    l1=new Link( 1,
+      c1,
+      m1,
+      "reval",
+      1
+    );
+
+    c1=new Content(  1, 
+      "adsad", 
+      "format: string", 
+      "description: string", 
+      "url: string", [l1]);
+      console.log(c1.links)
+      console.log("Before execution")
+    component.selectedContent(c1);
+    
+  });
+
+
+
+
+  it('selectedLinkForRemoval should change selCon',()=>{
+    component.selectedLinkForRemoval(c1,l1);
+    expect(component.selCon).toBe(c1);
+  });
+  it('selectedLinkForRemoval should change selLink',()=>{
+    component.selectedLinkForRemoval(c1,l1);
+    expect(component.selLink).toBe(l1);
+  });
+  
+  it('updateTags should do nothing',()=>{
+    component.selCon=c1;
+    component.updateTags();
+    expect(component.selCon).toBe(c1);
+  });
+  it('updateTags should call ms.subjectNameToModule',()=>{
+    component.selectedTags=["a","b"];
+    spyOn(component.ms.subjectNameToModule,'get').and.returnValue(m1);
+    component.updateTags();
+    expect(component.ms.subjectNameToModule.get).toHaveBeenCalled();
+  });
+
+  it('updateTags should call cs.updateContent',()=>{
+    component.selectedTags=["a","b"];
+    const observable: Observable<HttpHeaderResponse> = new Observable<HttpHeaderResponse>((observer) => {
+      observer.next(c1);
+      observer.complete();
+      return {unsubscribe() {console.log("updateRequest test - unsubscribed")}};
+    });
+    spyOn(csService,'updateContent').and.returnValue(observable);
+    component.updateTags();
+    expect(csService.updateContent).toHaveBeenCalled();
+  });
+
+  it('updateTags should call cs.addLinkToContent',()=>{
+    component.selectedTags=["a","b"];
+    const observable: Observable<HttpHeaderResponse> = new Observable<HttpHeaderResponse>((observer) => {
+      observer.next(l1);
+      observer.complete();
+      return {unsubscribe() {console.log("updateRequest test - unsubscribed")}};
+    });
+    spyOn(csService,'addLinkToContent').and.returnValue(observable);
+    component.updateTags();
+    expect(component.selCon.links).toBe(l1);
+  });
+
   it('removeTag should call submit',()=>{
     component.selLink=l1;
     const observable: Observable<HttpHeaderResponse> = new Observable<HttpHeaderResponse>((observer) => {
@@ -256,6 +340,15 @@ describe('ContentFinderPageComponent', () => {
   it('DoThis should return a component',()=>{
     spyOn(component,'submitForDelete');
     expect(component.DoThis(1,1)).toBe(ContentFinderPageComponent.generateLinkId(1,1));
+  });
+
+
+  it('gotoRequest should return nothing',()=>{
+    
+    
+    let A=component.gotoRequest();
+    expect(A).toBeFalsy();
+
   });
 
  
