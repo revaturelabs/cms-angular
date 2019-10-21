@@ -1,0 +1,127 @@
+<!-- 
+  This page records the log of all additions of modules and content to the modules 
+  via a timeline graph. This page includes a select box for different modules, 
+  radio buttons for all the different formats of contents, a filter/refresh, different
+  cards for each indicator, specifically 'Total Modules', 'Avg. Content per Module', 
+  Code Examples, Lecture Notes, and Powerpoints. Lastly is the graph for all of the 
+  data, which is called upon by using the route for the reports-time-graph component.
+ -->
+<div class="card " style="margin-bottom: 10px">
+  <div class="container">
+    <div class="col">
+      <!-- Per usual, first is the logo -->
+      <div id="content">
+        <img src="/assets/img/logo.png" alt="revature" class="logo">
+      </div>
+    </div>
+    <div>
+      <!-- Here is the drop down menu for all of the modules -->
+      <div class="row filtering">
+          <div class = 'col col-4 left-margin'> 
+            <ng-select id="subjectDropDown" [items]="ms.subjectNames" multiple="true" closeOnSelect="true"
+            hideSelected="true" clearOnBackspace="true" bindLabel="name" spellcheck="false"
+            notFoundText="(no such subject found)" [loading]="ms.isLoading" [placeholder]="ms.loadingText"
+            [(ngModel)]="selectedSubjects" name="selectedSubjects">
+          </ng-select>
+        </div>
+          
+        <!-- 
+          Here resides an *ngFor directive in order to display all of the formats of 
+          a content.
+        -->
+        <div class = 'col col-4'>
+          <form>
+            <div class="btn-radio float-left">
+              <div class="form-check form-check-inline" *ngFor="let format of formats">
+                <input [(ngModel)]="selFormat" class="form-check-input" type="radio" name="formatOptions" id="{{format}}"
+                value="{{format}}">
+                <label class="form-check-label" for="{{format}}" id="{{format}}Label">{{format}}</label>
+              </div>
+            </div>
+            <br>
+          </form>
+        </div>
+
+        <!-- 
+          Here is the Filter/Refresh button which is event binded on click
+          and property binded to be disabled while loading. 
+        -->
+        <div class = 'col col-3 left-margin'>
+          <button id = "filterButton" class="btn btn-secondary float-right" (click)="getMetrics()" 
+          [disabled] = "reportsService.loading">Filter/Refresh</button>
+        </div>
+      </div>
+      <hr class = 'hr-seperator'>
+      <!-- 
+        Here forward starts the content for the cards of the website. Each label
+        is displayed using String Interpolation.
+       -->
+      <div class="row">
+        <div class="col-4">
+          <div 
+          class="card" style="width: 18rem; margin-bottom: 15px;">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                <span class="font-weight-bold">Total Modules</span> 
+                <span id="dif_Mods" class="float-right font-weight-bold ">{{difModules}}</span>
+              </li>
+            </ul>
+          </div>
+          
+          <div 
+          class="card" style="width: 18rem; margin-bottom: 15px;">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                <div class="row">
+                  <span class="font-weight-bold col-8">Avg. Content per Module</span> 
+                  <!-- Pipes are used here in order to establish accuracy -->
+                  <span id="avg_Res" class="text-right font-weight-bold col-4">{{avgResources | number : "1.0-2"}}</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div *ngIf="selFormatFilter == 'Code' || selFormatFilter == 'All'"
+          class="card d-flex" style="width: 18rem; margin-bottom: 15px">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"> 
+                <span class="font-weight-bold">Code Examples</span> 
+                <span id="code_Ex" class="float-right">{{codeExamples}}</span>
+              </li>
+            </ul>
+          </div>
+
+          <div *ngIf="selFormatFilter == 'Document' || selFormatFilter == 'All'"
+          class="card" style="width: 18rem; margin-bottom: 15px">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                <span class="font-weight-bold">Lecture Notes</span> 
+                <span id="lect_Notes" class="float-right">{{lectureNotes}}</span>
+              </li>
+            </ul>
+          </div>
+
+          <div *ngIf="selFormatFilter == 'Powerpoint'|| selFormatFilter == 'All'"
+           class="card" style="width: 18rem; margin-bottom: 15px">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                <span class="font-weight-bold">Powerpoints</span> 
+                <span id="powerpoints" class="float-right">{{powerpoints}}</span>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+        <!-- 
+          Lastly, this is where the Time Graph is routed to make it present 
+          on the view for Reports. 
+         -->
+        <div class="col-8">
+          <div class="text-center">
+            <app-reports-time-graph></app-reports-time-graph>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

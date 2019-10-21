@@ -1,0 +1,36 @@
+.logo {
+    height: auto;
+    width: 10%;
+}
+
+.container {
+    padding: 2px 16px;
+    margin-top: 70px;
+    text-align: center;
+}
+
+#content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+h3,
+h2 {
+    text-align: center;
+}
+
+#toggle {
+    background-color: darkgray;
+    border: darkgray;
+    font-weight: bolder;
+    font-size: x-large;
+}
+
+mat-card {
+
+   width: 90%;
+   margin: 0 auto;
+   margin-top: 20px;
+}

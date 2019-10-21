@@ -1,0 +1,116 @@
+<!-- Followed existing styling by placing data in card container with Revature logo. -->
+<mat-card>
+    <mat-card-content class="container">
+        <div class="col">
+            <div id="content">
+                <img src="/assets/img/logo.png" alt="revature" class="logo">
+            </div>
+        </div>
+
+        <div id="request">
+            <h3>Resolve Request</h3>
+            <br>
+            <table class="table table-hover table-striped text-center" id="displayrequest">
+                <thead>
+                    <tr>
+                        <th scope="col">Request Id</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Format</th>
+                        <th scope="col">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{request.id}}</td>
+                        <td>{{request.title}}</td>
+                        <td>{{request.format}}</td>
+                        <td>{{request.description}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+            <hr>
+            <div class="row btn mb-3">
+                <button type="button" class="btn btn-primary" id="toggle" (click)="choose()">{{btntog}}</button>
+            </div>
+            <br>
+        </div>
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="toggle">
+    <mat-card-content class="container">
+        <ng-container>
+            <h4>Input Information Below To Search For Content</h4>
+            <br>
+            <div class="col-5">
+                <!-- Input the title of a content you want to search for, working with ngModel -->
+                <input [(ngModel)]="title" name="title" type="text" class="form-control" placeholder="Search Content" maxlength="254">
+            </div>
+            <br>
+            <div class="col">
+                <div class="btn-radio">
+                    <!-- Radio buttons to filter the content, with format id's. This uses ngModel for the select format -->
+                    <div class="form-check form-check-inline" *ngFor="let format of formats">
+                        <input [(ngModel)]="selFormat" class="form-check-input" type="radio" name="formatOptions" id="{{format}}" value="{{format}}">
+                        <label class="form-check-label" for="{{format}}" id="{{format}}Label">{{format}}</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-1"></div>
+            <div class="row btn mb-3">
+                <!-- Find Content button to submit criteria using submit() function -->
+                <button type="button" class="btn btn-primary" id="submitButton" (click)="submit()" *ngIf="!this.isSearching">Find Content</button>
+                <!-- While not searching, we can click the button -->
+                <mat-spinner [diameter]="30" *ngIf="this.isSearching"></mat-spinner>
+            </div>
+        </ng-container>
+    </mat-card-content>
+</mat-card>
+
+<!-- This toggle the option to create new content for resolving request -->
+<ng-container *ngIf="!toggle">
+    <app-content-creator-page></app-content-creator-page>
+</ng-container>
+
+
+<mat-card *ngIf="this.tablebool && toggle">
+    <!-- Card that is revealed upon successful criteria search -->
+    <mat-card-content class="container">
+        <form>
+            <div class="form-row mb-5">
+                <div class="table-responsive">
+                    <table id="ResultsTable" class="table table-striped">
+                        <thead>
+                            <!-- The column names for the table that displays the related information -->
+                            <tr>
+                                <th scope="col">Choose Content</th>
+                                <th scope="col">Content ID</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Format</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">URL</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr *ngFor="let content of contents">
+                                <td name="content">
+                                    <em title="addContent " id="{content}" (click)="addContent(content)" class="fas fa-plus" title="Choose Content"></em>
+                                </td>
+                                <td name="id">{{content.id}}</td>
+                                <td name="title">{{content.title}}</td>
+                                <td name="format">{{content.format}}</td>
+                                <td name="description">{{content.description}}</td>
+                                <td name="url"><a href="{{content.url}}">{{content.url}}</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button class="btn btn-success" (click)=updateRequest(request)>Submit</button>
+                    <br>
+                </div>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>
+<br>
