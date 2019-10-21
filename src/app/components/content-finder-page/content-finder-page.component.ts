@@ -150,7 +150,10 @@ export class ContentFinderPageComponent implements OnInit {
          this.sendSearch(filter);
       }
    }
-   //Method called for including/removing a format in selFormat when button is clicked
+   /**
+    * Description: Adds/removes a format from selFormat array object.
+    * @param format Format to be added/removed, corresponds with button clicked.
+    */
    toggleFormat(format : string){
 
 
