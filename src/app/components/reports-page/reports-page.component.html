@@ -81,7 +81,7 @@
             </ul>
           </div>
 
-          <div *ngIf="selFormatFilter.includes('Code')"
+          <div *ngIf="selFormatFilter.includes('Code')||selFormatFilter.includes('All')"
           class="card d-flex" style="width: 18rem; margin-bottom: 15px">
             <ul class="list-group list-group-flush">
               <li class="list-group-item"> 
@@ -91,7 +91,7 @@
             </ul>
           </div>
 
-          <div *ngIf="selFormatFilter.includes('Document')"
+          <div *ngIf="selFormatFilter.includes('Document')||selFormatFilter.includes('All')"
           class="card" style="width: 18rem; margin-bottom: 15px">
             <ul class="list-group list-group-flush">
               <li class="list-group-item">
@@ -101,7 +101,7 @@
             </ul>
           </div>
 
-          <div *ngIf="selFormatFilter.includes('Powerpoint')"
+          <div *ngIf="selFormatFilter.includes('Powerpoint')||selFormatFilter.includes('All')"
            class="card" style="width: 18rem; margin-bottom: 15px">
             <ul class="list-group list-group-flush">
               <li class="list-group-item">
