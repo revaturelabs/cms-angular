@@ -150,7 +150,7 @@ export class ContentFinderPageComponent implements OnInit {
          this.sendSearch(filter);
       }
    }
-
+   //Method called for including/removing a format in selFormat when button is clicked
    toggleFormat(format : string){
 
 
