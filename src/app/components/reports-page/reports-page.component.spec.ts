@@ -89,8 +89,8 @@ describe('ReportsPageComponent', () => {
 
 // Test that 'All' format is selected on page load
   it('should have All selected by default', () => {
-    expect(document.getElementById('All').getAttribute('ng-reflect-model')).toEqual('All');
-    expect(component.selFormat).toEqual(['All']);
+    
+    expect(component.selFormat).toEqual('All');
   });
 
 // Test that filter button exists
