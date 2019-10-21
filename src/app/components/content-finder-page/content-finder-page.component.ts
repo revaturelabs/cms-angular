@@ -9,7 +9,6 @@ import { Link } from '../../models/Link';
 import { SelectControlValueAccessor } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location, LocationStrategy } from '@angular/common';
-
 /** Typescript component for Content Finder page */
 @Component({
    selector: 'app-content-finder-page',
@@ -18,18 +17,14 @@ import { Location, LocationStrategy } from '@angular/common';
    providers: [Location]
 })
 export class ContentFinderPageComponent implements OnInit {
-
-
    /**
     * Selection of formats to choose betwwen
     */
    readonly formats: string[] = ["Code", "Document", "Powerpoint", "Flagged", "All"];
-
    /**
     * Title of content
     */
    title: string = "";
-
    /**
     * Sets defualt for content selection to All
     */
@@ -116,7 +111,13 @@ export class ContentFinderPageComponent implements OnInit {
 
       //gets search parameters from url if they exhist
       let url = window.location.href;
-      if (url.indexOf('?') > -1) {
+      this.createSearch(url.indexOf('?'),url);
+   }
+
+
+   createSearch(n:number,url:any){
+
+      if (n > -1) {
          //remove non-query part of url
          let query = url.substring(url.indexOf('?') + 1);
          //retrieve title param
@@ -147,8 +148,12 @@ export class ContentFinderPageComponent implements OnInit {
          );
 
          this.sendSearch(filter);
+
       }
    }
+   
+
+
 
    /**
     * Submit function that takes in all input and puts it into a filter object
@@ -186,6 +191,7 @@ export class ContentFinderPageComponent implements OnInit {
                if (this.notEmpty()) { }
                else {
                   this.toastr.error('No Results Found');
+                  console.log("ad");
                }
             } else {
                this.toastr.error('Response was null');
@@ -212,7 +218,7 @@ export class ContentFinderPageComponent implements OnInit {
    submitForDelete() {
       this.isSearching = true;
       let format: string = this.selFormat;
-
+      console.log("What")
       //if 'all' or 'flagged' was selected return all content
       if (format === "All" || format === "Flagged") {
          format = "";
@@ -222,7 +228,8 @@ export class ContentFinderPageComponent implements OnInit {
          this.title, format, this.moduleIDs
       );
       this.searchedSubjects = this.selectedSubjects;
-
+         console.log("heloo, it's me");
+         console.log(this.searchedSubjects);
       this.cs.filterContent(filter).subscribe(
          (response) => {
             if (response != null) {
@@ -316,6 +323,7 @@ export class ContentFinderPageComponent implements OnInit {
       this.moduleIDs = [];
       subjects.forEach(
          (subject) => {
+            console.log(this.ms.subjectNameToModule.get(subject));
             this.moduleIDs.push(this.ms.subjectNameToModule.get(subject).id);
             console.log(this.moduleIDs);
          }, this
@@ -404,7 +412,7 @@ export class ContentFinderPageComponent implements OnInit {
           */
          data => {
             //this.tablebool = false;
-            
+            console.log("Test");
             this.ngOnInit();
             this.submitForDelete();
          }
