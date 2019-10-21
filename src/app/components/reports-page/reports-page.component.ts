@@ -61,7 +61,6 @@ export class ReportsPageComponent implements OnInit {
 
     if(this.globalReports.metricsData ) {
       this.updateMetrics(this.globalReports.metricsData);
-
     } else {
       this.getMetrics();
     }
@@ -71,18 +70,24 @@ export class ReportsPageComponent implements OnInit {
    * when the user clicks the filter/search button 
   */
   getMetrics() {
+    console.log(this.selectedSubjects);
     this.getIDsFromSubjects(this.selectedSubjects);
     this.selFormatFilter = this.selFormat;
-
+  
     //filter to get content by the selected format and moduleIDs from the reportsService
     this.reportsService.getMetrics(new Filter("", this.selFormat, this.moduleIDs));
-
-    this.codeExamples = null;
-    this.lectureNotes = null;
-    this.powerpoints = null;
+    console.log(this.moduleIDs);
+    if(this.globalReports.metricsData){
+      console.log("in here");
+      this.updateMetrics(this.globalReports.metricsData);
+      console.log(this.globalReports.metricsData.documentCount);
+    }
+    // this.codeExamples = null;
+    // this.lectureNotes = null;
+    // this.powerpoints = null;
     //difModules and avgResources are not set again on filtering/searching
   }
-
+  
   /**
    * Method for updating the metrics using the data from globalReports.metricsData
    * 
