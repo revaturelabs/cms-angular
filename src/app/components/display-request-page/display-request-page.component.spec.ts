@@ -6,8 +6,8 @@ import { MatProgressSpinnerModule} from '@angular/material';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ToastrModule } from 'ngx-toastr';
 import { RouterTestingModule } from '@angular/router/testing';
-
 import { MatCardModule } from '@angular/material/card';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('DisplayRequestPageComponent', () => {
   let component: DisplayRequestPageComponent;
@@ -21,7 +21,8 @@ describe('DisplayRequestPageComponent', () => {
                  HttpClientTestingModule,
                  ToastrModule.forRoot(),
                  RouterTestingModule,
-                 MatCardModule
+                 MatCardModule,
+                 BrowserAnimationsModule
                  ],
       declarations: [ DisplayRequestPageComponent ]
     })

@@ -62,7 +62,7 @@ export class ReportsTimeGraphComponent implements OnInit {
   selectedView: string = null;
 
   /** Viewport base width of the line chart */
-  w: number = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+  w: number = Math.max(document.documentElement.clientWidth, window.innerWidth);
 
   /** The dimensions of the line chart */
   view: any[] = [(this.w/2), 400];
@@ -148,7 +148,9 @@ export class ReportsTimeGraphComponent implements OnInit {
             value: total
           })
         } else {
-          dataEntries[dataEntries.length - 1].value = total;
+          if(dataEntries.length != 0){
+            dataEntries[dataEntries.length - 1].value = total;
+          }
         }
       }
     }
@@ -169,8 +171,10 @@ export class ReportsTimeGraphComponent implements OnInit {
  */
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    this.w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    this.w = Math.max(document.documentElement.clientWidth, window.innerWidth);
     this.view = [(this.w/2), 400];
-    event.target.innerWidth;
+
+    //commented out since it does not seem to do anything though I may be wrong
+    //event.target.innerWidth;
   }
 }

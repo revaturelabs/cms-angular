@@ -43,20 +43,17 @@ export class RequestFetcherService {
     return this.http.get<Request>(this.endpoints.GET_REQUEST_BY_ID.replace('${id}', id.toString()));
   }
 
-  updateRequestByID(id: number, request: Request){
+  updateRequestByID(id: number, request: Request): Observable<Request>{
   const body: string = JSON.stringify(request);
   return this.http.put<Request>(this.endpoints.UPDATE_REQUEST.replace('${id}', id.toString()), body,  { headers: this.HEADERS } );
   }
 
   @Cacheable()
   filterContent(filter: Filter): Observable<Request[]> {
+    filter = filter == null ? new Filter(null, null, null) : filter;
     let modules: string = JSON.stringify(filter.modules);
-    if (modules) {
-        modules = modules.replace('[','');
-        modules = modules.replace(']','');
-    } else {
-        modules = '';
-    }
+    modules = modules.replace('[','');
+    modules = modules.replace(']','');
 
     return this.http.get<Request[]>(this.endpoints.FILTER_REQUEST.replace('${title}',
     filter.title).replace('${format}', filter.format).replace('${modules}', modules), {withCredentials: true}).pipe(
