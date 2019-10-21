@@ -63,7 +63,7 @@ export class ReportsService {
       modules: moduleIdsString
     };
     
-    console.log(body.format);
+    
 
     this.http.post(
       this.endpoints.GET_METRICS.replace('${timeFrame}', this.MILLIS_PER_YEAR.toString()),
