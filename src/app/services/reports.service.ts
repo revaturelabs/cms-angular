@@ -61,12 +61,6 @@ export class ReportsService {
       format: filter.getFormat()[0],
       modules: moduleIdsString
     };
-<<<<<<< HEAD
-=======
-    
-    
-
->>>>>>> dev
     this.http.post(
       this.endpoints.GET_METRICS.replace('${timeFrame}', this.MILLIS_PER_YEAR.toString()),
       JSON.stringify(body),
