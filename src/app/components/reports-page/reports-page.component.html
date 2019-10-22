@@ -31,12 +31,12 @@
         -->
         <div class = 'col col-4'>
           <form>
-            <div class="btn-radio float-left">
-              <div class="form-check form-check-inline" *ngFor="let format of formats">
-                <input [(ngModel)]="selFormat" class="form-check-input" type="radio" name="formatOptions" id="{{format}}"
-                value="{{format}}">
-                <label class="form-check-label" for="{{format}}" id="{{format}}Label">{{format}}</label>
-              </div>
+
+            <div class="btn-group">
+              <button class="btn" *ngFor="let format of formats" 
+              [class.btn-primary]="selFormat==format"
+              [class.btn-secondary]="selFormat!=format"
+              (click)="selFormat=format" id="{{format}}">{{format}}</button>
             </div>
             <br>
           </form>
@@ -81,7 +81,7 @@
             </ul>
           </div>
 
-          <div *ngIf="selFormatFilter == 'Code' || selFormatFilter == 'All'"
+          <div *ngIf="selFormatFilter.includes('Code')||selFormatFilter.includes('All')"
           class="card d-flex" style="width: 18rem; margin-bottom: 15px">
             <ul class="list-group list-group-flush">
               <li class="list-group-item"> 
@@ -91,7 +91,7 @@
             </ul>
           </div>
 
-          <div *ngIf="selFormatFilter == 'Document' || selFormatFilter == 'All'"
+          <div *ngIf="selFormatFilter.includes('Document')||selFormatFilter.includes('All')"
           class="card" style="width: 18rem; margin-bottom: 15px">
             <ul class="list-group list-group-flush">
               <li class="list-group-item">
@@ -101,7 +101,7 @@
             </ul>
           </div>
 
-          <div *ngIf="selFormatFilter == 'Powerpoint'|| selFormatFilter == 'All'"
+          <div *ngIf="selFormatFilter.includes('Powerpoint')||selFormatFilter.includes('All')"
            class="card" style="width: 18rem; margin-bottom: 15px">
             <ul class="list-group list-group-flush">
               <li class="list-group-item">
