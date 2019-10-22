@@ -13,7 +13,7 @@ import { Link } from 'src/app/models/Link';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
 import { Filter } from 'src/app/models/Filter';
-import { Observable, Subject } from 'rxjs';
+import { Observable,of } from 'rxjs';
 import { HttpHeaderResponse } from '@angular/common/http';
 import { Module } from 'src/app/models/Module';
 import { MatCardModule } from '@angular/material/card';
@@ -30,11 +30,13 @@ describe('ContentFinderPageComponent', () => {
   let msService:ModuleStoreService;
 
   let c1=null;
+  let c2=null;
   let l1=null;
   let l2=null;
   let f1=null;
   let m1=null;
   let me=null;
+  
 
   beforeEach(
     async(
@@ -66,6 +68,29 @@ describe('ContentFinderPageComponent', () => {
     msService=TestBed.get(ModuleStoreService);
     toast=TestBed.get(ToastrService);
     fixture.detectChanges();
+    component.tablebool = true;
+    component.title = 'Hello';
+    component.selFormat = 'Code';
+    component.selectedSubjects = ['Java', 'CSS'];
+
+    
+    
+    
+    });
+  }));
+
+  
+  beforeEach(() => {
+    fixture.detectChanges();
+    m1=new Module(
+      1,
+      "1",
+      1,
+      [l1],
+      [l1],
+      [l1],
+      [l1]
+    );
     l1=new Link( 1,
       c1,
       m1,
@@ -83,33 +108,13 @@ describe('ContentFinderPageComponent', () => {
       "format: string", 
       "description: string", 
       "url: string", [l1,l2]);
-      
+    c2=new Content(2,'hey','format: adas','description','www.something.coomo',[l1,l2]);  
     f1=new Filter(
       "adasd0",
       "adawae",
       []
     );
-    m1=new Module(
-      1,
-      "1",
-      1,
-      [l1],
-      [l1],
-      [l1],
-      [l1]
-
-    );
-    component.tablebool = true;
-    component.title = 'Hello';
-    component.selFormat = 'Code';
-    component.selectedSubjects = ['Java', 'CSS'];
     
-    });
-  }));
-
-  
-  beforeEach(() => {
-    fixture.detectChanges();
     
   });
 
@@ -144,27 +149,46 @@ describe('ContentFinderPageComponent', () => {
 
    
 
-   it('SendSeach should retrun searchedSubjects',()=>{
-    
-    
+  it('SendSeach should retrun searchedSubjects',()=>{
      let arr = ['a'];
      component.selectedSubjects=arr;
      component.sendSearch(f1);
      expect(component.searchedSubjects).toBe(arr);
    });
-
-  it('SendSearch should call error',()=>{
-    const observable: Observable<Content[]> = new Observable<Content[]>((observer) => {
-      observer.next([c1]);
-      observer.complete();
-      return {unsubscribe() {console.log("updateRequest test - unsubscribed")}};
-    });
-    
-    spyOn(csService,'filterContent').and.returnValue(observable);
+  it('SendSearch should call notEmpty',()=>{
+    component.contents=[c1];
+    spyOn(csService,'filterContent').and.returnValue(of([c1]));
     spyOn(toast,'error');
     spyOn(component,'notEmpty')
     component.sendSearch(null);
     expect(component.notEmpty).toHaveBeenCalled();
+  });
+  it('sendSearch should not throw any error',()=>{
+    component.contents=[c1];
+    spyOn(csService,'filterContent').and.returnValue(of([c1]));
+    spyOn(toast,'error');
+    component.sendSearch(null);
+    expect(component.notEmpty()).toBe(true);
+  });
+  it('sendSearch should throw error, response was null',()=>{
+    component.contents=[c1];
+    spyOn(csService,'filterContent').and.returnValue(of(null));
+    spyOn(toast,'error');
+    component.sendSearch(null);
+    expect(toast.error).toHaveBeenCalledWith('Response was null');
+        
+  });
+  it('sendSearch should throw error, Failed to send filter',()=>{
+    const observable: Observable<Content[]> = new Observable<Content[]>((observer) => {
+      observer.error({status: 400,statusText:'Bad Request'});
+      observer.complete();
+      return {unsubscribe() {console.log("updateRequest test - unsubscribed")}};
+    });
+    spyOn(csService,'filterContent').and.returnValue(observable);
+    spyOn(toast,'error');
+    component.sendSearch(null);
+    expect(toast.error).toHaveBeenCalledWith('Failed to send filter');
+
   });
 
 
@@ -191,13 +215,80 @@ describe('ContentFinderPageComponent', () => {
     expect(component.searchedSubjects).toBe(arr);
   });
 
+  it('SubmitForDelete shoould call parseContentResponse',()=>{
+    let c=[c1,c2];
+    spyOn(component,'getIDsFromSubjects').and.returnValue();
+    spyOn(csService,'filterContent').and.returnValue(of(c));
+    spyOn(component,'parseContentResponse');
+    component.submitForDelete();
+    expect(component.parseContentResponse).toHaveBeenCalled();
+  });
+  it('SubmitForDelete should call toastError',()=>{
+    let c=[];
+    component.contents = [c1];
+    spyOn(component,'getIDsFromSubjects').and.returnValue();
+    spyOn(csService,'filterContent').and.returnValue(of(null));
+    spyOn(toast,'error')
+    component.submitForDelete();
+    expect(toast.error).toHaveBeenCalledWith('Response was null');
+  })
 
-   it("createSearch should call sendSearch",()=>{
+  it('submitForDelete should throw error',()=>{
+    
+    const observable: Observable<Content[]> = new Observable<Content[]>((observer) => {
+      observer.error({status: 400,statusText:'Bad Request'});
+      observer.complete();
+      return {unsubscribe() {console.log("updateRequest test - unsubscribed")}};
+    });
+    spyOn(component,'getIDsFromSubjects').and.returnValue();
+    spyOn(csService,'filterContent').and.returnValue(observable);
+    spyOn(toast,'error')
+    
+    component.submitForDelete();
+
+    expect(toast.error).toHaveBeenCalledWith('Failed to send filter');
+
+  });
+
+
+
+
+
+
+  it("createSearch should call sendSearch",()=>{
     spyOn(component,'sendSearch');
     let url = window.location.href;
-     component.createSearch(5,url);
-     expect(component.sendSearch).toHaveBeenCalled();
-   });
+    component.createSearch(5,url);
+    expect(component.sendSearch).toHaveBeenCalled();
+  });
+  it("createSearch should call sendSearch",()=>{
+    spyOn(component,'sendSearch');
+    let url = '';
+    component.createSearch(5,url);
+    expect(component.sendSearch).toHaveBeenCalled();
+  });
+
+  
+
+
+  it('parseContentResponse should update isSearching to false',()=>{
+    component.selFormat="Flagged";
+    let c=[c1,c2];
+    spyOn(component.ms.subjectIdToSortedIndex,'get').and.returnValue(2);
+    component.parseContentResponse(c);
+    expect(component.isSearching).toBeFalsy();
+
+  });
+
+  it('parseContentResponse should updates Contentents',()=>{
+    let c=[c1,c2];
+    component.selFormat="Flagged";
+    
+    component.parseContentResponse(c);
+    expect(component.contents.length).toBe(0);
+
+
+  });
 
 
   it("notEmpty should return false",()=>{
@@ -250,31 +341,33 @@ describe('ContentFinderPageComponent', () => {
     expect(component.submitForDelete).toHaveBeenCalled();
   });
 
-  fit ('selectedContent should update selCon',()=>{
-    //spyOn(component.ms.subjectIdToName,'get');
-   
-    //component.selCon.links=[l1,l2];
+  it ('selectedContent should update selCon',()=>{
     
-    l1=new Link( 1,
-      c1,
-      m1,
-      "reval",
-      1
-    );
-
-    c1=new Content(  1, 
-      "adsad", 
-      "format: string", 
-      "description: string", 
-      "url: string", [l1]);
-      console.log(c1.links)
-      console.log("Before execution")
+    component.ms.subjectNames=[];
     component.selectedContent(c1);
-    
+    expect(component.selCon).toBe(c1);
   });
 
+  it ('selectedContent should not do anything',()=>{
+    
+    component.ms.subjectNames=[];
+    component.ms.subjectNames.push(c2);
+    
+    component.selectedContent(c2);
+    console.log(component.ms.subjectIdToName);
+    console.log(component.ms.subjectNames);
+  });
 
-
+  it('selectedContent should update tagOptions',()=>{
+    
+    let tempArr:string[]=[];
+    component.ms.subjectNames=['aDASD'];
+    tempArr.push(component.ms.subjectNames[0]);
+    component.selectedContent(c1);
+    let c=component.tagOptions;
+    expect(c[0]).toBe(tempArr[0]);
+  });
+  
 
   it('selectedLinkForRemoval should change selCon',()=>{
     component.selectedLinkForRemoval(c1,l1);
@@ -290,12 +383,8 @@ describe('ContentFinderPageComponent', () => {
     component.updateTags();
     expect(component.selCon).toBe(c1);
   });
-  it('updateTags should call ms.subjectNameToModule',()=>{
-    component.selectedTags=["a","b"];
-    spyOn(component.ms.subjectNameToModule,'get').and.returnValue(m1);
-    component.updateTags();
-    expect(component.ms.subjectNameToModule.get).toHaveBeenCalled();
-  });
+
+ 
 
   it('updateTags should call cs.updateContent',()=>{
     component.selectedTags=["a","b"];

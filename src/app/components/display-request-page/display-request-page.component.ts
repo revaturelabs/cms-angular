@@ -55,9 +55,12 @@ export class DisplayRequestPageComponent implements OnInit {
 
   ngOnInit() {
     this.ms.loadModules();
-
     let url = window.location.href;
-    if (url.indexOf('?') > -1) {
+    this.createSearch(url.indexOf('?'),url);
+  }
+
+  createSearch(n:number,url:any){
+      if (n> -1) {
         // remove non-query part of url
         let query = url.substring(url.indexOf('?') + 1);
         // retrieve title param
@@ -75,9 +78,9 @@ export class DisplayRequestPageComponent implements OnInit {
         let moduleIdNumbers: number[] = new Array;
         if (0 !== modules.length) {
           for (let i=0; i<moduleIds.length; i++) {
-             moduleIdNumbers.push(parseInt(moduleIds[i]))
+            moduleIdNumbers.push(parseInt(moduleIds[i]))
           }
-       }
+      }
 
         // populate a filter object with the params we just extracted
         let filter: Filter = new Filter(
@@ -86,11 +89,10 @@ export class DisplayRequestPageComponent implements OnInit {
 
         this.sendSearch(filter);
     } else {
-
     this.rs.getAllRequests().subscribe((data: Request[]) => {
       this.req = data;
     });
-  }
+  } 
   }
 
   // Method for deleting a request
@@ -127,10 +129,7 @@ submit() {
   }
 
 updateURL(filter: Filter) {
-  let url = window.location.href;
-  if (url.indexOf('?') > -1) {
-     url = url.substring(0, url.indexOf('?'));
-  }
+  
   let modules: string = JSON.stringify(filter.modules);
   modules = modules.replace('[', '');
   modules = modules.replace(']', '');

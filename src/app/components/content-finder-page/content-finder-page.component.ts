@@ -187,7 +187,9 @@ export class ContentFinderPageComponent implements OnInit {
 
                //populate the contents array with the response with the parseContentResponse function
                this.parseContentResponse(response);
-               if (this.notEmpty()) { }
+               if (this.notEmpty()) {
+                  console.log('hello');
+                }
                else {
                   this.toastr.error('No Results Found');
                   console.log("ad");
@@ -196,7 +198,7 @@ export class ContentFinderPageComponent implements OnInit {
                this.toastr.error('Response was null');
             }
          },
-         (response) => {
+         (error) => {
             this.toastr.error('Failed to send filter');
             this.isSearching = false;
          }
@@ -204,10 +206,7 @@ export class ContentFinderPageComponent implements OnInit {
    }
 
    updateURL(filter: Filter) {
-      let url = window.location.href;
-      if (url.indexOf('?') > -1) {
-         url = url.substring(0, url.indexOf('?'));
-      }
+    
       let modules: string = JSON.stringify(filter.modules);
       modules = modules.replace('[','');
       modules = modules.replace(']','');
@@ -235,12 +234,12 @@ export class ContentFinderPageComponent implements OnInit {
 
                //populate the contents array with the response with the parseContentResponse function
                this.parseContentResponse(response);
-               if (this.notEmpty()) { }
+               
             } else {
                this.toastr.error('Response was null');
             }
          },
-         (response) => {
+         (error) => {
             this.toastr.error('Failed to send filter');
             this.isSearching = false;
          }
@@ -257,15 +256,19 @@ export class ContentFinderPageComponent implements OnInit {
       /* Sorts contents by their id */
       this.contents = response.sort(
          (a, b) => { return a.id - b.id });
-
+        
       /* Sorts each content's list of links by
        * subject/module name via lookup Map */
       this.contents.forEach(
-         (content) => {
 
+         
+         (content) => {
+            
             content.links = content.links.sort(
                (a, b) => {
+                  
                   let sortedIndexA: number = this.ms.subjectIdToSortedIndex.get(a.module.id);
+                  
                   let sortedIndexB: number = this.ms.subjectIdToSortedIndex.get(b.module.id);
                   return sortedIndexA - sortedIndexB;
                }
@@ -355,7 +358,9 @@ console.log("After For")
       let tempArr: string[] = [];
 
       for (let t of this.ms.subjectNames) {
+         console.log(subjectToName.includes(t));
          if (!subjectToName.includes(t))
+            
             tempArr.push(t);
       }
       this.tagOptions = tempArr;
