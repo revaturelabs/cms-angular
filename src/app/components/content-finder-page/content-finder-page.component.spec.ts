@@ -38,7 +38,7 @@ describe('ContentFinderPageComponent', () => {
     component.tablebool = true;
 
     component.title = 'Hello';
-    component.selFormat = 'Code';
+    component.selFormat = ['Code', 'Document', 'Powerpoint'];
     component.selectedSubjects = ['Java', 'CSS'];
   });
 
@@ -66,13 +66,12 @@ describe('ContentFinderPageComponent', () => {
   });
 
   // Radio Buttons
-  it('Should have radio buttons for Code, Document, Powerpoint, Flagged, and All.',
+  it('Should have checkbox buttons for Code, Document, and Powerpoint',
   () => {
-    expect(document.getElementById('CodeLabel')).toBeTruthy();
-    expect(document.getElementById('DocumentLabel')).toBeTruthy();
-    expect(document.getElementById('PowerpointLabel')).toBeTruthy();
-    expect(document.getElementById('FlaggedLabel')).toBeTruthy();
-    expect(document.getElementById('AllLabel')).toBeTruthy();
+    expect(document.getElementById('Code')).toBeTruthy();
+    expect(document.getElementById('Document')).toBeTruthy();
+    expect(document.getElementById('Powerpoint')).toBeTruthy();
+    
   });
 
   // Drop down menu
@@ -96,7 +95,7 @@ describe('ContentFinderPageComponent', () => {
   it('Should reset page to empty string Title, "Code" string selFormat, and empty array', () => {
     component.reset();
     expect(component.title).toEqual('');
-    expect(component.selFormat).toEqual('Code');
+    expect(component.selFormat).toEqual(['Code','Document', 'Powerpoint']);
     expect(component.selectedSubjects).toEqual([]);
   });
 

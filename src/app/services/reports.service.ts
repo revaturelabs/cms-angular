@@ -58,9 +58,15 @@ export class ReportsService {
     moduleIdsString = moduleIdsString.substring(0, moduleIdsString.length - 1);
     let body = {
       title: "",
-      format: filter.getFormat(),
+      format: filter.getFormat()[0],
       modules: moduleIdsString
     };
+<<<<<<< HEAD
+=======
+    
+    
+
+>>>>>>> dev
     this.http.post(
       this.endpoints.GET_METRICS.replace('${timeFrame}', this.MILLIS_PER_YEAR.toString()),
       JSON.stringify(body),

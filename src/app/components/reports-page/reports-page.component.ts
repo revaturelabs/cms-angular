@@ -74,11 +74,19 @@ export class ReportsPageComponent implements OnInit {
     this.selFormatFilter = this.selFormat;
   
     //filter to get content by the selected format and moduleIDs from the reportsService
+<<<<<<< HEAD
     this.reportsService.getMetrics(new Filter("", this.selFormat, this.moduleIDs));
     if(this.globalReports.metricsData){
       this.updateMetrics(this.globalReports.metricsData);
     }
     
+=======
+    this.reportsService.getMetrics(new Filter("", [this.selFormat], this.moduleIDs));
+
+    this.codeExamples = null;
+    this.lectureNotes = null;
+    this.powerpoints = null;
+>>>>>>> dev
     //difModules and avgResources are not set again on filtering/searching
   }
 
