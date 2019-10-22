@@ -11,10 +11,12 @@ import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { Content } from 'src/app/models/Content';
 import { Link } from 'src/app/models/Link';
 import { TreeModule } from 'angular-tree-component';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ContentCreatorPageComponent } from './content-creator-page.component';
 
 import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 describe('ContentCreatorPageComponent', () => {
   let component: ContentCreatorPageComponent;
@@ -33,7 +35,10 @@ describe('ContentCreatorPageComponent', () => {
         HttpClientTestingModule,
         ToastrModule.forRoot(),
         TreeModule.forRoot(),
-        MatCardModule
+        BrowserAnimationsModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule
       ]
     })
     .compileComponents();
