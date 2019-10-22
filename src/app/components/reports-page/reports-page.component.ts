@@ -61,6 +61,7 @@ export class ReportsPageComponent implements OnInit {
 
     if(this.globalReports.metricsData ) {
       this.updateMetrics(this.globalReports.metricsData);
+
     } else {
       this.getMetrics();
     }
@@ -72,7 +73,7 @@ export class ReportsPageComponent implements OnInit {
   getMetrics() {
     this.getIDsFromSubjects(this.selectedSubjects);
     this.selFormatFilter = this.selFormat;
-  
+
     //filter to get content by the selected format and moduleIDs from the reportsService
     this.reportsService.getMetrics(new Filter("", [this.selFormat], this.moduleIDs));
 
