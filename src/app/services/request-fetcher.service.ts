@@ -51,6 +51,7 @@ export class RequestFetcherService {
   @Cacheable()
   filterContent(filter: Filter): Observable<Request[]> {
     let modules: string = JSON.stringify(filter.modules);
+    let formats: string = JSON.stringify(filter.format);
     if (modules) {
         modules = modules.replace('[','');
         modules = modules.replace(']','');
@@ -58,8 +59,15 @@ export class RequestFetcherService {
         modules = '';
     }
 
+    if (formats) {
+      formats = formats.replace('[','');
+      formats = formats.replace(']','');
+  } else {
+      formats = '';
+  }
+
     return this.http.get<Request[]>(this.endpoints.FILTER_REQUEST.replace('${title}',
-    filter.title).replace('${format}', filter.format).replace('${modules}', modules), {withCredentials: true}).pipe(
+    filter.title).replace('${format}', formats).replace('${modules}', modules), {withCredentials: true}).pipe(
         map(resp => resp as Request[])
       );
   }
