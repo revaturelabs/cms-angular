@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { EndpointsService } from 'src/app/constants/endpoints.service';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { CurriculumStoreService } from 'src/app/services/curriculum-store.service';
 import { BehaviorSubject } from 'rxjs';

@@ -19,7 +19,7 @@ export class ReportsService {
   private readonly HEADERS = new HttpHeaders({ 'Content-Type': 'application/json' });
   
   /** Milliseconds per year */
-  private readonly MILLIS_PER_YEAR: number = 3.154e+10;
+  readonly MILLIS_PER_YEAR: number = 3.154e+10;
 
   /** Reports page component */
   reportsPage: ReportsPageComponent;

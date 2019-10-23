@@ -60,10 +60,14 @@ export class DisplayRequestPageComponent implements OnInit {
   }
 
   ngOnInit() {
-      this.ms.loadModules();
-      this.crs.loadCurricula();
+    this.ms.loadModules();
+    this.crs.loadCurricula();
+    let url = window.location.href;
+    this.createSearch(url.indexOf('?'),url);
+  }
 
-      let url = window.location.href;
+  createSearch(n:number,url:any){
+    this.ms.loadModules();
       if (url.indexOf('?') > -1) {
           // remove non-query part of url
           let query = url.substring(url.indexOf('?') + 1);
@@ -113,7 +117,7 @@ export class DisplayRequestPageComponent implements OnInit {
         this.req = data;
       });
     }
-  }
+}
 
 /**
   * Description: Adds/removes a format from selFormat array object.
