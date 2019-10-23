@@ -85,7 +85,6 @@ describe('ContentFetcherService', () => {
     tick();
   }));
 
-
   // Test to deleteContentByID
   it('deleteContentByID is working', fakeAsync(() => {
     service.deleteContentByID(1).subscribe();
@@ -103,10 +102,16 @@ describe('ContentFetcherService', () => {
   }));
 
   // Test to make sure filterContent(filter) function is working
-  it('filterContent is working, filter not null', fakeAsync(() => {
-    let filter: Filter = new Filter(null, null, null);
-    service.filterContent(filter).subscribe();
-    const req = httpTestingController.expectOne(baseURL + '/content?title=&format=&modules=');
+  it('filterContent is working', fakeAsync(() => {
+    let response = {};
+    let filter: Filter = new Filter(null, null, null, null);
+    
+    service.filterContent(filter).subscribe(
+      (receivedResponse: any) => { },
+      (error: any) => { }
+    );
+    
+    const req = httpTestingController.expectOne(baseURL + '/content?title=&format=&modules=&curriculum=');
     expect(req.request.method).toEqual("GET");
     tick();
   }));

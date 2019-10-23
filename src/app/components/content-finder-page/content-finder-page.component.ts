@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Content } from '../../models/Content';
 import { Module } from '../../models/Module';
 import { Filter } from '../../models/Filter';
+import { Curriculum } from '../../models/Curriculum';
 import { ContentFetcherService } from '../../services/content-fetcher.service';
 import { ModuleStoreService } from '../../services/module-store.service';
+import { CurriculumStoreService } from '../../services/curriculum-store.service';
 import { ToastrService } from 'ngx-toastr';
 import { Link } from '../../models/Link';
 import { SelectControlValueAccessor } from '@angular/forms';
@@ -50,6 +52,10 @@ export class ContentFinderPageComponent implements OnInit {
     */
    moduleIDs: number[];
 
+   /**
+    * Stores the Curriculum id's
+    */
+   curriculumIDs: number[];
 
    /** Map of Visibility status of each Module */
    contentVisible: Map<Module, boolean> = new Map<Module, boolean>();
@@ -59,6 +65,11 @@ export class ContentFinderPageComponent implements OnInit {
     * Selected from subject list
     */
    selectedSubjects: string[] = [];
+
+   /**
+    * Selected from curriculum list
+    */
+   selectedCurricula: string[] = [];
 
    /**
     * Holds the links that will be applied to a content
@@ -99,6 +110,7 @@ export class ContentFinderPageComponent implements OnInit {
    constructor(
       private cs: ContentFetcherService,
       public ms: ModuleStoreService,
+      public crs: CurriculumStoreService,
       private toastr: ToastrService,
       private location: Location
    ) { }
@@ -108,6 +120,7 @@ export class ContentFinderPageComponent implements OnInit {
     */
    ngOnInit() {
       this.ms.loadModules();
+      this.crs.loadCurricula();
 
       //gets search parameters from url if they exhist
       let url = window.location.href;
@@ -135,6 +148,11 @@ export class ContentFinderPageComponent implements OnInit {
          //convert modules string into an array of numbers
          let moduleIds = modules.split(',');
          let moduleIdNumbers: number[] = new Array();
+         //retrieve the curricula param
+         let curricula = query.substring(query.indexOf('=') + 1);
+         //convert curricula string into an array of numbers
+         let curriculaIds = curricula.split(',');
+         let curriculaIdNumbers: number[] = new Array();
         
          if (0 !== modules.length) {
             for (let i=0; i<moduleIds.length; i++) {
@@ -142,10 +160,17 @@ export class ContentFinderPageComponent implements OnInit {
                moduleIdNumbers.push(parseInt(moduleIds[i]))
             }
          }
+
+         if (0 !== curricula.length) {
+            for (let i=0; i<curriculaIds.length; i++) {
+
+               curriculaIdNumbers.push(parseInt(curriculaIds[i]))
+            }
+         }
          
          //populate a filter object with the params we just extracted
          let filter: Filter = new Filter(
-            title, formats, moduleIdNumbers
+            title, formats, moduleIdNumbers, curriculaIdNumbers
          );
 
          this.sendSearch(filter);
@@ -178,13 +203,13 @@ export class ContentFinderPageComponent implements OnInit {
    submit() {
       this.isSearching = true;
       let format: string[] = this.selFormat;
-
       
       this.getIDsFromSubjects(this.selectedSubjects);
+      this.getIDsFromCurricula(this.selectedCurricula);
+      
       let filter: Filter = new Filter(
-         this.title, format, this.moduleIDs
+         this.title, format, this.moduleIDs, this.curriculumIDs
       );
-
       this.updateURL(filter);
 
       this.searchedSubjects = this.selectedSubjects;
@@ -208,6 +233,7 @@ export class ContentFinderPageComponent implements OnInit {
             } else {
                this.toastr.error('Response was null');
             }
+            
          },
          (error) => {
             this.toastr.error('Failed to send filter');
@@ -219,24 +245,25 @@ export class ContentFinderPageComponent implements OnInit {
    updateURL(filter: Filter) {
     
       let modules: string = JSON.stringify(filter.modules);
+      let curricula: string = JSON.stringify(filter.curricula);
       let formats: string = JSON.stringify(filter.format);
       modules = modules.replace('[','');
       modules = modules.replace(']','');
+      curricula = curricula.replace('[','');
+      curricula = curricula.replace(']','');
       formats = formats.replace('[','');
       formats = formats.replace(']','');
       formats = formats.replace(/"/g, '');
-      this.location.replaceState("finder?title=" + filter.title + "&format=" + formats + "&modules=" + modules)
+      this.location.replaceState("finder?title=" + filter.title + "&format=" + formats + "&modules=" + modules + "&curricula=" + curricula)
    }
    
    submitForDelete() {
       this.isSearching = true;
       let format: string[] = this.selFormat;
 
-      
-      
       this.getIDsFromSubjects(this.selectedSubjects);
       let filter: Filter = new Filter(
-         this.title, format, this.moduleIDs
+         this.title, format, this.moduleIDs, this.curriculumIDs
       );
       this.searchedSubjects = this.selectedSubjects;
 
@@ -301,6 +328,7 @@ export class ContentFinderPageComponent implements OnInit {
       this.title = "";
       this.selFormat = ["Code", "Document", "Powerpoint"];
       this.selectedSubjects = [];
+      this.selectedCurricula = [];
    }
 
    /**
@@ -330,6 +358,15 @@ export class ContentFinderPageComponent implements OnInit {
       subjects.forEach(
          (subject) => {
             this.moduleIDs.push(this.ms.subjectNameToModule.get(subject).id);
+         }, this
+      );
+   }
+
+   getIDsFromCurricula(curricula: string[]){
+      this.curriculumIDs = [];
+      curricula.forEach(
+         (curriculum) => {
+            this.curriculumIDs.push(this.crs.nameToCurriculum.get(curriculum).id);
          }, this
       );
    }
