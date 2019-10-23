@@ -31,6 +31,21 @@
 
                 </div>
 
+                <div class="row subject mb-3"> <!-- Dropdown section which retrieves curriculum using crs to load and ngModel to populate -->
+                    <div class="col-1"></div>
+                    <div class="col-10">
+                         <ng-select id="curriculumDropDown" [items]="crs.nodes"
+                                multiple="true" closeOnSelect="true" hideSelected="true"
+                                clearOnBackspace="true" bindLabel="name" spellcheck="false"
+                                notFoundText="(no such subject found)"
+                                 [loading]="crs.isLoading" [placeholder]="crs.loadingText"
+                                [(ngModel)]="selectedCurriculum"
+                                name="selectedCurriculum"> <!-- ngSelect to manage selecting curriculum and operating dropdown functionality -->
+                         </ng-select>
+                    </div>
+                    <div class="col-1"></div>
+             </div>
+
                  <div class="row subject mb-3"> <!-- Dropdown section which retrieves subjects using ms to load and ngModel to populate -->
                         <div class="col-1"></div>
                         <div class="col-10">
