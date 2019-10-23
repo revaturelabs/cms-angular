@@ -55,16 +55,12 @@ export class ReportsService {
     moduleIds.forEach( (id) => {
       moduleIdsString = moduleIdsString + id.toString() + ",";
     }, this);
-    moduleIdsString.substring(0, moduleIdsString.length - 2);
-
+    moduleIdsString = moduleIdsString.substring(0, moduleIdsString.length - 1);
     let body = {
       title: "",
       format: filter.getFormat()[0],
       modules: moduleIdsString
     };
-    
-    
-
     this.http.post(
       this.endpoints.GET_METRICS.replace('${timeFrame}', this.MILLIS_PER_YEAR.toString()),
       JSON.stringify(body),
