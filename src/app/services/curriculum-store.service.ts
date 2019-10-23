@@ -4,7 +4,6 @@ import { EndpointsService } from '../constants/endpoints.service';
 import { CurriculumFetcherService } from './curriculum-fetcher.service';
 import { ToastrService } from 'ngx-toastr';
 import { SortSearchService } from '../services/sort-search.service';
-
 import { Curriculum } from '../models/Curriculum';
 import { CurriculumModule } from '../models/CurriculumModule';
 
@@ -16,6 +15,8 @@ export class CurriculumStoreService {
     nodes: Curriculum[];
     allCurricula: Curriculum[];
     idToCurriculum: Map<number, Curriculum>;
+    nameToCurriculum: Map<string, Curriculum>;
+    curriculaNames: string [];
 
     curriculum: Curriculum;
 
@@ -36,7 +37,9 @@ export class CurriculumStoreService {
         this.loadingText = 'Loading Curricula...';
         this.nodes = [];
         this.idToCurriculum = new Map<number, Curriculum>();
+        this.nameToCurriculum = new Map<string, Curriculum>();
         this.allCurricula = [];
+        this.curriculaNames = [];
 
         return new Promise(
 
@@ -50,6 +53,7 @@ export class CurriculumStoreService {
                             
                             this.nodes = resp;
                             this.loading = false;
+                            this.loadingText = "Select relevant curricula";
 
                         } else {
 
@@ -70,9 +74,10 @@ export class CurriculumStoreService {
 
                         for (const node of this.nodes) {
 
+                            this.nameToCurriculum.set(node.name, node);
+                            this.curriculaNames.push(node.name);
                             this.idToCurriculum.set(node.id, node);
                         }
-
                         this.nodes.sort(this.ss.sortCurriculumById);
                         resolve(this.nodes);
                     }

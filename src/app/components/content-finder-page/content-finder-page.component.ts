@@ -74,7 +74,7 @@ export class ContentFinderPageComponent implements OnInit {
    /**
     * Selected from curriculum list
     */
-   selectedCurricula: number[] = [];
+   selectedCurricula: string[] = [];
 
    /**
     * Holds the links that will be applied to a content
@@ -204,14 +204,13 @@ export class ContentFinderPageComponent implements OnInit {
    submit() {
       this.isSearching = true;
       let format: string[] = this.selFormat;
-
       
       this.getIDsFromSubjects(this.selectedSubjects);
       this.getIDsFromCurricula(this.selectedCurricula);
+      
       let filter: Filter = new Filter(
          this.title, format, this.moduleIDs, this.curriculumIDs
       );
-
       this.updateURL(filter);
 
       this.searchedSubjects = this.selectedSubjects;
@@ -234,6 +233,7 @@ export class ContentFinderPageComponent implements OnInit {
             } else {
                this.toastr.error('Response was null');
             }
+            
          },
          (response) => {
             this.toastr.error('Failed to send filter');
@@ -264,8 +264,6 @@ export class ContentFinderPageComponent implements OnInit {
       this.isSearching = true;
       let format: string[] = this.selFormat;
 
-      
-      
       this.getIDsFromSubjects(this.selectedSubjects);
       let filter: Filter = new Filter(
          this.title, format, this.moduleIDs, this.curriculumIDs
@@ -363,11 +361,11 @@ export class ContentFinderPageComponent implements OnInit {
       );
    }
 
-   getIDsFromCurricula(curricula: number[]){
+   getIDsFromCurricula(curricula: string[]){
       this.curriculumIDs = [];
       curricula.forEach(
          (curriculum) => {
-            this.curriculumIDs.push(this.crs.idToCurriculum.get(curriculum).id);
+            this.curriculumIDs.push(this.crs.nameToCurriculum.get(curriculum).id);
          }, this
       );
    }

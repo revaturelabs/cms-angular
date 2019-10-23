@@ -115,7 +115,15 @@ export class ContentFetcherService {
    filterContent(filter: Filter): Observable<Content[]> {
       let modules: string = JSON.stringify(filter.modules);
       let formats: string = JSON.stringify(filter.format);
-      if (modules) {
+      let curricula: string = JSON.stringify(filter.curricula);
+
+      if (curricula !== '[null]') {
+         curricula = curricula.replace('[','');
+         curricula = curricula.replace(']','');
+      } else {
+         curricula = '';
+      }
+      if (modules !== '[null]') {
          modules = modules.replace('[','');
          modules = modules.replace(']','');
       } else {
@@ -129,7 +137,8 @@ export class ContentFetcherService {
       } else {
          formats = '';
       }
-      return this.http.get<Content[]>(this.endpoints.FILTER_CONTENT.replace('${title}',filter.title).replace('${format}', formats).replace('${modules}', modules), {withCredentials: true}).pipe(
+
+      return this.http.get<Content[]>(this.endpoints.FILTER_CONTENT.replace('${title}',filter.title).replace('${format}', formats).replace('${modules}', modules).replace('${curricula}', curricula), {withCredentials: true}).pipe(
          map(resp => resp as Content[])
        );
    }
