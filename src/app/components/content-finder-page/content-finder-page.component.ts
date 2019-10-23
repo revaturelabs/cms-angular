@@ -22,7 +22,7 @@ export class ContentFinderPageComponent implements OnInit {
    /**
     * Selection of formats to choose betwwen
     */
-   readonly formats: string[] = ["Code", "Document", "Powerpoint", "Flagged", "All"];
+   readonly formats: string[] = ["Code", "Document", "Powerpoint"];
    /**
     * Title of content
     */
