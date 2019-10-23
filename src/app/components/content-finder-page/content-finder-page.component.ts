@@ -28,7 +28,7 @@ export class ContentFinderPageComponent implements OnInit {
    /**
     * Sets defualt for content selection to All
     */
-   selFormat: string = "All";
+   selFormat: string[] = ["Code", "Document", "Powerpoint"];
 
    /**
     * Array of contents
@@ -126,6 +126,8 @@ export class ContentFinderPageComponent implements OnInit {
          query = query.substring(query.indexOf('&') + 1);
          //retreive the format param
          let format = query.substring(query.indexOf('=') + 1, query.indexOf('&'));
+         //set the formats into an array
+         let formats = format.split(',');
          //remove the format param from the query string
          query = query.substring(query.indexOf('&') + 1);
          //retrieve the modules param
@@ -143,16 +145,30 @@ export class ContentFinderPageComponent implements OnInit {
          
          //populate a filter object with the params we just extracted
          let filter: Filter = new Filter(
-            title, format, moduleIdNumbers
+            title, formats, moduleIdNumbers
          );
 
          this.sendSearch(filter);
 
       }
    }
-   
 
-
+   /**
+    * Description: Adds/removes a format from selFormat array object.
+    * @param format Format to be added/removed, corresponds with button clicked.
+    */
+   toggleFormat(format : string){   
+      if(this.selFormat.includes(format)){
+         if(this.selFormat.length==1){
+            this.toastr.info("You must include at least one format type.");
+         }else{
+            this.selFormat.splice(this.selFormat.indexOf(format), 1);
+         }
+      }
+      else{
+         this.selFormat.push(format);
+      }    
+   }
 
    /**
     * Submit function that takes in all input and puts it into a filter object
@@ -161,12 +177,9 @@ export class ContentFinderPageComponent implements OnInit {
     */
    submit() {
       this.isSearching = true;
-      let format: string = this.selFormat;
+      let format: string[] = this.selFormat;
 
-      //if 'all' or 'flagged' was selected return all content
-      if (format === "All" || format === "Flagged") {
-         format = "";
-      }
+      
       this.getIDsFromSubjects(this.selectedSubjects);
       let filter: Filter = new Filter(
          this.title, format, this.moduleIDs
@@ -206,19 +219,21 @@ export class ContentFinderPageComponent implements OnInit {
    updateURL(filter: Filter) {
     
       let modules: string = JSON.stringify(filter.modules);
+      let formats: string = JSON.stringify(filter.format);
       modules = modules.replace('[','');
       modules = modules.replace(']','');
-      this.location.replaceState("finder?title=" + filter.title + "&format=" + filter.format + "&modules=" + modules)
+      formats = formats.replace('[','');
+      formats = formats.replace(']','');
+      formats = formats.replace(/"/g, '');
+      this.location.replaceState("finder?title=" + filter.title + "&format=" + formats + "&modules=" + modules)
    }
    
    submitForDelete() {
       this.isSearching = true;
-      let format: string = this.selFormat;
+      let format: string[] = this.selFormat;
 
-      //if 'all' or 'flagged' was selected return all content
-      if (format === "All" || format === "Flagged") {
-         format = "";
-      }
+      
+      
       this.getIDsFromSubjects(this.selectedSubjects);
       let filter: Filter = new Filter(
          this.title, format, this.moduleIDs
@@ -273,15 +288,7 @@ export class ContentFinderPageComponent implements OnInit {
          }, this
       )
 
-      /**
-      * Filter the contents by content with no links (not attached to a modules) 
-      * if 'flagged' is the selected format
-      */
-      if (this.selFormat === "Flagged") {
-         this.contents = this.contents.filter(function (flaggedContent) {
-            return flaggedContent.links.length === 0;
-         });
-      }
+      
 
       
 
@@ -292,7 +299,7 @@ export class ContentFinderPageComponent implements OnInit {
     */
    reset() {
       this.title = "";
-      this.selFormat = "Code";
+      this.selFormat = ["Code", "Document", "Powerpoint"];
       this.selectedSubjects = [];
    }
 

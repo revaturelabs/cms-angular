@@ -144,7 +144,7 @@ submit() {
   }
   this.getIDsFromSubjects(this.selectedSubjects);
   const filter: Filter = new Filter(
-    this.title, format, this.moduleIDs
+    this.title, [format], this.moduleIDs
   );
 
   this.updateURL(filter);

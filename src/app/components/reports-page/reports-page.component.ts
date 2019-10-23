@@ -72,7 +72,7 @@ export class ReportsPageComponent implements OnInit {
     this.selFormatFilter = this.selFormat;
 
     //filter to get content by the selected format and moduleIDs from the reportsService
-    this.reportsService.getMetrics(new Filter("", this.selFormat, this.moduleIDs));
+    this.reportsService.getMetrics(new Filter("", [this.selFormat], this.moduleIDs));
 
     this.codeExamples = null;
     this.lectureNotes = null;

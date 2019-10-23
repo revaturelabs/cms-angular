@@ -57,7 +57,7 @@ describe('ContentFinderPageComponent', () => {
       toast=TestBed.get(ToastrService);
       component.tablebool = true;
       component.title = 'Hello';
-      component.selFormat = 'Code';
+      component.selFormat = ['Code', 'Document', 'Powerpoint'];
       component.selectedSubjects = ['Java', 'CSS'];
     });
   }));
