@@ -3,7 +3,9 @@ import { SessionStorageService } from 'angular-web-storage';
 import { Request } from 'src/app/models/Request';
 import { Content } from '../../models/Content';
 import { Filter } from '../../models/Filter';
+import { Curriculum } from '../../models/Curriculum';
 import { ModuleStoreService } from '../../services/module-store.service';
+import { CurriculumStoreService } from '../../services/curriculum-store.service';
 import { ToastrService } from 'ngx-toastr';
 import { RequestFetcherService } from 'src/app/services/request-fetcher.service';
 import { ContentFetcherService } from '../../services/content-fetcher.service';
@@ -28,15 +30,21 @@ export class ResolveRequestPageComponent implements OnInit {
   contents: Content[];
   cont: Content;
   moduleIDs: number[];
+  curriculumIDs: number[];
   isSearching = false;
   title = '';
   public toggle = false;
   public btntog: any = 'Click Here to Add New Content';
 
   constructor(
-    private rs: RequestFetcherService, public session: SessionStorageService,
-    private cs: ContentFetcherService, public ms: ModuleStoreService,
-    public toastr: ToastrService, private location: Location, public router: Router
+    private rs: RequestFetcherService,
+    public session: SessionStorageService,
+    private cs: ContentFetcherService, 
+    public ms: ModuleStoreService,
+    public crs: CurriculumStoreService,
+    public toastr: ToastrService, 
+    private location: Location, 
+    public router: Router
   ) { }
 
   ngOnInit() {
@@ -149,7 +157,7 @@ submit() {
   }
   this.getIDsFromSubjects(this.selectedSubjects);
   const filter: Filter = new Filter(
-    this.title, [format], this.moduleIDs
+    this.title, [format], this.moduleIDs, this.curriculumIDs
   );
 
   this.updateURL(filter);

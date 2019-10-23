@@ -1,7 +1,9 @@
 import { Filter } from './../../models/Filter';
+import { Curriculum } from './../../models/Curriculum';
 import { Location, LocationStrategy } from '@angular/common';
 import { Module } from './../../models/Module';
 import { ModuleStoreService } from './../../services/module-store.service';
+import { CurriculumStoreService } from './../../services/curriculum-store.service';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { RequestFetcherService } from 'src/app/services/request-fetcher.service';
@@ -22,6 +24,9 @@ export class DisplayRequestPageComponent implements OnInit {
 
   // Module Ids to pass to back-end to filter by
   public moduleIDs: number[];
+
+  // Cirriculum Ids to pass to back-end to filter by
+  public curriculaIDs: number[];
 
   // Module names added to filter
   public searchedSubjects: string[] = [];
@@ -48,6 +53,7 @@ export class DisplayRequestPageComponent implements OnInit {
       private router: Router,
       public rs: RequestFetcherService,
       public ms: ModuleStoreService,
+      public crs: CurriculumStoreService,
       public location: Location,
       private toastr: ToastrService
   ) {
@@ -55,6 +61,7 @@ export class DisplayRequestPageComponent implements OnInit {
 
   ngOnInit() {
       this.ms.loadModules();
+      this.crs.loadCurricula();
 
       let url = window.location.href;
       if (url.indexOf('?') > -1) {
@@ -75,15 +82,28 @@ export class DisplayRequestPageComponent implements OnInit {
           // convert modules string into an array of numbers
           let moduleIds = modules.split(',');
           let moduleIdNumbers: number[] = new Array;
+          //retrieve the curricula param
+         let curricula = query.substring(query.indexOf('=') + 1);
+         //convert curricula string into an array of numbers
+         let curriculaIds = curricula.split(',');
+         let curriculaIdNumbers: number[] = new Array();
+
           if (0 !== modules.length) {
             for (let i=0; i<moduleIds.length; i++) {
               moduleIdNumbers.push(parseInt(moduleIds[i]))
             }
         }
 
+        if (0 !== curricula.length) {
+          for (let i=0; i<curriculaIds.length; i++) {
+
+             curriculaIdNumbers.push(parseInt(curriculaIds[i]))
+          }
+       }
+
           // populate a filter object with the params we just extracted
           let filter: Filter = new Filter(
-            title, formats, moduleIdNumbers
+            title, formats, moduleIdNumbers, curriculaIdNumbers
           );
 
           this.sendSearch(filter);
@@ -131,7 +151,7 @@ submit() {
   
   this.getIDsFromSubjects(this.selectedSubjects);
   const filter: Filter = new Filter(
-      this.title, format, this.moduleIDs
+      this.title, format, this.moduleIDs, this.curriculaIDs
   );
 
   this.updateURL(filter);

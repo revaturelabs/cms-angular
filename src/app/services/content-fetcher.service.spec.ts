@@ -1,8 +1,6 @@
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
-
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { environment } from '../../environments/environment'
-
 import { ContentFetcherService } from './content-fetcher.service';
 import { Content } from '../models/Content';
 import { Module } from '../models/Module';
@@ -123,7 +121,6 @@ describe('ContentFetcherService', () => {
 
   }));
 
-
   // Test to deleteContentByID
   it('deleteContentByID is working', fakeAsync(() => {
     let response = {};
@@ -142,13 +139,14 @@ describe('ContentFetcherService', () => {
   // Test to make sure filterContent(filter) function is working
   it('filterContent is working', fakeAsync(() => {
     let response = {};
-    let filter: Filter = new Filter(null, null, null);
+    let filter: Filter = new Filter(null, null, null, null);
     
     service.filterContent(filter).subscribe(
       (receivedResponse: any) => { },
       (error: any) => { }
     );
-    const req = httpTestingController.expectOne(baseURL + '/content?title=&format=&modules=');
+    
+    const req = httpTestingController.expectOne(baseURL + '/content?title=&format=&modules=&curriculum=');
     expect(req.request.method).toEqual("GET");
     req.flush(response);
     tick();
