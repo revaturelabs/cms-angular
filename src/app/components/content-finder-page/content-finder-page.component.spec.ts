@@ -70,7 +70,7 @@ describe('ContentFinderPageComponent', () => {
     l2=new Link( 2, c1, m1, "reval", 2);
     c1=new Content(  1, "adsad", "format: string", "description: string", "url: string", [l1,l2]);
     c2=new Content(2,'hey','format: adas','description','www.something.coomo',[l1,l2]);  
-    f1=new Filter( "adasd0", "adawae",[]);
+    f1=new Filter( "adasd0", ["adawae"],[]);
   });
 
   /**
@@ -81,7 +81,7 @@ describe('ContentFinderPageComponent', () => {
     
    it("Submit should call getIDsFromSubjects",()=>{
     
-    component.selFormat="Flagged";
+    component.selFormat=["Flagged"];
     component.ms.subjectNameToModule = new Map<string,Module>();
     component.ms.subjectNameToModule.set("1",m1);
     component.selectedSubjects=["1"];
@@ -93,7 +93,7 @@ describe('ContentFinderPageComponent', () => {
 
    it("Submit should call getIDsFromSubjects",()=>{
     
-    component.selFormat=" ";
+    component.selFormat=[" "];
     component.ms.subjectNameToModule = new Map<string,Module>();
     component.ms.subjectNameToModule.set("1",m1);
     component.selectedSubjects=["1"];
@@ -152,7 +152,7 @@ describe('ContentFinderPageComponent', () => {
   it("SubmitForDelete should set call getIDsFromSuubjects",()=>{
     
     spyOn(component,'getIDsFromSubjects').and.returnValue();
-    component.selFormat="All";
+    component.selFormat=["All"];
     component.submitForDelete();
     
     expect(component.getIDsFromSubjects).toHaveBeenCalled();
@@ -224,7 +224,7 @@ describe('ContentFinderPageComponent', () => {
   });
 
   it('parseContentResponse should update isSearching to false',()=>{
-    component.selFormat="Flagged";
+    component.selFormat=["Flagged"];
     let c=[c1,c2];
     spyOn(component.ms.subjectIdToSortedIndex,'get').and.returnValue(2);
     component.parseContentResponse(c);
@@ -234,10 +234,10 @@ describe('ContentFinderPageComponent', () => {
 
   it('parseContentResponse should updates Contentents',()=>{
     let c=[c1,c2];
-    component.selFormat="Flagged";
+    component.selFormat=["Flagged"];
     
     component.parseContentResponse(c);
-    expect(component.contents.length).toBe(0);
+    expect(component.contents.length).toBe(2);
 
   });
 
@@ -403,48 +403,6 @@ describe('ContentFinderPageComponent', () => {
     expect(document.getElementsByName('title')).toBeTruthy();
   });
 
-  // Radio Buttons
-  it('Should have radio buttons for All.',
-  () => {
-    expect(document.getElementById('AllLabel')).toBeTruthy();
-  });
-
-  it('Should have radio buttons  for Document',()=>{
-    expect(document.getElementById('DocumentLabel')).toBeTruthy();
-  });
-
-  it('Should have radio buttons for PowerPoint',()=>{
-    expect(document.getElementById('PowerpointLabel')).toBeTruthy();
-  });
-
-  it('Should have radio buttons for Flagged,',()=>{
-    expect(document.getElementById('FlaggedLabel')).toBeTruthy();
-  });
-
-  it('Should have radio buttons for Code',()=>{
-    expect(document.getElementById('CodeLabel')).toBeTruthy();
-  });
-
-  it('Should have radio buttons for Code.', () => {
-    expect(document.getElementById('CodeLabel')).toBeTruthy();
-  });
-
-  it('Should have radio buttons for Document.', () => {
-    expect(document.getElementById('DocumentLabel')).toBeTruthy();
-  });
-
-  it('Should have radio buttons for  Powerpoint.', () => {
-    expect(document.getElementById('PowerpointLabel')).toBeTruthy();
-  });
-
-  it('Should have radio buttons for Flagged.', () => {
-    expect(document.getElementById('FlaggedLabel')).toBeTruthy();
-  });
-
-  it('Should have radio buttons for All.', () => {
-    expect(document.getElementById('AllLabel')).toBeTruthy();
-  });
-
   it('Should have a drop down menu to Select Relevant Modules that are available.', () => {
     expect(document.getElementById('subjectDropDown')).toBeTruthy();
   });
@@ -466,9 +424,9 @@ describe('ContentFinderPageComponent', () => {
     expect(component.title).toEqual('');    
   });
 
-  it('Should reset page, "Code" string selFormat',()=>{
+  it('Should test reset page, selFormat length should be 3  ',()=>{
     component.reset();
-    expect(component.selFormat).toEqual('Code');
+    expect(component.selFormat.length).toEqual(3);
   });
   
   it('Should reset page, string Title', () => {
@@ -476,9 +434,9 @@ describe('ContentFinderPageComponent', () => {
     expect(component.title).toEqual('');
   });
 
-  it('Should reset page, "Code" string selFormat', () => {
+  it('Should reset page, selformat length should equal 3', () => {
     component.reset();
-    expect(component.selFormat).toEqual('Code');
+    expect(component.selFormat.length).toEqual(3);
   });
 
   it('Should reset page, empty array', () => {

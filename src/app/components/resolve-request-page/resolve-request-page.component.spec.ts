@@ -36,7 +36,7 @@ describe('ResolveRequestPageComponent', () => {
 
   let url:string;
   let baseURL:string;
-  let filter: Filter = new Filter("Java","String", null);
+  let filter: Filter = new Filter("Java",["String"], null);
   let content1:Content = new Content(1, "Java", "String", "description", "url", null);
   let content2:Content = new Content(2, "C#", "String", "description", "url", null);
   let module1:Module = new Module(1,"Java",12345,null,null,null,null);

@@ -79,10 +79,6 @@ describe('ReportsPageComponent', () => {
     expect(document.getElementById('avg_Res')).toBeTruthy();
   });
 
-  it('element should have All selected by default', () => {
-    expect(document.getElementById('All').getAttribute('ng-reflect-model')).toEqual('All');
-  });
-
   it('selFormat should have All selected by default', () => {
     expect(component.selFormat).toEqual('All');
   });

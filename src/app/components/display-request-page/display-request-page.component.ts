@@ -53,53 +53,61 @@ export class DisplayRequestPageComponent implements OnInit {
   ) {
   }
 
-ngOnInit() {
+  ngOnInit() {
     this.ms.loadModules();
     let url = window.location.href;
-    this.createSearch(url.indexOf("?"), url);
+    this.createSearch(url.indexOf('?'),url);
   }
 
-  createSearch(n: number, url: any) {
-    if (n > -1) {
-      // remove non-query part of url
-      let query = url.substring(url.indexOf("?") + 1);
-      // retrieve title param
-      let title = query.substring(query.indexOf("=") + 1, query.indexOf("&"));
-      // remove title param from query string
-      query = query.substring(query.indexOf("&") + 1);
-      // retreive the format param
-      let format = query.substring(query.indexOf("=") + 1, query.indexOf("&"));
-      // create an array of formats
-      let formats = format.split(",");
-      // remove the format param from the query string
-      query = query.substring(query.indexOf("&") + 1);
-      // retrieve the modules param
-      let modules = query.substring(query.indexOf("=") + 1);
-      // convert modules string into an array of numbers
-      let moduleIds = modules.split(",");
-      let moduleIdNumbers: number[] = new Array();
-      if (0 !== modules.length) {
-        for (let i = 0; i < moduleIds.length; i++) {
-          moduleIdNumbers.push(parseInt(moduleIds[i]));
-        }
-      }
-      // populate a filter object with the params we just extracted
-      let filter: Filter = new Filter(title, formats, moduleIdNumbers);
+  createSearch(n:number,url:any){
+    this.ms.loadModules();
 
-      this.sendSearch(filter);
-    } else {
+      if (url.indexOf('?') > -1) {
+          // remove non-query part of url
+          let query = url.substring(url.indexOf('?') + 1);
+          // retrieve title param
+          let title = query.substring(query.indexOf('=') + 1, query.indexOf('&'));
+          // remove title param from query string
+          query = query.substring(query.indexOf('&') + 1);
+          // retreive the format param
+          let format = query.substring(query.indexOf('=') + 1, query.indexOf('&'));
+          // create an array of formats
+          let formats = format.split(',');
+          // remove the format param from the query string
+          query = query.substring(query.indexOf('&') + 1);
+          // retrieve the modules param
+          let modules = query.substring(query.indexOf('=') + 1);
+          // convert modules string into an array of numbers
+          let moduleIds = modules.split(',');
+          let moduleIdNumbers: number[] = new Array;
+          if (0 !== modules.length) {
+            for (let i=0; i<moduleIds.length; i++) {
+              moduleIdNumbers.push(parseInt(moduleIds[i]))
+            }
+        }
+
+          // populate a filter object with the params we just extracted
+          let filter: Filter = new Filter(
+            title, formats, moduleIdNumbers
+          );
+
+          this.sendSearch(filter);
+      } else {
+
       this.rs.getAllRequests().subscribe((data: Request[]) => {
         this.req = data;
       });
     }
-  }
+}
 
 /**
   * Description: Adds/removes a format from selFormat array object.
   * @param format Format to be added/removed, corresponds with button clicked.
   */
 toggleFormat(format : string){
-  
+
+
+      
   if(this.selFormat.includes(format)){
      if(this.selFormat.length==1){
         this.toastr.info("You must include at least one format type.");
@@ -144,7 +152,10 @@ submit() {
   }
 
 updateURL(filter: Filter) {
-  
+  let url = window.location.href;
+  if (url.indexOf('?') > -1) {
+     url = url.substring(0, url.indexOf('?'));
+  }
   let modules: string = JSON.stringify(filter.modules);
   modules = modules.replace('[', '');
   modules = modules.replace(']', '');
