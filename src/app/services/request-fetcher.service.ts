@@ -50,7 +50,7 @@ export class RequestFetcherService {
 
   @Cacheable()
   filterContent(filter: Filter): Observable<Request[]> {
-    filter = filter == null ? new Filter(null, null, null) : filter;
+    filter = filter == null ? new Filter(null, null, null, null) : filter;
     let modules: string = JSON.stringify(filter.modules);
     let formats: string = JSON.stringify(filter.format);
     if (modules) {

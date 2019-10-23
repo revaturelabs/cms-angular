@@ -25,7 +25,7 @@ describe('ReportsService', () => {
     });
     service = TestBed.get(ReportsService);
     globalReports = TestBed.get(GlobalReports);
-    service.reportsPage = new ReportsPageComponent(service, null, null);
+    service.reportsPage = new ReportsPageComponent(service, null, null, null);
     service.reportsTimeGraph = new ReportsTimeGraphComponent(service, globalReports);
     httpTestingController = TestBed.get(HttpTestingController);
     baseURL = environment.cms_url;
@@ -45,7 +45,7 @@ describe('ReportsService', () => {
     let result:MetricsData = { codeCount: 5, documentCount: 7, pptCount: 8, numDiffModsCount: 4, avgResources: 2, timeGraphData: timeGraphData};
 
     let url = baseURL + `/metrics/${service.MILLIS_PER_YEAR}`;
-    let filter: Filter = new Filter("Test", formats, [1]);
+    let filter: Filter = new Filter("Test", formats, [1], []);
     service.getMetrics(filter);
     const req = httpTestingController.expectOne(url);
     expect(req.request.method).toEqual("POST");
@@ -56,7 +56,7 @@ describe('ReportsService', () => {
     let timeGraphData: TimeGraphData = {numContents: 1,  returnedLongs: [1]}
     let result:MetricsData = { codeCount: 5, documentCount: 7, pptCount: 8, numDiffModsCount: 4, avgResources: 2, timeGraphData: timeGraphData};
     let url = baseURL + `/metrics/${service.MILLIS_PER_YEAR}`;
-    let filter: Filter = new Filter("Test", formats, [1]);
+    let filter: Filter = new Filter("Test", formats, [1], []);
     service.getMetrics(filter);
     httpTestingController.expectOne(url).flush(result);
     expect(globalReports.metricsData).toBe(result)
@@ -66,7 +66,7 @@ describe('ReportsService', () => {
     let timeGraphData: TimeGraphData = {numContents: 1,  returnedLongs: [1]}
     let result:MetricsData = { codeCount: 5, documentCount: 7, pptCount: 8, numDiffModsCount: 4, avgResources: 2, timeGraphData: timeGraphData};
     let url = baseURL + `/metrics/${service.MILLIS_PER_YEAR}`;
-    let filter: Filter = new Filter("Test", formats, [1]);
+    let filter: Filter = new Filter("Test", formats, [1], []);
     service.getMetrics(filter);
     httpTestingController.expectOne(url).flush(result);
     expect(service.reportsPage.codeExamples).toBe(result.codeCount)
@@ -76,7 +76,7 @@ describe('ReportsService', () => {
     let timeGraphData: TimeGraphData = {numContents: 1,  returnedLongs: [1]}
     let result:MetricsData = { codeCount: 5, documentCount: 7, pptCount: 8, numDiffModsCount: 4, avgResources: 2, timeGraphData: timeGraphData};
     let url = baseURL + `/metrics/${service.MILLIS_PER_YEAR}`;
-    let filter: Filter = new Filter("Test", formats, [1]);
+    let filter: Filter = new Filter("Test", formats, [1], []);
     service.getMetrics(filter);
     httpTestingController.expectOne(url).flush(result);
     expect(service.reportsPage.lectureNotes).toBe(result.documentCount)
@@ -86,7 +86,7 @@ describe('ReportsService', () => {
     let timeGraphData: TimeGraphData = {numContents: 1,  returnedLongs: [1]}
     let result:MetricsData = { codeCount: 5, documentCount: 7, pptCount: 8, numDiffModsCount: 4, avgResources: 2, timeGraphData: timeGraphData};
     let url = baseURL + `/metrics/${service.MILLIS_PER_YEAR}`;
-    let filter: Filter = new Filter("Test", formats, [1]);
+    let filter: Filter = new Filter("Test", formats, [1], []);
     service.getMetrics(filter);
     httpTestingController.expectOne(url).flush(result);
     expect(service.reportsPage.powerpoints).toBe(result.pptCount)
@@ -96,7 +96,7 @@ describe('ReportsService', () => {
     let timeGraphData: TimeGraphData = {numContents: 1,  returnedLongs: [1]}
     let result:MetricsData = { codeCount: 5, documentCount: 7, pptCount: 8, numDiffModsCount: 4, avgResources: 2, timeGraphData: timeGraphData};
     let url = baseURL + `/metrics/${service.MILLIS_PER_YEAR}`;
-    let filter: Filter = new Filter("Test", formats, [1]);
+    let filter: Filter = new Filter("Test", formats, [1], []);
     service.getMetrics(filter);
     httpTestingController.expectOne(url).flush(result);
     expect(service.reportsPage.difModules).toBe(result.numDiffModsCount)
@@ -106,7 +106,7 @@ describe('ReportsService', () => {
     let timeGraphData: TimeGraphData = {numContents: 1,  returnedLongs: [1]}
     let result:MetricsData = { codeCount: 5, documentCount: 7, pptCount: 8, numDiffModsCount: 4, avgResources: 2, timeGraphData: timeGraphData};
     let url = baseURL + `/metrics/${service.MILLIS_PER_YEAR}`;
-    let filter: Filter = new Filter("Test", formats, [1]);
+    let filter: Filter = new Filter("Test", formats, [1], []);
     service.getMetrics(filter);
     httpTestingController.expectOne(url).flush(result);
     expect(service.reportsPage.avgResources).toBe(result.avgResources)
@@ -116,7 +116,7 @@ describe('ReportsService', () => {
     let timeGraphData: TimeGraphData = {numContents: 1,  returnedLongs: [1]}
     let result:MetricsData = { codeCount: 5, documentCount: 7, pptCount: 8, numDiffModsCount: 4, avgResources: 2, timeGraphData: timeGraphData};
     let url = baseURL + `/metrics/${service.MILLIS_PER_YEAR}`;
-    let filter: Filter = new Filter("Test", formats, [1]);
+    let filter: Filter = new Filter("Test", formats, [1], []);
     service.getMetrics(filter);
     httpTestingController.expectOne(url).flush(result);
     expect(service.reportsTimeGraph.timeGraphData).toBe(result.timeGraphData);
@@ -124,7 +124,7 @@ describe('ReportsService', () => {
 
   it('getMetricsTest, test error', () => {
      let url = baseURL + `/metrics/${service.MILLIS_PER_YEAR}`;
-     let filter: Filter = new Filter("Test", formats, [1]);
+     let filter: Filter = new Filter("Test", formats, [1], []);
      service.getMetrics(filter);
      const req = httpTestingController.expectOne(url);
      expect(req.request.method).toEqual("POST");
@@ -133,7 +133,7 @@ describe('ReportsService', () => {
 
    it('getMetricsTest, test error, metricsData null', () => {
     let url = baseURL + `/metrics/${service.MILLIS_PER_YEAR}`;
-    let filter: Filter = new Filter("Test", formats, [1]);
+    let filter: Filter = new Filter("Test", formats, [1], []);
     service.getMetrics(filter);
     httpTestingController.expectOne(url).error(null, {status: 400, statusText: "Bad Request"});
     expect(globalReports.metricsData).toBe(null)
@@ -141,7 +141,7 @@ describe('ReportsService', () => {
 
   it('getMetricsTest, test error, timeGraphData null', () => {
     let url = baseURL + `/metrics/${service.MILLIS_PER_YEAR}`;
-    let filter: Filter = new Filter("Test", formats, [1]);
+    let filter: Filter = new Filter("Test", formats, [1], []);
     service.getMetrics(filter);
     httpTestingController.expectOne(url).error(null, {status: 400, statusText: "Bad Request"});
     expect(service.reportsTimeGraph.timeGraphData).toBe(null);
@@ -149,7 +149,7 @@ describe('ReportsService', () => {
 
   it('getMetricsTest, test error, loading false', () => {
     let url = baseURL + `/metrics/${service.MILLIS_PER_YEAR}`;
-    let filter: Filter = new Filter("Test", formats, [1]);
+    let filter: Filter = new Filter("Test", formats, [1], []);
     service.getMetrics(filter);
     httpTestingController.expectOne(url).error(null, {status: 400, statusText: "Bad Request"});
     expect(service.loading).toBe(false)

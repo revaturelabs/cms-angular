@@ -113,7 +113,7 @@ export class ContentFetcherService {
     * @param filter What to filter returned content by
     */
    filterContent(filter: Filter): Observable<Content[]> {
-      filter = filter == null ? new Filter(null, null, null) : filter;
+      filter = filter == null ? new Filter(null, null, null, null) : filter;
       let modules: string = JSON.stringify(filter.modules);
       let formats: string = JSON.stringify(filter.format);
       let curricula: string = JSON.stringify(filter.curricula);
@@ -138,7 +138,6 @@ export class ContentFetcherService {
       } else {
          formats = '';
       }
-
       return this.http.get<Content[]>(this.endpoints.FILTER_CONTENT.replace('${title}',filter.title).replace('${format}', formats).replace('${modules}', modules).replace('${curricula}', curricula), {withCredentials: true}).pipe(
          map(resp => resp as Content[])
        );

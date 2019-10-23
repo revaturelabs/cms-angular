@@ -119,7 +119,7 @@ describe('ContentFetcherService', () => {
   // Test to make sure filterContent(filter) function is working
   it('filterContent is working, filter null', fakeAsync(() => {
     service.filterContent(null).subscribe();
-    const req = httpTestingController.expectOne(baseURL + '/content?title=&format=&modules=');
+    const req = httpTestingController.expectOne(baseURL + '/content?title=&format=&modules=&curriculum=');
     expect(req.request.method).toEqual("GET");
     tick();
   }));

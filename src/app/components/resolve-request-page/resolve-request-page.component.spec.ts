@@ -36,7 +36,7 @@ describe('ResolveRequestPageComponent', () => {
 
   let url:string;
   let baseURL:string;
-  let filter: Filter = new Filter("Java",["String"], null);
+  let filter: Filter = new Filter("Java",["String"], [],[]);
   let content1:Content = new Content(1, "Java", "String", "description", "url", null);
   let content2:Content = new Content(2, "C#", "String", "description", "url", null);
   let module1:Module = new Module(1,"Java",12345,null,null,null,null);
@@ -114,7 +114,7 @@ describe('ResolveRequestPageComponent', () => {
 
   it('sendSearch response not null', () => {
     component.sendSearch(filter);
-    let url = baseURL + `/content?title=Java&format=String&modules=`;
+    let url = baseURL + `/content?title=Java&format=String&modules=&curriculum=`;
     const req = httpTestingController.expectOne(url);
     req.flush([content1])
     expect(req.request.method).toEqual("GET");
@@ -123,7 +123,7 @@ describe('ResolveRequestPageComponent', () => {
   it('sendSearch response not null, this empty', () => {
     spyOn(component, "notEmpty").and.returnValue(false)
     component.sendSearch(filter);
-    let url = baseURL + `/content?title=Java&format=String&modules=`;
+    let url = baseURL + `/content?title=Java&format=String&modules=&curriculum=`;
     const req = httpTestingController.expectOne(url);
     req.flush([content1])
     expect(component.toastr.previousToastMessage).toBe('No Results Found')
@@ -131,7 +131,7 @@ describe('ResolveRequestPageComponent', () => {
 
   it('sendSearch response null', () => {
     component.sendSearch(filter);
-    let url = baseURL + `/content?title=Java&format=String&modules=`;
+    let url = baseURL + `/content?title=Java&format=String&modules=&curriculum=`;
     const req = httpTestingController.expectOne(url);
     req.flush(null)
     expect(component.toastr.previousToastMessage).toBe('Response was null')
@@ -139,7 +139,7 @@ describe('ResolveRequestPageComponent', () => {
 
   it('sendSearch error', () => {
     component.sendSearch(filter);
-    let url = baseURL + `/content?title=Java&format=String&modules=`;
+    let url = baseURL + `/content?title=Java&format=String&modules=&curriculum=`;
     const req = httpTestingController.expectOne(url);
     req.error(null,{status: 400, statusText: "Bad Request"})
     expect(component.toastr.previousToastMessage).toBe("Failed to send filter")

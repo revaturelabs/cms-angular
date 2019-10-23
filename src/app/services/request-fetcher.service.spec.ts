@@ -61,7 +61,7 @@ describe('RequestFetcherService', () => {
   }));
 
   it('filterContent is working, filter not null', fakeAsync(() => {
-    let filter: Filter = new Filter(null, null, null);
+    let filter: Filter = new Filter(null, null, null, null);
     service.filterContent(filter).subscribe();
     const req = httpTestingController.expectOne(baseURL + '/requests?title=&format=&modules=');
     expect(req.request.method).toEqual("GET");

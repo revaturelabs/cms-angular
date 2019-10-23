@@ -29,7 +29,7 @@ describe('DisplayRequestPageComponent', () => {
   let f1=null;
   let m1=null;
   let me=null;
-  let filter: Filter = new Filter("Java",["String"], null);
+  let filter: Filter = new Filter("Java",["String"], [], []);
   let location:Location;
   let url:string;
   let event = {target: {value: "0"}};
@@ -61,7 +61,7 @@ describe('DisplayRequestPageComponent', () => {
 
   beforeEach(() => {
    
-    let filter: Filter = new Filter("Java",["String"], null);
+    let filter: Filter = new Filter("Java",["String"], [], []);
     fixture.detectChanges();
     fixture.detectChanges();
     m1=new Module( 1, "1", 1, [l1], [l1], [l1], [l1]);
@@ -69,7 +69,7 @@ describe('DisplayRequestPageComponent', () => {
     l2=new Link( 2, c1, m1, "reval", 2);
     c1=new Content( 1, "adsad", "format: string", "description: string", "url: string", [l1,l2]);
     c2=new Content(2,'hey','format: adas','description','www.something.coomo',[l1,l2]);  
-    f1=new Filter( "adasd0", ["adawae"], []);
+    f1=new Filter( "adasd0", ["adawae"], [], []);
 
   });
 
