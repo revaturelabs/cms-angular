@@ -17,15 +17,21 @@ import { ModuleStoreService } from '../../services/module-store.service';
 import { Module } from '../../models/Module';
 import { Location } from '@angular/common';
 import { RequestFetcherService } from 'src/app/services/request-fetcher.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { MatCardModule } from '@angular/material/card';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
 
+/*
+ * Since the ngOninit makes requests, it is better to use spies over the httpcontroller for testing calls. 
+ * Although, It is still possible to use httpcontroller with its match method.
+ */
 describe('ResolveRequestPageComponent', () => {
   let component: ResolveRequestPageComponent;
   let fixture: ComponentFixture<ResolveRequestPageComponent>;
   let httpTestingController: HttpTestingController;
   let requestFetcherService: RequestFetcherService;
+  let contentFetcherService:ContentFetcherService;
   let location: Location;
 
   let url:string;
@@ -48,7 +54,7 @@ describe('ResolveRequestPageComponent', () => {
         MatCardModule,
         BrowserAnimationsModule
       ],
-      providers: [Location, RequestFetcherService],
+      providers: [Location, RequestFetcherService, ContentFetcherService],
       declarations: [ ResolveRequestPageComponent, ContentCreatorPageComponent ]
     })
     .compileComponents().then(()=>{
@@ -56,9 +62,11 @@ describe('ResolveRequestPageComponent', () => {
       component = fixture.componentInstance;
       httpTestingController = TestBed.get(HttpTestingController);
       requestFetcherService = TestBed.get(RequestFetcherService);
+      contentFetcherService = TestBed.get(ContentFetcherService);
       location = TestBed.get(Location);
       location.onUrlChange((urlChanged)=>{url=urlChanged})
       baseURL = environment.cms_url;
+      component.session.clear();
     });
   }));
 
@@ -70,32 +78,26 @@ describe('ResolveRequestPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('ngOnInit session request not null', () => {
+  it('Should test ngOnInit when session request is not null, getRequestByID called with 1', () => {
     component.session.set("request",1)
-    let request: Request =  new Request(1,"Java", "String", "Description", null, null);
-    const observable: Observable<Request> = new Observable<Request>((observer) => {
-      observer.next(request);
-      observer.complete();
-    });
-    spyOn(requestFetcherService,'getRequestByID').and.returnValue(observable);
+    let response: Request =  new Request(1,"Java", "String", "Description", null, null);
+    let spy = spyOn(requestFetcherService,'getRequestByID').and.returnValue(of(response));
     component.ngOnInit();
-    expect(requestFetcherService.getRequestByID).toHaveBeenCalledWith(1);
+    expect(spy).toHaveBeenCalledWith(1);
   });
 
-  it('ngOnInit test getRequestByID', () => {
+  it('Should test ngOnInit when session request is null, getRequestByID called with 0', () => {
     let response: Request =  new Request(1,"Java", "String", "Description", null, null);
-    let url = baseURL + `/requests/1`;
-    const req = httpTestingController.expectOne(url);
-    expect(req.request.method).toEqual("GET");
-    req.flush(response)
+    let spy = spyOn(requestFetcherService, 'getRequestByID').and.returnValue(of(response));
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalledWith(0);
   });
 
   it('ngOnInit test getAllContent', () => {
     let contents = [content1];
-    let url = baseURL + "/content";
-    const req = httpTestingController.expectOne(url);
-    expect(req.request.method).toEqual("GET");
-    req.flush(contents)
+    let spy = spyOn(contentFetcherService, "getAllContent").and.returnValue(of(contents));
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('choose toggle false', () => {
@@ -220,14 +222,16 @@ describe('ResolveRequestPageComponent', () => {
     expect(component.cont).toBe(content1)
   });
 
-  it('updateRequest expect put', ()=>{
-    let url = baseURL + `/requests/0`;
+  it('Should test updateRequest, expecting rs.updateRequestByID to be called', ()=>{
+    let request: Request =  new Request(1,"Java", "String", "Description", null, null);
+    component.request = request;
+    let spy = spyOn(requestFetcherService, 'updateRequestByID').and.returnValue(of(request));
+    spyOn(component.router, 'navigate').and.callFake(()=>Promise.resolve(true))
     component.updateRequest(null);
-    const req = httpTestingController.expectOne(url);
-    expect(req.request.method).toEqual("PUT");
+    expect(spy).toHaveBeenCalledWith(component.request.id, component.request);
   });
 
-  it('updateRequest toatr test', () => {
+  it('Should test sucessfull updateRequest toastr message', () => {
     let request: Request =  new Request(1,"Java", "String", "Description", null, null);
     const observable: Observable<Request> = new Observable<Request>((observer) => {
       observer.next(request);

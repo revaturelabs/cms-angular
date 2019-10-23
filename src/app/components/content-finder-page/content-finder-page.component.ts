@@ -9,7 +9,6 @@ import { Link } from '../../models/Link';
 import { SelectControlValueAccessor } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location, LocationStrategy } from '@angular/common';
-
 /** Typescript component for Content Finder page */
 @Component({
    selector: 'app-content-finder-page',
@@ -18,18 +17,14 @@ import { Location, LocationStrategy } from '@angular/common';
    providers: [Location]
 })
 export class ContentFinderPageComponent implements OnInit {
-
-
    /**
     * Selection of formats to choose betwwen
     */
    readonly formats: string[] = ["Code", "Document", "Powerpoint", "Flagged", "All"];
-
    /**
     * Title of content
     */
    title: string = "";
-
    /**
     * Sets defualt for content selection to All
     */
@@ -116,7 +111,13 @@ export class ContentFinderPageComponent implements OnInit {
 
       //gets search parameters from url if they exhist
       let url = window.location.href;
-      if (url.indexOf('?') > -1) {
+      this.createSearch(url.indexOf('?'),url);
+   }
+
+
+   createSearch(n:number,url:any){
+
+      if (n > -1) {
          //remove non-query part of url
          let query = url.substring(url.indexOf('?') + 1);
          //retrieve title param
@@ -146,8 +147,12 @@ export class ContentFinderPageComponent implements OnInit {
          );
 
          this.sendSearch(filter);
+
       }
    }
+   
+
+
 
    /**
     * Submit function that takes in all input and puts it into a filter object
@@ -182,7 +187,8 @@ export class ContentFinderPageComponent implements OnInit {
 
                //populate the contents array with the response with the parseContentResponse function
                this.parseContentResponse(response);
-               if (this.notEmpty()) { }
+               if (this.notEmpty()) {
+                }
                else {
                   this.toastr.error('No Results Found');
                }
@@ -190,7 +196,7 @@ export class ContentFinderPageComponent implements OnInit {
                this.toastr.error('Response was null');
             }
          },
-         (response) => {
+         (error) => {
             this.toastr.error('Failed to send filter');
             this.isSearching = false;
          }
@@ -198,10 +204,7 @@ export class ContentFinderPageComponent implements OnInit {
    }
 
    updateURL(filter: Filter) {
-      let url = window.location.href;
-      if (url.indexOf('?') > -1) {
-         url = url.substring(0, url.indexOf('?'));
-      }
+    
       let modules: string = JSON.stringify(filter.modules);
       modules = modules.replace('[','');
       modules = modules.replace(']','');
@@ -228,12 +231,12 @@ export class ContentFinderPageComponent implements OnInit {
 
                //populate the contents array with the response with the parseContentResponse function
                this.parseContentResponse(response);
-               if (this.notEmpty()) { }
+               
             } else {
                this.toastr.error('Response was null');
             }
          },
-         (response) => {
+         (error) => {
             this.toastr.error('Failed to send filter');
             this.isSearching = false;
          }
@@ -250,15 +253,19 @@ export class ContentFinderPageComponent implements OnInit {
       /* Sorts contents by their id */
       this.contents = response.sort(
          (a, b) => { return a.id - b.id });
-
+        
       /* Sorts each content's list of links by
        * subject/module name via lookup Map */
       this.contents.forEach(
-         (content) => {
 
+         
+         (content) => {
+            
             content.links = content.links.sort(
                (a, b) => {
+                  
                   let sortedIndexA: number = this.ms.subjectIdToSortedIndex.get(a.module.id);
+                  
                   let sortedIndexB: number = this.ms.subjectIdToSortedIndex.get(b.module.id);
                   return sortedIndexA - sortedIndexB;
                }
@@ -337,7 +344,6 @@ export class ContentFinderPageComponent implements OnInit {
       this.selCon = content;
 
       let subjectToName: string[] = [];
-
       for (let l of this.selCon.links) {
          subjectToName.push(this.ms.subjectIdToName.get(l.module.id));
       }
@@ -345,7 +351,9 @@ export class ContentFinderPageComponent implements OnInit {
       let tempArr: string[] = [];
 
       for (let t of this.ms.subjectNames) {
+
          if (!subjectToName.includes(t))
+            
             tempArr.push(t);
       }
       this.tagOptions = tempArr;
@@ -401,12 +409,10 @@ export class ContentFinderPageComponent implements OnInit {
           */
          data => {
             //this.tablebool = false;
-            
             this.ngOnInit();
             this.submitForDelete();
          }
       );
-     // this.ngOnInit();
    }
 
 

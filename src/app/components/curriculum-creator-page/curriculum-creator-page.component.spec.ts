@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, fakeAsync, tick, flush } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -117,35 +117,6 @@ describe('CurriculumCreatorPageComponent', () => {
     component.getCurriculumDetails(1);
     expect(spy).not.toHaveBeenCalled();
   });
-
-   it('should test getCurriculumDetails, set moduleActive', fakeAsync(() => {
-     curriculum.currModules.push(curriculumModule);
-    spyOn(component.cs, 'loadCurriculumDetails').and.returnValue(Promise.resolve(curriculum));
-    component.getCurriculumDetails(2);
-    tick(Infinity);
-    expect(component.moduleActive.get(curriculum.id)).toBe(0);
-  }));
-
-  it('should test getCurriculumDetails, do not set moduleActive', fakeAsync(() => {
-    spyOn(component.cs, 'loadCurriculumDetails').and.returnValue(Promise.resolve(curriculum));
-    component.getCurriculumDetails(2);
-    tick(Infinity);
-    expect(component.moduleActive.get(curriculum.id)).toBe(-1);
-  }));
-
-  it('should test getCurriculumDetails, error 1', fakeAsync(() => {
-    spyOn(component.cs, 'loadCurriculumDetails').and.returnValue(Promise.resolve(null));
-    component.getCurriculumDetails(2);
-    tick(Infinity);
-    expect(toastrService.previousToastMessage).toBe('Failed to retrieve the Curriculum with that ID');
-  }));
-
-  it('should test getCurriculumDetails, error 2', fakeAsync(() => {
-    spyOn(component.cs, 'loadCurriculumDetails').and.returnValue(Promise.reject("Failed"));
-    component.getCurriculumDetails(2);
-    tick(Infinity);
-    expect(toastrService.previousToastMessage).toBe('Failed to communicate with the server');
-  }));
 
   it('should test normalizeLinkPriority', () => {
     curriculumModule.priority = 3;
@@ -328,6 +299,40 @@ describe('CurriculumCreatorPageComponent', () => {
     component.onDrop(mockEvent,curriculum);
     expect(toastrService.previousToastMessage).toBe('Failed to communicate with server');
   });
+
+   /*
+   * The following methods use fakeAsync because the invocation of the methods they are testing utilize promises.
+   * Since promises run asynchronously, we need our assertions to wait for the responses. Therefore we manage the microtasks.
+   */
+  it('should test getCurriculumDetails, set moduleActive', fakeAsync(() => {
+     curriculum.currModules.push(curriculumModule);
+    spyOn(component.cs, 'loadCurriculumDetails').and.returnValue(Promise.resolve(curriculum));
+    component.getCurriculumDetails(2);
+    flush();
+    expect(component.moduleActive.get(curriculum.id)).toBe(0);
+  }));
+
+  it('should test getCurriculumDetails, do not set moduleActive', fakeAsync(() => {
+    spyOn(component.cs, 'loadCurriculumDetails').and.returnValue(Promise.resolve(curriculum));
+    component.getCurriculumDetails(2);
+    flush();
+    expect(component.moduleActive.get(curriculum.id)).toBe(-1);
+  }));
+
+  it('should test getCurriculumDetails, error 1', fakeAsync(() => {
+    spyOn(component.cs, 'loadCurriculumDetails').and.returnValue(Promise.resolve(null));
+    component.getCurriculumDetails(2);
+    flush();
+    expect(toastrService.previousToastMessage).toBe('Failed to retrieve the Curriculum with that ID');
+  }));
+
+  it('should test getCurriculumDetails, error 2', fakeAsync(() => {
+    spyOn(component.cs, 'loadCurriculumDetails').and.returnValue(Promise.reject("Failed"));
+    component.getCurriculumDetails(2);
+    flush();
+    expect(toastrService.previousToastMessage).toBe('Failed to communicate with the server');
+  }));
+
 });
 
 describe('NewCurriculumDialogComponent', () => {

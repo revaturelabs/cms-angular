@@ -76,6 +76,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
+            "codeCoverage": true,
             "main": "src/test.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
@@ -89,7 +90,7 @@
               "src/favicon.ico",
               "src/assets"
             ],
-            "codeCoverageExclude": ["src/app/constants/**","src/app/models/**"]
+            "codeCoverageExclude": ["src/app/constants/**","src/app/models/**", "src/app/services/pages.service.ts"]
           }
         },
         "lint": {

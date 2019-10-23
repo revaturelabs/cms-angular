@@ -1,4 +1,4 @@
-import { TestBed, fakeAsync, tick, ComponentFixture, flushMicrotasks, discardPeriodicTasks } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick, ComponentFixture, flushMicrotasks, discardPeriodicTasks, flush } from '@angular/core/testing';
 import { ModuleStoreService } from './module-store.service';
 import { environment } from '../../environments/environment';
 import { Module } from '../models/Module';
@@ -32,13 +32,16 @@ describe('ModuleStoreService', () => {
     expect(service).toBeTruthy();
   });
 
+  /*
+   *Please note that req.flush() and flush do not do the same thing. One manages responses and one manages microtasks.
+   */
   it('loadModules response not null', fakeAsync(() => {
     let response:Module[] = [];
     service.loadModules().then(function(value) {expect(response.length).toBe(value.length);});
     const req = httpTestingController.expectOne(baseURL + '/modules');
     expect(req.request.method).toEqual('GET');
     req.flush(response);
-    tick(Infinity);
+    flush();
   }));
 
   it('loadModules response null', fakeAsync(() => {
@@ -46,7 +49,7 @@ describe('ModuleStoreService', () => {
     const req = httpTestingController.expectOne(baseURL + '/modules');
     expect(req.request.method).toEqual('GET');
     req.flush(null);
-    tick(Infinity);
+    flush();
   }));
 
   it('loadModules error', fakeAsync(() => {
@@ -54,7 +57,7 @@ describe('ModuleStoreService', () => {
     const req = httpTestingController.expectOne(baseURL + '/modules');
     expect(req.request.method).toEqual('GET');
     req.error(null, {status: 400, statusText: "Bad Request"});
-    tick(Infinity);
+    flush();
   }));
 
   it('loadModules response not null subjectIDToRootModule not empty', fakeAsync(() => {
@@ -65,7 +68,7 @@ describe('ModuleStoreService', () => {
     const req = httpTestingController.expectOne(baseURL + '/modules');
     expect(req.request.method).toEqual('GET');
     req.flush(response);
-    tick(Infinity);
+    flush();
   }));
 
   it('loadEmptyModules response not null', fakeAsync(() => {
@@ -76,7 +79,7 @@ describe('ModuleStoreService', () => {
     const req = httpTestingController.expectOne(baseURL + '/modules');
     expect(req.request.method).toEqual('GET');
     req.flush(response);
-    tick(Infinity);
+    flush();
   }));
 
   it('loadEmptyModules response not null, response links not empty', fakeAsync(() => {
@@ -89,7 +92,7 @@ describe('ModuleStoreService', () => {
     const req = httpTestingController.expectOne(baseURL + '/modules');
     expect(req.request.method).toEqual('GET');
     req.flush(response);
-    tick(Infinity);
+    flush();
   }));
 
   it('loadEmptyModules response null', fakeAsync(() => {
@@ -97,7 +100,7 @@ describe('ModuleStoreService', () => {
     const req = httpTestingController.expectOne(baseURL + '/modules');
     expect(req.request.method).toEqual('GET');
     req.flush(null);
-    tick(Infinity);
+    flush();
   }));
 
   it('loadEmptyModules error', fakeAsync(() => {
@@ -105,7 +108,7 @@ describe('ModuleStoreService', () => {
     const req = httpTestingController.expectOne(baseURL + '/modules');
     expect(req.request.method).toEqual('GET');
     req.error(null, {status: 400, statusText: "Bad Request"});
-    tick(Infinity);
+    flush();
   }));
 
   it('populateCollections test sort 1', fakeAsync(() => {
