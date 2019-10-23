@@ -188,11 +188,9 @@ export class ContentFinderPageComponent implements OnInit {
                //populate the contents array with the response with the parseContentResponse function
                this.parseContentResponse(response);
                if (this.notEmpty()) {
-                  console.log('hello');
                 }
                else {
                   this.toastr.error('No Results Found');
-                  console.log("ad");
                }
             } else {
                this.toastr.error('Response was null');
@@ -216,7 +214,7 @@ export class ContentFinderPageComponent implements OnInit {
    submitForDelete() {
       this.isSearching = true;
       let format: string = this.selFormat;
-      console.log("What")
+
       //if 'all' or 'flagged' was selected return all content
       if (format === "All" || format === "Flagged") {
          format = "";
@@ -226,8 +224,7 @@ export class ContentFinderPageComponent implements OnInit {
          this.title, format, this.moduleIDs
       );
       this.searchedSubjects = this.selectedSubjects;
-         console.log("heloo, it's me");
-         console.log(this.searchedSubjects);
+
       this.cs.filterContent(filter).subscribe(
          (response) => {
             if (response != null) {
@@ -325,7 +322,6 @@ export class ContentFinderPageComponent implements OnInit {
       this.moduleIDs = [];
       subjects.forEach(
          (subject) => {
-            console.log(this.ms.subjectNameToModule.get(subject));
             this.moduleIDs.push(this.ms.subjectNameToModule.get(subject).id);
          }, this
       );
@@ -348,17 +344,14 @@ export class ContentFinderPageComponent implements OnInit {
       this.selCon = content;
 
       let subjectToName: string[] = [];
-      console.log("Before For")
       for (let l of this.selCon.links) {
-         console.log("Inside For")
-         console.log(l)
          subjectToName.push(this.ms.subjectIdToName.get(l.module.id));
       }
-console.log("After For")
+
       let tempArr: string[] = [];
 
       for (let t of this.ms.subjectNames) {
-         console.log(subjectToName.includes(t));
+
          if (!subjectToName.includes(t))
             
             tempArr.push(t);
@@ -416,12 +409,10 @@ console.log("After For")
           */
          data => {
             //this.tablebool = false;
-            console.log("Test");
             this.ngOnInit();
             this.submitForDelete();
          }
       );
-     // this.ngOnInit();
    }
 
 

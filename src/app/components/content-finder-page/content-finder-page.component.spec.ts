@@ -5,8 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { MatProgressSpinnerModule} from '@angular/material';
 import { ToastrModule, ToastrService, ActiveToast } from 'ngx-toastr';
-
-
 import { ContentFinderPageComponent } from './content-finder-page.component';
 import { Content } from 'src/app/models/Content';
 import { Link } from 'src/app/models/Link';
@@ -18,7 +16,6 @@ import { HttpHeaderResponse } from '@angular/common/http';
 import { Module } from 'src/app/models/Module';
 import { MatCardModule } from '@angular/material/card';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 
 describe('ContentFinderPageComponent', () => {
   let component: ContentFinderPageComponent;
@@ -37,10 +34,7 @@ describe('ContentFinderPageComponent', () => {
   let m1=null;
   let me=null;
   
-
-  beforeEach(
-    async(
-      () => {
+  beforeEach( async(() => {
     TestBed.configureTestingModule({
       declarations: [ ContentFinderPageComponent ],
       imports: [
@@ -54,68 +48,29 @@ describe('ContentFinderPageComponent', () => {
         BrowserAnimationsModule
       ],
       providers: [ContentFetcherService,ModuleStoreService,ToastrService],
-       
-        
-      
-        
-      
     })
     .compileComponents().then(()=>{
-      
-    fixture = TestBed.createComponent(ContentFinderPageComponent);
-    component = fixture.componentInstance;
-    csService=TestBed.get(ContentFetcherService);
-    msService=TestBed.get(ModuleStoreService);
-    toast=TestBed.get(ToastrService);
-    fixture.detectChanges();
-    component.tablebool = true;
-    component.title = 'Hello';
-    component.selFormat = 'Code';
-    component.selectedSubjects = ['Java', 'CSS'];
-
-    
-    
-    
+      fixture = TestBed.createComponent(ContentFinderPageComponent);
+      component = fixture.componentInstance;
+      csService=TestBed.get(ContentFetcherService);
+      msService=TestBed.get(ModuleStoreService);
+      toast=TestBed.get(ToastrService);
+      component.tablebool = true;
+      component.title = 'Hello';
+      component.selFormat = 'Code';
+      component.selectedSubjects = ['Java', 'CSS'];
     });
   }));
 
   
   beforeEach(() => {
     fixture.detectChanges();
-    m1=new Module(
-      1,
-      "1",
-      1,
-      [l1],
-      [l1],
-      [l1],
-      [l1]
-    );
-    l1=new Link( 1,
-      c1,
-      m1,
-      "reval",
-      1
-    );
-    l2=new Link( 2,
-      c1,
-      m1,
-      "reval",
-      2
-    );
-    c1=new Content(  1, 
-      "adsad", 
-      "format: string", 
-      "description: string", 
-      "url: string", [l1,l2]);
+    m1=new Module( 1, "1", 1, [l1], [l1], [l1], [l1]);
+    l1=new Link( 1, c1, m1, "reval", 1);
+    l2=new Link( 2, c1, m1, "reval", 2);
+    c1=new Content(  1, "adsad", "format: string", "description: string", "url: string", [l1,l2]);
     c2=new Content(2,'hey','format: adas','description','www.something.coomo',[l1,l2]);  
-    f1=new Filter(
-      "adasd0",
-      "adawae",
-      []
-    );
-    
-    
+    f1=new Filter( "adasd0", "adawae",[]);
   });
 
   /**
@@ -135,6 +90,7 @@ describe('ContentFinderPageComponent', () => {
     expect(component.sendSearch).toHaveBeenCalled();
     
    });
+
    it("Submit should call getIDsFromSubjects",()=>{
     
     component.selFormat=" ";
@@ -147,14 +103,13 @@ describe('ContentFinderPageComponent', () => {
     
    });
 
-   
-
   it('SendSeach should retrun searchedSubjects',()=>{
      let arr = ['a'];
      component.selectedSubjects=arr;
      component.sendSearch(f1);
      expect(component.searchedSubjects).toBe(arr);
    });
+
   it('SendSearch should call notEmpty',()=>{
     component.contents=[c1];
     spyOn(csService,'filterContent').and.returnValue(of([c1]));
@@ -163,6 +118,7 @@ describe('ContentFinderPageComponent', () => {
     component.sendSearch(null);
     expect(component.notEmpty).toHaveBeenCalled();
   });
+
   it('sendSearch should not throw any error',()=>{
     component.contents=[c1];
     spyOn(csService,'filterContent').and.returnValue(of([c1]));
@@ -170,6 +126,7 @@ describe('ContentFinderPageComponent', () => {
     component.sendSearch(null);
     expect(component.notEmpty()).toBe(true);
   });
+
   it('sendSearch should throw error, response was null',()=>{
     component.contents=[c1];
     spyOn(csService,'filterContent').and.returnValue(of(null));
@@ -178,11 +135,12 @@ describe('ContentFinderPageComponent', () => {
     expect(toast.error).toHaveBeenCalledWith('Response was null');
         
   });
+
   it('sendSearch should throw error, Failed to send filter',()=>{
     const observable: Observable<Content[]> = new Observable<Content[]>((observer) => {
       observer.error({status: 400,statusText:'Bad Request'});
       observer.complete();
-      return {unsubscribe() {console.log("updateRequest test - unsubscribed")}};
+      return {unsubscribe() {}};
     });
     spyOn(csService,'filterContent').and.returnValue(observable);
     spyOn(toast,'error');
@@ -190,7 +148,6 @@ describe('ContentFinderPageComponent', () => {
     expect(toast.error).toHaveBeenCalledWith('Failed to send filter');
 
   });
-
 
   it("SubmitForDelete should set call getIDsFromSuubjects",()=>{
     
@@ -201,16 +158,17 @@ describe('ContentFinderPageComponent', () => {
     expect(component.getIDsFromSubjects).toHaveBeenCalled();
 
   });
+
   it("SubmitForDelete should set isSearching=true",()=>{
     spyOn(component,'getIDsFromSubjects').and.returnValue();
     component.submitForDelete();
     expect(component.isSearching).toBe(true);
-  })
+  });
+
   it('SubmitForDelete should set selectedSubjects=a',()=>{
     spyOn(component,'getIDsFromSubjects').and.returnValue();
     let arr = ['a'];
     component.selectedSubjects=arr;
-    console.log("Im In")
     component.submitForDelete();
     expect(component.searchedSubjects).toBe(arr);
   });
@@ -223,6 +181,7 @@ describe('ContentFinderPageComponent', () => {
     component.submitForDelete();
     expect(component.parseContentResponse).toHaveBeenCalled();
   });
+
   it('SubmitForDelete should call toastError',()=>{
     let c=[];
     component.contents = [c1];
@@ -231,14 +190,14 @@ describe('ContentFinderPageComponent', () => {
     spyOn(toast,'error')
     component.submitForDelete();
     expect(toast.error).toHaveBeenCalledWith('Response was null');
-  })
+  });
 
   it('submitForDelete should throw error',()=>{
     
     const observable: Observable<Content[]> = new Observable<Content[]>((observer) => {
       observer.error({status: 400,statusText:'Bad Request'});
       observer.complete();
-      return {unsubscribe() {console.log("updateRequest test - unsubscribed")}};
+      return {unsubscribe() {}};
     });
     spyOn(component,'getIDsFromSubjects').and.returnValue();
     spyOn(csService,'filterContent').and.returnValue(observable);
@@ -250,26 +209,19 @@ describe('ContentFinderPageComponent', () => {
 
   });
 
-
-
-
-
-
   it("createSearch should call sendSearch",()=>{
     spyOn(component,'sendSearch');
     let url = window.location.href;
     component.createSearch(5,url);
     expect(component.sendSearch).toHaveBeenCalled();
   });
+
   it("createSearch should call sendSearch",()=>{
     spyOn(component,'sendSearch');
     let url = '';
     component.createSearch(5,url);
     expect(component.sendSearch).toHaveBeenCalled();
   });
-
-  
-
 
   it('parseContentResponse should update isSearching to false',()=>{
     component.selFormat="Flagged";
@@ -287,9 +239,7 @@ describe('ContentFinderPageComponent', () => {
     component.parseContentResponse(c);
     expect(component.contents.length).toBe(0);
 
-
   });
-
 
   it("notEmpty should return false",()=>{
     component.contents = [c1];
@@ -306,14 +256,12 @@ describe('ContentFinderPageComponent', () => {
     expect(component.selCon).toBe(c1);
   });
 
- 
-
   it('removeContent should call ngOnInit',()=>{
     spyOn(component,'submitForDelete');
     const observable: Observable<HttpHeaderResponse> = new Observable<HttpHeaderResponse>((observer) => {
       observer.next(new HttpHeaderResponse());
       observer.complete();
-      return {unsubscribe() {console.log("updateRequest test - unsubscribed")}};
+      return {unsubscribe() {}};
     });
     spyOn(csService,'deleteContentByID').and.returnValue(observable);
     spyOn(component,'ngOnInit')
@@ -326,12 +274,12 @@ describe('ContentFinderPageComponent', () => {
     const observable: Observable<HttpHeaderResponse> = new Observable<HttpHeaderResponse>((observer) => {
       observer.next(new HttpHeaderResponse());
       observer.complete();
-      return {unsubscribe() {console.log("updateRequest test - unsubscribed")}};
+      return {unsubscribe() {}};
     });
     const observable1: Observable<Content[]> = new Observable<Content[]>((observer) => {
       observer.next([]);
       observer.complete();
-      return {unsubscribe() {console.log("updateRequest test - unsubscribed")}};
+      return {unsubscribe() {}};
     });
     spyOn(csService,'deleteContentByID').and.returnValue(observable);
     spyOn(csService,'filterContent').and.returnValue(observable1);
@@ -354,8 +302,6 @@ describe('ContentFinderPageComponent', () => {
     component.ms.subjectNames.push(c2);
     
     component.selectedContent(c2);
-    console.log(component.ms.subjectIdToName);
-    console.log(component.ms.subjectNames);
   });
 
   it('selectedContent should update tagOptions',()=>{
@@ -368,11 +314,21 @@ describe('ContentFinderPageComponent', () => {
     expect(c[0]).toBe(tempArr[0]);
   });
   
+  it("should not update tagOptions, selectedContent test",()=>{
+    let module10:Module= new Module(10, "Java10", 12345, [], [], [], []);
+    let link10:Link = new Link(10, c1, module10, "affilication", 10);
+    let content10:Content = new Content(10, "Java10", "String", "Description", "Url", [link10]);
+    component.ms.subjectIdToName.set(10,module10.subject);
+    component.ms.subjectNames = [module10.subject];
+    component.selectedContent(content10);
+    expect(component.tagOptions.length).toBe(0);
+  });
 
   it('selectedLinkForRemoval should change selCon',()=>{
     component.selectedLinkForRemoval(c1,l1);
     expect(component.selCon).toBe(c1);
   });
+
   it('selectedLinkForRemoval should change selLink',()=>{
     component.selectedLinkForRemoval(c1,l1);
     expect(component.selLink).toBe(l1);
@@ -384,14 +340,12 @@ describe('ContentFinderPageComponent', () => {
     expect(component.selCon).toBe(c1);
   });
 
- 
-
   it('updateTags should call cs.updateContent',()=>{
     component.selectedTags=["a","b"];
     const observable: Observable<HttpHeaderResponse> = new Observable<HttpHeaderResponse>((observer) => {
       observer.next(c1);
       observer.complete();
-      return {unsubscribe() {console.log("updateRequest test - unsubscribed")}};
+      return {unsubscribe() {}};
     });
     spyOn(csService,'updateContent').and.returnValue(observable);
     component.updateTags();
@@ -403,7 +357,7 @@ describe('ContentFinderPageComponent', () => {
     const observable: Observable<HttpHeaderResponse> = new Observable<HttpHeaderResponse>((observer) => {
       observer.next(l1);
       observer.complete();
-      return {unsubscribe() {console.log("updateRequest test - unsubscribed")}};
+      return {unsubscribe() {}};
     });
     spyOn(csService,'addLinkToContent').and.returnValue(observable);
     component.updateTags();
@@ -415,7 +369,7 @@ describe('ContentFinderPageComponent', () => {
     const observable: Observable<HttpHeaderResponse> = new Observable<HttpHeaderResponse>((observer) => {
       observer.next(new HttpHeaderResponse());
       observer.complete();
-      return {unsubscribe() {console.log("updateRequest test - unsubscribed")}};
+      return {unsubscribe() {}};
     });
     spyOn(csService,'removeLinkFromContent').and.returnValue(observable);
     
@@ -424,27 +378,17 @@ describe('ContentFinderPageComponent', () => {
     expect(me).toHaveBeenCalled();
   });
 
-
-
   it('DoThis should return a component',()=>{
     spyOn(component,'submitForDelete');
     expect(component.DoThis(1,1)).toBe(ContentFinderPageComponent.generateLinkId(1,1));
   });
 
-
   it('gotoRequest should return nothing',()=>{
-    
-    
+
     let A=component.gotoRequest();
     expect(A).toBeFalsy();
 
   });
-
- 
- 
-
-
-
 
   //  First test to make sure component is created
   it('Should create the component', () => {
@@ -464,40 +408,40 @@ describe('ContentFinderPageComponent', () => {
   () => {
     expect(document.getElementById('AllLabel')).toBeTruthy();
   });
+
   it('Should have radio buttons  for Document',()=>{
     expect(document.getElementById('DocumentLabel')).toBeTruthy();
   });
+
   it('Should have radio buttons for PowerPoint',()=>{
     expect(document.getElementById('PowerpointLabel')).toBeTruthy();
   });
+
   it('Should have radio buttons for Flagged,',()=>{
     expect(document.getElementById('FlaggedLabel')).toBeTruthy();
   });
+
   it('Should have radio buttons for Code',()=>{
     expect(document.getElementById('CodeLabel')).toBeTruthy();
   });
-  it('Should have radio buttons for Code.',
-  () => {
+
+  it('Should have radio buttons for Code.', () => {
     expect(document.getElementById('CodeLabel')).toBeTruthy();
   });
 
-  it('Should have radio buttons for Document.',
-  () => {
+  it('Should have radio buttons for Document.', () => {
     expect(document.getElementById('DocumentLabel')).toBeTruthy();
   });
 
-  it('Should have radio buttons for  Powerpoint.',
-  () => {
+  it('Should have radio buttons for  Powerpoint.', () => {
     expect(document.getElementById('PowerpointLabel')).toBeTruthy();
   });
 
-  it('Should have radio buttons for Flagged.',
-  () => {
+  it('Should have radio buttons for Flagged.', () => {
     expect(document.getElementById('FlaggedLabel')).toBeTruthy();
   });
 
-  it('Should have radio buttons for All.',
-  () => {
+  it('Should have radio buttons for All.', () => {
     expect(document.getElementById('AllLabel')).toBeTruthy();
   });
 
@@ -521,6 +465,7 @@ describe('ContentFinderPageComponent', () => {
     component.reset();
     expect(component.title).toEqual('');    
   });
+
   it('Should reset page, "Code" string selFormat',()=>{
     component.reset();
     expect(component.selFormat).toEqual('Code');
@@ -541,5 +486,4 @@ describe('ContentFinderPageComponent', () => {
     expect(component.selectedSubjects).toEqual([]);
   });
   
-
 });

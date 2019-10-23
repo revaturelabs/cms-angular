@@ -9,14 +9,14 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MatCardModule } from '@angular/material/card';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RequestFetcherService } from 'src/app/services/request-fetcher.service';
-import { Module } from 'src/app/models/module';
+import { Module } from 'src/app/models/Module';
 import { Link } from 'src/app/models/Link';
 import { Content } from 'src/app/models/Content';
 import { Filter } from 'src/app/models/Filter';
 import { Observable,of } from 'rxjs';
 import { Location } from '@angular/common';
 import { filter } from 'rxjs/operators';
-
+import { Router } from '@angular/router';
 
 describe('DisplayRequestPageComponent', () => {
   let component: DisplayRequestPageComponent;
@@ -33,6 +33,7 @@ describe('DisplayRequestPageComponent', () => {
   let location:Location;
   let url:string;
   let event = {target: {value: "0"}};
+  let router:Router;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -49,58 +50,26 @@ describe('DisplayRequestPageComponent', () => {
       providers: [RequestFetcherService,ToastrService,Location]
     })
     .compileComponents().then(()=>{
+      fixture = TestBed.createComponent(DisplayRequestPageComponent);
+      component = fixture.componentInstance;
       location = TestBed.get(Location);
       location.onUrlChange((urlChanged)=>{url=urlChanged});
-      
+      toast = TestBed.get(ToastrService);
+      router = TestBed.get(Router)
     });
   }));
-  
-  
-  
-
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DisplayRequestPageComponent);
-    component = fixture.componentInstance;
-    toast = TestBed.get(ToastrService);
-    location = TestBed.get(Location);
+   
     let filter: Filter = new Filter("Java","String", null);
     fixture.detectChanges();
     fixture.detectChanges();
-    m1=new Module(
-      1,
-      "1",
-      1,
-      [l1],
-      [l1],
-      [l1],
-      [l1]
-    );
-    l1=new Link( 1,
-      c1,
-      m1,
-      "reval",
-      1
-    );
-    l2=new Link( 2,
-      c1,
-      m1,
-      "reval",
-      2
-    );
-    c1=new Content(   1, 
-      "adsad", 
-      "format: string", 
-      "description: string", 
-      "url: string", [l1,l2]
-      );
+    m1=new Module( 1, "1", 1, [l1], [l1], [l1], [l1]);
+    l1=new Link( 1, c1, m1, "reval", 1);
+    l2=new Link( 2, c1, m1, "reval", 2);
+    c1=new Content( 1, "adsad", "format: string", "description: string", "url: string", [l1,l2]);
     c2=new Content(2,'hey','format: adas','description','www.something.coomo',[l1,l2]);  
-    f1=new Filter(
-      "adasd0",
-      "adawae",
-      []
-    );
-    
+    f1=new Filter( "adasd0", "adawae", []);
 
   });
 
@@ -139,15 +108,15 @@ describe('DisplayRequestPageComponent', () => {
     component.submit();
     expect(component.sendSearch).toHaveBeenCalled();
   });
+
   it('submit should call sendSearch',()=>{
     spyOn(component,'sendSearch');
     component.submit();
     expect(component.sendSearch).toHaveBeenCalled();
   });
 
-  
   it('editRequest',()=>{
-    
+    spyOn(router, 'navigate').and.callFake(()=>Promise.resolve(true))
     component.editRequest(event);
     expect(component.session.get('request')).toBe('"0"');
   });
@@ -165,10 +134,8 @@ describe('DisplayRequestPageComponent', () => {
     component.getIDsFromSubjects(array);
     expect(component.moduleIDs[0]).toBe(m1.id);
     
-    
   });
-  
-  
+
   it('sendSearch should update req',()=>{
     spyOn(component.rs,'filterContent').and.returnValue(of(c1));
     component.sendSearch(f1);
@@ -182,6 +149,7 @@ describe('DisplayRequestPageComponent', () => {
     component.sendSearch(f1);
     expect(toast.error).toHaveBeenCalledWith('No Results Found');
   });
+
   it('sendSearch should throw error, Response was null',()=>{
     spyOn(toast,'error');
     spyOn(component.rs,'filterContent').and.returnValue(of(null));
@@ -194,6 +162,7 @@ describe('DisplayRequestPageComponent', () => {
     component.sendSearch(null);
     expect(component.isSearching).toBe(false);
   });
+
   it('sendSearch should update selectedSubjects',()=>{
     component.selectedSubjects=c1;
     component.sendSearch(f1);
@@ -201,8 +170,8 @@ describe('DisplayRequestPageComponent', () => {
     
   });
 
-
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  
 });

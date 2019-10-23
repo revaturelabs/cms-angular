@@ -90,7 +90,7 @@
               "src/favicon.ico",
               "src/assets"
             ],
-            "codeCoverageExclude": ["src/app/constants/**","src/app/models/**"]
+            "codeCoverageExclude": ["src/app/constants/**","src/app/models/**", "src/app/services/pages.service.ts"]
           }
         },
         "lint": {
