@@ -6,7 +6,7 @@ export class Curriculum{
     id: number;
 
     /** Non-Unique Title of Curriculum */
-    name: String;
+    name: string;
 
     /** Curriculum-Module Links */
     currModules: CurriculumModule[];
