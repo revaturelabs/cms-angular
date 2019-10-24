@@ -1,5 +1,5 @@
 /** Angular Imports */
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, Optional } from '@angular/core';
 import { HttpHeaderResponse } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
@@ -388,7 +388,7 @@ export class CurriculumCreatorPageComponent implements OnInit {
 })
 export class NewCurriculumDialog {
 
-    constructor(public dialogRef: MatDialogRef<NewCurriculumDialog>,
+    constructor( public dialogRef: MatDialogRef<NewCurriculumDialog>,
                 public toastr: ToastrService,
                 public cfs: CurriculumFetcherService,
                 public cs: CurriculumStoreService,
@@ -559,11 +559,13 @@ export class AddModuleDialog implements OnInit {
 
             if (this.checked.get(key) === true) {
 
+                this.ms.nodes.sort(this.ss.sortModulesById);
                 links.push(new CurriculumModule(null, -1, this.data.node.id, this.ss.findModuleById(key, this.ms.nodes)));
             }
         }
 
-        this.cfs.postSetOfCurriculumModules(links).subscribe(
+        if(links.length != 0){
+            this.cfs.postSetOfCurriculumModules(links).subscribe(
 
             (resp: CurriculumModule[]) => {
 
@@ -592,6 +594,7 @@ export class AddModuleDialog implements OnInit {
                 this.toastr.error('Failed to communicate with the server');
             }
         );
+        }
     }
 
     /** Overwriting default behavior for checkboxes */

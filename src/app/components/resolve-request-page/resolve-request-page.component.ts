@@ -3,7 +3,9 @@ import { SessionStorageService } from 'angular-web-storage';
 import { Request } from 'src/app/models/Request';
 import { Content } from '../../models/Content';
 import { Filter } from '../../models/Filter';
+import { Curriculum } from '../../models/Curriculum';
 import { ModuleStoreService } from '../../services/module-store.service';
+import { CurriculumStoreService } from '../../services/curriculum-store.service';
 import { ToastrService } from 'ngx-toastr';
 import { RequestFetcherService } from 'src/app/services/request-fetcher.service';
 import { ContentFetcherService } from '../../services/content-fetcher.service';
@@ -28,15 +30,21 @@ export class ResolveRequestPageComponent implements OnInit {
   contents: Content[];
   cont: Content;
   moduleIDs: number[];
+  curriculumIDs: number[];
   isSearching = false;
   title = '';
   public toggle = false;
   public btntog: any = 'Click Here to Add New Content';
 
   constructor(
-    private rs: RequestFetcherService, public session: SessionStorageService,
-    private cs: ContentFetcherService, public ms: ModuleStoreService,
-    public toastr: ToastrService, private location: Location, public router: Router
+    private rs: RequestFetcherService,
+    public session: SessionStorageService,
+    private cs: ContentFetcherService, 
+    public ms: ModuleStoreService,
+    public crs: CurriculumStoreService,
+    public toastr: ToastrService, 
+    private location: Location, 
+    public router: Router
   ) { }
 
   ngOnInit() {
@@ -49,7 +57,6 @@ export class ResolveRequestPageComponent implements OnInit {
 
     this.rs.getRequestByID(id).subscribe((data: any) => {
       this.request = data;
-
     });
 
     this.cs.getAllContent().subscribe((data: Content[]) => {
@@ -74,14 +81,14 @@ sendSearch(filter: Filter) {
 
         // populate the contents array with the response with the parseContentResponse function
         this.parseContentResponse(response);
-        if (this.notEmpty()) { } else {
+        if (!this.notEmpty()){
           this.toastr.error('No Results Found');
         }
       } else {
         this.toastr.error('Response was null');
       }
     },
-    (response) => {
+    (error) => {
       this.toastr.error('Failed to send filter');
       this.isSearching = false;
     }
@@ -129,10 +136,6 @@ getIDsFromSubjects(subjects: string[]) {
 }
 
 updateURL(filter: Filter) {
-  let url = window.location.href;
-  if (url.indexOf('?') > -1) {
-    url = url.substring(0, url.indexOf('?'));
-  }
   let modules: string = JSON.stringify(filter.modules);
   modules = modules.replace('[', '');
   modules = modules.replace(']', '');
@@ -149,7 +152,7 @@ submit() {
   }
   this.getIDsFromSubjects(this.selectedSubjects);
   const filter: Filter = new Filter(
-    this.title, format, this.moduleIDs
+    this.title, [format], this.moduleIDs, this.curriculumIDs
   );
 
   this.updateURL(filter);
@@ -158,18 +161,17 @@ submit() {
   this.sendSearch(filter);
 }
 
-addContent(cont: any) {
+addContent(cont: Content) {
   this.cont = cont;
   this.toastr.success('Content chosen.');
-
 }
 
+// The aramater is not currently being used. I am not sure which request they intended to modify.
+// Since I do not know if this method is being used anywhere else I am not modifying it as of right now.
 updateRequest(request: Request) {
   this.request.content = this.cont;
-
   this.rs.updateRequestByID(this.request.id, this.request).subscribe(resp => {
     this.request = resp;
-
     this.toastr.success('Request Successfully Updated.');
     this.router.navigate(['display-request']);
   });

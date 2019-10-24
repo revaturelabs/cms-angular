@@ -2,14 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { Content } from '../../models/Content';
 import { Module } from '../../models/Module';
 import { Filter } from '../../models/Filter';
+import { Curriculum } from '../../models/Curriculum';
 import { ContentFetcherService } from '../../services/content-fetcher.service';
 import { ModuleStoreService } from '../../services/module-store.service';
+import { CurriculumStoreService } from '../../services/curriculum-store.service';
 import { ToastrService } from 'ngx-toastr';
 import { Link } from '../../models/Link';
 import { SelectControlValueAccessor } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location, LocationStrategy } from '@angular/common';
-
 /** Typescript component for Content Finder page */
 @Component({
    selector: 'app-content-finder-page',
@@ -18,22 +19,18 @@ import { Location, LocationStrategy } from '@angular/common';
    providers: [Location]
 })
 export class ContentFinderPageComponent implements OnInit {
-
-
    /**
     * Selection of formats to choose betwwen
     */
-   readonly formats: string[] = ["Code", "Document", "Powerpoint", "Flagged", "All"];
-
+   readonly formats: string[] = ["Code", "Document", "Powerpoint"];
    /**
     * Title of content
     */
    title: string = "";
-
    /**
     * Sets defualt for content selection to All
     */
-   selFormat: string = "All";
+   selFormat: string[] = ["Code", "Document", "Powerpoint"];
 
    /**
     * Array of contents
@@ -55,6 +52,10 @@ export class ContentFinderPageComponent implements OnInit {
     */
    moduleIDs: number[];
 
+   /**
+    * Stores the Curriculum id's
+    */
+   curriculumIDs: number[];
 
    /** Map of Visibility status of each Module */
    contentVisible: Map<Module, boolean> = new Map<Module, boolean>();
@@ -64,6 +65,11 @@ export class ContentFinderPageComponent implements OnInit {
     * Selected from subject list
     */
    selectedSubjects: string[] = [];
+
+   /**
+    * Selected from curriculum list
+    */
+   selectedCurricula: string[] = [];
 
    /**
     * Holds the links that will be applied to a content
@@ -104,6 +110,7 @@ export class ContentFinderPageComponent implements OnInit {
    constructor(
       private cs: ContentFetcherService,
       public ms: ModuleStoreService,
+      public crs: CurriculumStoreService,
       private toastr: ToastrService,
       private location: Location
    ) { }
@@ -113,10 +120,17 @@ export class ContentFinderPageComponent implements OnInit {
     */
    ngOnInit() {
       this.ms.loadModules();
+      this.crs.loadCurricula();
 
       //gets search parameters from url if they exhist
       let url = window.location.href;
-      if (url.indexOf('?') > -1) {
+      this.createSearch(url.indexOf('?'),url);
+   }
+
+
+   createSearch(n:number,url:any){
+
+      if (n > -1) {
          //remove non-query part of url
          let query = url.substring(url.indexOf('?') + 1);
          //retrieve title param
@@ -125,6 +139,8 @@ export class ContentFinderPageComponent implements OnInit {
          query = query.substring(query.indexOf('&') + 1);
          //retreive the format param
          let format = query.substring(query.indexOf('=') + 1, query.indexOf('&'));
+         //set the formats into an array
+         let formats = format.split(',');
          //remove the format param from the query string
          query = query.substring(query.indexOf('&') + 1);
          //retrieve the modules param
@@ -132,6 +148,11 @@ export class ContentFinderPageComponent implements OnInit {
          //convert modules string into an array of numbers
          let moduleIds = modules.split(',');
          let moduleIdNumbers: number[] = new Array();
+         //retrieve the curricula param
+         let curricula = query.substring(query.indexOf('=') + 1);
+         //convert curricula string into an array of numbers
+         let curriculaIds = curricula.split(',');
+         let curriculaIdNumbers: number[] = new Array();
         
          if (0 !== modules.length) {
             for (let i=0; i<moduleIds.length; i++) {
@@ -139,14 +160,39 @@ export class ContentFinderPageComponent implements OnInit {
                moduleIdNumbers.push(parseInt(moduleIds[i]))
             }
          }
+
+         if (0 !== curricula.length) {
+            for (let i=0; i<curriculaIds.length; i++) {
+
+               curriculaIdNumbers.push(parseInt(curriculaIds[i]))
+            }
+         }
          
          //populate a filter object with the params we just extracted
          let filter: Filter = new Filter(
-            title, format, moduleIdNumbers
+            title, formats, moduleIdNumbers, curriculaIdNumbers
          );
 
          this.sendSearch(filter);
+
       }
+   }
+
+   /**
+    * Description: Adds/removes a format from selFormat array object.
+    * @param format Format to be added/removed, corresponds with button clicked.
+    */
+   toggleFormat(format : string){   
+      if(this.selFormat.includes(format)){
+         if(this.selFormat.length==1){
+            this.toastr.info("You must include at least one format type.");
+         }else{
+            this.selFormat.splice(this.selFormat.indexOf(format), 1);
+         }
+      }
+      else{
+         this.selFormat.push(format);
+      }    
    }
 
    /**
@@ -156,17 +202,14 @@ export class ContentFinderPageComponent implements OnInit {
     */
    submit() {
       this.isSearching = true;
-      let format: string = this.selFormat;
-
-      //if 'all' or 'flagged' was selected return all content
-      if (format === "All" || format === "Flagged") {
-         format = "";
-      }
+      let format: string[] = this.selFormat;
+      
       this.getIDsFromSubjects(this.selectedSubjects);
+      this.getIDsFromCurricula(this.selectedCurricula);
+      
       let filter: Filter = new Filter(
-         this.title, format, this.moduleIDs
+         this.title, format, this.moduleIDs, this.curriculumIDs
       );
-
       this.updateURL(filter);
 
       this.searchedSubjects = this.selectedSubjects;
@@ -182,15 +225,17 @@ export class ContentFinderPageComponent implements OnInit {
 
                //populate the contents array with the response with the parseContentResponse function
                this.parseContentResponse(response);
-               if (this.notEmpty()) { }
+               if (this.notEmpty()) {
+                }
                else {
                   this.toastr.error('No Results Found');
                }
             } else {
                this.toastr.error('Response was null');
             }
+            
          },
-         (response) => {
+         (error) => {
             this.toastr.error('Failed to send filter');
             this.isSearching = false;
          }
@@ -198,27 +243,27 @@ export class ContentFinderPageComponent implements OnInit {
    }
 
    updateURL(filter: Filter) {
-      let url = window.location.href;
-      if (url.indexOf('?') > -1) {
-         url = url.substring(0, url.indexOf('?'));
-      }
+    
       let modules: string = JSON.stringify(filter.modules);
+      let curricula: string = JSON.stringify(filter.curricula);
+      let formats: string = JSON.stringify(filter.format);
       modules = modules.replace('[','');
       modules = modules.replace(']','');
-      this.location.replaceState("finder?title=" + filter.title + "&format=" + filter.format + "&modules=" + modules)
+      curricula = curricula.replace('[','');
+      curricula = curricula.replace(']','');
+      formats = formats.replace('[','');
+      formats = formats.replace(']','');
+      formats = formats.replace(/"/g, '');
+      this.location.replaceState("finder?title=" + filter.title + "&format=" + formats + "&modules=" + modules + "&curricula=" + curricula)
    }
    
    submitForDelete() {
       this.isSearching = true;
-      let format: string = this.selFormat;
+      let format: string[] = this.selFormat;
 
-      //if 'all' or 'flagged' was selected return all content
-      if (format === "All" || format === "Flagged") {
-         format = "";
-      }
       this.getIDsFromSubjects(this.selectedSubjects);
       let filter: Filter = new Filter(
-         this.title, format, this.moduleIDs
+         this.title, format, this.moduleIDs, this.curriculumIDs
       );
       this.searchedSubjects = this.selectedSubjects;
 
@@ -228,12 +273,12 @@ export class ContentFinderPageComponent implements OnInit {
 
                //populate the contents array with the response with the parseContentResponse function
                this.parseContentResponse(response);
-               if (this.notEmpty()) { }
+               
             } else {
                this.toastr.error('Response was null');
             }
          },
-         (response) => {
+         (error) => {
             this.toastr.error('Failed to send filter');
             this.isSearching = false;
          }
@@ -250,15 +295,19 @@ export class ContentFinderPageComponent implements OnInit {
       /* Sorts contents by their id */
       this.contents = response.sort(
          (a, b) => { return a.id - b.id });
-
+        
       /* Sorts each content's list of links by
        * subject/module name via lookup Map */
       this.contents.forEach(
-         (content) => {
 
+         
+         (content) => {
+            
             content.links = content.links.sort(
                (a, b) => {
+                  
                   let sortedIndexA: number = this.ms.subjectIdToSortedIndex.get(a.module.id);
+                  
                   let sortedIndexB: number = this.ms.subjectIdToSortedIndex.get(b.module.id);
                   return sortedIndexA - sortedIndexB;
                }
@@ -266,15 +315,7 @@ export class ContentFinderPageComponent implements OnInit {
          }, this
       )
 
-      /**
-      * Filter the contents by content with no links (not attached to a modules) 
-      * if 'flagged' is the selected format
-      */
-      if (this.selFormat === "Flagged") {
-         this.contents = this.contents.filter(function (flaggedContent) {
-            return flaggedContent.links.length === 0;
-         });
-      }
+      
 
       
 
@@ -285,8 +326,9 @@ export class ContentFinderPageComponent implements OnInit {
     */
    reset() {
       this.title = "";
-      this.selFormat = "Code";
+      this.selFormat = ["Code", "Document", "Powerpoint"];
       this.selectedSubjects = [];
+      this.selectedCurricula = [];
    }
 
    /**
@@ -320,6 +362,15 @@ export class ContentFinderPageComponent implements OnInit {
       );
    }
 
+   getIDsFromCurricula(curricula: string[]){
+      this.curriculumIDs = [];
+      curricula.forEach(
+         (curriculum) => {
+            this.curriculumIDs.push(this.crs.nameToCurriculum.get(curriculum).id);
+         }, this
+      );
+   }
+
    /**
     * Description - This method deletes a link between a content and a module
     */
@@ -337,7 +388,6 @@ export class ContentFinderPageComponent implements OnInit {
       this.selCon = content;
 
       let subjectToName: string[] = [];
-
       for (let l of this.selCon.links) {
          subjectToName.push(this.ms.subjectIdToName.get(l.module.id));
       }
@@ -345,7 +395,9 @@ export class ContentFinderPageComponent implements OnInit {
       let tempArr: string[] = [];
 
       for (let t of this.ms.subjectNames) {
+
          if (!subjectToName.includes(t))
+            
             tempArr.push(t);
       }
       this.tagOptions = tempArr;
@@ -401,12 +453,10 @@ export class ContentFinderPageComponent implements OnInit {
           */
          data => {
             //this.tablebool = false;
-            
             this.ngOnInit();
             this.submitForDelete();
          }
       );
-     // this.ngOnInit();
    }
 
 
