@@ -1,7 +1,9 @@
 import { Filter } from './../../models/Filter';
+import { Curriculum } from './../../models/Curriculum';
 import { Location, LocationStrategy } from '@angular/common';
 import { Module } from './../../models/Module';
 import { ModuleStoreService } from './../../services/module-store.service';
+import { CurriculumStoreService } from './../../services/curriculum-store.service';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { RequestFetcherService } from 'src/app/services/request-fetcher.service';
@@ -23,14 +25,17 @@ export class DisplayRequestPageComponent implements OnInit {
   // Module Ids to pass to back-end to filter by
   public moduleIDs: number[];
 
+  // Cirriculum Ids to pass to back-end to filter by
+  public curriculaIDs: number[];
+
   // Module names added to filter
   public searchedSubjects: string[] = [];
 
   // Formats that populate filter radio options
-  readonly formats: string[] = ["All","Code", "Document", "Powerpoint"];
+  readonly formats: string[] = ["Code", "Document", "Powerpoint"];
 
   // Selected format
-  public selFormat: string = "All";
+  public selFormat: string[] = ["Code", "Document", "Powerpoint"];
 
   // Current requests being displayed
   public req: Request[];
@@ -48,6 +53,7 @@ export class DisplayRequestPageComponent implements OnInit {
       private router: Router,
       public rs: RequestFetcherService,
       public ms: ModuleStoreService,
+      public crs: CurriculumStoreService,
       public location: Location,
       private toastr: ToastrService
   ) {
@@ -55,43 +61,84 @@ export class DisplayRequestPageComponent implements OnInit {
 
   ngOnInit() {
     this.ms.loadModules();
-
+    this.crs.loadCurricula();
     let url = window.location.href;
-    if (url.indexOf('?') > -1) {
-        // remove non-query part of url
-        let query = url.substring(url.indexOf('?') + 1);
-        // retrieve title param
-        let title = query.substring(query.indexOf('=') + 1, query.indexOf('&'));
-        // remove title param from query string
-        query = query.substring(query.indexOf('&') + 1);
-        // retreive the format param
-        let format = query.substring(query.indexOf('=') + 1, query.indexOf('&'));
-        // remove the format param from the query string
-        query = query.substring(query.indexOf('&') + 1);
-        // retrieve the modules param
-        let modules = query.substring(query.indexOf('=') + 1);
-        // convert modules string into an array of numbers
-        let moduleIds = modules.split(',');
-        let moduleIdNumbers: number[] = new Array;
-        if (0 !== modules.length) {
-          for (let i=0; i<moduleIds.length; i++) {
-             moduleIdNumbers.push(parseInt(moduleIds[i]))
+    this.createSearch(url.indexOf('?'),url);
+  }
+
+  createSearch(n:number,url:any){
+    this.ms.loadModules();
+      if (url.indexOf('?') > -1) {
+          // remove non-query part of url
+          let query = url.substring(url.indexOf('?') + 1);
+          // retrieve title param
+          let title = query.substring(query.indexOf('=') + 1, query.indexOf('&'));
+          // remove title param from query string
+          query = query.substring(query.indexOf('&') + 1);
+          // retreive the format param
+          let format = query.substring(query.indexOf('=') + 1, query.indexOf('&'));
+          // create an array of formats
+          let formats = format.split(',');
+          // remove the format param from the query string
+          query = query.substring(query.indexOf('&') + 1);
+          // retrieve the modules param
+          let modules = query.substring(query.indexOf('=') + 1);
+          // convert modules string into an array of numbers
+          let moduleIds = modules.split(',');
+          let moduleIdNumbers: number[] = new Array;
+          //retrieve the curricula param
+         let curricula = query.substring(query.indexOf('=') + 1);
+         //convert curricula string into an array of numbers
+         let curriculaIds = curricula.split(',');
+         let curriculaIdNumbers: number[] = new Array();
+
+          if (0 !== modules.length) {
+            for (let i=0; i<moduleIds.length; i++) {
+              moduleIdNumbers.push(parseInt(moduleIds[i]))
+            }
+        }
+
+        if (0 !== curricula.length) {
+          for (let i=0; i<curriculaIds.length; i++) {
+
+             curriculaIdNumbers.push(parseInt(curriculaIds[i]))
           }
        }
 
-        // populate a filter object with the params we just extracted
-        let filter: Filter = new Filter(
-          title, format, moduleIdNumbers
-        );
+          // populate a filter object with the params we just extracted
+          let filter: Filter = new Filter(
+            title, formats, moduleIdNumbers, curriculaIdNumbers
+          );
 
-        this.sendSearch(filter);
-    } else {
+          this.sendSearch(filter);
+      } else {
 
-    this.rs.getAllRequests().subscribe((data: Request[]) => {
-      this.req = data;
-    });
+      this.rs.getAllRequests().subscribe((data: Request[]) => {
+        this.req = data;
+      });
+    }
+}
+
+/**
+  * Description: Adds/removes a format from selFormat array object.
+  * @param format Format to be added/removed, corresponds with button clicked.
+  */
+toggleFormat(format : string){
+
+
+      
+  if(this.selFormat.includes(format)){
+     if(this.selFormat.length==1){
+        this.toastr.info("You must include at least one format type.");
+     }else{
+        this.selFormat.splice(this.selFormat.indexOf(format), 1);
+     }
   }
+  else{
+     this.selFormat.push(format);
   }
+  
+}
 
   // Method for deleting a request
   removeRequest(id: Request['id']): void {
@@ -103,15 +150,12 @@ export class DisplayRequestPageComponent implements OnInit {
 // Submit filter
 submit() {
   this.isSearching = true;
-  let format: string = this.selFormat;
+  let format: string[] = this.selFormat;
 
-      // if 'all' was selected return all content
-  if (format === "All") {
-      format = '';
-  }
+  
   this.getIDsFromSubjects(this.selectedSubjects);
   const filter: Filter = new Filter(
-      this.title, format, this.moduleIDs
+      this.title, format, this.moduleIDs, this.curriculaIDs
   );
 
   this.updateURL(filter);

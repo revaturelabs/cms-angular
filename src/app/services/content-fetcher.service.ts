@@ -113,14 +113,32 @@ export class ContentFetcherService {
     * @param filter What to filter returned content by
     */
    filterContent(filter: Filter): Observable<Content[]> {
+      filter = filter == null ? new Filter(null, null, null, null) : filter;
       let modules: string = JSON.stringify(filter.modules);
-      if (modules) {
+      let formats: string = JSON.stringify(filter.format);
+      let curricula: string = JSON.stringify(filter.curricula);
+
+      if (curricula !== '[null]') {
+         curricula = curricula.replace('[','');
+         curricula = curricula.replace(']','');
+      } else {
+         curricula = '';
+      }
+      if (modules !== '[null]') {
          modules = modules.replace('[','');
          modules = modules.replace(']','');
       } else {
          modules = '';
       }
-      return this.http.get<Content[]>(this.endpoints.FILTER_CONTENT.replace('${title}',filter.title).replace('${format}', filter.format).replace('${modules}', modules), {withCredentials: true}).pipe(
+
+      if (formats) {
+         formats = formats.replace('[','');
+         formats = formats.replace(']','');
+         formats = formats.replace(/"/g, '');
+      } else {
+         formats = '';
+      }
+      return this.http.get<Content[]>(this.endpoints.FILTER_CONTENT.replace('${title}',filter.title).replace('${format}', formats).replace('${modules}', modules).replace('${curricula}', curricula), {withCredentials: true}).pipe(
          map(resp => resp as Content[])
        );
    }
