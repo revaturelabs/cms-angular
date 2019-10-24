@@ -13,8 +13,7 @@ export class PagesService {
    * @param view 
    */
   pageRefresh(){
-    window.location.reload();
-    
+    window.location.reload() 
   }
 
 }

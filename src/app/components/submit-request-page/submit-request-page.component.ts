@@ -2,9 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ModuleStoreService } from '../../services/module-store.service';
 import { Module } from 'src/app/models/Module';
 import { ToastrService } from 'ngx-toastr';
-import { Content } from 'src/app/models/Content';
-import { Link } from 'src/app/models/Link';
-import { Filter } from 'src/app/models/Filter';
 import { ReqLink } from '../../models/ReqLink';
 import { Request } from '../../models/Request';
 import { SubmitRequestService } from '../../services/submit-request.service';
@@ -22,7 +19,7 @@ export class SubmitRequestPageComponent implements OnInit {
   isSubmitting = false;
 
   //Selected from subject list
-  selectedSubjects: string[];
+  selectedSubjects: string[] = [];
 
   //Holds modules of subjects
   modules: Module[];

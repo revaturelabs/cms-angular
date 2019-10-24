@@ -7,17 +7,21 @@ export class Filter {
     format: string[] = [];
     /** Number array variable for modules */
     modules: number[] = [];
+    /** Number array variable for modules */
+    curricula: number[] = [];
 
     /**
-     * Constructor that takes title, format, and modules for filtering
+     * Constructor that takes title, format, modules and curricula for filtering
      * @param title 
      * @param format 
      * @param modules 
+     * @param curricula
      */
-    constructor(title: string, format: string[], modules: number[]){
+    constructor(title: string, format: string[], modules: number[], curricula: number[]){
         if (null != title) this.title = title;
         if (null != format) this.format = format;
         if (null != modules) this.modules = modules;
+        if (null != curricula) this.curricula = curricula;
     }
 
     /** Getter method to get title */
@@ -32,6 +36,10 @@ export class Filter {
     public getModules(): number[] {
         return this.modules;
     }
+    /** Getter method to get array of Modules */
+    public getCurricula(): number[] {
+        return this.curricula;
+    }
     /** Setter method to set title */
     public setTitle(title: string){
         this.title = title;
@@ -44,5 +52,8 @@ export class Filter {
     public setModules(modules: number[]){
         this.modules = modules;
     }
-
+    /** Setter method to set curricula */
+    public setCurricula(curricula: number[]){
+        this.curricula = curricula;
+    }
 }

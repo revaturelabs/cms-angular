@@ -22,12 +22,11 @@ export class CurriculumModuleFilterPipe implements PipeTransform {
 
                 const ret = node.currModules.find(
 
-                    (link: CurriculumModule) => {
+                    (curriculumModule: CurriculumModule) => {
 
-                        return link.module.id === module.id;
+                        return curriculumModule.module.id === module.id;
                     }
                 );
-                
                 return ret === undefined;
             }
         );
