@@ -559,6 +559,7 @@ export class AddModuleDialog implements OnInit {
 
             if (this.checked.get(key) === true) {
 
+                this.ms.nodes.sort(this.ss.sortModulesById);
                 links.push(new CurriculumModule(null, -1, this.data.node.id, this.ss.findModuleById(key, this.ms.nodes)));
             }
         }
