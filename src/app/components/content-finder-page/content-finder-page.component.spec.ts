@@ -9,6 +9,7 @@ import { ToastrModule } from 'ngx-toastr';
 
 import { ContentFinderPageComponent } from './content-finder-page.component';
 import { MatCardModule } from '@angular/material/card';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 
 describe('ContentFinderPageComponent', () => {
@@ -26,7 +27,8 @@ describe('ContentFinderPageComponent', () => {
         HttpClientTestingModule,
         ToastrModule.forRoot(),
         MatCardModule
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   }));

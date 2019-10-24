@@ -4,6 +4,10 @@ mat-card {
    margin: 0 auto;
    margin-top: 20px;
 }
+
+mat-form-field {
+  width: 100%;
+}
   
   .container { 
     padding: 2px 16px;
