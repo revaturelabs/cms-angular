@@ -21,7 +21,7 @@
 
                     <div class="col">
                         <div class="btn-group">
-                            <button class="btn" *ngFor="let format of formats" 
+                            <button mat-flat-button class="btn" *ngFor="let format of formats" 
                             [class.btn-primary]="selFormat.includes(format)"
                             [class.btn-secondary]="!(selFormat.includes(format))"
                             (click)="toggleFormat(format)" id="{{format}}">{{format}}</button>
@@ -33,7 +33,6 @@
 
                 </div>
 
-<<<<<<< HEAD
                 <div class="row filtering"> <!-- Dropdown section which retrieves subjects using ms to load and ngModel to populate -->
                     <div class="col-1"></div>
                     <div class="col-10">
@@ -44,40 +43,10 @@
                                 [loading]="ms.isLoading" [placeholder]="ms.loadingText"
                                 [(ngModel)]="selectedSubjects"
                                 name="selectedSubjects"> <!-- ngSelect to manage selecting subjects and operating dropdown functionality -->
-=======
-                <div class="row subject mb-3"> <!-- Dropdown section which retrieves curriculum using crs to load and ngModel to populate -->
-                    <div class="col-1"></div>
-                    <div class="col-10">
-                         <ng-select id="curriculumDropDown" [items]="crs.nodes"
-                                multiple="true" closeOnSelect="true" hideSelected="true"
-                                clearOnBackspace="true" bindValue="name" bindLabel="name" spellcheck="false"
-                                notFoundText="(no such subject found)" [(ngModel)]="selectedCurricula"
-                                 [loading]="crs.loading" [placeholder]="crs.loadingText"
-                                
-                                name="selectedCurriculum"> <!-- ngSelect to manage selecting curriculum and operating dropdown functionality -->
->>>>>>> 5fc95ac21872961ca7f8dc4f9ad6c58ca066c11d
                          </ng-select>
                     </div>
                     <div class="col-1"></div>
              </div>
-<<<<<<< HEAD
-=======
-
-                 <div class="row subject mb-3"> <!-- Dropdown section which retrieves subjects using ms to load and ngModel to populate -->
-                        <div class="col-1"></div>
-                        <div class="col-10">
-                             <ng-select id="subjectDropDown" [items]="ms.subjectNames"
-                                    multiple="true" closeOnSelect="true" hideSelected="true"
-                                    clearOnBackspace="true" bindLabel="name" spellcheck="false"
-                                    notFoundText="(no such subject found)"
-                                    [loading]="ms.isLoading" [placeholder]="ms.loadingText"
-                                    [(ngModel)]="selectedSubjects"
-                                    name="selectedSubjects"> <!-- ngSelect to manage selecting subjects and operating dropdown functionality -->
-                             </ng-select>
-                        </div>
-                        <div class="col-1"></div>
-                 </div>
->>>>>>> 5fc95ac21872961ca7f8dc4f9ad6c58ca066c11d
                  <div class="row btn mb-3"> <!-- Find Content button to submit criteria using submit() function -->
                     <button mat-flat-button id="submitButton" type="button" color="primary"
                          (click)="submit()" *ngIf="!this.isSearching">Find Content</button><!-- While not searching, we can click the button -->

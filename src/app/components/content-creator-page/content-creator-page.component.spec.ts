@@ -4,27 +4,19 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { MatProgressSpinnerModule } from '@angular/material';
-import { ToastrModule } from 'ngx-toastr';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { Content } from 'src/app/models/Content';
 import { TreeModule } from 'angular-tree-component';
-<<<<<<< HEAD
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-=======
->>>>>>> 5fc95ac21872961ca7f8dc4f9ad6c58ca066c11d
 import { ContentCreatorPageComponent } from './content-creator-page.component';
 import { MatCardModule } from '@angular/material/card';
-<<<<<<< HEAD
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-=======
-import { of, Observable } from 'rxjs';
 import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
-import { Module } from 'src/app/models/Module';
-import { ToastrService } from 'ngx-toastr';
+import { of, Observable } from 'rxjs';
+import Module = require('module');
 import { HttpHeaderResponse } from '@angular/common/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
->>>>>>> 5fc95ac21872961ca7f8dc4f9ad6c58ca066c11d
 
 describe('ContentCreatorPageComponent', () => {
   let component: ContentCreatorPageComponent;
@@ -44,15 +36,10 @@ describe('ContentCreatorPageComponent', () => {
         HttpClientTestingModule,
         ToastrModule.forRoot(),
         TreeModule.forRoot(),
-<<<<<<< HEAD
         BrowserAnimationsModule,
         MatCardModule,
         MatFormFieldModule,
         MatInputModule
-=======
-        MatCardModule,
-        BrowserAnimationsModule
->>>>>>> 5fc95ac21872961ca7f8dc4f9ad6c58ca066c11d
       ]
     })
     .compileComponents();
