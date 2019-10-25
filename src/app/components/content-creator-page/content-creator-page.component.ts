@@ -57,7 +57,9 @@ export class ContentCreatorPageComponent implements OnInit {
    // Called in nodeCreation() for tree nodes
    nodes: any[] = this.ms.nodes;
    tempChildren: Module[] = [];
-
+   alex(){
+      console.log(this.selFormat);
+   }
    state: ITreeState = {
       activeNodeIds: {}
    };
