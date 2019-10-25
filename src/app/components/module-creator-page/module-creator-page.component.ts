@@ -92,6 +92,15 @@ export class ModuleCreatorPageComponent implements OnInit {
             return;
         }
 
+        /*
+        This is to check if the module already exists based on the subject.
+        */
+        if(this.ms.subjectNames.includes(this.subject)){
+            this.toastr.error('This module already exists.');
+            this.resetVariables();
+            return;
+        }
+
         let thisModule: Module = null;
 
         if (this.ms.subjectNameToModule)
