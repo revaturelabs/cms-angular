@@ -9,7 +9,6 @@ mat-form-field {
   width: 100%;
 }
 
-
 .info {
   background-color: #e7f3fe;
   border-left: 6px solid #2196f3;
@@ -33,7 +32,7 @@ mat-form-field {
 
 .logo {
   height: auto;
-  width: 10%;
+  width: 20%;
 }
 
 .dropdown {
