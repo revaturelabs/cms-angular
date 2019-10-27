@@ -49,6 +49,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CurriculumModuleFilterPipe } from './pipes/curriculum-module-filter.pipe';
+import {MatSelectModule} from '@angular/material/select';
+import { MatSidenavModule } from '@angular/material';
 
 /** @ignore */
 @NgModule({
@@ -110,7 +112,10 @@ import { CurriculumModuleFilterPipe } from './pipes/curriculum-module-filter.pip
         MatDialogModule,
         MatGridListModule,
         MatRadioModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        MatSelectModule,
+        MatToolbarModule,
+        MatSidenavModule
     ],
 
     providers: [

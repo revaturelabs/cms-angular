@@ -36,7 +36,7 @@
                 <div class="row filtering"> <!-- Dropdown section which retrieves subjects using ms to load and ngModel to populate -->
                     <div class="col-1"></div>
                     <div class="col-10">
-                         <ng-select matNativeControl id="subjectDropDown" [items]="ms.subjectNames"
+                         <ng-select ngSelectMat id="subjectDropDown" [items]="ms.subjectNames"
                                 multiple="true" closeOnSelect="true" hideSelected="true"
                                 clearOnBackspace="true" bindLabel="name" spellcheck="false"
                                 notFoundText="(no such subject found)"

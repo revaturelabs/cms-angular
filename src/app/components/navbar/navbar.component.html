@@ -6,46 +6,65 @@
   in the app-routing module and the nav bar is made present everywhere through the
   app.component.html
 -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" style="margin-right:25px" routerLink="/home">CMS Force</a>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
+
+<mat-toolbar color="primary">
+    <div fxHide.gt-xs>
+        <button mat-icon-button (click)="onToggleSidenav()">
+            <mat-icon>menu</mat-icon>
+        </button>
+    </div>
+
+    <a routerLink="/home">CMS Force</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
-   </button>   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-         <li class="nav-item" style="margin-right:25px">
-            <a class="nav-link" id= "contentcreator" routerLink="/content-creator" [routerLinkActive]="['is-active']">Content Creator<span
+   </button>   
+      <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
+      <ul fxLayout fxLayoutGap="15px" class="navigation-items">
+         <li>
+            <a mat-button id="contentcreator" routerLink="/content-creator" [routerLinkActive]="['is-active']">Content Creator<span
                   class="sr-only">(current)</span></a>
             </li>
 
-            <li class="nav-item" style="margin-right:25px">
-                <a class="nav-link" id="contentfinder" routerLink="/finder" [routerLinkActive]="['is-active']">Content Finder</a>
+            <li>
+                <a mat-button id="contentfinder" routerLink="/finder" [routerLinkActive]="['is-active']">Content Finder</a>
             </li>
             
-            <li class="nav-item" style="margin-right:25px">
-                <a class="nav-link" id='modulecreator' routerLink="/module-creator" [routerLinkActive]="['is-active']">Module Creator</a>
+            <li>
+                <a mat-button id='modulecreator' routerLink="/module-creator" [routerLinkActive]="['is-active']">Module Creator</a>
             </li>
 
-            <li class="nav-item" style="margin-right:25px">
-                <a class="nav-link" id="moduleindex" routerLink="/module-index" [routerLinkActive]="['is-active']">Module Index</a>
+            <li>
+                <a mat-button id="moduleindex" routerLink="/module-index" [routerLinkActive]="['is-active']">Module Index</a>
             </li>
 
-            <li class="nav-item" style="margin-right:25px">
-              <a class="nav-link" id="contentfinder" routerLink="/curriculum" [routerLinkActive]="['is-active']">Curricula</a>
+            <li>
+              <a mat-button id="contentfinder" routerLink="/curriculum" [routerLinkActive]="['is-active']">Curricula</a>
             </li>
 
-            <li class="nav-item" style="margin-right:25px">
-                <a class="nav-link" id='modulecreator' routerLink="/display-request" [routerLinkActive]="['is-active']">Display Requests</a>
+            <li>
+                <a mat-button id='modulecreator' routerLink="/display-request" [routerLinkActive]="['is-active']">Display Requests</a>
             </li>
 
-	 
-	 <li class="nav-item" style="margin-right:25px">
-	    <a class="nav-link" id="submitrequests" routerLink="/submit-request" [routerLinkActive]="['is-active']">Submit Requests</a>
-    </li>
-    
-    <li class="nav-item" style="margin-right:25px">
-      <a class="nav-link" id="reportspage" routerLink="/reports" [routerLinkActive]="['is-active']">Reports</a>
-   </li>
+            <li>
+                <a mat-button id="submitrequests" routerLink="/submit-request" [routerLinkActive]="['is-active']">Submit Requests</a>
+              </li>
+              
+            <li>
+                <a mat-button id="reportspage" routerLink="/reports" [routerLinkActive]="['is-active']">Reports</a>
+            </li>
 
+            <li>
+                <span class="mat-button-wrapper">
+                  <a mat-button>
+                  <mat-icon class="mat-icon notranslate material-icons mat-icon-no-color" role="img" aria-hidden="true">
+                    format_color_fill
+                  </mat-icon>
+                  </a>
+                </span>
+            </li>
       </ul>
-   </div>
- </nav>
+      
+      </div>
+  </mat-toolbar>
