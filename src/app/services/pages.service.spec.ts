@@ -1,18 +1,18 @@
 import { TestBed } from '@angular/core/testing';
-
 import { PagesService } from './pages.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('PagesService', () => {
-  beforeEach(() => TestBed.configureTestingModule(
-    {
-    }));
+  let pagesService: PagesService;
 
-  it('should be created', () => {
-    const service: PagesService = TestBed.get(PagesService);
-
-    expect(service).toBeTruthy();
-  
+  beforeEach(() => {
+    TestBed.configureTestingModule({imports:[BrowserAnimationsModule]});
+    pagesService = TestBed.get(PagesService);
   });
 
+  it('should be created', () => {
+    expect(pagesService).toBeTruthy();
+  });
+  
 });
 

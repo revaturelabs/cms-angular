@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { EndpointsService } from 'src/app/constants/endpoints.service';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
+import { CurriculumStoreService } from 'src/app/services/curriculum-store.service';
 import { BehaviorSubject } from 'rxjs';
 import { ReportsService } from 'src/app/services/reports.service';
 import { MetricsData } from 'src/app/models/MetricsData';
 import { GlobalReports } from 'src/app/providers/GlobalReports';
 import { Content } from '../../models/Content';
 import { Filter } from 'src/app/models/Filter';
+import { Curriculum } from 'src/app/models/Curriculum';
 
 /**
  * Reports page that measures and displays metrics.
@@ -24,6 +24,7 @@ export class ReportsPageComponent implements OnInit {
   selFormatFilter = "All";
   contents: Content[];
   moduleIDs: number[];
+  curriculumIDs: number[];
   selectedSubjects: string[] = [];
   searchedSubjects: string[] = [];
 
@@ -46,7 +47,9 @@ export class ReportsPageComponent implements OnInit {
   constructor(
     public reportsService: ReportsService,
     public globalReports: GlobalReports,
-    public ms: ModuleStoreService) { }
+    public crs: CurriculumStoreService,
+    public ms: ModuleStoreService
+    ) { }
 
 
   /** 
@@ -57,6 +60,7 @@ export class ReportsPageComponent implements OnInit {
     */
   ngOnInit() {
     this.ms.loadModules();
+    this.crs.loadCurricula();
     this.reportsService.reportsPage = this;
 
     if(this.globalReports.metricsData ) {
@@ -75,7 +79,7 @@ export class ReportsPageComponent implements OnInit {
     this.selFormatFilter = this.selFormat;
 
     //filter to get content by the selected format and moduleIDs from the reportsService
-    this.reportsService.getMetrics(new Filter("", this.selFormat, this.moduleIDs));
+    this.reportsService.getMetrics(new Filter("", [this.selFormat], this.moduleIDs, this.curriculumIDs));
 
     this.codeExamples = null;
     this.lectureNotes = null;

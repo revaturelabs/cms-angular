@@ -1,17 +1,13 @@
-import { Component, OnInit, ComponentFactoryResolver} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { globalCacheBusterNotifier } from 'ngx-cacheable';
 import { HttpHeaderResponse } from '@angular/common/http';
-
 import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { ModuleFetcherService } from 'src/app/services/module-fetcher.service';
 import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
 import { SortSearchService } from '../../services/sort-search.service';
-
 import { Link } from '../../models/Link';
 import { Module } from 'src/app/models/Module';
-import { Content } from 'src/app/models/Content';
-import { Filter } from 'src/app/models/Filter';
 
 /** Typescript Component for Module Index Page */
 @Component({
@@ -112,10 +108,10 @@ export class ModuleIndexPageComponent implements OnInit {
         if (event) {
 
             const target = event.target || event.srcElement || event.currentTarget;
+            //I am not sure if it was intentional, but '' is a falsy so the OR does nothing
+            //since it will shortcircuit at the if anyways on falsy
             const idAttr: string = target.attributes.id && (target.attributes.id.nodeValue || '');
-
             if (idAttr && !idAttr.includes('mat-expansion-panel')) {
-
                 return;
             }
         }
@@ -217,7 +213,6 @@ export class ModuleIndexPageComponent implements OnInit {
     getChildModule(module: Module) {
 
         const ret: Module = this.ms.subjectIdToModule.get(module.children[this.childActive.get(module)].id);
-
         if (ret.links.length !== 0 && this.contentActive.get(ret) === undefined) {
 
             this.contentActive.set(ret, 0);
@@ -272,7 +267,6 @@ export class ModuleIndexPageComponent implements OnInit {
         if (targetIdx < baseIdx) {
 
             for (let i = targetIdx ; i < baseIdx ; i++) {
-
                 module.links[i].priority++;
             }
 
