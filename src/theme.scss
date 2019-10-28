@@ -18,15 +18,20 @@
 
 $my-theme-primary:mat-palette($mat-grey, 900);
 $my-theme-accent:mat-palette($mat-teal);
+<<<<<<< HEAD
 $my-theme-warn:mat-palette($mat-amber);
+=======
+
+>>>>>>> ec2c41c5b7990048a250d89f5b6c2a7ac9f31ec7
 
 $my-theme:mat-light-theme(
     $my-theme-primary,
     $my-theme-accent,
-    $my-theme-warn
 );
 
-@include angular-material-theme($my-theme);
+.my-theme{
+    @include angular-material-theme($my-theme);
+}
 
 body {
     height:100%;
