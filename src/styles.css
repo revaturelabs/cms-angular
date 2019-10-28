@@ -10,17 +10,20 @@
 
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import "~angular-tree-component/dist/angular-tree-component.css";
+
 body {
     height:100%;
-    margin: 0;
-    background: linear-gradient(180deg, #d05802 0%, rgba(255,136,0,1) 80%, #eba34c 100%);
+    background: #eeeeee;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    font-family: Roboto, "Helvetica Neue", sans-serif; 
 }
 
 .card {
     width: 95%!important;
+    background-color: #f2f3f4;
 }
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
