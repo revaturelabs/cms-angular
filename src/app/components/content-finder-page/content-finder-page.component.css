@@ -81,3 +81,6 @@ mat-card {
   .failed {
     color: red;
  }
+ mat-form-field {
+  width: 100%;
+}

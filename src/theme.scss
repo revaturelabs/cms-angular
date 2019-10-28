@@ -1,0 +1,55 @@
+/* You can add global styles to this file, and also import other style files */
+
+
+/* This imports the css for the search and multiselect tags input field */
+
+@import "~@ng-select/ng-select/themes/default.theme.css";
+@import "../node_modules/ngx-toastr/toastr.css";
+
+/* import styles for spinner module from @angular/module*/
+
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "~angular-tree-component/dist/angular-tree-component.css";
+
+/*themeing */
+@import '~@angular/material/_theming.scss';
+
+@include mat-core();
+
+$my-theme-primary:mat-palette($mat-orange);
+$my-theme-accent:mat-palette($mat-teal);
+
+
+$my-theme:mat-light-theme(
+    $my-theme-primary,
+    $my-theme-accent,
+);
+
+.my-theme{
+    @include angular-material-theme($my-theme);
+}
+
+body {
+    height:100%;
+    margin: 0;
+    background: linear-gradient(180deg, #d05802 0%, rgba(255,136,0,1) 80%, #eba34c 100%);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.card {
+    width: 95%!important;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mat-grid-tile .mat-figure {
+    
+    justify-content: flex-start !important;
+    padding: 12px 10px!important;
+}
+
+.mat-checkbox-layout {
+
+    margin: 0px!important;
+}
