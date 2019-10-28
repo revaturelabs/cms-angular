@@ -16,9 +16,9 @@
 
 @include mat-core();
 
-$my-theme-primary:mat-palette($mat-orange);
+$my-theme-primary:mat-palette($mat-grey, 900);
 $my-theme-accent:mat-palette($mat-teal);
-$my-theme-warn:mat-palette($mat-red);
+$my-theme-warn:mat-palette($mat-amber);
 
 $my-theme:mat-light-theme(
     $my-theme-primary,
