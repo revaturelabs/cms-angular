@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs/'
 
 @Injectable({
   providedIn: 'root'
 })
 export class ThemechangeService {
-
-  public theme:string ='my-theme';
+  private theme1 = new Subject<boolean>();
+  theme:string="theme1";
   constructor() { }
 }

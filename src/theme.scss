@@ -22,15 +22,29 @@ $my-theme-accent:mat-palette($mat-teal);
 $my-theme-warn:mat-palette($mat-amber);
 =======
 
+<<<<<<< HEAD
 >>>>>>> ec2c41c5b7990048a250d89f5b6c2a7ac9f31ec7
 
+=======
+>>>>>>> 76ac97e5d10509e61f1b8314d5a35cf46c8c3ffe
 $my-theme:mat-light-theme(
     $my-theme-primary,
     $my-theme-accent,
 );
 
-.my-theme{
+$my-theme2-primary:mat-palette($mat-purple);
+$my-theme2-accent:mat-palette($mat-pink);
+
+$my-theme2:mat-dark-theme(
+    $my-theme2-primary,
+    $my-theme2-accent,
+);
+
+.theme1{
     @include angular-material-theme($my-theme);
+}
+.theme2{
+    @include angular-material-theme($my-theme2);
 }
 
 body {
