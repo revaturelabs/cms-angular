@@ -19,14 +19,24 @@
 $my-theme-primary:mat-palette($mat-orange);
 $my-theme-accent:mat-palette($mat-teal);
 
-
 $my-theme:mat-light-theme(
     $my-theme-primary,
     $my-theme-accent,
 );
 
-.my-theme{
+$my-theme2-primary:mat-palette($mat-purple);
+$my-theme2-accent:mat-palette($mat-pink);
+
+$my-theme2:mat-dark-theme(
+    $my-theme2-primary,
+    $my-theme2-accent,
+);
+
+.theme1{
     @include angular-material-theme($my-theme);
+}
+.theme2{
+    @include angular-material-theme($my-theme2);
 }
 
 body {

@@ -40,10 +40,11 @@
             <li>
                 <a mat-button id="reportspage" routerLink="/reports" [routerLinkActive]="['is-active']">Reports</a>
             </li>
-            <li>
+            <li [(ngModel)]="theme">
                 <mat-menu #appMenu="matMenu">
-                    <button mat-menu-item>Revature</button>
-                    <button mat-menu-item>Pink</button>
+                    <button mat-menu-item (click)="changetheme('theme1')" >Revature</button>
+                    <button mat-menu-item (click)="changetheme('theme2')" >Pink</button>
+                    <button mat-menu-item (click)="callalex()"> Alex</button>
                   </mat-menu>
                 <span class="mat-button-wrapper">
                   <a mat-button>

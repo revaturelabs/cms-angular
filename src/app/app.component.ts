@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, HostBinding } from '@angular/core';
 import { ThemechangeService } from './services/themechange.service';
+import { OverlayContainer } from '@angular/cdk/overlay';
 
 
 /** @ignore */
@@ -10,8 +11,7 @@ import { ThemechangeService } from './services/themechange.service';
 })
 export class AppComponent {
   title = 'cms-force';
-
-  constructor(private tsc:ThemechangeService) { }
   theme = this.tsc.theme;
+  constructor(private tsc:ThemechangeService,public overlayerContainer:OverlayContainer) { }
 
 }
