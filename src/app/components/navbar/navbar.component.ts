@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter} from '@angular/core';
+import { ThemechangeService } from '../../services/themechange.service';
 
 /**@ignore */
 @Component({
@@ -7,10 +8,9 @@ import { Component, OnInit, Output, EventEmitter} from '@angular/core';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-
   @Output() public sidenavToggle = new EventEmitter();
 
-  constructor() { }
+  constructor(private ThemechangeService:ThemechangeService) { }
 
   /**@ignore */
   ngOnInit() {

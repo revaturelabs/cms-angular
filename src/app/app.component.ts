@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ThemechangeService } from './services/themechange.service';
+
 
 /** @ignore */
 @Component({
@@ -8,4 +10,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'cms-force';
+
+  constructor(private tsc:ThemechangeService) { }
+  theme = this.tsc.theme;
+
 }
