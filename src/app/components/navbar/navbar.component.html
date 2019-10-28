@@ -10,21 +10,18 @@
 <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
 
 <mat-toolbar color="primary">
-    <div fxHide.gt-xs>
+    <div fxHide.gt-xs="true">
         <button mat-icon-button (click)="onToggleSidenav()">
             <mat-icon>menu</mat-icon>
         </button>
     </div>
-
-    <a routerLink="/home">CMS Force</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-   </button>   
-      <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
+    <div>
+        <a routerLink="/home">CMS Force</a>
+    </div> 
+    <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
       <ul fxLayout fxLayoutGap="15px" class="navigation-items">
          <li>
-            <a mat-button id="contentcreator" routerLink="/content-creator" [routerLinkActive]="['is-active']">Content Creator<span
-                  class="sr-only">(current)</span></a>
+            <a mat-button id="contentcreator" routerLink="/content-creator" [routerLinkActive]="['is-active']">Content Creator</a>
             </li>
 
             <li>

@@ -8,10 +8,12 @@ mat-sidenav {
  
 main {
     padding: 10px;
+    background-color: #eeeeee;
 }
 
 /* for sidenav to take a whole page */
 html, body { 
     margin: 0;
     height: 100%;
+    background-color: #eeeeee;
 }

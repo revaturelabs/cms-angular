@@ -1,2 +1,10 @@
-<app-navbar #sidenav role="navigation" (sidenavToggle)="sidenav.toggle()"></app-navbar>
-<router-outlet></router-outlet>
+<app-navbar (sidenavToggle)="sidenav.toggle()"></app-navbar>
+<mat-sidenav-container> 
+    <mat-sidenav #sidenav role="navigation">
+          <!--this is a place for us to add side-nav code-->
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>
+

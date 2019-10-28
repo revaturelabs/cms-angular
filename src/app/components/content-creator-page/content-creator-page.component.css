@@ -18,11 +18,6 @@ mat-form-field {
    margin: 1%;
 }
 
-.container {
-  padding: 2px 16px;
-  margin-top: 70px;
-}
-
 #content {
    display: flex;
    align-items: center;
