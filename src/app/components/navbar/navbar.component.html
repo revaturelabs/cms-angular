@@ -9,11 +9,6 @@
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
 <mat-toolbar color="primary">
-    <div fxHide.gt-xs="true">
-        <button mat-icon-button (click)="onToggleSidenav()">
-            <mat-icon>menu</mat-icon>
-        </button>
-    </div>
     <div>
         <a routerLink="/home">CMS Force</a>
     </div> 
@@ -46,15 +41,18 @@
                 <a mat-button id="reportspage" routerLink="/reports" [routerLinkActive]="['is-active']">Reports</a>
             </li>
             <li>
+                <mat-menu #appMenu="matMenu">
+                    <button mat-menu-item>Revature</button>
+                    <button mat-menu-item>Pink</button>
+                  </mat-menu>
                 <span class="mat-button-wrapper">
                   <a mat-button>
-                  <mat-icon class="mat-icon notranslate material-icons mat-icon-no-color" role="img" aria-hidden="true">
+                  <mat-icon class="mat-icon notranslate material-icons mat-icon-no-color" role="img" aria-hidden="true" [matMenuTriggerFor]="appMenu">
                     format_color_fill
                   </mat-icon>
                   </a>
                 </span>
             </li>
       </ul>
-      
       </div>
   </mat-toolbar>
