@@ -82,13 +82,14 @@
                                 <button class="btn" *ngFor="let format of formats" 
                                 [class.btn-primary]="selFormat==format"
                                 [class.btn-secondary]="selFormat!=format"
+                                color="warn"
                                 (click)="selFormat=format" id="{{format}}">{{format}}</button>
                             </div>
                         </div>
                     </div>
 
                     <div class="row btn mb-3"> <!-- Submit button tied to submit() function that sends the form information to the database, adding the specified information for later retrieval -->
-                        <button mat-flat-button id="submitButton" (click)="submit()" *ngIf="!this.isSubmitting" color="primary" >Submit
+                        <button mat-flat-button id="submitButton" (click)="submit()" *ngIf="!this.isSubmitting" color="warn" >Submit
                         Content</button><!-- When submitting, this.isSubmitting is inverted from false to true in order to submit the form -->
                             <mat-spinner [diameter]="30" *ngIf="this.isSubmitting"></mat-spinner>
                     </div>
