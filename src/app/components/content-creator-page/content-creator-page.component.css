@@ -5,6 +5,10 @@ mat-card {
    margin-top: 20px;
 }
 
+mat-form-field {
+  width: 100%;
+}
+
 .info {
   background-color: #e7f3fe;
   border-left: 6px solid #2196f3;
@@ -12,11 +16,6 @@ mat-card {
 
 .info p{
    margin: 1%;
-}
-
-.container {
-  padding: 2px 16px;
-  margin-top: 70px;
 }
 
 #content {
@@ -28,7 +27,7 @@ mat-card {
 
 .logo {
   height: auto;
-  width: 10%;
+  width: 20%;
 }
 
 .dropdown {

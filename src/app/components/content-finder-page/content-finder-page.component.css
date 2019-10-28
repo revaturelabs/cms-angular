@@ -1,11 +1,14 @@
 mat-card {
-
    width: 90%;
    margin: 0 auto;
    margin-top: 20px;
 }
+
+mat-form-field {
+  width: 100%;
+}
   
-  .container { 
+.container { 
     padding: 2px 16px;
     margin-top: 70px;
   }
@@ -18,8 +21,9 @@ mat-card {
   }
 
   .logo {
+    margin-bottom: 0;
     height: auto;
-    width: 10%;
+    width: 20%;
   }
 
   .btn-radio {

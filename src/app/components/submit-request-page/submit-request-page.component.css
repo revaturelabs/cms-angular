@@ -1,5 +1,4 @@
 mat-card {
-
    width: 90%;
    margin: 0 auto;
    margin-top: 20px;
@@ -19,7 +18,7 @@ mat-card {
  
  .logo {
     height: auto;
-    width: 10%;
+    width: 20%;
  }
  
  .dropdown {
