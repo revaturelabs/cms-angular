@@ -4,7 +4,11 @@
 .nav-link.is-active{
     background-color: #666666;
     color: rgba(255, 255, 255, 0.75);
-    
+ }
+ .shadow {
+    -webkit-box-shadow: 4px 10px 20px 0px rgba(0,0,0,0.41);
+    -moz-box-shadow: 4px 10px 20px 0px rgba(0,0,0,0.41);
+    box-shadow: 4px 10px 20px 0px rgba(0,0,0,0.41);
  }
  mat-toolbar {
      background-color: #263238; 

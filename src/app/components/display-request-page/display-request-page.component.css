@@ -5,6 +5,19 @@ mat-card {
    margin-top: 20px;
 }
 
+button {
+    border-style:none;
+}
+
+.btn-primary {
+  background-color: #00b0ff;
+  color: white;
+}
+
+.btn-secondary {
+  background-color: #78909c;
+  color: white;
+}
 
 .logo {
     height: auto;
