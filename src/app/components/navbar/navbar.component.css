@@ -4,14 +4,17 @@
 .nav-link.is-active{
     background-color: #666666;
     color: rgba(255, 255, 255, 0.75);
-    
+ }
+ .shadow {
+    -webkit-box-shadow: 4px 10px 20px 0px rgba(0,0,0,0.41);
+    -moz-box-shadow: 4px 10px 20px 0px rgba(0,0,0,0.41);
+    box-shadow: 4px 10px 20px 0px rgba(0,0,0,0.41);
  }
  mat-toolbar {
      background-color: #263238; 
      color: white;
      border-radius: 3px;
  }
-
 a {
     text-decoration: none;
     color: white;
@@ -25,13 +28,8 @@ li {
 li:last-child { 
     float:right; 
 }
-
 @media(max-width: 959px){
     mat-toolbar{
         border-radius: 0px;
     }
 }
- 
-
-
-

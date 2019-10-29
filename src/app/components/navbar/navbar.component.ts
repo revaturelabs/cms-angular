@@ -1,4 +1,8 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, HostBinding} from '@angular/core';
+import { OverlayContainer } from '@angular/cdk/overlay';
+import { ThemechangeService } from '../../services/themechange.service';
+import { AppComponent } from 'src/app/app.component';
+
 
 /**@ignore */
 @Component({
@@ -7,15 +11,23 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+  
+  theme = this.tsc.theme;
+  constructor(private tsc:ThemechangeService,private overlayContainer:OverlayContainer, 
+    private ac:AppComponent) { }
 
-  @Output() public sidenavToggle = new EventEmitter();
-  constructor() { }
+  @HostBinding('class') componentCssClass;
 
-  /**@ignore */
+  onSetTheme(theme) {
+    this.overlayContainer.getContainerElement().classList.add(theme);
+    this.componentCssClass = theme;
+    this.ac.onSetTheme(theme);
+  }
+  
   ngOnInit() {
   }
-
-  public onToggleSidenav = () => {
-    this.sidenavToggle.emit();
- }
+  
+  changetheme(theme:string){
+    this.tsc.theme=theme;
+  }
 }

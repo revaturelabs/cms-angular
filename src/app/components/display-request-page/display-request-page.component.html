@@ -20,7 +20,7 @@
 
                     <div class="col">
                         <div class="btn-group">
-                            <button class="btn" *ngFor="let format of formats" 
+                            <button mat-raised-button class="btn" *ngFor="let format of formats" 
                             [class.btn-primary]="selFormat.includes(format)"
                             [class.btn-secondary]="!(selFormat.includes(format))"
                             (click)="toggleFormat(format)">{{format}}</button>
@@ -44,7 +44,7 @@
                 </div>
                 <div class="row btn mb-3">
                     <!-- Find Content button to submit criteria using submit() function -->
-                    <button type="button" class="btn btn-primary" id="submitButton" (click)="submit()" *ngIf="!this.isSearching">Find Requests</button>
+                    <button mat-raised-button color="accent" type="button" class="btn" id="submitButton" (click)="submit()" *ngIf="!this.isSearching">Find Requests</button>
                     <!-- While not searching, we can click the button -->
                     <mat-spinner [diameter]="30" *ngIf="this.isSearching"></mat-spinner>
                 </div>

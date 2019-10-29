@@ -8,12 +8,18 @@ mat-sidenav {
  
 main {
     padding: 10px;
+<<<<<<< HEAD
     background-color: #eeeeee;
+=======
+>>>>>>> f87edb0c8948b1652b2e7ec276edd113c9cd8f20
 }
 
 /* for sidenav to take a whole page */
 html, body { 
     margin: 0;
     height: 100%;
+<<<<<<< HEAD
     background-color: #eeeeee;
+=======
+>>>>>>> f87edb0c8948b1652b2e7ec276edd113c9cd8f20
 }

@@ -8,60 +8,50 @@
 -->
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
-
-<mat-toolbar color="primary">
-    <div fxHide.gt-xs="true">
-        <button mat-icon-button (click)="onToggleSidenav()">
-            <mat-icon>menu</mat-icon>
-        </button>
-    </div>
+<mat-toolbar color="primary" class="shadow">
     <div>
         <a routerLink="/home">CMS Force</a>
-    </div> 
+    </div>
     <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
-      <ul fxLayout fxLayoutGap="15px" class="navigation-items">
-         <li>
-            <a mat-button id="contentcreator" routerLink="/content-creator" [routerLinkActive]="['is-active']">Content Creator</a>
+        <ul fxLayout fxLayoutGap="15px" class="navigation-items">
+            <li>
+                <a mat-button id="contentcreator" routerLink="/content-creator" [routerLinkActive]="['is-active']">Content Creator</a>
             </li>
-
             <li>
                 <a mat-button id="contentfinder" routerLink="/finder" [routerLinkActive]="['is-active']">Content Finder</a>
             </li>
-            
             <li>
                 <a mat-button id='modulecreator' routerLink="/module-creator" [routerLinkActive]="['is-active']">Module Creator</a>
             </li>
-
             <li>
                 <a mat-button id="moduleindex" routerLink="/module-index" [routerLinkActive]="['is-active']">Module Index</a>
             </li>
-
             <li>
-              <a mat-button id="contentfinder" routerLink="/curriculum" [routerLinkActive]="['is-active']">Curricula</a>
+                <a mat-button id="contentfinder" routerLink="/curriculum" [routerLinkActive]="['is-active']">Curricula</a>
             </li>
-
             <li>
                 <a mat-button id='modulecreator' routerLink="/display-request" [routerLinkActive]="['is-active']">Display Requests</a>
             </li>
-
             <li>
                 <a mat-button id="submitrequests" routerLink="/submit-request" [routerLinkActive]="['is-active']">Submit Requests</a>
-              </li>
-              
+            </li>
             <li>
                 <a mat-button id="reportspage" routerLink="/reports" [routerLinkActive]="['is-active']">Reports</a>
             </li>
-
-            <li>
+            <li [(ngModel)]="theme">
+                <mat-menu #appMenu="matMenu">
+                    <button mat-menu-item (click)="onSetTheme('theme1')">Revature</button>
+                    <button mat-menu-item (click)="onSetTheme('theme2')">Christiana</button>
+                    <button mat-menu-item (click)="onSetTheme('dark-theme')">Dark Mode</button>
+                </mat-menu>
                 <span class="mat-button-wrapper">
-                  <a mat-button>
-                  <mat-icon class="mat-icon notranslate material-icons mat-icon-no-color" role="img" aria-hidden="true">
-                    format_color_fill
-                  </mat-icon>
-                  </a>
+                    <a mat-button>
+                        <mat-icon class="mat-icon notranslate material-icons mat-icon-no-color" role="img" aria-hidden="true" [matMenuTriggerFor]="appMenu">
+                            format_color_fill
+                        </mat-icon>
+                    </a>
                 </span>
             </li>
-      </ul>
-      
-      </div>
-  </mat-toolbar>
+        </ul>
+    </div>
+</mat-toolbar>

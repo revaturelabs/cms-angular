@@ -33,7 +33,7 @@
           <form>
 
             <div class="btn-group">
-              <button class="btn" *ngFor="let format of formats" 
+              <button mat-raised-button class="btn" *ngFor="let format of formats" 
               [class.btn-primary]="selFormat==format"
               [class.btn-secondary]="selFormat!=format"
               (click)="selFormat=format" id="{{format}}">{{format}}</button>
@@ -46,12 +46,12 @@
           Here is the Filter/Refresh button which is event binded on click
           and property binded to be disabled while loading. 
         -->
-        <div class = 'col col-3 left-margin'>
-          <button id = "filterButton" class="btn btn-secondary float-right" (click)="getMetrics()" 
-          [disabled] = "reportsService.loading">Filter/Refresh</button>
+        <div class='col col-3 left-margin'>
+          <button mat-flat-button color="accent" id="filterButton" class="btn btn-secondary float-right" (click)="getMetrics()" 
+          [disabled]="reportsService.loading">Filter/Refresh</button>
         </div>
       </div>
-      <hr class = 'hr-seperator'>
+      <hr class='hr-seperator'>
       <!-- 
         Here forward starts the content for the cards of the website. Each label
         is displayed using String Interpolation.
@@ -125,3 +125,4 @@
     </div>
   </div>
 </div>
+

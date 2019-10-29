@@ -8,20 +8,17 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { ModuleStoreService } from 'src/app/services/module-store.service';
 import { Content } from 'src/app/models/Content';
 import { TreeModule } from 'angular-tree-component';
-
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ContentCreatorPageComponent } from './content-creator-page.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { ContentCreatorPageComponent } from './content-creator-page.component';
-import { MatCardModule } from '@angular/material/card';
-
 import { ContentFetcherService } from 'src/app/services/content-fetcher.service';
 import { of, Observable } from 'rxjs';
 import Module = require('module');
 import { HttpHeaderResponse } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 describe('ContentCreatorPageComponent', () => {
   let component: ContentCreatorPageComponent;

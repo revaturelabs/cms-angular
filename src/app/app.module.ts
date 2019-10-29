@@ -6,7 +6,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { AngularWebStorageModule } from 'angular-web-storage';
 import { ReactiveFormsModule } from '@angular/forms';
-
+​
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ContentCreatorPageComponent } from './components/content-creator-page/content-creator-page.component';
@@ -20,7 +20,7 @@ import { ReportsTimeGraphComponent } from './components/reports-time-graph/repor
 import { CurriculumCreatorPageComponent } from './components/curriculum-creator-page/curriculum-creator-page.component';
 import { GlobalReports } from './providers/GlobalReports';
 import { CommonModule } from '@angular/common';
-
+​
 import { ToastrModule } from 'ngx-toastr';
 import { MatProgressSpinnerModule} from '@angular/material';
 import { TreeModule } from 'angular-tree-component';
@@ -29,7 +29,7 @@ import { ResolveRequestPageComponent } from './components/resolve-request-page/r
 import { ModuleStoreService } from './services/module-store.service';
 import { SubmitRequestPageComponent } from './components/submit-request-page/submit-request-page.component';
 import { NewCurriculumDialog, DeleteCurriculumDialog, AddModuleDialog } from './components/curriculum-creator-page/curriculum-creator-page.component';
-
+​
 /** Angular Material Modules */
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatCardModule } from '@angular/material/card';
@@ -49,21 +49,26 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CurriculumModuleFilterPipe } from './pipes/curriculum-module-filter.pipe';
+<<<<<<< HEAD
 import {MatSelectModule} from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material';
 import { MatListModule } from '@angular/material';
 import { SidenavListComponent } from './components/sidenav-list/sidenav-list.component';
 
+=======
+import { MatSidenavModule } from '@angular/material';
+​
+>>>>>>> f87edb0c8948b1652b2e7ec276edd113c9cd8f20
 /** @ignore */
 @NgModule({
-
+​
     entryComponents: [
-
+​
         NewCurriculumDialog,
         DeleteCurriculumDialog,
         AddModuleDialog
     ],
-
+​
     declarations: [
         AppComponent,
         ContentCreatorPageComponent,
@@ -116,6 +121,7 @@ import { SidenavListComponent } from './components/sidenav-list/sidenav-list.com
         MatGridListModule,
         MatRadioModule,
         MatCheckboxModule,
+<<<<<<< HEAD
         MatSelectModule,
         MatToolbarModule,
         MatSidenavModule,
@@ -126,13 +132,16 @@ import { SidenavListComponent } from './components/sidenav-list/sidenav-list.com
         MatButtonModule,
         MatIconModule,
         MatListModule
+=======
+        MatSidenavModule
+>>>>>>> f87edb0c8948b1652b2e7ec276edd113c9cd8f20
     ],
-
+​
     providers: [
         GlobalReports,
          ModuleStoreService
     ],
-
+​
     bootstrap: [AppComponent]
 })
 export class AppModule { }

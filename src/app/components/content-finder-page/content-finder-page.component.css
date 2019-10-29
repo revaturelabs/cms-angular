@@ -11,7 +11,21 @@ mat-form-field {
 .container { 
     padding: 2px 16px;
     margin-top: 70px;
-  }
+}
+
+button {
+    border-style:none;
+}
+
+.btn-primary {
+  background-color: #00b0ff;
+  color: white;
+}
+
+.btn-secondary {
+  background-color: #78909c;
+  color: white;
+}
 
 #content {
   display: flex;
@@ -85,3 +99,6 @@ mat-form-field {
   .failed {
     color: red;
  }
+ mat-form-field {
+  width: 100%;
+}
