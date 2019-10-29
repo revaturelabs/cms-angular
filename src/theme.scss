@@ -36,15 +36,15 @@ $my-theme2:   mat-light-theme(
     $my-theme2-accent,
 );
 
-// Dark Theme
-$dark-primary: mat-palette($mat-blue-grey);
-$dark-accent:  mat-palette($mat-amber, A200, A100, A400);
-$dark-warn:    mat-palette($mat-deep-orange);
+// Autumn Theme
+$autumn-primary: mat-palette($mat-pink, 900);
+$autumn-accent:  mat-palette($mat-brown, 800);
+$autumn-warn:    mat-palette($mat-red, 500);
 
-$dark-theme:   mat-dark-theme(
-    $dark-primary, 
-    $dark-accent, 
-    $dark-warn);
+$autumn-theme:   mat-light-theme(
+    $autumn-primary, 
+    $autumn-accent, 
+    $autumn-warn);
 
 .theme1{
     @include angular-material-theme($my-theme);
@@ -53,7 +53,7 @@ $dark-theme:   mat-dark-theme(
     @include angular-material-theme($my-theme2);
 }
 .dark-theme {
-    @include angular-material-theme($dark-theme);
+    @include angular-material-theme($autumn-theme);
   }
 
 body {
