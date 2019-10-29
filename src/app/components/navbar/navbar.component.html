@@ -42,8 +42,8 @@
             </li>
             <li [(ngModel)]="theme">
                 <mat-menu #appMenu="matMenu">
-                    <button mat-menu-item (click)="changetheme('theme1')" >Revature</button>
-                    <button mat-menu-item (click)="changetheme('theme2')" >Pink</button>
+                    <button mat-menu-item (click)="onSetTheme('theme1')">Revature</button>
+                    <button mat-menu-item (click)="onSetTheme('theme2')">Pink</button>
                     <button mat-menu-item (click)="callalex()"> Alex</button>
                   </mat-menu>
                 <span class="mat-button-wrapper">
