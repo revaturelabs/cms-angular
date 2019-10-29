@@ -49,7 +49,10 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CurriculumModuleFilterPipe } from './pipes/curriculum-module-filter.pipe';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material';
+import { MatListModule } from '@angular/material';
+import { SidenavListComponent } from './components/sidenav-list/sidenav-list.component';
 ​
 /** @ignore */
 @NgModule({
@@ -77,7 +80,8 @@ import { MatSidenavModule } from '@angular/material';
         NewCurriculumDialog,
         DeleteCurriculumDialog,
         AddModuleDialog,
-        CurriculumModuleFilterPipe
+        CurriculumModuleFilterPipe,
+        SidenavListComponent
     ],
     imports: [
         BrowserModule,
@@ -112,6 +116,16 @@ import { MatSidenavModule } from '@angular/material';
         MatGridListModule,
         MatRadioModule,
         MatCheckboxModule,
+        MatSelectModule,
+        MatToolbarModule,
+        MatSidenavModule,
+        MatListModule
+    ],
+
+    exports: [
+        MatButtonModule,
+        MatIconModule,
+        MatListModule,
         MatSidenavModule
     ],
 ​

@@ -3,7 +3,7 @@
    subejct input box and a "Submit Module" button which pings the backend using [(ngModel)]
    in order to add a new instance of a module to a database. 
   -->
-  
+
 <mat-card>
 
    <mat-card-content>
@@ -18,26 +18,24 @@
       <div class="container">
 
          <form>
-
             <div class="form-group mb-3 col-10 offset-1">
-
                <label for="inputTextGroup" class="mb-0 pb-0">Module Subject</label>
 
                <div class="input-group mb-1" id="inputTextGroup">
 
-                  <input [(ngModel)]="subject" required name="subject" type="text" class="form-control" placeholder="Subject" 
-                     id="inputText" maxlength="254">
+                  <input [(ngModel)]="subject" required name="subject" type="text" class="form-control"
+                     placeholder="Subject" id="inputText" maxlength="254">
 
                   <div class="input-group-append">
 
-                     <button type="button" class="btn btn-info" id="submitButton" (click)="submit()" *ngIf="!this.isSubmitting">
+                     <button mat-flat-button color="accent" type="button" class="btn btn-info" id="submitButton" (click)="submit()"
+                        *ngIf="!this.isSubmitting">
                         Submit Module
                      </button>
 
                      <mat-spinner [diameter]="30" *ngIf="this.isSubmitting"></mat-spinner>
 
                   </div>
-
                </div>
 
                <small id="inputTextHelp" class="form-text text-muted">Maximum of 254 Characters.</small>
@@ -46,7 +44,8 @@
 
             <div class="form-group mb-5 col-10 offset-1">
 
-               <input id="filter" #filter class="form-control" (keyup)="tree.treeModel.filterNodes(filter.value)" placeholder="Search for Module Parent" />
+               <input id="filter" #filter class="form-control" (keyup)="tree.treeModel.filterNodes(filter.value)"
+                  placeholder="Search for Module Parent" />
                <tree-root id="tree" [nodes]="nodes" [options]="options" bindLabel="name" spellcheck="false"></tree-root>
 
             </div>

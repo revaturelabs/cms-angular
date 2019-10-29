@@ -3,12 +3,26 @@ mat-card {
    width: 90%;
    margin: 0 auto;
    margin-top: 20px;
+   margin-bottom: 20px;
 }
 
 mat-form-field {
   width: 100%;
 }
 
+button {
+  border-style:none;
+}
+
+.btn-primary {
+  background-color: #00b0ff;
+  color: white;
+}
+
+.btn-secondary {
+  background-color: #78909c;
+  color: white;
+}
 
 .info {
   background-color: #e7f3fe;
@@ -17,11 +31,6 @@ mat-form-field {
 
 .info p{
    margin: 1%;
-}
-
-.container {
-  padding: 2px 16px;
-  margin-top: 70px;
 }
 
 #content {
@@ -33,7 +42,7 @@ mat-form-field {
 
 .logo {
   height: auto;
-  width: 10%;
+  width: 20%;
 }
 
 .dropdown {

@@ -2,7 +2,7 @@
 
 
 /* This imports the css for the search and multiselect tags input field */
-
+@import '@angular/material/prebuilt-themes/pink-bluegrey.css';
 @import "~@ng-select/ng-select/themes/default.theme.css";
 @import "../node_modules/ngx-toastr/toastr.css";
 
@@ -10,27 +10,36 @@
 
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import "~angular-tree-component/dist/angular-tree-component.css";
+
 body {
     height:100%;
-    margin: 0;
-    background: linear-gradient(180deg, #d05802 0%, rgba(255,136,0,1) 80%, #eba34c 100%);
+    background: #eeeeee;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    font-family: Roboto, "Helvetica Neue", sans-serif; 
 }
 
 .card {
     width: 95%!important;
+    background-color: #f2f3f4;
+<<<<<<< HEAD
 }
+
+html {
+     height: 100%; 
+}
+=======
+}
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+>>>>>>> f87edb0c8948b1652b2e7ec276edd113c9cd8f20
 
 .mat-grid-tile .mat-figure {
-    
     justify-content: flex-start !important;
     padding: 12px 10px!important;
 }
 
 .mat-checkbox-layout {
-
     margin: 0px!important;
 }

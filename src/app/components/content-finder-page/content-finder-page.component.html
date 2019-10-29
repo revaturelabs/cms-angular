@@ -10,7 +10,7 @@
         </div>
         <div class="container">
             <form>
-                <div class="form-row mb-5">
+                <div class="row format mb-3">
                     <div class="col-1"></div>
 
                     <div class="col-5"> <!-- Input the title of a content you want to search for, working with ngModel -->
@@ -21,7 +21,7 @@
 
                     <div class="col">
                         <div class="btn-group">
-                            <button class="btn" *ngFor="let format of formats" 
+                            <button mat-raised-button class="btn" *ngFor="let format of formats"
                             [class.btn-primary]="selFormat.includes(format)"
                             [class.btn-secondary]="!(selFormat.includes(format))"
                             (click)="toggleFormat(format)" id="{{format}}">{{format}}</button>
@@ -33,37 +33,20 @@
 
                 </div>
 
-                <div class="row subject mb-3"> <!-- Dropdown section which retrieves curriculum using crs to load and ngModel to populate -->
+                <div class="row filtering"> <!-- Dropdown section which retrieves subjects using ms to load and ngModel to populate -->
                     <div class="col-1"></div>
                     <div class="col-10">
-                         <ng-select id="curriculumDropDown" [items]="crs.nodes"
+                         <ng-select ngSelectMat id="subjectDropDown" [items]="ms.subjectNames"
                                 multiple="true" closeOnSelect="true" hideSelected="true"
-                                clearOnBackspace="true" bindValue="name" bindLabel="name" spellcheck="false"
-                                notFoundText="(no such subject found)" [(ngModel)]="selectedCurricula"
-                                 [loading]="crs.loading" [placeholder]="crs.loadingText"
-                                
-                                name="selectedCurriculum"> <!-- ngSelect to manage selecting curriculum and operating dropdown functionality -->
+                                clearOnBackspace="true" bindLabel="name" spellcheck="false"
+                                notFoundText="(no such subject found)"
+                                [loading]="ms.isLoading" [placeholder]="ms.loadingText"
+                                [(ngModel)]="selectedSubjects"
+                                name="selectedSubjects"> <!-- ngSelect to manage selecting subjects and operating dropdown functionality -->
                          </ng-select>
                     </div>
                     <div class="col-1"></div>
-             </div>
-
-                 <div class="row subject mb-3"> <!-- Dropdown section which retrieves subjects using ms to load and ngModel to populate -->
-                        <div class="col-1"></div>
-                        <div class="col-10">
-                             <ng-select id="subjectDropDown" [items]="ms.subjectNames"
-                                    multiple="true" closeOnSelect="true" hideSelected="true"
-                                    clearOnBackspace="true" bindLabel="name" spellcheck="false"
-                                    notFoundText="(no such subject found)"
-                                    [loading]="ms.isLoading" [placeholder]="ms.loadingText"
-                                    [(ngModel)]="selectedSubjects"
-                                    name="selectedSubjects"> <!-- ngSelect to manage selecting subjects and operating dropdown functionality -->
-                             </ng-select>
-                        </div>
-                        <div class="col-1"></div>
-                 </div>
-                 <div class="row btn mb-3"> <!-- Find Content button to submit criteria using submit() function -->
-                        <button mat-flat-button type="button"  id="submitButton" color="primary"
+                        <button mat-flat-button type="button"  id="submitButton" color="accent"
                              (click)="submit()" *ngIf="!this.isSearching">Find Content</button><!-- While not searching, we can click the button -->
                              <mat-spinner [diameter]="30" *ngIf="this.isSearching"></mat-spinner>
                  </div>
@@ -78,7 +61,7 @@
             <form>
                 <div class="form-row mb-5">
                     <div class="table-responsive">
-                        <table mat-table id="ResultsTable" class="table table-striped">
+                        <table mat-table id="ResultsTable" class="table">
                             <thead> <!-- The column names for the table that displays the related information -->
                                 <tr>
                                     <th scope="col"></th><!--Row for trash can icon-->
@@ -110,14 +93,13 @@
                                     <td name="modules" class="tag-bubble-cell">
                                         <div class="addTag">
                                             <span data-toggle="modal" name="plus" data-target="#addTag" (click)=selectedContent(content)
-                                                class="fas fa-plus-square plusCenter" title="Add module"></span>
+                                                class="fas fa-plus-square svg-inline--fa fa-w-14 fa-2x" title="Add module"></span>
                                         </div>
-                                        <br>
-
+                                        
                                         <!-- Maps the subject name to the proper module via the id -->
                                         <span *ngFor="let link of content.links" [attr.name]="ms.subjectIdToName.get(link.module.id)"
                                             [style.font-weight]="(searchedSubjects.includes(ms.subjectIdToName.get(link.module.id))) ? 'bold' : 'normal'"
-                                            class="badge badge-primary" style="color:black; font-size: 16px" id="{{DoThis(content.id,link.id)}}-{{ms.subjectIdToName.get(link.module.id)}}">
+                                            class="badge badge-light" style="color:black; font-size: 16px" id="{{DoThis(content.id,link.id)}}-{{ms.subjectIdToName.get(link.module.id)}}">
                                             {{ms.subjectIdToName.get(link.module.id)}}
 
                                             <span data-toggle="modal" data-target="#deleteTag" title="Remove Module"
@@ -132,6 +114,7 @@
                 </div>
             </form>
         </div>
+
     </mat-card-content>
 </mat-card>
 
@@ -142,8 +125,7 @@
                     <div>Search found no results</div>
                     <div class="row btn mb-3">
                         
-                        <button mat-flat-button type="button" color="primary" id="requestButton"
-                        routerLink="/submit-request">Request Content</button>
+                        <button mat-flat-button type="button" color="primary" id="requestButton" routerLink="/submit-request">Request Content</button>
                     </div>
             </form>
         </div>
@@ -167,7 +149,7 @@
                     [loading]="ms.isLoading" [placeholder]="ms.loadingText" [(ngModel)]="selectedTags" name="addTags">
                 </ng-select>
                 <div class="row btn mb-3">
-                    <button mat-flat-button color="primary" type="button" class="addATag" id="submitTagButton" (click)="updateTags()"
+                    <button mat-flat-button color="accent" type="button" class="addATag" id="submitTagButton" (click)="updateTags()"
                         data-dismiss="modal">Add Modules</button>
                 </div>
             </div>
@@ -190,8 +172,7 @@
             <div class="modal-body">
                 <h6>Are you sure you want to remove this module from {{selCon.title}}?</h6>
                 <div class="row btn mb-3">
-                    <button type="button" class="btn btn-primary addATag" id="deleteTagButton" (click)="removeTag()"
-                        data-dismiss="modal" name="confirmDeleteTag">Confirm Delete</button>
+                    <button mat-flat-button type="button" color="accent" class="addATag" id="deleteTagButton" (click)="removeTag()" data-dismiss="modal" name="confirmDeleteTag">Confirm Delete</button>
                 </div>
             </div>
         </div>
@@ -215,7 +196,9 @@
                     <h6>Are you sure you want to delete {{selCon.title}}?</h6>
                     <div class="row btn mb-3">
     
-                        <button mat-flat-button  type="button" color="primary" id="deleteContentButton" 
+
+                        <button mat-flat-button type="button" color="accent" id="deleteContentButton" 
+
                         (click)="removeContent()"  data-dismiss="modal">Confirm Delete</button>
                     </div>
                 </div>
