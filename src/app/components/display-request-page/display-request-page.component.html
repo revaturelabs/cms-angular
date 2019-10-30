@@ -20,7 +20,7 @@
 
                     <div class="col">
                         <div class="btn-group">
-                            <button class="btn" *ngFor="let format of formats" 
+                            <button mat-raised-button class="btn" *ngFor="let format of formats" 
                             [class.btn-primary]="selFormat.includes(format)"
                             [class.btn-secondary]="!(selFormat.includes(format))"
                             (click)="toggleFormat(format)">{{format}}</button>
@@ -44,7 +44,7 @@
                 </div>
                 <div class="row btn mb-3">
                     <!-- Find Content button to submit criteria using submit() function -->
-                    <button type="button" class="btn btn-primary" id="submitButton" (click)="submit()" *ngIf="!this.isSearching">Find Requests</button>
+                    <button mat-raised-button color="accent" type="button" class="btn" id="submitButton" (click)="submit()" *ngIf="!this.isSearching">Find Requests</button>
                     <!-- While not searching, we can click the button -->
                     <mat-spinner [diameter]="30" *ngIf="this.isSearching"></mat-spinner>
                 </div>
@@ -63,7 +63,7 @@
                 <br>
                 <div class="form-row mb-5">
                     <div class="table-responsive">
-                        <table class="table table-hover table-striped text-center" id="displayrequests">
+                        <table mat-table class="table" id="displayrequests">
                             <thead>
 
                                 <tr>
@@ -89,14 +89,14 @@
                                     <td>{{r.description}}</td>
                                     <td>{{ r.content?.url}}</td>
                                     <td>
-                                        <span *ngFor="let link of r.reqLinks" [attr.name]="link.module.subject" [style.background-color]=link.module.color class="badge badge-primary" style="color:black; font-size: 16px" id="{{link.module.id}}">
+                                        <span *ngFor="let link of r.reqLinks" [attr.name]="link.module.subject" [style.background-color]=link.module.color class="badge badge-light" style="color:black; font-size: 16px" id="{{link.module.id}}">
                         {{link.module.subject}}
 
 
                       </span>
 
                                     </td>
-                                    <td><button type="submit" class="btn btn-success" id="editbtn" (click)=editRequest($event) [value]=r.id>Edit Request</button></td>
+                                    <td><button mat-flat-button color="accent" type="submit" class="btn btn-success" id="editbtn" (click)=editRequest($event) [value]=r.id>Edit Request</button></td>
                                 </tr>
                             </tbody>
                         </table>

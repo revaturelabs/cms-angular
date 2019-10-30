@@ -1,6 +1,6 @@
 .logo {
     height: auto;
-    width: 10%;
+    width: 20%;
 }
 
 .container {
@@ -22,10 +22,7 @@ h2 {
 }
 
 #toggle {
-    background-color: darkgray;
-    border: darkgray;
-    font-weight: bolder;
-    font-size: x-large;
+    font-size: large;
 }
 
 mat-card {
@@ -34,3 +31,7 @@ mat-card {
    margin: 0 auto;
    margin-top: 20px;
 }
+
+mat-form-field {
+    width: 100%;
+  }

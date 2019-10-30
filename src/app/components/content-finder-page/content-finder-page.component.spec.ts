@@ -15,7 +15,8 @@ import { Observable,of } from 'rxjs';
 import { HttpHeaderResponse } from '@angular/common/http';
 import { Module } from 'src/app/models/Module';
 import { MatCardModule } from '@angular/material/card';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+
 
 describe('ContentFinderPageComponent', () => {
   let component: ContentFinderPageComponent;
@@ -44,10 +45,9 @@ describe('ContentFinderPageComponent', () => {
         MatProgressSpinnerModule,
         HttpClientTestingModule,
         ToastrModule.forRoot(),
-        MatCardModule,
-        BrowserAnimationsModule
+        MatCardModule
       ],
-      providers: [ContentFetcherService,ModuleStoreService,ToastrService],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents().then(()=>{
       fixture = TestBed.createComponent(ContentFinderPageComponent);

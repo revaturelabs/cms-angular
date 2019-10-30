@@ -6,7 +6,22 @@
   margin: 0 auto;
   float: none;
   margin-top: 20px;
+  margin-bottom: 20px;
 
+}
+
+button {
+  border-style:none;
+}
+
+.btn-primary {
+background-color: #00b0ff;
+color: white;
+}
+
+.btn-secondary {
+background-color: #78909c;
+color: white;
 }
 
 .card:hover {
@@ -28,7 +43,7 @@
 
 .logo {
   height: auto;
-  width: 10%;
+  width: 20%;
 }
 
 .btn-radio {

@@ -10,14 +10,14 @@
             <form>
                 <div class="form-row mb-5">
                     <div class="col-5 offset-1"> <!-- Input the title of a content you want to search for, working with ngModel -->
-
-                        <input id="title" [(ngModel)]="title" name="title" type="text" class="form-control" placeholder="Title" maxlength="254">
-
+                        <mat-form-field>
+                            <input matInput id="title" [(ngModel)]="title" name="title" type="text"  placeholder="Title" maxlength="254">
+                        </mat-form-field>
                     </div>
 
                     <div class="col">
                         <div class="btn-group">
-                            <button class="btn" *ngFor="let format of formats" 
+                            <button mat-raised-button class="btn" *ngFor="let format of formats" 
                             [class.btn-primary]="selFormat==format"
                             [class.btn-secondary]="selFormat!=format"
                             (click)="selFormat=format">{{format}}</button>
@@ -40,16 +40,17 @@
                 <div class="row desc mb-5"> <!-- Text box section for adding a description to the content provided -->
                     <div class="col offset-1">
                                     <!-- We use ngModel binding to record the description written, where the max character length is 254 -->
-                        <label for="exampleFormControlTextarea1"></label>
+                        <label for="descriptionTextBox"></label>
 
-                        <textarea id="descriptionTextBox" [(ngModel)]="description" name="description" class="form-control"
-                            id="exampleFormControlTextarea1" rows="4" placeholder="Description" maxlength="254"></textarea>
-
+                        <mat-form-field>
+                            <textarea matInput id="descriptionTextBox" [(ngModel)]="description" name="description"
+                             rows="4" placeholder="Description" maxlength="254"></textarea>
+                        </mat-form-field>
                     </div>
                 </div>
 
                 <div class="row btn mb-3"> 
-                    <button type="button" class="btn btn-primary" id="submitButton" (click)="submit()" *ngIf="!this.isSubmitting">Submit Request</button>
+                    <button mat-flat-button color="accent"  type="button" class="btn" id="submitButton" (click)="submit()" *ngIf="!this.isSubmitting">Submit Request</button>
                     <mat-spinner [diameter]="30" *ngIf="this.isSubmitting"></mat-spinner>
                 </div>
             </form>

@@ -1,0 +1,82 @@
+/* You can add global styles to this file, and also import other style files */
+
+
+/* This imports the css for the search and multiselect tags input field */
+
+@import "~@ng-select/ng-select/themes/default.theme.css";
+@import "../node_modules/ngx-toastr/toastr.css";
+
+/* import styles for spinner module from @angular/module*/
+
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "~angular-tree-component/dist/angular-tree-component.css";
+
+/*themeing */
+@import '~@angular/material/_theming.scss';
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+// Revature OG Theme
+$my-theme-primary:mat-palette($mat-blue-grey, 900);
+$my-theme-accent:mat-palette($mat-deep-orange, 800);
+
+$my-theme:mat-light-theme(
+    $my-theme-primary,
+    $my-theme-accent,
+);
+
+// Christiana Theme
+$my-theme2-primary:mat-palette($mat-deep-purple, 300);
+$my-theme2-accent:mat-palette($mat-deep-purple, 500);
+$my-theme2-warn: mat-palette($mat-deep-purple, 50);
+
+$my-theme2:   mat-light-theme(
+    $my-theme2-primary,
+    $my-theme2-accent,
+);
+
+// Autumn Theme
+$autumn-primary: mat-palette($mat-pink, 900);
+$autumn-accent:  mat-palette($mat-brown, 800);
+$autumn-warn:    mat-palette($mat-red, 500);
+
+$autumn-theme:   mat-light-theme(
+    $autumn-primary, 
+    $autumn-accent, 
+    $autumn-warn);
+
+.theme1{
+    @include angular-material-theme($my-theme);
+}
+.theme2{
+    @include angular-material-theme($my-theme2);
+}
+.dark-theme {
+    @include angular-material-theme($autumn-theme);
+  }
+
+body {
+    height:100%;
+    margin: 0;
+    background: #efefef;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.card {
+    width: 95%!important;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mat-grid-tile .mat-figure {
+    
+    justify-content: flex-start !important;
+    padding: 12px 10px!important;
+}
+
+.mat-checkbox-layout {
+
+    margin: 0px!important;
+}
