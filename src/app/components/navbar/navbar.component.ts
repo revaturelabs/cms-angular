@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter, HostBinding} from '@angular/co
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { ThemechangeService } from '../../services/themechange.service';
 import { AppComponent } from 'src/app/app.component';
+import { FormsModule } from '@angular/forms';
 
 
 /**@ignore */

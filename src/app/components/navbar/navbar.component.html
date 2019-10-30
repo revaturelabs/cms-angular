@@ -38,7 +38,8 @@
             <li>
                 <a mat-button id="reportspage" routerLink="/reports" [routerLinkActive]="['is-active']">Reports</a>
             </li>
-            <li [(ngModel)]="theme">
+            <li>
+                <div [(ngModel)]="theme">
                 <mat-menu #appMenu="matMenu">
                     <button mat-menu-item (click)="onSetTheme('theme1')">Revature</button>
                     <button mat-menu-item (click)="onSetTheme('theme2')">Christiana</button>
@@ -51,6 +52,7 @@
                         </mat-icon>
                     </a>
                 </span>
+            </div>
             </li>
         </ul>
     </div>
