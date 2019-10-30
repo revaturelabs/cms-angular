@@ -26,7 +26,7 @@ import { ContentFetcherService } from 'src/app/services/content-fetcher.service'
  * Since the ngOninit makes requests, it is better to use spies over the httpcontroller for testing calls. 
  * Although, It is still possible to use httpcontroller with its match method.
  */
-describe('ResolveRequestPageComponent', () => {
+xdescribe('ResolveRequestPageComponent', () => {
   let component: ResolveRequestPageComponent;
   let fixture: ComponentFixture<ResolveRequestPageComponent>;
   let httpTestingController: HttpTestingController;
