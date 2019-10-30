@@ -53,7 +53,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material';
 import { MatListModule } from '@angular/material';
 import { SidenavListComponent } from './components/sidenav-list/sidenav-list.component';
-import { NgForm } from '@angular/forms'
+
 
 ​
 /** @ignore */
@@ -121,8 +121,7 @@ import { NgForm } from '@angular/forms'
         MatSelectModule,
         MatToolbarModule,
         MatSidenavModule,
-        MatListModule,
-        NgForm
+        MatListModule
     ],
 
     exports: [
