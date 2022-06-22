@@ -30,7 +30,7 @@
         "@types/jasminewd2": "^2.0.6",
         "angular-tree-component": "^8.4.0",
         "angular-web-storage": "^7.0.0-beta.1",
-        "async": "^3.1.0",
+        "async": "^3.2.2",
         "hammerjs": "^2.0.8",
         "ng-lintone-cli": "^1.0.3",
         "ngx-cacheable": "^1.2.5",
